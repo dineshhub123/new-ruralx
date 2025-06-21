@@ -56,7 +56,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   declarations: [
     AppComponent,
     UploadComponent,
-    SellNotificationComponent,AllComponent,SalereportsComponent,DailogComponent,ProductZoomComponent,DisplaySearchItemComponent,
+    SellNotificationComponent,AllComponent,SalereportsComponent,DailogComponent,ProductZoomComponent,DisplaySearchItemComponent,HeaderComponent,
     FirstLiPipe,HeaderComponent,FooterComponent,AddcartComponent,AdminpanelComponent,HomeComponent,UseraddressComponent,
     FullLiPipe,ReplacePathPipe
   ],

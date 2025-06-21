@@ -2,28 +2,26 @@ mat-toolbar {
   background: #0a4984;
   color: #062d51;
   padding: 0 0px !important;
-  border-bottom: 1px solid yellow;
 }
 
 .imgSet {
   width: 120px;
-  height: 100px;
-  position: relative;
-  top: 25px;
-  left: 5px;
+    height: 100px;
+    position: relative;
+    top: 26px;
+    left: 0px;
 }
 
 .img_position {
   float: left;
   margin-top: 20px;
-  background: #0d6bc2;
+  background: #062d51;
   width: 158px;
   border-radius: 0px 68px 90px 0px;
   position: relative;
   top: -28px;
-  border-bottom: 1px solid yellow;
   border-right: 4px solid yellow;
-  right: 0px;
+  right: 16px;
 }
 
 mat-sidenav {
@@ -142,19 +140,21 @@ mat-divider {
   padding: 12px 16px;
 }
 
+.toggle-sidenav{
+font-size:21px !important;
+}
 
 .mat-toolbar .mat-mdc-button-base.mat-mdc-button-base.mat-unthemed {
   color: white;
   position: relative;
-  top: -10px;
+  top: 0px;
 }
 
 .menu {
-  background: #0d6bc2;
+  background: #062d51;
   margin: 0;
   padding: 0px;
-  border-top: 16px solid #0d6bc2;
-  border-bottom: 1px solid yellow;
+  border-top: 16px solid #062d51;
 }
 
 .mat-toolbar.mat-mdc-button-base.mat-mdc-button-base.mat-unthemed {
@@ -424,7 +424,7 @@ a.mat-list-item.active-link {
   display: flex;
   justify-content: space-around;
   list-style: none;
-  padding: 0;
+  padding: 10px 10px 5px 10px;
   margin: 0;
 }
 
@@ -432,8 +432,8 @@ a.mat-list-item.active-link {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 11px;
-  padding: 6px 8px;
+  font-size: 8px;
+  padding: 5px 0px 5px 5px;
   cursor: pointer;
   line-height: 1.2;
   letter-spacing: 0.2px;
@@ -472,16 +472,18 @@ a.mat-list-item.active-link {
 }
 
 .cart-badge {
-  position: absolute;
-  background-color: #ff3b30;
-  color: white;
-  font-size: 10px;
-  font-weight: bold;
-   padding: 3px 6px;
+    position: absolute;
+    background-color: #ff3b30;
+    color: white;
+    font-size: 9px;
+    font-weight: bold;
+    padding: 2px 6px;
     border-radius: 999px;
     width: auto;
-    height: 16px;
-  text-align: center;
+    height: 15px;
+    text-align: center;
+    left: 18px;
+    bottom: 18px;
 }
 .shopping-cart{
 color:yellow;

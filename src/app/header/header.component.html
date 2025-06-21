@@ -1,12 +1,4 @@
 <div class="headerPositionFixed" >
-  <nav class="navbar-inverse">
-    <form #searchData="ngForm" (ngSubmit)="searchDataFn(myControl.value)">
-      <div class="navbar-input_btn ">
-         
-        
-      </div>
-    </form>
-  </nav>
   <nav class="navbar navbar-menu">
     <div class="input-text-and-btn">
       <form #searchData="ngForm" (ngSubmit)="searchDataFn(myControl.value)">
@@ -19,12 +11,11 @@
                 {{option}}
               </mat-option>
             </mat-autocomplete>
-          </div>
-          <div class="setBtn">
-            <button type="submit" mat-flat-button>
+          <button type="submit" mat-flat-button class="ml-2">
               <mat-icon>search</mat-icon>
               Search</button>
           </div>
+        
         </div>
       </form>  
     </div>

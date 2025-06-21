@@ -6,8 +6,8 @@
     *ngIf="sidenav.mode === 'over'"
     (click)="sidenav.toggle()"
   >
-    <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
-    <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
+    <mat-icon *ngIf="!sidenav.opened" class="toggle-sidenav"> menu </mat-icon>
+    <mat-icon *ngIf="sidenav.opened" class="toggle-sidenav"> close </mat-icon>
   </button>
 </div>
   <div class="img_position">
@@ -198,11 +198,11 @@
   </mat-sidenav>
 <mat-sidenav-content>
 <div class="container-fluid p-0">
-<div style="height: calc(100vh - 670px);">
+
 <app-header></app-header>
       <router-outlet></router-outlet>
 <app-footer></app-footer>
-</div>
+
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
