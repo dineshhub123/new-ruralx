@@ -22,8 +22,7 @@
   <mat-icon (click)="cartFun()" class="shopping-cart">shopping_cart</mat-icon>
     <span class="cart-badge">{{itemQuantity}}</span>
 </div>
- <span class="icon-menu">Cart Item</span>
-      <span class="icon-menu"><strong>Availability</strong></span>
+ <span class="icon-menu-cart">Cart Item</span>
     </li>
     <li>
       <mat-icon (click)="openDialogD()" class="shopping-map">location_on</mat-icon>
@@ -48,6 +47,7 @@
   </ul>
 
 </mat-toolbar>
+
 <!-- Toolbar -->
 
 
@@ -197,13 +197,11 @@
     </mat-accordion>
   </mat-sidenav>
 <mat-sidenav-content>
-<div class="container-fluid p-0">
-
-<app-header></app-header>
+    <app-header></app-header>
+    <div class="pt-5" style="height: calc(100vh + 450px);">
       <router-outlet></router-outlet>
-<app-footer></app-footer>
-
-    </div>
+    <app-footer></app-footer>
+   </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
 
