@@ -39,3 +39,17 @@ body, input, textarea, button, select {
 ::ng-deep .mat-mdc-row, .mdc-data-table__content {
     font-family: 'Poppins', sans-serif !important;
 }
+.no-scroll{
+    overflow: hidden;
+}
+::ng-deep .mat-drawer-container {
+    position: relative;
+    z-index: 1;
+    color: var(--mat-sidenav-content-text-color);
+    background-color: var(--mat-sidenav-content-background-color);
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+    display: block;
+    overflow: hidden;
+}
+

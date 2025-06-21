@@ -73,3 +73,9 @@ mat-chip:focus, mat-chip.mat-mdc-chip-selected {
     height: 20px !important;
   }
 }
+
+.web-link{
+ display: flex;
+  justify-content: center;
+  align-items: center;
+}

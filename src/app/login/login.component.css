@@ -6,7 +6,7 @@
   margin-bottom: 1rem;
 }
 .signlink {
-color:blue;
+color:blue !important;
 cursor: pointer;
 }
 .login-section{

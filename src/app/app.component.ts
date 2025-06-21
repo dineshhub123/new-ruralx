@@ -11,6 +11,7 @@ import { DailogComponent } from './dailog/dailog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AddcartService } from './addcart.service';
 import { Product } from './product-zoom/product-zoom.component';
+import { ToastrService } from 'ngx-toastr';
 export interface DialogData {
   animal: string;
   name: string;
@@ -46,7 +47,7 @@ export class AppComponent {
   public getNotifyUserArray:any;
 
 
-  constructor( private zone: NgZone, public dialog: MatDialog,public location:Location, public addCartService: AddcartService,
+  constructor( private zone: NgZone, public dialog: MatDialog,public location:Location, public addCartService: AddcartService, private toastr: ToastrService,
   public router:Router, 
   private http:HttpClient,
   private _DomSanitizationService:DomSanitizer, 
@@ -126,10 +127,13 @@ console.log(url, 'url')
   }
 
 
-  adminLogout(){
-    localStorage.removeItem('adminMobile');
-    this.router.navigate(["login"]);
-  }
+adminLogout() {
+  const adminName = localStorage.getItem('username') || 'Admin';
+  localStorage.removeItem('adminMobile');
+  localStorage.removeItem('adminName');
+ this.toastr.success(`Thanks, ${adminName}! You've been logged out. Visit again soon!`, 'Logged Out');
+  this.router.navigate(['login']);
+}
  notification(){
     this.router.navigate(["sell-notification"]);
   

@@ -23,7 +23,7 @@ mat-toolbar {
   top: -28px;
   border-bottom: 1px solid yellow;
   border-right: 4px solid yellow;
-  right: 14px;
+  right: 0px;
 }
 
 mat-sidenav {
@@ -33,7 +33,6 @@ mat-sidenav {
   border-radius: 0px;
   padding: 0px;
   text-align: center;
-  border-top-right-radius: 68px;
 }
 
 .content {
@@ -89,44 +88,7 @@ mat-divider {
   flex: 1 1 auto;
 }
 
-.notification-wrapper {
-  position: relative;
 
-  .notification-badge {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    background: red;
-    color: white;
-    font-size: 10px;
-    padding: 2px 6px;
-    border-radius: 50%;
-    line-height: 1;
-  }
-
-  .notification-menu {
-    width: 300px;
-    max-height: 400px;
-    overflow-y: auto;
-  }
-
-  .notif-content {
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-
-    .notif-title {
-      font-weight: 500;
-      margin: 0;
-      font-size: 14px;
-    }
-
-    .notif-time {
-      font-size: 12px;
-      color: gray;
-    }
-  }
-}
 
 ::ng-deep .mat-menu-content {
   padding: 0;
@@ -134,43 +96,7 @@ mat-divider {
   overflow-y: auto;
 }
 
-.notif-content {
-  display: flex;
-  flex-direction: column;
-  padding: 8px 12px;
-  border-bottom: 1px solid #f0f0f0;
-  width: 100%;
 
-  span {
-    display: block;
-    font-family: 'Poppins', sans-serif;
-    font-size: 13px;
-    color: #333;
-    margin-bottom: 2px;
-
-    &.product {
-      font-weight: 600;
-      color: #2c3e50;
-    }
-
-    &.user {
-      color: #1e88e5;
-    }
-
-    &.phone {
-      color: #555;
-    }
-
-    &.address {
-      color: #777;
-      font-style: italic;
-    }
-  }
-
-  &:hover {
-    background-color: #f9f9f9;
-  }
-}
 
 
 ::ng-deep .mat-drawer-inner-container {
@@ -275,7 +201,7 @@ mat-divider {
 .sidebar-container {
   background-color: #062d51;
   color: white;
-  width: 190px;
+  width: 250px;
   position: absolute;
   top: 0px;
 }
@@ -539,4 +465,38 @@ a.mat-list-item.active-link {
 
 .navbar-input_btn {
   display: flex;
+}
+
+.cart-container {
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  background-color: #ff3b30;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+   padding: 3px 6px;
+    border-radius: 999px;
+    width: auto;
+    height: 16px;
+  text-align: center;
+}
+.shopping-cart{
+color:yellow;
+width:24px !important;
+height:24px !important;
+}
+
+.shopping-map{
+color:yellow;
+width:24px !important;
+height:24px !important;
+}
+
+.shopping-user{
+color:yellow;
+width:24px !important;
+height:24px !important;
 }
