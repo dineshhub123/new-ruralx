@@ -1,6 +1,6 @@
-<div class="container-fluid mb-5">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-md-5  py-3">
+    <div class="col-md-5 pt-3">
       <div class="zoom_right_inner_panel">
         <img class="child_img_display" style="height:auto; width:100%"
           src="{{cartItem.img_front | replacePath:'ruralx/src':'..'}}">
@@ -23,25 +23,24 @@
       </div>
     </div>
     </div>
-    <div class="col-md-7  py-3">
+    <div class="col-md-7 pt-3">
       <div class="zoom_right_panel">
-        <div class="card-body">
-          <h5 class="card-title_1"><strong>{{cartItem.product_name | titlecase}}</strong></h5>
-          <p><span class="rates">₹ {{cartItem.product_price}} </span>
+        <div class="">
+          <div class="card-title_1"><strong>{{cartItem.product_name | titlecase}}</strong></div>
+          <div class="mrp-content"><span class="rates">₹ {{cartItem.product_price}} </span>
             <span> </span> M.R.P : ₹ <del>
               {{cartItem.product_mrp_price}}</del>
             <span> </span>
             Save ₹ {{cartItem.product_mrp_price-cartItem.product_price}}
-          </p>
-          <p class="card-text">Get it by <span class="delevery_date">
-              Tomorrow
-            </span></p>
-          <p>Free of Delivery by RuralX</p>
+            </div>
+          <span class="mrp-content">Get it by 
+            <span class="delevery_date">Today </span>
+          </span>
+          <span class="mrp-content"> Free of Delivery by RuralX</span>
         </div>
-        <strong>Product Description</strong>
+        <div class="description-title">Product Description : </div>
         <div [innerHTML]="cartItem.product_description"></div>
-      </div>
-      <div class="zoom_addcart_panel">
+        <div class="pt-2">
         <nav aria-label="quantity-navigation">
           <h5><strong>Quantity:</strong></h5>
           <ul class="pagination">
@@ -54,23 +53,22 @@
             </li>
           </ul>
         </nav>
-        <br>
-        &nbsp;
-        <strong>
+        <strong class="pt-2">
           <mat-icon id="locationMake" (click)="openDialog_()">location_on</mat-icon>
           <span class="delivery_title">Select Delivery Location</span>
         </strong>
-        &nbsp;
-        <br>
-        <br>
+       <div class="pt-3">
         <button class="btn btn-warning btn-md mb-2 mr-2 btn-align-buy" (click)="addCart(cartItem)"><i
             class="fa fa-shopping-cart"> </i> ADD TO CART
         </button>
         <button class="btn btn-danger btn-md mb-2 btn-align-buy" (click)="addDetails()"><i class="fa fa-credit-card"
             aria-hidden="true"></i> BUY NOW</button>
-        <div> <strong style="color:red;font-size: 13px;"> Secure
+         </div>
+        <div> <strong style="color:red;font-size: 11px;"> Secure
             Transaction </strong></div>
       </div>
+      </div>
+
     </div>
   </div>
 

@@ -95,16 +95,17 @@
 
 /* Product info styles */
 .zoom_right_panel {
-  padding: 20px;
+  padding: 15px;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .card-title_1 {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 15px;
+  font-size: 18px;
+    color: teal;
+    font-weight: 700;
+    margin-bottom: 7px;
 }
 
 .rates {
@@ -259,20 +260,20 @@
 .zoom_left_inner_panel {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 5px;
   justify-content: center;
   padding: 10px;
   background-color: #f8f9fa;
   border-radius: 4px;
-  margin: 15px 0;
+  /* margin: 15px 0; */
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
 /* Individual Thumbnail Styles */
 .child_img {
   display: inline-flex;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border: 2px solid #e0e0e0;
   border-radius: 5px;
   padding: 3px;
@@ -326,36 +327,20 @@
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-  .zoom_left_inner_panel {
-    gap: 8px;
-    padding: 8px;
-  }
   
-  .child_img {
-    width: 35px;
-    height: 35px;
-  }
 }
 
 @media (max-width: 480px) {
-  .zoom_left_inner_panel {
-    gap: 6px;
-  }
   
-  .child_img {
-    width: 30px;
-    height: 30px;
-    border-width: 1px;
-  }
 }
 /* Main Container with Left Spacing */
 .zoom_left_inner_panel {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    gap: 15px;
-    padding: 15px;
-    margin: 16px 0;
+    gap: 5px;
+    padding: 10px;
+    /* margin: 16px 0; */
     background-color: #f8f9fa;
     border-radius: 4px;
     /* width: -moz-fit-content; */
@@ -370,8 +355,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
   border: 2px solid #e0e0e0;
   border-radius: 6px;
   background-color: white;
@@ -420,16 +403,19 @@
 /* Responsive Adjustments */
 @media (max-width: 768px) {
 
-  .child_img {
-    width: 40px;
-    height: 40px;
-  }
 }
 
 @media (max-width: 480px) {
 
-  .child_img {
-    width: 36px;
-    height: 36px;
-  }
+}
+.mrp-content{
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'Poppins' !important;
+  line-height: 22px;
+}
+.description-title{
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 21px;
 }
