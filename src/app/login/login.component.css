@@ -36,3 +36,6 @@ button.mdc-button.mdc-button--raised.mat-mdc-raised-button.mat-primary.mat-mdc-b
     color: #424242c7;
     font-size: 12px;
 }
+.mat-headline{
+  font-weight: 700;
+}

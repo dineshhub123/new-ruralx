@@ -14,8 +14,11 @@
 width: 100%; 
 max-width: 500px; 
 border-radius: 24px; 
-padding: 32px;
+padding: 10px;
 margin: auto;
 margin-top: 2%;
+}
+.mat-headline{
+  font-weight: 700;
 }
 
