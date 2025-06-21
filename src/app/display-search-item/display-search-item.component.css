@@ -1,0 +1,127 @@
+.product-image {
+    width: 160px;
+    height: 130px;
+}
+
+.card-content {
+    border: 1px solid rgb(224, 221, 221);
+    border-radius: 10px;
+    box-shadow: 0px 3px 6px 1px grey;
+    padding: 10px 10px 10px 10px;
+    display: inline-block;
+
+}
+
+.product-name {
+    font-size: 18px;
+    font-weight: 900;
+    color: teal;
+    text-transform: uppercase;
+    margin: 30px 0px 5px 0px;
+}
+
+.product-mrp {
+    font-size: 12px;
+    font-weight: 700;
+    color: teal;
+    text-transform: capitalize;
+
+}
+
+.product-price {
+    font-size: 12px;
+    font-weight: 700;
+    color: teal;
+    text-transform: capitalize;
+}
+
+.image-align {
+    display: flex;
+    justify-items: center;
+}
+
+h5 {
+    text-transform: capitalize;
+}
+
+h5,
+h6 {
+    color: teal;
+}
+
+.filter_block {
+    height: 45px;
+    box-shadow: 0px 5px 14px -5px grey;
+    border-radius: 0px 0px 8px 8px;
+}
+
+.filter-align {
+    float: left;
+}
+
+.sort-align {
+    float: right;
+    margin-right: 20px;
+
+}
+
+.short_arrow {
+    width: 35px;
+    height: 14px;
+    position: relative;
+    right: -41px;
+    top: -34px;
+
+}
+.product-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.product-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  text-align: center;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.product-image {
+  width: 100%;
+  max-width: 180px;
+  height: 180px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+.product-details {
+  margin-top: 10px;
+}
+
+.product-name {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.product-mrp {
+  font-size: 13px;
+  color: #888;
+  text-decoration: line-through;
+}
+
+.product-price {
+  font-size: 15px;
+  font-weight: bold;
+  color: #28a745;
+}

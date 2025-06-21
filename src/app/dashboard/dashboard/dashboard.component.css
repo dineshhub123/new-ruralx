@@ -1,0 +1,75 @@
+.footer {
+    position: static;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    background-color: rgb(15, 35, 73);
+    color: white;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.footer_content {
+    font-weight: 700;
+    text-align: center;
+    color: brown;
+}
+/* Container styling */
+mat-chip-set {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 0px;
+  margin-bottom: 16px;
+}
+
+/* Chip styling */
+mat-chip {
+  cursor: pointer;
+  color: teal;
+  border: 1px solid rgba(0, 128, 128, 0.3);
+  background-color: rgba(0, 128, 128, 0.1);
+  transition: all 0.3s ease;
+  font-weight: 500;
+  padding: 5px 5px;
+}
+
+mat-chip:hover {
+  background-color: rgba(0, 128, 128, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Avatar image styling */
+.chips-img {
+  width: 24px !important;
+  height: 24px !important;
+  margin-right: 8px !important;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Selected/focused state */
+mat-chip:focus, mat-chip.mat-mdc-chip-selected {
+  background-color: teal;
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  mat-chip-set {
+    gap: 2px;
+    padding: 2px;
+  }
+  
+  mat-chip {
+    padding: 5px 5px;
+    font-size: 0.8rem;
+  }
+  
+  .chips-img {
+    width: 20px !important;
+    height: 20px !important;
+  }
+}

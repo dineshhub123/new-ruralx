@@ -1,0 +1,30 @@
+<!-- <button href="javascript:void(0)" class="closebtn border-none" (click)="onClose()" mat-button mat-dialog-close>&times;</button>  -->
+<div class="container-fluid">
+<div class="pt-2 py-2 w-100"  style="width:300px;overflow-x: hidden;">
+  <button href="javascript:void(0)" class="closebtn border-none" mat-button mat-dialog-close>✕</button> 
+ <div>
+  <h5> <strong> Check Your Available Item</strong></h5>
+</div>
+<form [formGroup]="formdata" (ngSubmit)="PincodeApply(pincode)">
+<div>
+  <input type="tel" class="form-control" placeholder="Enter Your Area Pincode"  formControlName ="userPincode" #pincode required>
+</div>
+<br>
+<div style="text-align: center;">
+   <!-- <button class="btn btn-primary " mat-button mat-dialog-close>Cancel</button>  -->
+    <!-- &nbsp;&nbsp; -->
+  <button type="button" class="btn btn-primary btn-md">Apply</button>
+</div>
+<div *ngIf="pinAvailToast"><span class="successToast"> {{pinAvail}}</span></div>
+<div *ngIf="pinNotAvailToast"><span class="errorToast">{{pinNotAvail}}</span></div> 
+<div class="alert alert-dismissible fade show error-alert" *ngIf="submitted && f.userPincode.errors">
+<i class="fa fa-close"></i>&nbsp;&nbsp;
+<span *ngIf="f.userPincode.errors" >Please Enter Pincode</span> 
+</div>  
+</form>
+</div>
+</div>
+
+<!-- <mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions> -->

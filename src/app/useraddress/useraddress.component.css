@@ -1,0 +1,76 @@
+/* Container */
+.address-form {
+  max-width: 100%;
+  margin: 0px auto;
+  padding: 0;
+}
+
+/* Common field widths */
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  width: 100%;
+}
+
+/* Flex row for side-by-side fields */
+/* .row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+} */
+
+/* Make mat-form-field fill its parent */
+mat-form-field {
+  flex: 1 1 auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .half-width {
+    width: 100%;
+  }
+
+  /* .row {
+    flex-direction: column;
+  } */
+}
+.shipingAddresText{
+  font-size: 20px;
+  color: #f1f1f1;
+  font-weight: 600;
+  padding: 10px;
+  background:rgb(8 64 115);
+  margin: 0px 0px 10px 0px;
+  text-align: center;
+}
+.alignAdressBtn{
+    display: flex;
+    align-items: flex-end;
+    justify-content: end;
+}
+.saveAddress{
+  border: 1px solid gray;
+  border-radius: 8px;
+  /* background-color: rgb(34 6 129); */
+  margin: 0px 15px 0px 15px;
+  color:black;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 10px 10px 10px 10px;
+}
+.total-summary{
+  border: 1px solid gray;
+  border-radius: 8px;
+  color:teal;
+  font-size: 13px;
+  padding: 20px 10px 20px 10px;
+  margin: 0px 15px 0px 15px;
+  height: 270px;
+
+}
+
+
+
+

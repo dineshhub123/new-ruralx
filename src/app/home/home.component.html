@@ -1,0 +1,162 @@
+﻿<div class="headerBotom">
+  <!-- <mat-chip-list> -->
+    <mat-chip style="cursor: pointer; color: teal;">
+      <mat-chip-avatar>
+    <img src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="Photo of a Shiba Inu"/>
+    </mat-chip-avatar>
+      Best Seller</mat-chip>
+    <mat-chip style="cursor: pointer;color: teal;" >
+      <mat-chip-avatar>
+      <img src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="Photo of a Shiba Inu"/>
+    </mat-chip-avatar>    
+      Today's Deals</mat-chip>
+    <mat-chip style="cursor: pointer;color: teal;" >
+      <mat-chip-avatar>
+      <img src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="Photo of a Shiba Inu"/>
+    </mat-chip-avatar>    
+      Mobiles</mat-chip>
+    <mat-chip style="cursor: pointer;color: teal;">
+      <mat-chip-avatar>
+      <img src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="Photo of a Shiba Inu"/>
+    </mat-chip-avatar>    
+      New Release</mat-chip>
+    <mat-chip style="cursor: pointer;color: teal;">
+      <mat-chip-avatar>
+      <img src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="Photo of a Shiba Inu"/>
+    </mat-chip-avatar>
+      Electronics</mat-chip>
+    <mat-chip style="cursor: pointer;color: teal;">
+      <mat-chip-avatar>
+      <img src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="Photo of a Shiba Inu"/>
+    </mat-chip-avatar>
+      Clothes</mat-chip>
+    <mat-chip style="cursor: pointer;color: teal;">
+    <mat-chip-avatar>
+      <img src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="Photo of a Shiba Inu"/>
+    </mat-chip-avatar>
+      Grocery</mat-chip>
+    <mat-chip style="cursor: pointer;color: teal;">
+      <mat-chip-avatar>
+        <img src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="Photo of a Shiba Inu"/>
+      </mat-chip-avatar>
+      Fashion</mat-chip>
+    <mat-chip style="cursor: pointer; color: teal;">
+      Costomer Service</mat-chip>
+    <!-- <mat-chip color="accent" selected style="cursor: pointer;">Costomer Service</mat-chip> -->
+  <!-- </mat-chip-list> -->
+</div>
+
+<div class="headerBotom2">
+  <div class="headerBotomInOne">{{this.data[0].length}} results of 'items'</div>
+    <div class="headerBotomInTwo">
+    <select class="btn btn-default" id="selectbutton">
+      <option >Sort by: Feature</option>
+      <option>Price : Low to High</option>
+      <option>Price : High to Low</option>
+      <option>Avg : Costomer review</option>
+      <option>Newest Arrival</option>
+    </select>
+  </div>
+  </div> 
+
+<div class="col-sm-2" >
+  <!-- <button class="btn btn-primary"(click)="fetchData()">Click</button>  -->
+<div class="display_product">
+<div *ngFor="let x of data[0]" class="card" >
+  <div class="col-sm-3" >
+  <img routerLink="pzoom/{{x.product_id}}" class="card-img-top" src="assets/img/{{x.product_image}}" alt="Card image cap" id="card-img">
+  <div class="card-body">
+    <h5 class="card-title_1"><strong>{{x.product_name}}</strong></h5>
+    <p><span class="rates">₹ {{x.product_price}}</span><span *ngIf="x.product_actual_price>0"> ₹ </span><del >{{x.product_actual_price}}</del> 
+      <span *ngIf="x.product_price_save>0"> Save ₹</span>{{x.product_price_save}}</p>
+    <p class="card-text">Get it by <span class="delevery_date">{{x.product_delivery_date}}</span></p>
+    <p>Free of Delivery by RuralX</p>
+  </div>
+  </div>
+  </div>
+</div>
+</div>
+
+<!-- <div class="pagination">
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item"><a class="page-link" href="">< Previous</a></li>
+      <li class="page-item"><a class="page-link" href="">1</a></li>
+      <li class="page-item"><a class="page-link" href="">2</a></li>
+      <li class="page-item"><a class="page-link" href="">3</a></li>
+      <li class="page-item"><a class="page-link" href="">4</a></li>
+      <li class="page-item"><a class="page-link" href="">5</a></li>
+      <li class="page-item"><a class="page-link" href="">Next></a></li>
+    </ul>
+  </nav>
+  </div> -->
+
+  
+  <hr style="border: 1px solid silver;margin-right: 10px;">
+  <div class="col-sm-12">
+  <p><button class="btn btn-warning " (click)="generate()">Send OTP</button></p> 
+  &nbsp;&nbsp;
+  <br>
+  <div style="color: green;"><strong> Your Registration OTP is : </strong></div>
+  &nbsp;&nbsp;
+  <br>
+  <div class="alert alert-danger">
+    <span id="otpDisplay" style="color: red;"></span>
+</div>
+</div>
+  <br>
+  <p> &nbsp;&nbsp;</p>
+  <div class="footerHead"><a href="#">Back to top</a></div>
+  
+  <div class="footer">
+    <div class="col-sm-4">
+      <h4>Footer Content</h4>
+      <div class="content_align">
+      This is for selling Product If you feel content, you're
+      satisfied and happy. The content of a book, movie, or song is what it's about:
+      the topic.This is for selling Product If you feel content, you're
+      satisfied and happy. The content of a book, movie, or song is what it's about:
+       the topic.This is for selling Product If you feel content, you're
+      satisfied and happy. The content of a book, movie, or song is what it's about:
+       the topic.
+      </div>
+      <hr/>
+      </div>
+    <div class="col-sm-4">
+      <h4>Footer Content</h4>
+      <div class="content_align">
+      This is for selling Product If you feel content, you're
+      satisfied and happy. The content of a book, movie, or song is what it's about:
+       the topic.This is for selling Product If you feel content, you're
+       satisfied and happy. The content of a book, movie, or song is what it's about:
+        the topic.This is for selling Product If you feel content, you're
+        satisfied and happy. The content of a book, movie, or song is what it's about:
+         the topic.
+  </div>
+  <hr/>
+      </div>
+    <div class="col-sm-4">
+      <h4>Footer Content</h4>
+      <div class="content_align">
+      This is for selling Product If you feel content, you're
+      satisfied and happy. The content of a book, movie, or song is what it's about:
+       the topic.This is for selling Product If you feel content, you're
+       satisfied and happy. The content of a book, movie, or song is what it's about:
+        the topic.This is for selling Product If you feel content, you're
+        satisfied and happy. The content of a book, movie, or song is what it's about:
+         the topic.
+        </div>
+       <hr/>
+      </div>
+      <div class="foot">
+        <div class="contactFooter"><strong>Connect with_us</strong></div>
+        <div class="socialLink">
+        <span><a href="https://www.facebook.com" ><i class="fa fa-facebook"></i></a></span>
+        <span><a href="https://twitter.com" ><i class="fa fa-twitter"></i></a></span>
+        <span><a href="https://google.com/" ><i class="fa fa-google"></i></a></span>
+        <span><a href="https://instagram.com"><i class="fa fa-instagram"></i></a></span>
+      </div>
+        <small> 
+           visit our webside for more details: http://www.amazonx.in   
+        </small>
+    </div>

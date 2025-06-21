@@ -1,0 +1,74 @@
+<!-- Angular Material Table -->
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 pt-4" *ngIf="dataSource.data.length > 0">
+
+  <!-- Index -->
+  <ng-container matColumnDef="index">
+    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">#</th>
+    <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+  </ng-container>
+
+  <!-- Product Name -->
+  <ng-container matColumnDef="product_name">
+    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Product Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.product_name }}</td>
+  </ng-container>
+
+  <!-- Category -->
+  <ng-container matColumnDef="category">
+    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Category</th>
+    <td mat-cell *matCellDef="let element">{{ element.category }}</td>
+  </ng-container>
+
+  <!-- Images -->
+  <ng-container matColumnDef="images">
+    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Images</th>
+    <td mat-cell *matCellDef="let element">
+      <img class="img-responsive img-tbl" [src]="element.img_front.replace('admin/src', '..')">
+      
+    </td>
+  </ng-container>
+
+  <!-- Description -->
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Description</th>
+    <td mat-cell *matCellDef="let element">
+      <div [innerHTML]="element.product_description"></div>
+    </td>
+  </ng-container>
+
+  <!-- MRP -->
+  <ng-container matColumnDef="product_mrp_price">
+    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">MRP</th>
+    <td mat-cell *matCellDef="let element">₹{{ element.product_mrp_price }}</td>
+  </ng-container>
+
+  <!-- Discount -->
+  <ng-container matColumnDef="product_discount">
+    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Discount</th>
+    <td mat-cell *matCellDef="let element">₹{{ element.product_discount }}</td>
+  </ng-container>
+
+  <!-- Final Price -->
+  <ng-container matColumnDef="product_price">
+    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Final Price</th>
+    <td mat-cell *matCellDef="let element">₹{{ element.product_price }}</td>
+  </ng-container>
+
+  <!-- Delivery Date -->
+  <ng-container matColumnDef="delivery_date">
+    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Delivery Date</th>
+    <td mat-cell *matCellDef="let element">{{ element.delivery_date }}</td>
+  </ng-container>
+
+  <!-- Row and Header Definitions -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<!-- Mat Paginator -->
+<mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+<!-- No Data Message -->
+<ng-template [ngIf]="dataSource.data.length === 0">
+  <p>No products found.</p>
+</ng-template>

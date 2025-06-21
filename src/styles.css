@@ -1,0 +1,41 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* You can add global styles to this file, and also import other style files */
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+
+
+html, body { height: 100%; }
+body, h1, h2, h3, h4, h5, h6, p, span, div, a, button, input, textarea {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+
+html, body { height: 100%; }
+body, h1, h2, h3, h4, h5, h6, p, span, div, a, button, input, textarea {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+
+/* Apply Poppins globally */
+body, input, textarea, button, select {
+  font-family: 'Poppins', sans-serif;
+}
+
+
+::ng-deep .mat-table, 
+::ng-deep .mat-header-cell,
+::ng-deep .mat-cell {
+  font-family: 'Poppins', sans-serif !important;
+  color: #444 !important;
+}
+::ng-deep td.mat-mdc-cell.mdc-data-table__cell.cdk-cell.cdk-column-Product-Name.mat-column-Product-Name {
+    font-family: 'Poppins', sans-serif !important;
+}
+::ng-deep .mat-mdc-row, .mdc-data-table__content {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+::ng-deep .mat-mdc-row, .mdc-data-table__content {
+    font-family: 'Poppins', sans-serif !important;
+}

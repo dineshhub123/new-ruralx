@@ -1,0 +1,32 @@
+.successToast{
+    font-size: 18px;
+    color:green;
+    }
+  .errorToast{
+    font-size: 18px;
+    color:red;
+  }
+h4{
+    font-size: 16px;
+    color:rgb(199, 36, 36);
+    text-align: center;
+
+
+  }
+  h5{
+    font-size: 14px;
+    color:rgb(235, 144, 26);
+
+  }
+.closebtn {
+  color:gray !important;
+  font-size: 14px;
+  text-decoration-line: none !important;
+  float:right ;
+  position: relative;
+  cursor: pointer;
+  background-color: white;
+  border: 0.5px solid gray;
+  border-radius: 4px solid gray;
+
+}

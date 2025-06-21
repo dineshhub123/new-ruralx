@@ -1,0 +1,435 @@
+/* Main container styles */
+.zoom_right_inner_panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.child_img_display {
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+}
+
+.child_img_display:hover {
+  transform: scale(1.02);
+}
+
+/* Thumbnail panel styles */
+.zoom_left_inner_panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-right: 20px;
+}
+
+.child_img {
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 2px;
+  transition: all 0.3s ease;
+}
+
+.child_img:hover {
+  border-color: #ff9800;
+  transform: scale(1.05);
+}
+
+.child_img img {
+  object-fit: cover;
+}
+
+/* Modal styles */
+.modal {
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  overflow: auto;
+}
+
+.modal-dialog {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.modal-content {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+  padding: 15px;
+  border-bottom: 1px solid #e5e5e5;
+  background-color: #f8f9fa;
+}
+
+.modal-footer {
+  padding: 15px;
+  border-top: 1px solid #e5e5e5;
+  text-align: right;
+}
+
+.pop-up-model {
+  padding: 20px;
+  text-align: center;
+}
+
+/* Product info styles */
+.zoom_right_panel {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-title_1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.rates {
+  font-size: 22px;
+  color: #B12704;
+  font-weight: bold;
+}
+
+.delevery_date {
+  color: #007600;
+  font-weight: bold;
+}
+
+/* Quantity and action buttons */
+.zoom_addcart_panel {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.pagination {
+  display: flex;
+  margin: 10px 0;
+}
+
+.page-item {
+  margin: 0 5px;
+}
+
+.page-link {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  color: #333;
+  cursor: pointer;
+}
+
+.page-link:hover {
+  background-color: #f0f0f0;
+}
+
+/* Button styles */
+.btn-warning {
+  background-color: #ff9f00;
+  color: #111;
+  border-color: #a88734 #9c7e31 #846a29;
+}
+
+.btn-danger {
+  background-color: #ff5b00;
+  color: white;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Location selector */
+#locationMake {
+  color: #ff5b00;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.delivery_title {
+  color: #0066c0;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .zoom_left_inner_panel {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+  
+  .child_img_display {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .pop-up-model img {
+    width: 280px;
+    height: 280px;
+  }
+}
+
+/* Container holding thumbnails and main image side by side */
+.zoom_image_container {
+  display: flex;
+  align-items: flex-start; /* top align thumbnails and main image */
+  gap: 20px; /* spacing between thumbnails and main image */
+  padding-left: 20px; /* left padding for entire container */
+}
+
+/* Thumbnails vertical column */
+.zoom_left_inner_panel {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;            /* spacing between thumbnails */
+  max-width: 60px;      /* fixed width so thumbnails stay narrow */
+  padding-left: 10px;   /* padding left inside thumbnails */
+}
+
+/* Each thumbnail wrapper */
+.child_img {
+  width: 45px;
+  height: 50px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.child_img:hover {
+  border-color: #ff9800;
+  transform: scale(1.05);
+}
+
+/* Thumbnail images should fill container */
+.child_img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Main big image container */
+.zoom_right_inner_panel {
+  flex: 1;              /* take remaining horizontal space */
+  max-width: 800px;     /* max width for big image */
+}
+
+/* Big image */
+.child_img_display {
+  width: 100%;          /* fill container */
+  max-width: 400px;     /* optional max width */
+  height: auto;         /* maintain aspect ratio */
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+}
+
+.child_img_display:hover {
+  transform: scale(1.02);
+}
+
+/* Thumbnail Gallery Container */
+.zoom_left_inner_panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin: 15px 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Individual Thumbnail Styles */
+.child_img {
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 3px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Thumbnail Image Styles */
+.child_img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+/* Hover Effects */
+.child_img:hover {
+  border-color: #ff5b00;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.child_img:hover img {
+  transform: scale(1.05);
+}
+
+/* Active Thumbnail State */
+.child_img.active {
+  border-color: #ff5b00;
+  background-color: #fff8f5;
+}
+
+/* Optional: Add a magnifying glass icon on hover */
+.child_img::after {
+  content: "🔍";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  font-size: 12px;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.child_img:hover::after {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .zoom_left_inner_panel {
+    gap: 8px;
+    padding: 8px;
+  }
+  
+  .child_img {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  .zoom_left_inner_panel {
+    gap: 6px;
+  }
+  
+  .child_img {
+    width: 30px;
+    height: 30px;
+    border-width: 1px;
+  }
+}
+/* Main Container with Left Spacing */
+.zoom_left_inner_panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 12px 12px 24px; /* More space on left */
+  margin: 16px 0;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  width: fit-content; /* Only take needed width */
+  max-width: 100%;
+}
+
+/* Thumbnail Items */
+.child_img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+}
+
+/* Thumbnail Images */
+.child_img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.25s ease;
+}
+
+/* Hover Effects */
+.child_img:hover {
+  border-color: #ff5b00;
+  box-shadow: 0 3px 8px rgba(255, 91, 0, 0.2);
+}
+
+.child_img:hover img {
+  transform: scale(1.08);
+}
+
+/* Active State */
+.child_img.active {
+  border-color: #ff5b00;
+  background-color: #fff5f0;
+  position: relative;
+}
+
+.child_img.active::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background-color: #ff5b00;
+  border-radius: 2px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .zoom_left_inner_panel {
+    padding-left: 16px;
+    gap: 10px;
+  }
+  
+  .child_img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .zoom_left_inner_panel {
+    padding-left: 12px;
+    gap: 8px;
+  }
+  
+  .child_img {
+    width: 36px;
+    height: 36px;
+  }
+}

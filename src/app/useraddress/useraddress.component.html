@@ -1,0 +1,153 @@
+<div class="shipingAddresText">
+  Shipping Address
+</div>
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12">
+<div class="address-form alignAdressBtn pt-2">
+<button mat-raised-button color="warn" [disabled]="loginUserAddress[0]==null" class="align-center" type="button" (click)="addShippingAddress()"> + Add New Address</button>
+</div>
+<form  *ngIf="addShipTextForm" [formGroup]="addressForm" class="address-form pt-4 mb-4">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Full Name</mat-label>
+    <input matInput formControlName="fullName" placeholder="John Doe" />
+    <mat-error *ngIf="addressForm.get('fullName')?.hasError('required')">
+      Full Name is required
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Street Address</mat-label>
+    <input matInput formControlName="streetAddress" placeholder="123 Main St" />
+    <mat-error *ngIf="addressForm.get('streetAddress')?.hasError('required')">
+      Street Address is required
+    </mat-error>
+  </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>City</mat-label>
+      <input matInput formControlName="city" placeholder="New York" />
+      <mat-error *ngIf="addressForm.get('city')?.hasError('required')">
+        City is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>State</mat-label>
+      <input matInput formControlName="state" placeholder="NY" />
+      <mat-error *ngIf="addressForm.get('state')?.hasError('required')">
+        State is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Zip Code</mat-label>
+      <input matInput formControlName="zipCode" placeholder="10001" />
+      <mat-error *ngIf="addressForm.get('zipCode')?.hasError('required')">
+        Zip Code is required
+      </mat-error>
+      <mat-error *ngIf="addressForm.get('zipCode')?.hasError('pattern')">
+        Zip Code must be 5 digits
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Country</mat-label>
+      <input matInput formControlName="country" placeholder="USA" />
+      <mat-error *ngIf="addressForm.get('country')?.hasError('required')">
+        Country is required
+      </mat-error>
+    </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Phone Number</mat-label>
+    <input matInput formControlName="phoneNumber" placeholder="234 567 8900" />
+    <mat-error *ngIf="addressForm.get('phoneNumber')?.hasError('required')">
+      Phone Number is required
+    </mat-error>
+    <mat-error *ngIf="addressForm.get('phoneNumber')?.hasError('pattern')">
+      Phone Number is invalid
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Additional Notes</mat-label>
+    <textarea matInput formControlName="additionalNotes" rows="3" placeholder="Leave a note..."></textarea>
+  </mat-form-field>
+<button mat-raised-button color="primary" class="float-right ml-2" type="submit" *ngIf="editbtn" (click)="updateShippingAddress(addressForm)">Update</button>
+<button mat-raised-button color="primary" class="float-right ml-2" type="submit" *ngIf="!editbtn" (click)="onSubmitAddress(addressForm)">Add</button>
+</form>
+<br>
+<form [formGroup]="radioForm">
+<div *ngIf="loginUserAddress[0] !== null">
+<div class="address-form saveAddress mb-2" style="background-color: #d5e3da;" *ngFor="let user of loginUserAddress">
+<div class="row align-items-center" >
+  <!-- Radio Button -->
+  <div class="col-2 col-md-1 d-flex justify-content-center mb-2 mb-md-0">
+    <input type="radio" formControlName="radioOption" [value]="user">
+  </div>
+  <!-- Address List -->
+  <div class="col-10 col-md-7 mb-2 mb-md-0 mb-2">
+    <div>{{user?.user_first_name|titlecase}} {{user?.user_last_name|titlecase}}</div>
+    <div>{{user?.user_phone}}</div>
+    <div>{{user?.user_email}}</div>
+    <div>{{user?.user_address|titlecase}}</div>
+    <div>{{user?.user_pincode}}</div>
+  </div>
+</div>
+</div>
+</div>
+<div *ngIf="loginUserAddress[0]!== null || exiestShipment?.length > 0">
+<div class="address-form saveAddress mb-2" *ngFor="let ship of exiestShipment">
+  <div class="row">
+  <div class="col-2 col-md-1 d-flex justify-content-center mb-2 mb-md-0">
+  <input type="radio" formControlName="radioOption" [value]="ship">
+  </div>
+ <div class="col-10 col-md-7 mb-md-0 mb-2">
+  <div>{{ship?.shipment_fullname |titlecase}}</div>
+  <div>{{ship?.shipment_mobile}}</div>
+  <div>{{ship?.shipment_state|titlecase}}</div>
+  <div>{{ship?.shipment_streetAddress|titlecase}}</div>
+  <div>{{ship?.shipment_city|titlecase}}</div>
+  <div>{{ship?.shipment_zipcode}}</div>
+  <div>{{ship?.shipment_country|titlecase}}</div>
+  <div>{{ship?.shipment_additonalNote|titlecase}}</div>
+  </div>
+  <div class="col-6 col-md-2 d-flex align-items-center justify-content-start"> 
+     <mat-icon  style="color:#70e39c" aria-label="Edit" (click)="editShipAddress(ship)">edit</mat-icon>edit</div>
+   <div class="col-6 col-md-2 d-flex align-items-center justify-content-end" (click)="deleteShippingaddress(ship)">
+    <mat-icon style="color:#f44336">delete</mat-icon>delete</div>
+  </div>
+</div>
+</div>
+</form>
+</div>
+<div class="col-lg-4 col-md-4 col-sm-4" *ngIf="loginUserAddress[0]!==null">
+<div class="address-form total-summary" >
+<h2>Total Summary</h2>
+<div>
+  SubTotal : 1200
+</div>
+<div>
+  Discount : 200
+</div>
+<div>
+  Shipping Fee : 20
+</div>
+<div>
+<form class="example-form">
+  <mat-form-field class="example-full-width" >
+    <input type="text" matInput [formControl]="couponFormControl" placeholder="Enter Coupon Code">
+  </mat-form-field>
+  <button mat-raised-button color="primary" class="float-right" type="submit">Apply</button>
+</form>
+</div>
+<br>
+<button mat-raised-button color="primary" class="float-right" type="submit" (click)="confirmOrder()">Confirm Order</button>
+</div>
+</div>
+</div>
+<br>
+<br>
+<br>
+<br>
+

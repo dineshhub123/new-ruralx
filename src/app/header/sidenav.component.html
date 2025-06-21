@@ -1,0 +1,37 @@
+
+<input type="hidden" id="closeSidebar" (click)="closeSidebarNav()"/>
+<!-- <sidebar-js (open)="onOpen()" (close)="onClose()" (changeVisibility)="onChangeVisibility($event)" [sidebarjsConfig]="{backdropOpacity: 0.2,documentSwipeRange: 15}"> -->
+  <nav class="navbar-inverse">
+  <div class="col-sm-12"> 
+    <div class="sidbarheader">
+      <!-- <a href="javascript:void(0)" class="closebtn border-none" (click)="onClose()" >&times;</a> -->
+		<div class="userImage">D</div>
+		<div class="userAccountName">HELLO ,  DINESH </div>
+	</div>
+  </div>
+</nav>
+<div class="col-sm-12" style="overflow: scroll;">
+<ul class="sidenav-content">
+<li><span>Department</span></li>
+<li>Laptop's And Computer's</li>
+<li>Electronic Component's</li>
+<li>Fashion's</li>
+<li>Men's wear</li>
+<li>Women's wear</li>
+<li>Electical Acceseries</li>
+<li>Home Decorator's</li>
+<li>Kid's wear</li>
+<li>Kid's Toys</li>
+<li><span> help & setting</span></li>
+<li>your account</li>
+<li>customer service</li>
+</ul> 
+  <hr>
+  <ul class="sidenav-content">
+  <li><label class="logout-content"><a [routerLink]="['logout']" (click)="onClose()">  LOG OUT </a></label></li>
+  <div class="version-content" > https://www.ruralx.in 2022 <br>version 1.0.0</div>
+</ul>
+
+</div>
+<!-- <i class="fa-solid fa-user"></i> -->
+<!-- </sidebar-js> -->

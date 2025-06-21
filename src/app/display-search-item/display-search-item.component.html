@@ -1,0 +1,44 @@
+<div class="">
+<div class="filter_block">
+  <div class="filter-align">
+<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+  Filter
+</a>
+<div class="dropdown-menu">
+  <a class="dropdown-item" >500-1000</a>
+  <a class="dropdown-item" >1000-1500</a>
+  <a class="dropdown-item" >1500-2000</a>
+</div>
+</div>
+<div class="sort-align">
+<a class="nav-link " href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+  sort
+</a>
+<img class="short_arrow" src="assets/img/down-up-arrow.png">
+<div class="dropdown-menu">
+  <a class="dropdown-item" >A-Z Alfabatically</a>
+  <a class="dropdown-item" >Z-A Alfabatically</a>
+</div>
+</div>
+</div>
+<br>
+<div class="product-grid-container">
+  <div *ngFor="let searchData of searchItem" class="product-card" (click)="imgClick(searchData)">
+    <img
+      class="product-image"
+      [src]="searchData?.img_front | replacePath:'ruralx/src':'..'"
+      alt="{{ searchData?.product_name }}"
+    />
+    <div class="product-details">
+      <div class="product-name">{{ searchData?.product_name }}</div>
+      <div class="product-mrp">MRP: ₹{{ searchData?.product_mrp_price }}</div>
+      <div class="product-price">Price: ₹{{ searchData?.product_price }}</div>
+    </div>
+  </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+</div>

@@ -1,0 +1,96 @@
+<div class="zoom_right_inner_panel">
+  <img (click)="show()" class="child_img_display" style="width:250px;height:250px;"
+    src="{{cartItem.img_front | replacePath:'ruralx/src':'..'}}">
+  <div style="text-align: center;">Click over image to Expand</div>
+</div>
+<div class="zoom_left_inner_panel">
+<span class="child_img" (mouseover)="ChildMasterDisplay(cartItem.product_img)"><img style="width:35px;height:40px;"
+      src="assets/img/{{cartItem.product_img}}"></span> 
+  <span class="child_img" (mouseover)="ChildFrontDisplay(cartItem.img_front)"><img style="width:35px;height:40px;"
+      src="{{cartItem.img_front | replacePath:'ruralx/src':'..'}}"></span>
+  <span class="child_img" (mouseover)="ChildSideDisplay(cartItem.img_side)"><img style="width:35px;height:40px;"
+      src="{{cartItem.img_side | replacePath:'ruralx/src':'..'}}"></span>
+  <span class="child_img" (mouseover)="ChildBackDisplay(cartItem.img_back)"><img style="width: 35px;height:40px;"
+      src="{{cartItem.img_back | replacePath:'ruralx/src':'..'}}"></span>
+  <span class="child_img" (mouseover)="ChildTopDisplay(cartItem.img_top)"><img style="width:35px;height:40px;"
+      src="{{cartItem.img_top | replacePath:'ruralx/src':'..'}}"></span>
+  <span class="child_img" (mouseover)="ChildTriangleDisplay(cartItem.img_triangle)"><img style="width:35px;height:40px;"
+      src="{{cartItem.img_triangle | replacePath:'ruralx/src':'..'}}"></span>
+</div>
+
+
+<!-- Creates the bootstrap modal where the image will appear -->
+<div [style.display]="showModal ? 'block' : 'none'" class="modal" id="imagemodal" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="position: relative;top:106px;">
+      <div class="modal-header" style="height: 60px;">
+        <h4 class="modal-title" id="myModalLabel">{{cartItem.product_name}}</h4>
+      </div>
+      <div class="pop-up-model">
+        <img class="child_img_display" style="width:330px;height:340px;" src="{{cartItem.img_front | replacePath:'ruralx/src':'..'}}">
+
+      </div>
+      <div class="modal-footer" style="height: 60px;color:teal;font-weight: 700;">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="hide()">Close</button>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+</div>
+
+
+<div class="col-sm-6 py-10">
+  <div class="zoom_right_panel">
+    <div class="card-body">
+      <h5 class="card-title_1"><strong>{{cartItem.product_name}}</strong></h5>
+      <p><span class="rates">₹ {{cartItem.product_price}} </span>
+        <span> </span> M.R.P : ₹ <del>
+          {{cartItem.product_mrp_price}}</del>
+        <span> </span>
+        Save ₹ {{cartItem.product_mrp_price-cartItem.product_price}}
+      </p>
+      <p class="card-text">Get it by <span class="delevery_date">
+          Tomorrow
+        </span></p>
+      <p>Free of Delivery by RuralX</p>
+    </div>
+    <strong>Product Description</strong>
+   <div [innerHTML]="cartItem.product_description"></div>
+  </div>
+  <div class="zoom_addcart_panel">
+    <nav aria-label="quantity-navigation">
+      <h5><strong>Quantity:</strong></h5>
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" (click)="decrement()"><strong style="cursor: pointer;">-</strong></a>
+        </li>
+        <li class="page-item"><a class="page-link">{{counter}}</a></li>
+        <li class="page-item"><a class="page-link" (click)="increment()"><strong style="cursor: pointer;">+</strong></a>
+        </li>
+      </ul>
+    </nav>
+    <br>
+    &nbsp;
+    <strong>
+      <mat-icon id="locationMake" (click)="openDialog_()">location_on</mat-icon>
+     <span class="delivery_title">Select Delivery Location</span> 
+    </strong>
+    &nbsp;
+    <br>
+    <br>
+    <button class="btn btn-warning btn-md" (click)="addCart(cartItem)"><i class="fa fa-shopping-cart"> </i> ADD TO CART
+    </button>
+    <button class="btn btn-danger btn-md" style="margin-left:5px;" (click)="addDetails()"><i class="fa fa-credit-card"
+        aria-hidden="true"></i> BUY NOW</button>
+    <div> <strong
+        style="color:red;font-size: 13px;"> Secure
+        Transaction </strong></div>
+  </div>
+  &nbsp;
+  &nbsp;
+  <br>
+  <br>
+</div>

@@ -1,0 +1,82 @@
+.navbar-inverse{
+    width: 100%;
+    background-color:#040466;
+    border-radius: 0 !important;
+    padding-bottom: 35px;
+    margin-bottom: 15px;
+ }
+.sidbarheader{
+    color: white;
+    font-size: 26px;
+    font-weight: 100;
+    text-align: center;
+    padding-top: 15px;
+    line-height: 50px;
+}
+.userImage{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    float: left;
+    color: black;
+    text-align: center;
+    line-height: 41px;
+    font-size: 24px;
+    font-weight: bold;
+
+}
+.userAccountName{
+    float: left;
+    margin-left: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: capitalize;
+    
+}
+.closebtn{
+    color:white;
+    font-size: 40px;
+   /* // text: underline offset 0; */
+    text-decoration-line: none;
+    float:right ;
+    position: relative;
+    margin-top: 0px;
+    margin-right: -45px;
+
+}
+.sidenav-content{
+    list-style: none;
+    text-transform: uppercase;
+    display: inline-block;
+
+}
+.sidenav-content li{
+    padding-bottom: 30px;
+    font-size: 12px;
+    font-weight: 600;
+    color: gray;
+
+}
+.sidenav-content li span{
+font-size: 18px;
+font-weight: bolder;
+color: black;
+
+}
+.logout-content{
+color:brown;
+text-align: center;
+padding-bottom: 15px;
+margin-bottom: 50px;
+font-size: 16px;
+font-weight: 900;
+}
+.version-content{
+    color:gray;
+    text-align: center;
+    padding-bottom: 15px;
+    margin-bottom: 50px;
+    font-size: 12px;
+    font-weight: 600;
+}
