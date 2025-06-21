@@ -2,6 +2,11 @@ mat-toolbar {
   background: #0a4984;
   color: #062d51;
   padding: 0 0px !important;
+  height: 55px;
+  position: sticky;
+  top: 0px;
+  /* z-index: 999; */
+
 }
 
 .imgSet {
@@ -42,7 +47,7 @@ mat-sidenav {
 }
 
 ::ng-deep .mat-sidenav-container {
-  height: calc(100vh - 65px);
+  height: calc(100vh - 120px);
 }
 
 .menu-button {
@@ -114,6 +119,7 @@ mat-divider {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 
 }
 
@@ -204,6 +210,8 @@ font-size:21px !important;
   width: 250px;
   position: absolute;
   top: 0px;
+  border-top-right-radius:12px;
+  border-bottom-right-radius: 12px;
 }
 
 .sidenav-header {
@@ -216,7 +224,10 @@ mat-expansion-panel {
   box-shadow: none;
   color: white;
 }
+mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]):hover{
+    background-color: rgba(255, 255, 255, 0.1) !important;
 
+}
 mat-icon {
   color: white;
 }
@@ -256,7 +267,9 @@ button.mat-list-item:hover {
 
 @media (max-width: 768px) {
   .sidebar-container {
-    width: 190px;
+    width: 75%;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
   }
 
   .hide-on-desktop {
@@ -424,7 +437,7 @@ a.mat-list-item.active-link {
   display: flex;
   justify-content: space-around;
   list-style: none;
-  padding: 10px 10px 5px 10px;
+  padding: 10px 10px 0px 10px;
   margin: 0;
 }
 
@@ -462,7 +475,11 @@ a.mat-list-item.active-link {
 .icon-menu {
   color: #ffffff;
 }
-
+.icon-menu-cart{
+position: relative;
+top:36px;
+color: #ffffff;
+}
 .navbar-input_btn {
   display: flex;
 }
@@ -482,13 +499,15 @@ a.mat-list-item.active-link {
     width: auto;
     height: 15px;
     text-align: center;
-    left: 18px;
-    bottom: 18px;
+    left: 20px;
+    bottom:9px;
 }
 .shopping-cart{
 color:yellow;
 width:24px !important;
 height:24px !important;
+position: absolute;
+top:11px;
 }
 
 .shopping-map{

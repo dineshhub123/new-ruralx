@@ -481,7 +481,6 @@ body {
     input[type=text] {
       background-color: #f1f1f1;
      width: 100%;
-     min-width: 100%;
     }
     
     input[type=submit] {
@@ -613,11 +612,12 @@ body {
        width: 100%;
     }
      .headerPositionFixed{
-         width: 100%;
+        width: 100%;
         position: fixed;
         z-index: 2;
-        top: 56px;
+        top: 55px;
         background: none !important;
+        
     } 
     /* .navbar-menu{
       position: fixed;
@@ -656,7 +656,7 @@ body {
       margin-bottom: 0px;
       border:0px !important;
       min-height: 43px !important;
-padding: 10px 15px 10px 15px !important;
+      padding: 10px 15px 10px 15px !important;
     }
     .navbar-r{
       width:31%;
@@ -760,7 +760,6 @@ padding: 10px 15px 10px 15px !important;
           width: 100%;
           background-color:rgb(6, 45, 81);
           border-radius: 0 !important;
-          margin-bottom: 15px;
        }
 
           .listFloating li {
