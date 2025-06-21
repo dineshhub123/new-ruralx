@@ -1,6 +1,6 @@
 .product-image {
     width: 160px;
-    height: 130px;
+    /* height: 130px; */
 }
 
 .card-content {
@@ -89,18 +89,20 @@ h6 {
   transition: transform 0.2s ease;
   cursor: pointer;
 }
-
+.btn-align-buy{
+font-weight: 600;
+background-color: #ff9f00;
+}
 .product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  /* transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); */
 }
 
 .product-image {
   width: 100%;
   max-width: 180px;
-  height: 180px;
+  /* height: 180px; */
   object-fit: contain;
-  margin-bottom: 12px;
 }
 
 .product-details {

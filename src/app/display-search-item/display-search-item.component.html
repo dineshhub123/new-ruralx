@@ -23,17 +23,18 @@
 </div>
 <br>
 <div class="product-grid-container">
-  <div *ngFor="let searchData of searchItem" class="product-card" (click)="imgClick(searchData)">
+  <div *ngFor="let searchData of searchItem" class="product-card">
     <img
       class="product-image"
       [src]="searchData?.img_front | replacePath:'ruralx/src':'..'"
-      alt="{{ searchData?.product_name }}"
+      alt="{{ searchData?.product_name }}"  (click)="imgClick(searchData)"
     />
-    <div class="product-details">
+    <div class="product-details mb-2"  (click)="imgClick(searchData)">
       <div class="product-name">{{ searchData?.product_name }}</div>
       <div class="product-mrp">MRP: ₹{{ searchData?.product_mrp_price }}</div>
       <div class="product-price">Price: ₹{{ searchData?.product_price }}</div>
     </div>
+   <button class="btn btn-warning btn-md btn-align-buy"><i class="fa fa-shopping-cart"> </i> ADD TO CART</button>
   </div>
 </div>
 

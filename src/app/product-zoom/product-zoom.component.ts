@@ -13,18 +13,7 @@ import { AddcartService } from '../addcart.service';
   styleUrls: ['./product-zoom.component.css']
 })
 export class ProductZoomComponent implements OnInit {
-  public showModal: boolean = false;
-  show() {
-    this.showModal = true; // Show-Hide Modal Check
-    this.document.body.classList.add('no-scroll');
-
-  }
-  //Bootstrap Modal Close event
-  hide() {
-    this.showModal = false;
-    this.document.body.classList.remove('no-scroll');
-
-  }
+  
 
   public data: any;
   res: any;
