@@ -1,75 +1,109 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-5 pt-3">
+    <div class="col-md-4 pt-3">
       <div class="zoom_right_inner_panel">
-        <img class="child_img_display" style="height:auto; width:100%"
-          src="{{cartItem.img_front | replacePath:'ruralx/src':'..'}}">
+        <img class="child_img_display" style="height:350px; width:100%"
+          src="{{cartItems.img_front | replacePath:'ruralx/src':'..'}}" (click)="show()">
       </div>
-       <div>
       <div class="zoom_left_inner_panel">
-        <!-- <span class="child_img" (mouseover)="ChildMasterDisplay(cartItem.product_img)">
-      <img style="width:35px;height:40px;"
-      src="assets/img/{{cartItem.product_img}}"></span> -->
-        <span class="child_img" (mouseover)="ChildFrontDisplay(cartItem.img_front)"><img style="width:35px;height:40px;"
-            src="{{cartItem.img_front | replacePath:'ruralx/src':'..'}}"></span>
-        <span class="child_img" (mouseover)="ChildSideDisplay(cartItem.img_side)"><img style="width:35px;height:40px;"
-            src="{{cartItem.img_side | replacePath:'ruralx/src':'..'}}"></span>
-        <span class="child_img" (mouseover)="ChildBackDisplay(cartItem.img_back)"><img style="width: 35px;height:40px;"
-            src="{{cartItem.img_back | replacePath:'ruralx/src':'..'}}"></span>
-        <span class="child_img" (mouseover)="ChildTopDisplay(cartItem.img_top)"><img style="width:35px;height:40px;"
-            src="{{cartItem.img_top | replacePath:'ruralx/src':'..'}}"></span>
-        <span class="child_img" (mouseover)="ChildTriangleDisplay(cartItem.img_triangle)"><img
-            style="width:35px;height:40px;" src="{{cartItem.img_triangle | replacePath:'ruralx/src':'..'}}"></span>
+        <div *ngFor="let cartItem of cartItems.displayImages">
+          <div class="child_img" (mouseover)="ChildFrontDisplay(cartItem)">
+            <img style="width:35px;height:40px;" src="{{cartItem | replacePath:'ruralx/src':'..'}}">
+          </div>
+        </div>
       </div>
     </div>
-    </div>
-    <div class="col-md-7 pt-3">
+    <div class="col-md-8 pt-3">
       <div class="zoom_right_panel">
         <div class="">
-          <div class="card-title_1"><strong>{{cartItem.product_name | titlecase}}</strong></div>
-          <div class="mrp-content"><span class="rates">₹ {{cartItem.product_price}} </span>
+          <div class="card-title_1"><strong>{{cartItems.product_name | titlecase}}</strong></div>
+          <div class="mrp-content"><span class="rates">₹ {{cartItems.product_price}} </span>
             <span> </span> M.R.P : ₹ <del>
-              {{cartItem.product_mrp_price}}</del>
+              {{cartItems.product_mrp_price}}</del>
             <span> </span>
-            Save ₹ {{cartItem.product_mrp_price-cartItem.product_price}}
-            </div>
-          <span class="mrp-content">Get it by 
+            Save ₹ {{cartItems.product_mrp_price-cartItems.product_price}}
+          </div>
+          <span class="mrp-content">Get it by
             <span class="delevery_date">Today </span>
           </span>
           <span class="mrp-content"> Free of Delivery by RuralX</span>
         </div>
         <div class="description-title">Product Description : </div>
-        <div [innerHTML]="cartItem.product_description"></div>
+        <div [innerHTML]="cartItems.product_description"></div>
         <div class="pt-2">
-        <nav aria-label="quantity-navigation">
-          <h5><strong>Quantity:</strong></h5>
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" (click)="decrement()"><strong
-                  style="cursor: pointer;">-</strong></a>
-            </li>
-            <li class="page-item"><a class="page-link">{{counter}}</a></li>
-            <li class="page-item"><a class="page-link" (click)="increment()"><strong
-                  style="cursor: pointer;">+</strong></a>
-            </li>
-          </ul>
-        </nav>
-        <strong class="pt-2">
-          <mat-icon id="locationMake" (click)="openDialog_()">location_on</mat-icon>
-          <span class="delivery_title">Select Delivery Location</span>
-        </strong>
-       <div class="pt-3">
-        <button class="btn btn-warning btn-md mb-2 mr-2 btn-align-buy" (click)="addCart(cartItem)"><i
-            class="fa fa-shopping-cart"> </i> ADD TO CART
-        </button>
-        <button class="btn btn-danger btn-md mb-2 btn-align-buy" (click)="addDetails()"><i class="fa fa-credit-card"
-            aria-hidden="true"></i> BUY NOW</button>
-         </div>
-        <div> <strong style="color:red;font-size: 11px;"> Secure
-            Transaction </strong></div>
-      </div>
+          <nav aria-label="quantity-navigation">
+            <h5><strong>Quantity:</strong></h5>
+            <ul class="pagination">
+              <li class="page-item"><a class="page-link" (click)="decrement()"><strong
+                    style="cursor: pointer;">-</strong></a>
+              </li>
+              <li class="page-item"><a class="page-link">{{counter}}</a></li>
+              <li class="page-item"><a class="page-link" (click)="increment()"><strong
+                    style="cursor: pointer;">+</strong></a>
+              </li>
+            </ul>
+          </nav>
+          <strong class="pt-2">
+            <mat-icon id="locationMake" (click)="openDialog_()">location_on</mat-icon>
+            <span class="delivery_title">Select Delivery Location</span>
+          </strong>
+          <div class="pt-3">
+            <button class="btn btn-warning btn-md mb-2 mr-2 btn-align-buy" (click)="addCart(cartItems)"><i
+                class="fa fa-shopping-cart"> </i> ADD TO CART
+            </button>
+            <button class="btn btn-danger btn-md mb-2 btn-align-buy" (click)="addDetails()"><i class="fa fa-credit-card"
+                aria-hidden="true"></i> BUY NOW</button>
+          </div>
+          <div> <strong style="color:red;font-size: 11px;"> Secure
+              Transaction </strong></div>
+        </div>
       </div>
 
     </div>
   </div>
+</div>
+<!-- model -->
+<div [style.display]="showModal ? 'block' : 'none'" class="modal" id="imagemodal" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title" id="myModalLabel">{{cartItems.product_name |titlecase}}</span>
+        <div class="modal-footer" style="color:teal;font-weight: 700;">
+          <mat-icon class="cross-close" data-dismiss="modal" (click)="hide()">close</mat-icon>
+        </div>
+      </div>
+      <div class="pop-up-model">
+        <!-- Main Swiper -->
+<swiper
+  [zoom]="{ minRatio: 1, maxRatio: 5 }"
+  [spaceBetween]="0"
+  [centeredSlides]="true"
+  [slidesPerView]="1"
+  [thumbs]="{ swiper: thumbsSwiper }"
+  class="mySwiper"
+>
+  <ng-template swiperSlide *ngFor="let cartItem of cartItems.displayImages">
+    <div class="swiper-zoom-container">
+      <img [src]="cartItem | replacePath:'ruralx/src':'..'" />
+    </div>
+  </ng-template>
+</swiper>
 
+<!-- Thumbs Swiper -->
+<swiper
+  [slidesPerView]="'auto'"
+  [spaceBetween]="1"
+  (swiper)="thumbsSwiper = $event"
+  [watchSlidesProgress]="true"
+  class="thumbs-swiper"
+>
+  <ng-template swiperSlide class="swiper-slide-thumb" *ngFor="let cartItem of cartItems.displayImages">
+    <img [src]="cartItem | replacePath:'ruralx/src':'..'" style="width: 80px; height: auto;" />
+  </ng-template>
+</swiper>
+
+      </div>
+    </div>
+  </div>
 </div>

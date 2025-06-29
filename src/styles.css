@@ -3,7 +3,33 @@
 /* You can add global styles to this file, and also import other style files */
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 @import "https://fonts.googleapis.com/icon?family=Material+Icons";
+/* @import 'swiper/swiper-bundle.min.css'; */
+@import 'swiper/css';
+@import 'swiper/css/pagination';
+@import 'swiper/css/zoom';
+@import 'swiper/css/thumbs';
 
+.mySwiper {
+  width: 100%;
+}
+.swiper-slide-thumb{
+    width: 55px !important;
+    height: 60px !important;
+    margin: 10px 10px 10px 10px;
+    border: 1px solid gray;
+    border-radius: 8px;
+
+}
+
+
+.swiper-slide-thumb img{
+ width: 55px !important;
+ height: 60px !important;
+ padding: 5px 5px 5px 5px;
+}
+.swiper-slide-thumb-active{
+  border: 2px solid #ff5b00;
+}
 
 html, body { height: 100%; }
 body, h1, h2, h3, h4, h5, h6, p, span, div, a, button, input, textarea {

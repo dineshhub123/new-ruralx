@@ -50,7 +50,13 @@ import { HomeComponent } from './home/home.component';
 import { SellNotificationlistComponent } from './sell-notificationlist/sell-notificationlist.component';
 import { TodaydealComponent } from './todaydeal/todaydeal.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SwiperModule } from 'swiper/angular';
+import SwiperCore, { Zoom,Thumbs, Pagination } from 'swiper';
+// Register Swiper modules
+SwiperCore.use([Zoom,Thumbs, Pagination]);
 
+
+// Register modules
 
 @NgModule({
   declarations: [
@@ -77,6 +83,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     AngularEditorModule,
     MatMenuModule, 
     MatListModule, 
+    SwiperModule,
     MatBadgeModule,  
     MatTooltipModule,MatDialogModule,
     MatExpansionModule,
