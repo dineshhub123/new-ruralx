@@ -144,9 +144,6 @@
   margin: 10px 0;
 }
 
-.page-item {
-  margin: 0 5px;
-}
 
 .page-link {
   padding: 5px 10px;
@@ -226,7 +223,7 @@
   cursor: pointer;
   border: 1px solid #ddd;
   border-radius: 4px;
-  overflow: hidden;
+  /* overflow: hidden; */
   transition: all 0.3s ease;
 }
 
@@ -446,4 +443,28 @@ width: 521px;
    height: 80px;
   box-sizing: border-box;
   padding: 10px 0; 
+}
+.quantity-btn-align{
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    align-items: center;
+    height: 100%;
+}
+
+.pagination{
+  border: 1px solid red;
+}
+.qunt-back{
+  background-color: red;
+  
+}
+.page-item{
+  font-weight: 700;
+  color: red;
+}
+.item-font{
+  font-weight: 700;
+  color: #ffffff;
+
 }

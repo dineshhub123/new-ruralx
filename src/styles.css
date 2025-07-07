@@ -66,7 +66,7 @@ body, input, textarea, button, select {
     font-family: 'Poppins', sans-serif !important;
 }
 .no-scroll{
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 ::ng-deep .mat-drawer-container {
     position: relative;
@@ -76,6 +76,6 @@ body, input, textarea, button, select {
     box-sizing: border-box;
     -webkit-overflow-scrolling: touch;
     display: block;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 

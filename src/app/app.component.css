@@ -47,7 +47,8 @@ mat-sidenav {
 }
 
 ::ng-deep .mat-sidenav-container {
-  height: calc(100vh - 120px);
+   height: calc(100vh - 120px); 
+   overflow: hidden;
 }
 
 .menu-button {
@@ -73,6 +74,8 @@ mat-sidenav {
 .name {
   margin-top: 8px;
   font-weight: normal;
+  font-size: 20px;
+  font-weight: 500;
 }
 
 .designation {
@@ -119,19 +122,20 @@ mat-divider {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 10px 10px 5px 10px;
 
 }
 
 .avatar_name {
   width: 50px;
   height: 50px;
-  background-color: #ccc;
+  background-color: rgb(6, 45, 81);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
   font-size: 24px;
+  font-weight: 600;
 }
 
 .mat-sort-header-arrow {
@@ -187,7 +191,7 @@ font-size:21px !important;
 }
 
 .sidebar-container {
-  overflow: hidden;
+  /* overflow: hidden; */
   height: 100%;
 }
 
@@ -197,7 +201,7 @@ font-size:21px !important;
 }
 
 ::ng-deep mat-accordion {
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .sidenav-container {
@@ -437,7 +441,7 @@ a.mat-list-item.active-link {
   display: flex;
   justify-content: space-around;
   list-style: none;
-  padding: 10px 10px 0px 10px;
+  padding: 2px 10px 1px 10px;
   margin: 0;
 }
 
@@ -445,7 +449,7 @@ a.mat-list-item.active-link {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 8px;
+  font-size: 9px;
   padding: 5px 0px 5px 5px;
   cursor: pointer;
   line-height: 1.2;
@@ -477,7 +481,7 @@ a.mat-list-item.active-link {
 }
 .icon-menu-cart{
 position: relative;
-top:36px;
+top:26px;
 color: #ffffff;
 }
 .navbar-input_btn {
@@ -494,12 +498,12 @@ color: #ffffff;
     color: white;
     font-size: 9px;
     font-weight: bold;
-    padding: 2px 6px;
+    padding: 3px 5px 5px 5px;;
     border-radius: 999px;
     width: auto;
     height: 15px;
     text-align: center;
-    left: 20px;
+    left: 18px;
     bottom:9px;
 }
 .shopping-cart{
@@ -507,7 +511,7 @@ color:yellow;
 width:24px !important;
 height:24px !important;
 position: absolute;
-top:11px;
+top:4px;
 }
 
 .shopping-map{
@@ -520,4 +524,16 @@ height:24px !important;
 color:yellow;
 width:24px !important;
 height:24px !important;
+}
+.mat-drawer-content{
+  overflow: hidden !important;
+}
+::ng-deep .mat-mdc-menu-content .mat-mdc-menu-item .mat-mdc-menu-item-text{
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+::ng-deep.mat-mdc-menu-item {
+min-height: 35px !important;
+padding-right: 13px !important;
+padding-left: 13px !important;
 }

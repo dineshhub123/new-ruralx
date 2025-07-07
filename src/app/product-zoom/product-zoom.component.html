@@ -1,14 +1,14 @@
-<div class="container-fluid">
+<div class="container-fluid mb-5">
   <div class="row">
     <div class="col-md-4 pt-3">
       <div class="zoom_right_inner_panel">
         <img class="child_img_display" style="height:350px; width:100%"
-          src="{{cartItems.img_front | replacePath:'ruralx/src':'..'}}" (click)="show()">
+          src="{{cartItems.img_front | replacePath:'new-ruralx/src':'..'}}" (click)="show()">
       </div>
       <div class="zoom_left_inner_panel">
         <div *ngFor="let cartItem of cartItems.displayImages">
           <div class="child_img" (mouseover)="ChildFrontDisplay(cartItem)">
-            <img style="width:35px;height:40px;" src="{{cartItem | replacePath:'ruralx/src':'..'}}">
+            <img style="width:35px;height:40px;" src="{{cartItem | replacePath:'new-ruralx/src':'..'}}">
           </div>
         </div>
       </div>
@@ -30,19 +30,23 @@
         </div>
         <div class="description-title">Product Description : </div>
         <div [innerHTML]="cartItems.product_description"></div>
-        <div class="pt-2">
-          <nav aria-label="quantity-navigation">
+        <div class="pt-2 quantity-btn-align" >
+
+            <nav aria-label="quantity-navigation">
             <h5><strong>Quantity:</strong></h5>
             <ul class="pagination">
               <li class="page-item"><a class="page-link" (click)="decrement()"><strong
                     style="cursor: pointer;">-</strong></a>
               </li>
-              <li class="page-item"><a class="page-link">{{counter}}</a></li>
+              <li class="page-item item-font"><a class="page-link qunt-back">{{counter}}</a></li>
               <li class="page-item"><a class="page-link" (click)="increment()"><strong
                     style="cursor: pointer;">+</strong></a>
               </li>
             </ul>
           </nav>
+          </div>
+        <div class="pt-2" >
+
           <strong class="pt-2">
             <mat-icon id="locationMake" (click)="openDialog_()">location_on</mat-icon>
             <span class="delivery_title">Select Delivery Location</span>
@@ -85,7 +89,7 @@
 >
   <ng-template swiperSlide *ngFor="let cartItem of cartItems.displayImages">
     <div class="swiper-zoom-container">
-      <img [src]="cartItem | replacePath:'ruralx/src':'..'" />
+      <img [src]="cartItem | replacePath:'new-ruralx/src':'..'" />
     </div>
   </ng-template>
 </swiper>
@@ -99,7 +103,7 @@
   class="thumbs-swiper"
 >
   <ng-template swiperSlide class="swiper-slide-thumb" *ngFor="let cartItem of cartItems.displayImages">
-    <img [src]="cartItem | replacePath:'ruralx/src':'..'" style="width: 80px; height: auto;" />
+    <img [src]="cartItem | replacePath:'new-ruralx/src':'..'" style="width: 80px; height: auto;" />
   </ng-template>
 </swiper>
 

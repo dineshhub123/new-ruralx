@@ -111,7 +111,8 @@ body {
   border: none;
   color: white;
   padding: 10px 20px;
-  font-size: 0.95rem;
+  font-size: 16px;
+  font-weight: 700;
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s ease;
@@ -174,4 +175,85 @@ position:relative;
 top:7px;
 right:-34px;
 cursor:pointer;
+}
+.addcrt-design{
+  background-color: #ffffff;
+  border: 1px solid gray;
+  margin: 15px;
+  border-radius: 16px;
+}
+.card-title_1{
+  /* border-top: 1px solid gray; */
+  padding: 0px 5px 5px 5px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.item-name{
+  font-size: 11px;
+  font-weight: 600;
+  color:teal
+}
+.item-mrp{
+  font-size: 10px;
+  font-weight: 600;
+}
+.quantity-btn-align{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    align-items: center;
+    height: 100%;
+}
+.zoom_left_inner_panel{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.totalAmount{
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+.pagination{
+  border: 1px solid red;
+}
+.qunt-back{
+  background-color: red;
+  
+}
+.page-item{
+  font-weight: 700;
+  color: red;
+}
+.item-font{
+  font-weight: 700;
+  color: #ffffff;
+
+}
+ .back-image {
+    width: 100%;
+    height: 300px;
+    background-image: url(src/assets/img/empty_cart3.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+.empty-cart-content{
+  font-size: 16px;
+  width: 100%;
+  text-align: center;
+  font-weight: 600;
+  color: teal;
+  line-height: 40px;
+}
+.btn-align-addcart{
+width: 70%;
+background-color: cadetblue;
+}
+.addcart-btn{
+  width: 100%;
+  text-align: center;
 }

@@ -44,6 +44,10 @@ mat-form-field {
   background:rgb(8 64 115);
   margin: 0px 0px 10px 0px;
   text-align: center;
+  position: fixed;
+  top: 110px;
+  z-index: 999;
+  width: 100%;
 }
 .alignAdressBtn{
     display: flex;
@@ -65,12 +69,63 @@ mat-form-field {
   border-radius: 8px;
   color:teal;
   font-size: 13px;
-  padding: 20px 10px 20px 10px;
+  padding: 5px 10px 20px 10px;
   margin: 0px 15px 0px 15px;
-  height: 270px;
+  height: 287px;
 
 }
 
+.example-full-width{
+  width: 70%;
+}
+.btn-align-color{
+width: 100%;
+background-color: teal;
+color:#ffffff;
+font-size: large;
+font-weight: 500;
+}
+/* ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+padding-top: 8px !important;
+padding-bottom: 8px !important;
+min-height: 40px !important;
+} */
+.tot-sum-cont{
+  font-size: 18px;
+  font-weight: 600;
+  padding: 5px;
+}
+.tot-sub-content{
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0px 10px 7px 10px;
+    line-height: 23px;
+    color: black;
+    opacity: 0.7;
 
-
-
+}
+.total-amount-content{
+     display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    align-items: center;
+    height: 40px;
+    background: #d2d5d3;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    color: black;
+    opacity: 0.8;
+    border-top: 1px solid black;
+}
+.total-amount{
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
