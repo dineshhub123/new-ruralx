@@ -22,7 +22,9 @@
   <mat-icon (click)="cartFun()" class="shopping-cart">shopping_cart</mat-icon>
     <span class="cart-badge">{{itemQuantity}}</span>
 </div>
- <span class="icon-menu-cart">Cart Item</span>
+ <span class="icon-menu-cart">Cart</span>
+  <span class="icon-menu-cart">Item</span>
+
     </li>
     <li>
       <mat-icon (click)="openDialogD()" class="shopping-map">location_on</mat-icon>
@@ -30,19 +32,18 @@
       <span class="icon-menu"><strong>Availability</strong></span>
     </li>
   
-<li>
-      <mat-icon id="signMake" mat-icon-button matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu"
+<li [matMenuTriggerFor]="userAccountMenu">
+      <mat-icon id="signMake" mat-icon-button matTooltip="" 
       class="shopping-user">account_circle</mat-icon>
-      <span (click)="loginPage()" class="icon-menu">Hello, {{(username?username:'Sign in')|titlecase }}</span>
+      <span class="icon-menu">Hello, {{(username?username:'Sign in')|titlecase }}</span>
       <span class="icon-menu"><strong>Account & Lists</strong></span>
     </li>
 
     <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
-      <button mat-menu-item routerLink="#"><mat-icon>person</mat-icon><span>My Account</span></button>
+      <button mat-menu-item routerLink="#"><mat-icon>person</mat-icon><span >My Account</span></button>
       <button mat-menu-item routerLink="#"><mat-icon>settings</mat-icon><span>Settings</span></button>
       <button mat-menu-item routerLink="#"><mat-icon>help</mat-icon><span>Help</span></button>
-      <mat-divider></mat-divider>
-      <button mat-menu-item (click)="adminLogout()"><mat-icon>exit_to_app</mat-icon>Logout</button>
+      <button mat-menu-item (click)="userLogout()"><mat-icon>exit_to_app</mat-icon>Logout</button>
     </mat-menu>
   </ul>
 
@@ -54,9 +55,14 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8 sidebar-container">
     <div class="container">
-      <div class="avatar_name">T</div>
+<ng-template #showIcon>
+  <div class="avatar_name">
+  <mat-icon>person</mat-icon>
+  </div>
+</ng-template>
+      <div class="avatar_name" *ngIf="username; else showIcon">{{ username[0].toUpperCase()}}</div>
     </div>
-    <h4 class="name">Welcome, {{ username }}</h4>
+    <h4 class="name">Welcome, {{ username?username:"Sign in" }}</h4>
 
     <mat-accordion multi="false">
 
@@ -198,10 +204,12 @@
   </mat-sidenav>
 <mat-sidenav-content>
     <app-header></app-header>
-    <div class="pt-5" style="height: calc(100vh + 349px);">
+     <!-- <div class="pt-5" style="height: calc(100vh + 249px);overflow-y: auto;" > -->
+    <div class="pt-5" style="height: calc(100vh - 120px); overflow: auto;" >
       <router-outlet></router-outlet>
+       </div>
     <app-footer></app-footer>
-   </div>
+  
   </mat-sidenav-content>
 </mat-sidenav-container>
 

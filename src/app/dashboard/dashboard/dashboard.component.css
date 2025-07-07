@@ -3,10 +3,9 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: auto;
     background-color: rgb(15, 35, 73);
     color: white;
-    padding: 10px;
+    padding:  10px 10px 90px 10px;
     box-sizing: border-box;
 }
 

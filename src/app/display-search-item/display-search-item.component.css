@@ -1,6 +1,6 @@
 .product-image {
-    width: 160px;
-    /* height: 130px; */
+    width: 100%;
+     height: auto;
 }
 
 .card-content {
@@ -121,9 +121,32 @@ background-color: #ff9f00;
   color: #888;
   text-decoration: line-through;
 }
+.quantity-btn-align{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+}
 
 .product-price {
   font-size: 15px;
   font-weight: bold;
   color: #28a745;
+}
+.pagination{
+  border: 1px solid red;
+  margin-bottom: 0px !important;
+}
+.qunt-back{
+  background-color: red;
+  
+}
+.page-item{
+  font-weight: 700;
+  color: red;
+}
+.item-font{
+  font-weight: 700;
+  color: #ffffff;
+
 }

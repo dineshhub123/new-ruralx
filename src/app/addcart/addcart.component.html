@@ -1,65 +1,65 @@
-  <div>
-  <div class="col-sm-12" > 
-    <div *ngIf="addCartData.length==0" class="addCart-content"> 
-      <img src="assets/img/empty_cart3.jpg">
-      <div> Your Shoping Cart is Empty Now, Continue Shoping... </div>
-    </div>
-  </div>
-<div class="col-sm-12 py-10" *ngFor="let cartData of addCartData">
-<div class="zoom_right_panel">  
-  <div class="card-body">
-    <div class="col-sm-12">
-      <div class="zoom_left_inner_panel">
-        <img style="width:150px;height:150px;"src="{{cartData.img_front | replacePath:'ruralx/src':'..'}}">
-     </div>
-    </div>  
-    <div>       
-      <h5 class="card-title_1"><strong>{{cartData.product_name}}</strong></h5>
-        <p> 
-          M.R.P : ₹ <del >
-          {{cartData.product_mrp_price}}</del> 
-          Save ₹ {{cartData.product_mrp_price-cartData.product_price}}
-          </p>
-      <p class="card-text">Get it by 
-        <span class="delevery_date">
-        {{cartData.product_delivery_date}}
-      </span>
-      <span >
-      </span>
-    </p> 
-    </div>
-    <div class="zoom_right_panel">  
-    <div class="rates" >
-         Price : ₹{{cartData.product_price}} 
-         <div class="del-container">
-         <span class="del-text"> delete cart</span>
-         <mat-icon (click)="deleteCart(cartData)">delete</mat-icon>
-     </div>
-         <hr>
-        <h5 class="card-title_1" ><strong> Subtotal : ₹ {{cartData.product_price*cartData.quantity}} ({{cartData.quantity}} item) </strong></h5>
-        <hr style="border-bottom: 0.1px solid gray;">
+<div>
+  <div class="col-sm-12">
+    <div *ngIf="addCartData.length==0" class="addCart-content">
+      <div class="back-image "></div>
+      <div class="empty-cart-content"> Your Shoping Cart is Empty Now </div>
+      <div class="addcart-btn">
+        <button class="btn btn-info btn-md btn-align-addcart" [routerLink]="['/dashboard']">
+          Continue Shoping...
+        </button>
       </div>
     </div>
   </div>
-</div>
- <div class="col-sm-6" >
-  <div class="zoom_right_panel" >  
+  <div class="addcrt-design d-flex pt-2" *ngFor="let cartData of addCartData">
+    <div class="col-lg-2 col-md-2 col-2">
+      <div class="zoom_left_inner_panel">
+        <img style="width:50px;height:50px;" src="{{cartData.img_front | replacePath:'new-ruralx/src':'..'}}">
+      </div>
+    </div>
+    <div class="col-lg-8 col-md-8 col-8">
+      <div class="item-name">{{cartData.product_name | titlecase}}</div>
+      <div class="item-mrp">
+        ₹ <del>
+          {{cartData.product_mrp_price}}
+        </del>
+        Save ₹ {{cartData.product_mrp_price-cartData.product_price}}
+      </div>
+      <div class="item-mrp">
+        ₹ {{cartData.product_price}}
+
+      </div>
+      <div class="card-title_1">Subtotal : ₹ {{cartData.product_price*cartData.quantity}} ({{cartData.quantity}} item)
+      </div>
+
+    </div>
+    <div class="col-lg-2 col-md-2 col-2">
+      <div class="quantity-btn-align">
+        <nav aria-label="quantity-navigation">
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" (click)="decrement(cartData)"><strong
+                  style="cursor: pointer;">-</strong></a>
+            </li>
+            <li class="page-item item-font"><a class="page-link qunt-back">{{cartData.quantity}}</a></li>
+            <li class="page-item"><a class="page-link" (click)="increment(cartData)"><strong
+                  style="cursor: pointer;">+</strong></a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
   </div>
-  </div> 
-</div>
-<div class="col-md-12" *ngIf="addCartData.length>0">
-  <div class="totalItemValue" >  
-  <div class="totalAmount mb-3">Total : ₹ {{totalAmount.toFixed(2)}}/- </div> 
-  <button class="btn btn-info btn-rounded btn-md float-right" (click)="proceedBuyItem(addCartData)">Proceed to Buy</button>
-</div>
-<br/>
-<br/>
-<br/>
-<br/>
-  <div class="checkUser pt-1 mb-4">
-  <mat-error *ngIf="checkUserExiest">Please Login first then continue shoping...</mat-error>
-</div>
-</div> 
-
-
-
+  <div class="col-md-12" *ngIf="addCartData.length>0">
+    <div class="totalItemValue">
+      <div class="totalAmount mb-3">Total : ₹ {{totalAmount.toFixed(2)}} </div>
+      <button class="btn btn-info btn-rounded btn-md float-right" (click)="proceedBuyItem(addCartData)">Proceed to
+        Buy</button>
+    </div>
+    <div class="checkUser pt-1 mb-4">
+      <mat-error *ngIf="checkUserExiest">Please Login first then continue shoping...</mat-error>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br>
+  </div>

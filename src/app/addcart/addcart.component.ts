@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, Event, NavigationEnd } from '@angular/router';
 import { AddcartService } from '../addcart.service';
 import { ApiService } from '../api.service';
+import { ViewportScroller } from '@angular/common';
+import { number } from 'echarts';
+
 @Component({
   selector: 'app-addcart',
   templateUrl: './addcart.component.html',
@@ -11,7 +14,8 @@ export class AddcartComponent implements OnInit {
   addCartData: any;
   totalAmount: any
   unsubscribe: any;
-  checkUserExiest:boolean = false;
+  public counter: number = 1;
+  checkUserExiest: boolean = false;
   constructor(private router: Router, public addCartService: AddcartService, public apiService: ApiService) {
     this.unsubscribe = this.addCartService.cart$.subscribe((res: any) => {
       this.addCartData = res
@@ -32,18 +36,6 @@ export class AddcartComponent implements OnInit {
     });
   }
 
-  deleteCart(deleteCart: any) {
-    let deleteItem: any = {};
-    deleteItem = localStorage.getItem('cart_items')
-    let diTtem = JSON.parse(deleteItem)
-    let index = diTtem.findIndex((x: any) => x?.id === deleteCart?.id)
-    diTtem.splice(index, 1)
-    localStorage.setItem('cart_items', JSON.stringify(diTtem))
-    this.addCartService.removeCart();
-    setTimeout(() => {
-      this.reloadCurrentRoute();
-    }, 5)
-  }
   proceedBuyItem(cartData: []) {
     const storedUserString = localStorage.getItem("login_user");
     if (storedUserString) {
@@ -51,7 +43,7 @@ export class AddcartComponent implements OnInit {
       if (exiestUser) {
         let userBuyerPayload: any = []
         cartData.forEach((item: any, index: number) => {
-          console.log("item",item)
+          console.log("item", item)
           const cart = {
             u_firstname: exiestUser?.user_first_name,
             u_lastname: exiestUser?.user_last_name,
@@ -67,9 +59,9 @@ export class AddcartComponent implements OnInit {
             delivery_date: item?.delivery_date,
             image_front: item?.img_front,
             p_category: item?.category,
-            p_quantity : item?.quantity,
+            p_quantity: item?.quantity,
             p_buy_time: "12:45:22",
-            p_description : item?.product_description 
+            p_description: item?.product_description
           }
           userBuyerPayload.push(cart)
           console.log(userBuyerPayload)
@@ -80,10 +72,10 @@ export class AddcartComponent implements OnInit {
       }
     } else {
       this.checkUserExiest = true;
-      setTimeout(()=>{
-      this.checkUserExiest = false;
-      this.router.navigate(['./login'])
-      },4000)
+      setTimeout(() => {
+        this.checkUserExiest = false;
+        this.router.navigate(['./login'])
+      }, 4000)
 
     }
 
@@ -94,4 +86,39 @@ export class AddcartComponent implements OnInit {
     this.unsubscribe.complete();
   }
 
+  decrement(itemDec: any) {
+    let deleteItem: any = {};
+    deleteItem = localStorage.getItem('cart_items')
+    let diTtem = JSON.parse(deleteItem)
+    let index = diTtem.findIndex((x: any) => x?.id === itemDec?.id)
+    let findObj = diTtem.find((x: any) => x?.id === itemDec?.id)
+    let updatedQuantity = findObj?.quantity
+    updatedQuantity--
+    findObj["quantity"] = updatedQuantity
+    if (updatedQuantity == 0) {
+      diTtem.splice(index, 1)
+    }
+    localStorage.setItem('cart_items', JSON.stringify(diTtem))
+    this.addCartService.removeCart();
+    setTimeout(() => {
+      this.reloadCurrentRoute();
+    }, 5)
+
+
+  }
+  increment(itemInc: any) {
+    let deleteItem: any = {};
+    deleteItem = localStorage.getItem('cart_items')
+    let diTtem = JSON.parse(deleteItem)
+    let findObj = diTtem.find((x: any) => x?.id === itemInc?.id)
+    let updatedQuantity = findObj?.quantity
+    updatedQuantity += 1
+    findObj["quantity"] = updatedQuantity
+    localStorage.setItem('cart_items', JSON.stringify(diTtem))
+    this.addCartService.removeCart();
+    setTimeout(() => {
+      this.reloadCurrentRoute();
+    }, 5)
+
+  }
 }

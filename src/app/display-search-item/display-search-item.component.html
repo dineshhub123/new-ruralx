@@ -1,4 +1,4 @@
-<div class="">
+<div class="mb-5">
 <div class="filter_block">
   <div class="filter-align">
 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
@@ -26,20 +26,27 @@
   <div *ngFor="let searchData of searchItem" class="product-card">
     <img
       class="product-image"
-      [src]="searchData?.img_front | replacePath:'ruralx/src':'..'"
-      alt="{{ searchData?.product_name }}"  (click)="imgClick(searchData)"
-    />
+      [src]="searchData?.img_front | replacePath:'new-ruralx/src':'..'"
+      alt="{{ searchData?.product_name }}"  (click)="imgClick(searchData)"/>
     <div class="product-details mb-2"  (click)="imgClick(searchData)">
       <div class="product-name">{{ searchData?.product_name }}</div>
       <div class="product-mrp">MRP: ₹{{ searchData?.product_mrp_price }}</div>
       <div class="product-price">Price: ₹{{ searchData?.product_price }}</div>
     </div>
-   <button class="btn btn-warning btn-md btn-align-buy"><i class="fa fa-shopping-cart"> </i> ADD TO CART</button>
+      <div class="quantity-btn-align"  *ngIf="searchData.quantity > 0">
+        <nav aria-label="quantity-navigation">
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" (click)="decrement(searchData)"><strong
+                  style="cursor: pointer;">-</strong></a>
+            </li>
+            <li class="page-item item-font"><a class="page-link qunt-back">{{searchData.quantity}}</a></li>
+            <li class="page-item"><a class="page-link" (click)="increment(searchData)"><strong
+                  style="cursor: pointer;">+</strong></a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+   <button class="btn btn-warning btn-md btn-align-buy"  *ngIf="searchData.quantity == 0"(click)="addCartQuntity(searchData)"> ADD TO CART</button>
   </div>
 </div>
-
-<br>
-<br>
-<br>
-<br>
 </div>

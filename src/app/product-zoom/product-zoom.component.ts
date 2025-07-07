@@ -51,7 +51,7 @@ export class ProductZoomComponent implements OnInit {
   }
 
   decrement() {
-    if (this.counter > 0) {
+    if (this.counter > 1) {
       this.counter--;
     }
   }

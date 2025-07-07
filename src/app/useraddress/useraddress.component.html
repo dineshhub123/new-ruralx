@@ -1,12 +1,11 @@
 <div class="shipingAddresText">
   Shipping Address
 </div>
-<div class="row">
-<div class="col-lg-12 col-md-12 col-sm-12">
-<div class="address-form alignAdressBtn pt-2">
+<div class="col-lg-12 col-md-12 col-sm-12 mt-5">
+<div class="address-form alignAdressBtn p-3">
 <button mat-raised-button color="warn" [disabled]="loginUserAddress[0]==null" class="align-center" type="button" (click)="addShippingAddress()"> + Add New Address</button>
 </div>
-<form  *ngIf="addShipTextForm" [formGroup]="addressForm" class="address-form pt-4 mb-4">
+<form  *ngIf="addShipTextForm" [formGroup]="addressForm" class="address-form p-3 mb-5">
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Full Name</mat-label>
     <input matInput formControlName="fullName" placeholder="John Doe" />
@@ -76,7 +75,7 @@
 <button mat-raised-button color="primary" class="float-right ml-2" type="submit" *ngIf="editbtn" (click)="updateShippingAddress(addressForm)">Update</button>
 <button mat-raised-button color="primary" class="float-right ml-2" type="submit" *ngIf="!editbtn" (click)="onSubmitAddress(addressForm)">Add</button>
 </form>
-<br>
+
 <form [formGroup]="radioForm">
 <div *ngIf="loginUserAddress[0] !== null">
 <div class="address-form saveAddress mb-2" style="background-color: #d5e3da;" *ngFor="let user of loginUserAddress">
@@ -121,33 +120,50 @@
 </div>
 </form>
 </div>
-<div class="col-lg-4 col-md-4 col-sm-4" *ngIf="loginUserAddress[0]!==null">
+<div class="col-lg-6 col-md-6 col-sm-6" *ngIf="loginUserAddress[0]!==null">
 <div class="address-form total-summary" >
-<h2>Total Summary</h2>
-<div>
-  SubTotal : 1200
+<div class="tot-sum-cont">Total Summary</div>
+<div class="tot-sub-content">
+  SubTotal 
+<div class="total-amount">
+  1200
+</div>
+</div>
+<div class="tot-sub-content">
+  Discount 
+  <div class="total-amount">
+  20
+</div>
+
+</div>
+<div class="tot-sub-content">
+  Shipping Fee 
+  <div class="total-amount">
+  12
+</div>
+
 </div>
 <div>
-  Discount : 200
-</div>
-<div>
-  Shipping Fee : 20
-</div>
-<div>
-<form class="example-form">
-  <mat-form-field class="example-full-width" >
+  <hr>
+<!-- <form class="example-form">
+  <mat-form-field class="example-full-width mt-4" appearance="outline">
     <input type="text" matInput [formControl]="couponFormControl" placeholder="Enter Coupon Code">
   </mat-form-field>
-  <button mat-raised-button color="primary" class="float-right" type="submit">Apply</button>
-</form>
+  <button mat-raised-button color="primary" class="float-right" style="position: relative;right: 0px;top: 25px;" type="submit">Apply</button>
+</form> -->
+</div>
+<div class="total-amount-content">
+  Total
+  <div class="total-amount">
+    Rs:1232.00
+  </div>
+</div>
+<button mat-raised-button class="float-right btn-align-color" type="submit" (click)="confirmOrder()">Confirm Order</button>
+</div>
 </div>
 <br>
-<button mat-raised-button color="primary" class="float-right" type="submit" (click)="confirmOrder()">Confirm Order</button>
-</div>
-</div>
-</div>
 <br>
 <br>
 <br>
-<br>
+
 

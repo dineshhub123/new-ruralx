@@ -5,7 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { map, Observable, startWith } from 'rxjs';
 import { ApiService } from './api.service';
 import { LoginService } from './login.service';
-import { Location } from '@angular/common';
+import { Location, ViewportScroller } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { DailogComponent } from './dailog/dailog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -52,12 +52,18 @@ export class AppComponent {
   private http:HttpClient,
   private _DomSanitizationService:DomSanitizer, 
   public apiService: ApiService, 
-  private loginService: LoginService) 
-
-  { 
-   
+  private loginService: LoginService,
+  private viewportScroller: ViewportScroller
+) 
+ { 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
+        //this.viewportScroller.scrollToPosition([0, 0]);
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth'  // or 'smooth' for animation
+        });
         this.setExpandedPanel(event.urlAfterRedirects);
       }
     });
@@ -106,7 +112,6 @@ export class AppComponent {
     return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
   setExpandedPanel(url: string): void {
-console.log(url, 'url')
     if (url.includes('/orders')) {
       this.expandedPanel = 'orders';
     } else if (url.includes('/products')) {
@@ -127,12 +132,16 @@ console.log(url, 'url')
   }
 
 
-adminLogout() {
-  const adminName = localStorage.getItem('username') || 'Admin';
-  localStorage.removeItem('adminMobile');
-  localStorage.removeItem('adminName');
- this.toastr.success(`Thanks, ${adminName}! You've been logged out. Visit again soon!`, 'Logged Out');
+userLogout() {
+  const userName = localStorage.getItem('username');
+  localStorage.removeItem('login_user');
+  localStorage.removeItem('username');
+ this.toastr.success(`Thanks, ${userName}! You've been logged out. Visit again soon!`, 'Logged Out');
   this.router.navigate(['login']);
+           setTimeout(() => {
+          this.reloadCurrentRoute();
+        }, 5)
+
 }
  notification(){
     this.router.navigate(["sell-notification"]);
@@ -229,9 +238,6 @@ openDialogD(): void {
     console.log('Dialog closed', result); 
     this.animal = result;
   });
-}
-
-loginPage(){
 }
 
 
