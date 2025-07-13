@@ -1,15 +1,10 @@
-
 <mat-toolbar class="mat-elevation-z8">
-<div class="menu">
-  <button class="btn-menu"
-    mat-icon-button
-    *ngIf="sidenav.mode === 'over'"
-    (click)="sidenav.toggle()"
-  >
-    <mat-icon *ngIf="!sidenav.opened" class="toggle-sidenav"> menu </mat-icon>
-    <mat-icon *ngIf="sidenav.opened" class="toggle-sidenav"> close </mat-icon>
-  </button>
-</div>
+  <div class="menu">
+    <button class="btn-menu" mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+      <mat-icon *ngIf="!sidenav.opened" class="toggle-sidenav"> menu </mat-icon>
+      <mat-icon *ngIf="sidenav.opened" class="toggle-sidenav"> close </mat-icon>
+    </button>
+  </div>
   <div class="img_position">
     <img class="imgSet" src="assets/img/logo.png" />
   </div>
@@ -17,30 +12,29 @@
   <div></div>
   <span class="toolbar-item-spacer"></span>
   <ul class="icon-list">
-      <li>
-<div class="cart-container shopping-cart">
-  <mat-icon (click)="cartFun()" class="shopping-cart">shopping_cart</mat-icon>
-    <span class="cart-badge">{{itemQuantity}}</span>
-</div>
- <span class="icon-menu-cart">Cart</span>
-  <span class="icon-menu-cart">Item</span>
+    <li (click)="cartFun()">
+      <div class="cart-container shopping-cart">
+        <mat-icon class="shopping-cart">shopping_cart</mat-icon>
+        <span class="cart-badge">{{itemQuantity}}</span>
+      </div>
+      <span class="icon-menu-cart">Cart</span>
+      <span class="icon-menu-cart">Item</span>
 
     </li>
-    <li>
-      <mat-icon (click)="openDialogD()" class="shopping-map">location_on</mat-icon>
+    <li (click)="openDialogD()">
+      <mat-icon  class="shopping-map">location_on</mat-icon>
       <span class="icon-menu">Check Item</span>
       <span class="icon-menu"><strong>Availability</strong></span>
     </li>
-  
-<li [matMenuTriggerFor]="userAccountMenu">
-      <mat-icon id="signMake" mat-icon-button matTooltip="" 
-      class="shopping-user">account_circle</mat-icon>
+
+    <li [matMenuTriggerFor]="userAccountMenu">
+      <mat-icon id="signMake" mat-icon-button matTooltip="" class="shopping-user">account_circle</mat-icon>
       <span class="icon-menu">Hello, {{(username?username:'Sign in')|titlecase }}</span>
       <span class="icon-menu"><strong>Account & Lists</strong></span>
     </li>
 
     <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
-      <button mat-menu-item routerLink="#"><mat-icon>person</mat-icon><span >My Account</span></button>
+      <button mat-menu-item routerLink="#"><mat-icon>person</mat-icon><span>My Account</span></button>
       <button mat-menu-item routerLink="#"><mat-icon>settings</mat-icon><span>Settings</span></button>
       <button mat-menu-item routerLink="#"><mat-icon>help</mat-icon><span>Help</span></button>
       <button mat-menu-item (click)="userLogout()"><mat-icon>exit_to_app</mat-icon>Logout</button>
@@ -55,20 +49,20 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8 sidebar-container">
     <div class="container">
-<ng-template #showIcon>
-  <div class="avatar_name">
-  <mat-icon>person</mat-icon>
-  </div>
-</ng-template>
+      <ng-template #showIcon>
+        <div class="avatar_name">
+          <mat-icon>person</mat-icon>
+        </div>
+      </ng-template>
       <div class="avatar_name" *ngIf="username; else showIcon">{{ username[0].toUpperCase()}}</div>
     </div>
-    <h4 class="name">Welcome, {{ username?username:"Sign in" }}</h4>
+    <h4 class="name">Welcome, {{ (username?username :"Sign in") | titlecase }}</h4>
 
     <mat-accordion multi="false">
 
 
       <!-- Dashboard -->
-      <mat-expansion-panel >
+      <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon>dashboard</mat-icon>
@@ -83,7 +77,7 @@
       </mat-expansion-panel>
 
       <!-- Orders -->
-      <mat-expansion-panel >
+      <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon>shopping_cart</mat-icon>
@@ -91,7 +85,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-action-list>
-         <a mat-list-item routerLink="/customerorder" routerLinkActive="active-link">
+          <a mat-list-item routerLink="/customerorder" routerLinkActive="active-link">
             <mat-icon matListIcon>assignment</mat-icon> All Orders
           </a>
           <a mat-list-item routerLink="/orders/new" routerLinkActive="active-link">
@@ -116,7 +110,7 @@
       </mat-expansion-panel>
 
       <!-- Products -->
-        <mat-expansion-panel >
+      <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon>inventory_2</mat-icon>
@@ -144,7 +138,7 @@
 
       <!-- Customers -->
       <!-- Customers -->
-<mat-expansion-panel>
+      <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon>group</mat-icon>
@@ -163,7 +157,7 @@
 
       <!-- Reports -->
       <!-- Customers -->
-<mat-expansion-panel>
+      <mat-expansion-panel>
 
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -183,7 +177,7 @@
 
       <!-- Settings -->
       <!-- Customers -->
-<mat-expansion-panel >
+      <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon>settings</mat-icon>
@@ -202,15 +196,13 @@
 
     </mat-accordion>
   </mat-sidenav>
-<mat-sidenav-content>
+  <mat-sidenav-content>
     <app-header></app-header>
-     <!-- <div class="pt-5" style="height: calc(100vh + 249px);overflow-y: auto;" > -->
-    <div class="pt-5" style="height: calc(100vh - 120px); overflow: auto;" >
+    <!-- <div class="pt-5" style="height: calc(100vh + 249px);overflow-y: auto;" > -->
+    <div class="pt-5" style="height: calc(100vh - 120px); overflow: auto;">
       <router-outlet></router-outlet>
-       </div>
+    </div>
     <app-footer></app-footer>
-  
+
   </mat-sidenav-content>
 </mat-sidenav-container>
-
-

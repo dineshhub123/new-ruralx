@@ -58,11 +58,6 @@ export class HeaderComponent implements OnInit {
   }
   get f() { return this.formdata.controls; }
   ngOnInit() {
-     this.loginService.username$.subscribe((name: any) => {
-        this.zone.run(() => {
-      this.username = name;
-        });
-    });
     this.addCartService.cart$.subscribe(items => {
       this.cartItems = items
       this.cartItems = this.addCartService.getCart();

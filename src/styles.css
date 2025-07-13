@@ -79,3 +79,23 @@ body, input, textarea, button, select {
     /* overflow: hidden; */
 }
 
+.toast-bottom-right {
+  bottom: 62px !important; /* instead of default 12px or so */
+  right: 10px !important;
+}
+.toast-success {
+  border-radius: 12px !important;
+  background-color: #d4edda; /* Optional: change color */
+}
+
+.toast-error {
+  border-radius: 12px !important;
+}
+
+.toast-info {
+  border-radius: 12px !important;
+}
+
+.toast-warning {
+  border-radius: 12px !important;
+}

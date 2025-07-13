@@ -9,6 +9,7 @@ import { DOCUMENT } from '@angular/common';
 import { AddcartService } from '../addcart.service';
 import Swiper from 'swiper';
 import SwiperCore, { Zoom, Thumbs, Pagination, } from 'swiper';
+import { ApiService } from '../api.service';
 // Register Swiper modules
 SwiperCore.use([Zoom, Thumbs, Pagination]);
 
@@ -45,7 +46,6 @@ export class ProductZoomComponent implements OnInit {
   public cartItems: any = []
   public displayItems: any = []
   public counter: number = 1;
-
   increment() {
     this.counter += 1;
   }
@@ -64,6 +64,7 @@ export class ProductZoomComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     public addCartService: AddcartService,
+    private apiService:ApiService,
     @Inject(DOCUMENT) private document: Document,
   ) {
     let itemZoom: any;
@@ -77,9 +78,6 @@ export class ProductZoomComponent implements OnInit {
       this.cartItems.img_triangle,
     ]
     this.cartItems["displayImages"] = this.displayItems;
-
-    console.log("cartItem", this.cartItems?.displayImages)
-
   }
 
   swiperVal: any
@@ -116,6 +114,7 @@ export class ProductZoomComponent implements OnInit {
   }
   getCart: any = []
   ngOnInit() {
+
   }
   ChildFrontDisplay(childImg: any) {
     this.cartItems.img_front = childImg;
@@ -125,7 +124,12 @@ export class ProductZoomComponent implements OnInit {
 
 
   addCart(cartData: any) {
-    cartData["quantity"] = this.counter
+    let user:any
+     user = localStorage.getItem("login_user")
+    let userId = JSON.parse(user);
+    cartData.userId = userId?.userId
+    cartData.quantity = this.counter
+    cartData.isGuest = userId?.isGuest
     this.addCartService.addToCart(cartData)
   }
   addDetails() {
@@ -142,5 +146,8 @@ export interface Product {
   product_discount: number,
   product_mrp_price: number,
   product_name: string,
-  product_price: number
+  product_price: number,
+  userId:string,
+  isGuest:boolean,
+  user_first_name:string
 }
