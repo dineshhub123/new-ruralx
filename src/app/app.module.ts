@@ -92,7 +92,7 @@ SwiperCore.use([Zoom,Thumbs, Pagination]);
     }),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right', // 👈 BOTTOM RIGHT
-      timeOut: 1000,                        // optional: duration in ms
+      timeOut: 5000,                        // optional: duration in ms
       closeButton: true,                    // optional: close button
       progressBar: true                     // optional: progress bar
     }), // ToastrModule added

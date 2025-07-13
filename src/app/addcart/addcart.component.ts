@@ -4,6 +4,7 @@ import { AddcartService } from '../addcart.service';
 import { ApiService } from '../api.service';
 import { ViewportScroller } from '@angular/common';
 import { number } from 'echarts';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-addcart',
@@ -16,16 +17,27 @@ export class AddcartComponent implements OnInit {
   unsubscribe: any;
   public counter: number = 1;
   checkUserExiest: boolean = false;
-  constructor(private router: Router, public addCartService: AddcartService, public apiService: ApiService) {
+  constructor(private router: Router, public addCartService: AddcartService, public apiService: ApiService,public toastr:ToastrService) {
+    let user:any;
+    user = localStorage.getItem("login_user")
+    let loginUser = JSON.parse(user)
     this.unsubscribe = this.addCartService.cart$.subscribe((res: any) => {
-      this.addCartData = res
+    if(res){
+    let  filerCartItem = res.filter((item:any)=>item?.userId === loginUser?.userId)
+    this.addCartData = filerCartItem;
+      }
     })
   }
 
   ngOnInit() {
     let cartItem: any;
+    let user:any;
+    user = localStorage.getItem("login_user")
+    let loginUser = JSON.parse(user)
     cartItem = localStorage.getItem('cart_items')
-    this.addCartData = JSON.parse(cartItem)
+    let addCartData = JSON.parse(cartItem)
+    let filerCartItem = addCartData.filter((item:any)=>item?.userId === loginUser?.userId)
+    this.addCartData = filerCartItem;
     let totalAmount = this.addCartData.map((total: any) => total.product_price * total.quantity)
     this.totalAmount = totalAmount.reduce((a: any, b: any) => a + b, 0)
   }
@@ -37,13 +49,12 @@ export class AddcartComponent implements OnInit {
   }
 
   proceedBuyItem(cartData: []) {
-    const storedUserString = localStorage.getItem("login_user");
-    if (storedUserString) {
+    let storedUserString:any
+     storedUserString = localStorage.getItem("login_user");
       const exiestUser = JSON.parse(storedUserString);
-      if (exiestUser) {
+      if (exiestUser && !exiestUser?.isGuest) {
         let userBuyerPayload: any = []
         cartData.forEach((item: any, index: number) => {
-          console.log("item", item)
           const cart = {
             u_firstname: exiestUser?.user_first_name,
             u_lastname: exiestUser?.user_last_name,
@@ -70,12 +81,11 @@ export class AddcartComponent implements OnInit {
         })
         this.router.navigate(['./useraddress'])
       }
-    } else {
-      this.checkUserExiest = true;
+     else {
+      this.toastr.error('Sorry you are a Guest User! Please Login first then continue shoping...');
       setTimeout(() => {
-        this.checkUserExiest = false;
         this.router.navigate(['./login'])
-      }, 4000)
+      }, 500)
 
     }
 
@@ -90,8 +100,8 @@ export class AddcartComponent implements OnInit {
     let deleteItem: any = {};
     deleteItem = localStorage.getItem('cart_items')
     let diTtem = JSON.parse(deleteItem)
-    let index = diTtem.findIndex((x: any) => x?.id === itemDec?.id)
-    let findObj = diTtem.find((x: any) => x?.id === itemDec?.id)
+    let index = diTtem.findIndex((x: any) => x?.id === itemDec?.id && x?.userId === itemDec?.userId)
+    let findObj = diTtem.find((x: any) => x?.id === itemDec?.id && x?.userId === itemDec?.userId)
     let updatedQuantity = findObj?.quantity
     updatedQuantity--
     findObj["quantity"] = updatedQuantity
@@ -110,7 +120,7 @@ export class AddcartComponent implements OnInit {
     let deleteItem: any = {};
     deleteItem = localStorage.getItem('cart_items')
     let diTtem = JSON.parse(deleteItem)
-    let findObj = diTtem.find((x: any) => x?.id === itemInc?.id)
+    let findObj = diTtem.find((x: any) => x?.id === itemInc?.id && x?.userId === itemInc?.userId)
     let updatedQuantity = findObj?.quantity
     updatedQuantity += 1
     findObj["quantity"] = updatedQuantity

@@ -20,7 +20,7 @@ export class DisplaySearchItemComponent implements OnInit {
   itemInitilize() {
     let data: any;
     data = localStorage.getItem('displaySearchData')
-    this.searchItem = JSON.parse(data)
+    this.searchItem = JSON.parse(data);
   }
   ngAfterViewInit() {
 
@@ -30,9 +30,13 @@ export class DisplaySearchItemComponent implements OnInit {
     this.router.navigate(['pzoom'])
   }
   addCartQuntity(addItam: any) {
+    let user:any;
+    user = localStorage.getItem("login_user");
+    let findUser = JSON.parse(user)
     addItam.quantity = 1;
+    addItam.userId = findUser?.userId;
+    addItam.isGuest = findUser?.isGuest;
     this.addCartService.addToCart(addItam)
-
   }
 
 
@@ -43,7 +47,7 @@ export class DisplaySearchItemComponent implements OnInit {
     let deleteItem: any = {};
     deleteItem = localStorage.getItem('cart_items')
     let diTtem = JSON.parse(deleteItem)
-    let index = diTtem.findIndex((x: any) => x?.id === decItem?.id)
+    let index = diTtem.findIndex((x: any) => x?.id === decItem?.id && x?.userId === decItem?.userId)
     if (index !== -1) {
       if (decItem.quantity === 0) {
         diTtem.splice(index, 1);
@@ -65,7 +69,7 @@ export class DisplaySearchItemComponent implements OnInit {
     let deleteItem: any = {};
     deleteItem = localStorage.getItem('cart_items')
     let diTtem = JSON.parse(deleteItem)
-    let findObj = diTtem.find((x: any) => x?.id === incrItem?.id)
+    let findObj = diTtem.find((x: any) => x?.id === incrItem?.id && x?.userId === incrItem?.userId)
     if (findObj) {
       findObj.quantity = incrItem.quantity;
     } else {
