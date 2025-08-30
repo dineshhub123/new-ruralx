@@ -13,7 +13,7 @@
   <div class="addcrt-design d-flex pt-2" *ngFor="let cartData of addCartData">
     <div class="col-lg-2 col-md-2 col-2">
       <div class="zoom_left_inner_panel">
-        <img style="width:50px;height:50px;" src="{{cartData.img_front | replacePath:'new-ruralx/src':'..'}}">
+        <img style="width:50px;height:50px;" src="{{cartData?.image_url[0] | replacePath:'new-ruralx/src':'..'}}">
       </div>
     </div>
     <div class="col-lg-8 col-md-8 col-8">

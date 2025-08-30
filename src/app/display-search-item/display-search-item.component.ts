@@ -21,6 +21,7 @@ export class DisplaySearchItemComponent implements OnInit {
     let data: any;
     data = localStorage.getItem('displaySearchData')
     this.searchItem = JSON.parse(data);
+    console.log("searchItem",this.searchItem)
   }
   ngAfterViewInit() {
 

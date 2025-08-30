@@ -14,8 +14,8 @@
 }
 .swiper-slide-thumb{
     width: 55px !important;
-    height: 60px !important;
-    margin: 10px 10px 10px 10px;
+    height: 55px !important;
+    margin: 5px 5px 5px 5px;
     border: 1px solid gray;
     border-radius: 8px;
 
@@ -23,9 +23,9 @@
 
 
 .swiper-slide-thumb img{
- width: 55px !important;
- height: 60px !important;
- padding: 5px 5px 5px 5px;
+ width: 51px !important;
+ height: 51px !important;
+ border-radius: 8px;
 }
 .swiper-slide-thumb-active{
   border: 2px solid #ff5b00;

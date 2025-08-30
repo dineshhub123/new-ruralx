@@ -64,7 +64,7 @@ SwiperCore.use([Zoom,Thumbs, Pagination]);
     UploadComponent,
     SellNotificationComponent,AllComponent,SalereportsComponent,DailogComponent,ProductZoomComponent,DisplaySearchItemComponent,HeaderComponent,
     FirstLiPipe,HeaderComponent,FooterComponent,AddcartComponent,AdminpanelComponent,HomeComponent,UseraddressComponent,
-    FullLiPipe,ReplacePathPipe
+    FullLiPipe,ReplacePathPipe,
   ],
   imports: [
     BrowserModule,
