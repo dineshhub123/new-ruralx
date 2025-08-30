@@ -25,6 +25,7 @@ export class AddcartComponent implements OnInit {
     if(res){
     let  filerCartItem = res.filter((item:any)=>item?.userId === loginUser?.userId)
     this.addCartData = filerCartItem;
+    console.log("addCartData",this.addCartData)
       }
     })
   }

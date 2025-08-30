@@ -48,13 +48,17 @@ export class HeaderComponent implements OnInit {
   username: string | null = null;
   constructor(@Inject(DOCUMENT) private document: Document, public addCartService: AddcartService, public loginService: LoginService, private cdRef: ChangeDetectorRef,private zone: NgZone,
     public dialog: MatDialog, private http: HttpClient, public router: Router, private fb: FormBuilder, private apiService: ApiService) {
-    this.apiService.getProductListDetailsData().subscribe((data: any) => {
-      let searchList = data.map((item: any) => item.category);
-      let removeDuplicateArr = new Set(searchList)
-      let filterArray: any = [...removeDuplicateArr]
-      this.options = filterArray;
-    },
-      error => console.error(error));
+  this.apiService.getProductListDetailsData().subscribe((data: any) => {
+  // Collect product names + categories
+  let searchList: string[] = [];
+  data.forEach((item: any) => {
+    if (item.product_name) searchList.push(item.product_name);
+    if (item.category) searchList.push(item.sub_category);
+  });
+  // Remove duplicates
+  this.options = Array.from(new Set(searchList));
+});
+
   }
   get f() { return this.formdata.controls; }
   ngOnInit() {
@@ -97,7 +101,9 @@ export class HeaderComponent implements OnInit {
       let userData = {
         searchData: searchValue
       };
+      console.log("payload",userData)
       this.apiService.searchData(userData).subscribe((res: any) => {
+        console.log("res",res)
         let displaySearchData = res;
         localStorage.setItem('displaySearchData', JSON.stringify(displaySearchData))
         this.router.navigate(['./display-item'])

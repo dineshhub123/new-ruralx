@@ -169,24 +169,24 @@ export class AppComponent {
   cartFun() {
     this.router.navigate(['addcart'])
   }
-  searchDataFn(searchData: any) {
-    let searchValue = this.options.find(value => value === searchData)
-    if (searchValue) {
-      let userData = {
-        searchData: searchValue
-      };
-      this.apiService.searchData(userData).subscribe((res: any) => {
-        let displaySearchData = res;
-        localStorage.setItem('displaySearchData', JSON.stringify(displaySearchData))
-        this.router.navigate(['./display-item'])
-        setTimeout(() => {
-          this.reloadCurrentRoute();
-        }, 5)
-        this.input.nativeElement.value = '';
+  // searchDataFn(searchData: any) {
+  //   let searchValue = this.options.find(value => value === searchData)
+  //   if (searchValue) {
+  //     let userData = {
+  //       searchData: searchValue
+  //     };
+  //     this.apiService.searchData(userData).subscribe((res: any) => {
+  //       let displaySearchData = res;
+  //       localStorage.setItem('displaySearchData', JSON.stringify(displaySearchData))
+  //       this.router.navigate(['./display-item'])
+  //       setTimeout(() => {
+  //         this.reloadCurrentRoute();
+  //       }, 5)
+  //       this.input.nativeElement.value = '';
 
-      })
-    }
-  }
+  //     })
+  //   }
+  // }
 
   reloadCurrentRoute() {
     let currentUrl = this.router.url;

@@ -1,5 +1,5 @@
 <div class="mb-5">
-<div class="filter_block">
+<!-- <div class="filter_block">
   <div class="filter-align">
 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
   Filter
@@ -20,14 +20,12 @@
   <a class="dropdown-item" >Z-A Alfabatically</a>
 </div>
 </div>
-</div>
-<br>
+</div>-->
+<br> 
 <div class="product-grid-container">
-  <div *ngFor="let searchData of searchItem" class="product-card">
-    <img
-      class="product-image"
-      [src]="searchData?.img_front | replacePath:'new-ruralx/src':'..'"
-      alt="{{ searchData?.product_name }}"  (click)="imgClick(searchData)"/>
+  <div *ngFor="let searchData of searchItem" class="product-card" >
+    <img class="product-image"
+      [src]="searchData?.variants[0]?.images[0]| replacePath:'new-ruralx/src':'..'" (click)="imgClick(searchData)"/>
     <div class="product-details mb-2"  (click)="imgClick(searchData)">
       <div class="product-name">{{ searchData?.product_name }}</div>
       <div class="product-mrp">MRP: ₹{{ searchData?.product_mrp_price }}</div>
@@ -49,4 +47,4 @@
    <button class="btn btn-warning btn-md btn-align-buy"  *ngIf="searchData.quantity == 0"(click)="addCartQuntity(searchData)"> ADD TO CART</button>
   </div>
 </div>
-</div>
+ </div>
