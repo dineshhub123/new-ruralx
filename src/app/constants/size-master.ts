@@ -246,6 +246,52 @@ export const SIZE_MASTER: any = {
   security_cameras: ["Indoor", "Outdoor", "Wireless", "Wired"],
   gaming_consoles: ["PS5", "Xbox", "Nintendo Switch"],
   drones: ["Mini", "Standard", "Pro"]
+},
+electricals: {
+  // 💡 Lighting
+  bulbs: ["5W", "9W", "12W", "18W"],
+  tube_lights: ["20W", "40W", "60W"],
+  ceiling_lights: ["12W LED", "18W LED", "24W LED"],
+  chandeliers: ["3-Light", "5-Light", "7-Light"],
+  emergency_lights: ["Rechargeable", "Solar", "LED Panel"],
+
+  // 🔌 Switches & Sockets
+  switches: ["1 Module", "2 Module", "3 Module", "4 Module"],
+  sockets: ["5A", "10A", "16A", "Universal"],
+  extension_boards: ["2 Socket", "4 Socket", "6 Socket"],
+
+  // ⚡ Wires & Cables
+  electrical_wires: ["1.0 sq mm", "1.5 sq mm", "2.5 sq mm", "4.0 sq mm"],
+  cables: ["2 Core", "3 Core", "4 Core"],
+  ethernet_cables: ["Cat5", "Cat6", "Cat6e"],
+
+  // 🔋 Power & Backup
+  batteries: ["AAA", "AA", "C", "D", "9V"],
+  inverters: ["800VA", "1000VA", "1500VA"],
+  ups: ["600VA", "1000VA", "2000VA"],
+  stabilizers: ["2kVA", "3kVA", "5kVA"],
+
+  // 🌀 Fans & Ventilation
+  ceiling_fans: ["900mm", "1200mm", "1400mm"],
+  table_fans: ["300mm", "400mm"],
+  pedestal_fans: ["400mm", "450mm"],
+  exhaust_fans: ["150mm", "200mm", "300mm"],
+
+  // 🔥 Heating & Cooling
+  room_heaters: ["Halogen", "Fan Heater", "Oil Filled"],
+  geysers: ["10L", "15L", "25L"],
+  coolers: ["20L", "35L", "50L", "75L"],
+
+  // 🏠 Home Essentials
+  irons: ["Dry Iron", "Steam Iron"],
+  mixers: ["500W", "750W", "1000W"],
+  toasters: ["2-Slice", "4-Slice"],
+  kettles: ["1L", "1.5L", "2L"],
+
+  // 🔧 Tools & Accessories
+  drill_machines: ["500W", "750W", "1000W"],
+  screwdrivers: ["Manual", "Electric"],
+  testers: ["Basic", "Digital Multimeter"]
 }
 
 };
