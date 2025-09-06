@@ -2,14 +2,13 @@ import { Component, OnInit, Inject, ViewChild, ChangeDetectorRef } from '@angula
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-//import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { DailogComponent } from '../dailog/dailog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DOCUMENT } from '@angular/common';
-import { AddcartService } from '../addcart.service';
+import { AddcartService } from '../services/addcart.service';
 import Swiper from 'swiper';
 import SwiperCore, { Zoom, Thumbs, Pagination, } from 'swiper';
-import { ApiService } from '../api.service';
+import { ApiService } from '../services/api.service';
 import { SwiperComponent } from 'swiper/angular';
 import { SizeService } from '../services/size.service';
 // Register Swiper modules
@@ -21,8 +20,7 @@ SwiperCore.use([Zoom, Thumbs, Pagination]);
   styleUrls: ['./product-zoom.component.css']
 })
 export class ProductZoomComponent implements OnInit {
-  //@ViewChild('mainSwiper', { static: false }) ProductZoomComponent?: ProductZoomComponent;
- @ViewChild('mainSwiper') mainSwiper?: SwiperComponent;
+  @ViewChild('mainSwiper') mainSwiper?: SwiperComponent;
   @ViewChild('thumbsSwiperRef') thumbsSwiperRef?: SwiperComponent;
 
   thumbsSwiper: any;
@@ -30,18 +28,18 @@ export class ProductZoomComponent implements OnInit {
   show() {
     this.showModal = true;
     setTimeout(() => {
-    this.resetThumbsSwiper();
-    this.thumbsSwiper?.update();
-  },100);
+      this.resetThumbsSwiper();
+      this.thumbsSwiper?.update();
+    }, 100);
     this.document.body.classList.add('no-scroll');
   }
   resetThumbsSwiper() {
-  this.thumbsSwiper = null;
-}
-ngOnChanges() {
-  // Optional: force swiper update if you store viewChild for it
-  this.thumbsSwiper?.update();
-}
+    this.thumbsSwiper = null;
+  }
+  ngOnChanges() {
+    // Optional: force swiper update if you store viewChild for it
+    this.thumbsSwiper?.update();
+  }
   public data: any;
   res: any;
   public zoomId: any;
@@ -87,9 +85,8 @@ ngOnChanges() {
     private apiService: ApiService,
     @Inject(DOCUMENT) private document: Document,
     private cd: ChangeDetectorRef,
-    private sizeService : SizeService
-  ) 
-  {
+    private sizeService: SizeService
+  ) {
 
     let itemZoom: any;
     itemZoom = localStorage.getItem('selected-item')
@@ -102,7 +99,7 @@ ngOnChanges() {
       const indexB = sizeOrder.indexOf(b);
       return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
     });
-   // this.inStock = this.cartItems?.variants[2].stock
+    // this.inStock = this.cartItems?.variants[2].stock
   }
 
   swiperVal: any
@@ -118,15 +115,14 @@ ngOnChanges() {
     }
   }
   ngAfterViewInit() {
-  this.cd.detectChanges(); // tell Angular to re-check after ViewChild is set
-
+    this.cd.detectChanges(); // tell Angular to re-check after ViewChild is set
   }
   onThumbsSwiperInit(swiper: any) {
-  // Handle destroyed swiper
-  if (swiper && !swiper.destroyed) {
-    this.thumbsSwiper = swiper;
+    // Handle destroyed swiper
+    if (swiper && !swiper.destroyed) {
+      this.thumbsSwiper = swiper;
+    }
   }
-}
 
   hide() {
     this.showModal = false;
@@ -146,16 +142,8 @@ ngOnChanges() {
   }
   getCart: any = []
   ngOnInit() {
-      // if product does not have sizes from admin, fetch from service
     this.sizes = this.sizeService.getSizes(this.cartItems.category, this.cartItems.sub_category);
-    console.log("sizes",this.sizes)
-
-    //if (this.cartItems?.disabled_size == "true") {
-      this.selectedColor = this.colorCodes[0];
-      //this.selectedSize = this.sizes[0];
-    //} else {
-      //this.selectedColor = this.colorCodes[0];
-    //}
+    this.selectedColor = this.colorCodes[0];
     this.updateImage();
   }
   addCartItem: any = []
@@ -175,15 +163,15 @@ ngOnChanges() {
   addDetails() {
     this.router.navigate(['./useraddress'])
   }
-  onColorSelect(code:any) {
-  this.selectedColor = code;
+  onColorSelect(code: any) {
+    this.selectedColor = code;
     setTimeout(() => {
       this.mainSwiper?.swiperRef?.update();
       this.thumbsSwiperRef?.swiperRef?.update();
       this.mainSwiper?.swiperRef?.slideTo(0); // reset to first image
       this.updateImage();
       this.cd.detectChanges();
-    },0);
+    }, 0);
     this.mainSwiper?.swiperRef?.slideTo(0);
   }
 
@@ -195,21 +183,14 @@ ngOnChanges() {
       this.mainSwiper?.swiperRef.slideTo(0); // reset to first image
       this.updateImage();
       this.cd.detectChanges();
-    },0);
+    }, 0);
 
   }
 
   updateImage() {
-    // if (this.cartItems?.disabled_size == "true") {
-    //   const match = this.cartItems?.variants.filter(
-    //     (v: any) => v.colorCode === this.selectedColor && v.size === this.selectedSize);
-    //   this.selectedImage = match ? match : null;
-
-    // } else {
-      const match = this.cartItems?.variants.filter(
-        (v: any) => v.colorCode === this.selectedColor);
-      this.selectedImage = match ? match : null;
-    //}
+    const match = this.cartItems?.variants.filter(
+      (v: any) => v.colorCode === this.selectedColor);
+    this.selectedImage = match ? match : null;
   }
 
 }

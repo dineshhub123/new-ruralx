@@ -3,28 +3,28 @@
     <div class="col-md-4 pt-3">
       <div class="zoom_right_inner_panel">
         <ng-container *ngFor="let cartItem of selectedImage">
-        <swiper [zoom]="{ minRatio: 1, maxRatio: 5 }" [spaceBetween]="0" [centeredSlides]="true" [slidesPerView]="1"
-          [pagination]="{clickable: true}" class="mySwiper">
-          <ng-template swiperSlide *ngFor="let image of cartItem?.images">
-            <div class="swiper-zoom-container-main">
-              <img (click)="show()" [src]="image | replacePath:'new-ruralx/src':'..'" />
+          <swiper [zoom]="{ minRatio: 1, maxRatio: 5 }" [spaceBetween]="0" [centeredSlides]="true" [slidesPerView]="1"
+            [pagination]="{clickable: true}" class="mySwiper">
+            <ng-template swiperSlide *ngFor="let image of cartItem?.images">
+              <div class="swiper-zoom-container-main">
+                <img (click)="show()" [src]="image | replacePath:'new-ruralx/src':'..'" />
+              </div>
+            </ng-template>
+          </swiper>
+          <div class="expend-content">Tap image to expand</div>
+          <div class="variants-container">
+            <div class="selcte-size-color-text">Color : </div>
+            <div *ngFor="let item of colorCodes" class="variant-inline" (click)="onColorSelect(item)"
+              [ngClass]="{ 'selected': item === selectedColor }" [ngStyle]="{ 'background-color': item }">
             </div>
-          </ng-template>
-        </swiper>
-        <div class="expend-content">Tap image to expand</div>
-        <div class="variants-container">
-          <div class="selcte-size-color-text">Color : </div>
-        <div *ngFor="let item of colorCodes"  class="variant-inline" (click)="onColorSelect(item)" 
-      [ngClass]="{ 'selected': item === selectedColor }" [ngStyle]="{ 'background-color': item }">
-        </div>
-        </div>
-        <div class="variants-container" *ngIf="sizes.length > 0">
-        <div class="selcte-size-color-text">Size : </div>
-        <div *ngFor="let item of sizes"  class="variant-inline-size" (click)="onSizeSelect(item)" 
-      [ngClass]="{ 'selected': item === selectedSize }">
-          <div>{{item}}</div> 
-        </div>
-        </div>
+          </div>
+          <div class="variants-container" *ngIf="sizes.length > 0">
+            <div class="selcte-size-color-text">Size : </div>
+            <div *ngFor="let item of sizes" class="variant-inline-size" (click)="onSizeSelect(item)"
+              [ngClass]="{ 'selected': item === selectedSize }">
+              <div>{{item}}</div>
+            </div>
+          </div>
         </ng-container>
       </div>
     </div>
@@ -51,11 +51,11 @@
             <h5><strong>Quantity:</strong></h5>
             <ul class="pagination">
               <li class="page-item"><a class="page-link" (click)="decrement()">
-              <strong style="cursor: pointer;">-</strong></a>
+                  <strong style="cursor: pointer;">-</strong></a>
               </li>
               <li class="page-item item-font"><a class="page-link qunt-back">{{counter}}</a></li>
               <li class="page-item"><a class="page-link" (click)="increment()">
-              <strong style="cursor: pointer;">+</strong></a>
+                  <strong style="cursor: pointer;">+</strong></a>
               </li>
             </ul>
           </nav>
@@ -72,8 +72,9 @@
             <button class="btn btn-danger btn-md mb-2 btn-align-buy" (click)="addDetails()"><i class="fa fa-credit-card"
                 aria-hidden="true"></i> BUY NOW</button>
           </div>
-          <div> 
-          <strong style="color:red;font-size: 11px;"> Secure Transaction </strong></div>
+          <div>
+            <strong style="color:red;font-size: 11px;"> Secure Transaction </strong>
+          </div>
         </div>
       </div>
     </div>
@@ -92,22 +93,23 @@
       </div>
       <div class="pop-up-model">
         <!-- Main Swiper -->
-      <ng-container *ngFor="let cartItem of selectedImage">
-        <swiper  #mainSwiper [zoom]="{ minRatio: 1, maxRatio: 5 }" [spaceBetween]="0" [centeredSlides]="true" [slidesPerView]="1"
-               [thumbs]="{ swiper: thumbsSwiperRef?.swiperRef }" class="mySwiper">
-          <ng-template swiperSlide *ngFor="let image of cartItem?.images">
-            <div class="swiper-zoom-container">
-              <img [src]="image | replacePath:'new-ruralx/src':'..'" />
-            </div>
-          </ng-template>
-        </swiper>
-        <!-- Thumbs Swiper -->
-        <swiper #thumbsSwiperRef [slidesPerView]="'auto'" [spaceBetween]="1" (swiper)="onThumbsSwiperInit($event)"
-          [watchSlidesProgress]="true" class="thumbs-swiper">
-          <ng-template swiperSlide class="swiper-slide-thumb" *ngFor="let image of cartItem?.images">
-            <img [src]="image | replacePath:'new-ruralx/src':'..'" style="width: 80px; height: auto;cursor: pointer;" />
-          </ng-template>
-        </swiper>
+        <ng-container *ngFor="let cartItem of selectedImage">
+          <swiper #mainSwiper [zoom]="{ minRatio: 1, maxRatio: 5 }" [spaceBetween]="0" [centeredSlides]="true"
+            [slidesPerView]="1" [thumbs]="{ swiper: thumbsSwiperRef?.swiperRef }" class="mySwiper">
+            <ng-template swiperSlide *ngFor="let image of cartItem?.images">
+              <div class="swiper-zoom-container">
+                <img [src]="image | replacePath:'new-ruralx/src':'..'" />
+              </div>
+            </ng-template>
+          </swiper>
+          <!-- Thumbs Swiper -->
+          <swiper #thumbsSwiperRef [slidesPerView]="'auto'" [spaceBetween]="1" (swiper)="onThumbsSwiperInit($event)"
+            [watchSlidesProgress]="true" class="thumbs-swiper">
+            <ng-template swiperSlide class="swiper-slide-thumb" *ngFor="let image of cartItem?.images">
+              <img [src]="image | replacePath:'new-ruralx/src':'..'"
+                style="width: 80px; height: auto;cursor: pointer;" />
+            </ng-template>
+          </swiper>
         </ng-container>
       </div>
     </div>

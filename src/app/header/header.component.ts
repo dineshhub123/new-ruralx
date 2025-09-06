@@ -9,14 +9,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { switchMap, debounceTime, tap, finalize } from 'rxjs/operators';
 import { User, IUserResponse } from './user.class';
 import { Observable, Subscriber } from 'rxjs'
-import { ApiService } from '../api.service';
+import { ApiService } from '../services/api.service';
 import { FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { strings } from '@material/chips/deprecated/trailingaction/constants';
 import { DOCUMENT } from '@angular/common';
-import { AddcartService } from '../addcart.service';
+import { AddcartService } from '../services/addcart.service';
 import { Product } from '../product-zoom/product-zoom.component';
-import { LoginService } from '../login.service';
+import { LoginService } from '../services/login.service';
 export interface DialogData {
   animal: string;
   name: string;
@@ -84,7 +84,6 @@ export class HeaderComponent implements OnInit {
   }
   onSidenavClick(isMenuOpen: any) {
     //this.isMenuOpen = false;
-    console.log('isMenuOpen.....', isMenuOpen)
     if (isMenuOpen) {
       this.document.body.classList.remove('no-scroll');
     } else if (!isMenuOpen) {
@@ -101,9 +100,7 @@ export class HeaderComponent implements OnInit {
       let userData = {
         searchData: searchValue
       };
-      console.log("payload",userData)
       this.apiService.searchData(userData).subscribe((res: any) => {
-        console.log("res",res)
         let displaySearchData = res;
         localStorage.setItem('displaySearchData', JSON.stringify(displaySearchData))
         this.router.navigate(['./display-item'])
@@ -137,7 +134,6 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['addcart'])
   }
   searchItem(items: any) {
-    console.log(items.value)
   }
   keyword = 'name';
   product = [

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, Event, NavigationEnd } from '@angular/router';
-import { AddcartService } from '../addcart.service';
-import { ApiService } from '../api.service';
+import { AddcartService } from '../services/addcart.service';
+import { ApiService } from '../services/api.service';
 import { ViewportScroller } from '@angular/common';
 import { number } from 'echarts';
 import { ToastrService } from 'ngx-toastr';
@@ -25,7 +25,6 @@ export class AddcartComponent implements OnInit {
     if(res){
     let  filerCartItem = res.filter((item:any)=>item?.userId === loginUser?.userId)
     this.addCartData = filerCartItem;
-    console.log("addCartData",this.addCartData)
       }
     })
   }
@@ -37,10 +36,12 @@ export class AddcartComponent implements OnInit {
     let loginUser = JSON.parse(user)
     cartItem = localStorage.getItem('cart_items')
     let addCartData = JSON.parse(cartItem)
+    if(addCartData){
     let filerCartItem = addCartData.filter((item:any)=>item?.userId === loginUser?.userId)
     this.addCartData = filerCartItem;
     let totalAmount = this.addCartData.map((total: any) => total.product_price * total.quantity)
     this.totalAmount = totalAmount.reduce((a: any, b: any) => a + b, 0)
+    }
   }
   reloadCurrentRoute() {
     let currentUrl = this.router.url;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { ApiService } from '../api.service';
+import { ApiService } from '../services/api.service';
 @Component({
   selector: 'app-useraddress',
   templateUrl: './useraddress.component.html',
