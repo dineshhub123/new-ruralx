@@ -1,10 +1,10 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from '../login.service';
-import { ApiService } from '../api.service';
+import { LoginService } from '../services/login.service';
+import { ApiService } from '../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { AddcartService } from '../addcart.service';
+import { AddcartService } from '../services/addcart.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

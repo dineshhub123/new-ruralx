@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AddcartService } from '../addcart.service';
+import { AddcartService } from '../services/addcart.service';
 
 @Component({
   selector: 'app-display-search-item',
@@ -21,7 +21,6 @@ export class DisplaySearchItemComponent implements OnInit {
     let data: any;
     data = localStorage.getItem('displaySearchData')
     this.searchItem = JSON.parse(data);
-    console.log("searchItem",this.searchItem)
   }
   ngAfterViewInit() {
 

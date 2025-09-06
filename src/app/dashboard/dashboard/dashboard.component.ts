@@ -6,7 +6,7 @@ import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { range } from 'rxjs';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/api.service';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-dashboard',

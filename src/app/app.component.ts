@@ -3,13 +3,13 @@ import { Router, NavigationEnd } from '@angular/router';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { map, Observable, startWith, Subscription } from 'rxjs';
-import { ApiService } from './api.service';
-import { LoginService } from './login.service';
+import { ApiService } from './services/api.service';
+import { LoginService } from './services/login.service';
 import { Location, ViewportScroller } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { DailogComponent } from './dailog/dailog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { AddcartService } from './addcart.service';
+import { AddcartService } from './services/addcart.service';
 import { Product } from './product-zoom/product-zoom.component';
 import { ToastrService } from 'ngx-toastr';
 
