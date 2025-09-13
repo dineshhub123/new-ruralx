@@ -13,18 +13,20 @@ export const environment = {
   // updateShippingAddressApiUrl: 'http://localhost/updateShippingaddress.php',
   // deleteShippingAddressApiUrl: 'http://localhost/deleteShippingaddress.php',
  
-  getUserDetailsApiURL: 'http://10.43.164.250/getUserLoginDetails.php',
-  searchApiUrl: 'http://10.43.164.250/search_product.php',
-  uploadDataApiUrl: 'http://10.43.164.250/uploadAdminData.php',
-  insertUserDetailsApiUrl: 'http://10.43.164.250/insertUserDetailsData.php',
-  getProductListDetailsApiUrl: 'http://10.43.164.250/getProductDetails.php',
-  productBuyerApiUrl: 'http://10.43.164.250/productbuyer.php',
-  getProductNotifyApiUrl: 'http://10.43.164.250/getProductNotification.php',
-  getBuyerDataApiUrl: 'http://10.43.164.250/getProductBuyerData.php',
-  insertshippingAddressApiUrl: 'http://10.43.164.250/insertShippingAddress.php',
-  getShippingAddressApiUrl: 'http://10.43.164.250/getShippingAddress.php',
-  updateShippingAddressApiUrl: 'http://10.43.164.250/updateShippingaddress.php',
-  deleteShippingAddressApiUrl: 'http://10.43.164.250/deleteShippingaddress.php'
+  getUserDetailsApiURL: 'http://10.77.21.250/getUserLoginDetails.php',
+  searchApiUrl: 'http://10.77.21.250/search_product.php',
+  uploadDataApiUrl: 'http://10.77.21.250/uploadAdminData.php',
+  insertUserDetailsApiUrl: 'http://10.77.21.250/insertUserDetailsData.php',
+  getProductListDetailsApiUrl: 'http://10.77.21.250/getProductDetails.php',
+  productBuyerApiUrl: 'http://10.77.21.250/productbuyer.php',
+  getProductNotifyApiUrl: 'http://10.77.21.250/getProductNotification.php',
+  getBuyerDataApiUrl: 'http://10.77.21.250/getProductBuyerData.php',
+  insertshippingAddressApiUrl: 'http://10.77.21.250/insertShippingAddress.php',
+  getShippingAddressApiUrl: 'http://10.77.21.250/getShippingAddress.php',
+  updateShippingAddressApiUrl: 'http://10.77.21.250/updateShippingaddress.php',
+  deleteShippingAddressApiUrl: 'http://10.77.21.250/deleteShippingaddress.php',
+  getCategoryListApiUrl: 'http://10.77.21.250/get_all_category.php',
+  getMainCategoryApiUrl: 'http://10.77.21.250/mainCategorySearchData.php',
 
 };
 

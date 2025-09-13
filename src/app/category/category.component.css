@@ -17,10 +17,13 @@ label {
 .sidebar {
   width: 100px;
   overflow-y: scroll;
-  height: 490px;
+  height: 500px;
   overflow-x: hidden;
   scrollbar-width: none;
- background-color:  antiquewhite;
+ background-color:burlywood;
+ position: fixed;
+ top: 111px;
+
 }
 
 .sidebar h3 {
@@ -34,12 +37,16 @@ label {
 }
 
 .sidebar li {
-  margin: 5px 0;
+  margin: 0px 0;
   cursor: pointer;
 }
 
 .content {
-  flex: 1;
+    flex: 1;
+    position: absolute;
+    left: 115px;
+    height: 480px;
+    overflow-y: auto;
 }
 
 .grid {
@@ -68,9 +75,10 @@ label {
 }
 
 .sub-grid {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    gap: 20px;
 }
 
 .sub-card {
@@ -90,15 +98,53 @@ label {
   justify-content: center;
 }
 .category-title{
-font-size: 14px;
+font-size: 10px;
 font-weight: 600;
 text-align: center;
-color: teal;
+color: #ffffff;
+cursor: pointer;
 }
 .subcategory-title{
-font-size: 10px;
+font-size: 9px;
 text-align: center;
-color: firebrick;
+color: #f44336;
 border-bottom: 1px solid gray;
+cursor: pointer;
 
+}
+.main-subcategory-title{
+font-size: 10px;
+text-align: left;
+color: black;
+cursor: pointer;
+font-weight: 600;
+
+}
+.category-heading{
+  font-size: 12px;
+  color: teal;
+  font-weight: 600;
+}
+ /* Highlight when clicked (active) */
+
+.sub-card.selected {
+  background-color: #ffffff; /* selected color */
+}
+.cat-name.selected {
+  background-color: #ffffff; /* selected color */
+
+}
+label {
+  margin-bottom: 0px !important;
+}
+.category-title.selected{
+  color:teal;
+}
+
+.all-card-grid{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
