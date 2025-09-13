@@ -178,6 +178,7 @@ export const SIZE_MASTER: any = {
 
   // 👟 Footwear
   shoes: ["5C", "6C", "7C", "8C", "9C", "10C", "11C", "12C", "13C", "1Y", "2Y", "3Y"], // toddler/US kids sizes
+  shoes_kids: ["5C", "6C", "7C", "8C", "9C", "10C", "11C", "12C", "13C", "1Y", "2Y", "3Y"], // toddler/US kids sizes
   sandals: ["5C", "6C", "7C", "8C", "9C", "10C"],
   flipflops: ["5C", "6C", "7C", "8C", "9C", "10C"],
   boots: ["7C", "8C", "9C", "10C", "11C", "12C", "13C"],

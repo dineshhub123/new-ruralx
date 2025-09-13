@@ -1,63 +1,73 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent {
-  constructor(public apiService:ApiService){}
-  categories = [
-    {
-      name: 'Electronics',
-      image: 'https://material.angular.dev/assets/img/examples/shiba2.jpg',
-      subCategories: [
-        {
-          name: 'Mobiles',
-          image: 'https://material.angular.dev/assets/img/examples/shiba2.jpg',
-        },
-        {
-          name: 'Laptops',
-          image: 'https://material.angular.dev/assets/img/examples/shiba2.jpg',
-        },
-        {
-          name: 'Cameras',
-          image: 'https://material.angular.dev/assets/img/examples/shiba2.jpg',
-        },
-      ],
-    },
-    {
-      name: 'Fashion',
-      image: 'https://material.angular.dev/assets/img/examples/shiba2.jpg',
-      subCategories: [
-        {
-          name: 'Men',
-          image: 'https://material.angular.dev/assets/img/examples/shiba2.jpg',
-        },
-        {
-          name: 'Women',
-          image: 'https://material.angular.dev/assets/img/examples/shiba2.jpg',
-        },
-        {
-          name: 'Kids',
-          image: 'https://material.angular.dev/assets/img/examples/shiba2.jpg',
-        },
-      ],
-    },
-  ];
- uniqueCategories: any[] = [];
- ngOnInit() {
-this.apiService.getCategoryList().subscribe((response:any)=>{
-const products = response;
+  constructor(public apiService: ApiService, public router: Router) { }
+  selectedCategory: string | null = null;
+  uniqueCategories: any[] = [];
+  products: any[] = []
 
-  const seen = new Set();
-  this.uniqueCategories = products.filter((item:any) => {
-    if (seen.has(item.category)) {
-      return false;
+  onSelectCategory(category: string) {
+    this.selectedCategory = category;
+    let categoryPayload = {
+      searchData: category
     }
-    seen.add(item.category);
-    return true;
-  });})
- }
+    this.apiService.getOnSelctCategoryList(categoryPayload).subscribe(catList => {
+      this.products = catList
+    })
+  }
+  // Get unique subcategories with one representative image
+  get uniqueSubcategories() {
+    const map = new Map();
+    this.products.forEach(p => {
+      if (!map.has(p.sub_category)) {
+        map.set(p.sub_category, {
+          name: p.sub_category,
+          image: p.variants[0].images[0] // first image of first variant
+        });
+      }
+    });
+    return Array.from(map.values());
+  }
 
+  // Get all products for a subcategory
+  getProductsBySub(subCategory: string) {
+    return this.products.filter(p => p.sub_category === subCategory);
+  }
+
+  ngOnInit() {
+    this.apiService.getCategoryList().subscribe((response: any) => {
+      const products = response;
+      const seen = new Set();
+      this.uniqueCategories = products.filter((item: any) => {
+        if (seen.has(item.category)) {
+          return false;
+        }
+        seen.add(item.category);
+        return true;
+      });
+      let defaultCategry = {
+        searchData: this.uniqueCategories[0].category
+      }
+      this.apiService.getOnSelctCategoryList(defaultCategry).subscribe(catList => {
+        this.selectedCategory = this.uniqueCategories[0].category;
+        this.products = catList
+      })
+    })
+  }
+  onSelectMainCategory(subCate: any) {
+    let gotTocatDetailPayload = {
+      searchData: subCate
+    }
+    this.apiService.searchData(gotTocatDetailPayload).subscribe(catDetailList => {
+      let displaySelectedData = catDetailList
+      localStorage.setItem('displaySearchData', JSON.stringify(displaySelectedData))
+      this.router.navigate(['./display-item'])
+    })
+  }
 }

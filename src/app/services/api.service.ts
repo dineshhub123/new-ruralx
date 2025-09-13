@@ -25,6 +25,7 @@ export class ApiService {
   apiUpdateShippingAddressURL:string = environment.updateShippingAddressApiUrl
   apiDeleteShippingAddressURL:string = environment.deleteShippingAddressApiUrl
   apiCategoryListURL:string = environment.getCategoryListApiUrl
+  apiOnSelectCategoryListURL:string = environment.getMainCategoryApiUrl
 
   constructor(private http: HttpClient,private router:Router) { }
   
@@ -84,8 +85,11 @@ export class ApiService {
   deleteShippingAddress(object:any): Observable<any> {
     return this.http.post(this.apiDeleteShippingAddressURL,object).pipe(map((res: any) => res));
   }
-    getCategoryList():Observable<any> {
+  getCategoryList():Observable<any> {
     return this.http.get(this.apiCategoryListURL).pipe(map((res:any)=>res))
+  }
+  getOnSelctCategoryList(object:any):Observable<any> {
+    return this.http.post(this.apiOnSelectCategoryListURL,object).pipe(map((res:any)=>res))
   }
 
 }
