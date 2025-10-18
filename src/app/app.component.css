@@ -58,11 +58,10 @@ mat-sidenav {
   justify-content: flex-start;
   font-size: 1rem;
 
-  mat-icon {
-    margin-right: 8px;
-  }
 }
-
+::ng-deep mat-icon {
+  color: red;
+}
 .avatar {
   margin-top: 16px;
   width: 100px;

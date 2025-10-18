@@ -52,7 +52,7 @@ mat-form-field {
 .alignAdressBtn{
     display: flex;
     align-items: flex-end;
-    justify-content: end;
+  /* justify-content: end; */
 }
 .saveAddress{
   border: 1px solid gray;
