@@ -36,6 +36,7 @@ export class DisplaySearchItemComponent implements OnInit {
     addItam.quantity = 1;
     addItam.userId = findUser?.userId;
     addItam.isGuest = findUser?.isGuest;
+    addItam.image_url = addItam?.variants[0].images;
     this.addCartService.addToCart(addItam)
   }
 

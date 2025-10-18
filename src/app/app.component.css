@@ -10,10 +10,10 @@ mat-toolbar {
 }
 
 .imgSet {
-  width: 120px;
+    width: 120px;
     height: 100px;
     position: relative;
-    top: 26px;
+    top: 20px;
     left: 0px;
 }
 

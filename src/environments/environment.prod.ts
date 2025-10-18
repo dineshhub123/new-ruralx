@@ -1,4 +1,17 @@
 export const environment = {
     production: true,
-    apiUrl: undefined
+  getUserDetailsApiURL: 'http://ruralx.in/api/getUserLoginDetails.php',
+  searchApiUrl: 'http://ruralx.in/api/search_product.php',
+  uploadDataApiUrl: 'http://ruralx.in/api/uploadAdminData.php',
+  insertUserDetailsApiUrl: 'http://ruralx.in/api/insertUserDetailsData.php',
+  getProductListDetailsApiUrl: 'http://ruralx.in/api/getProductDetails.php',
+  productBuyerApiUrl: 'http://ruralx.in/api/productbuyer.php',
+  getProductNotifyApiUrl: 'http://ruralx.in/api/getProductNotification.php',
+  getBuyerDataApiUrl: 'http://ruralx.in/api/getProductBuyerData.php',
+  insertshippingAddressApiUrl: 'http://ruralx.in/api/insertShippingAddress.php',
+  getShippingAddressApiUrl: 'http://ruralx.in/api/getShippingAddress.php',
+  updateShippingAddressApiUrl: 'http://ruralx.in/api/updateShippingaddress.php',
+  deleteShippingAddressApiUrl: 'http://ruralx.in/api/deleteShippingaddress.php',
+  getCategoryListApiUrl: 'http://ruralx.in/api/get_all_category.php',
+  getMainCategoryApiUrl: 'http://ruralx.in/api/mainCategorySearchData.php',
   };
