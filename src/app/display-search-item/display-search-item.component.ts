@@ -67,21 +67,21 @@ export class DisplaySearchItemComponent implements OnInit {
   }
   increment(incrItem: any) {
     incrItem.quantity++;
-    let deleteItem: any = {};
-    deleteItem = localStorage.getItem('cart_items')
-    let diTtem = JSON.parse(deleteItem)
-    let findObj = diTtem.find((x: any) => x?.id === incrItem?.id && x?.userId === incrItem?.userId)
+    let addItem: any = {};
+    addItem = localStorage.getItem('cart_items')
+    let incItem = JSON.parse(addItem)
+    let findObj = incItem.find((x: any) => x?.id === incrItem?.id && x?.userId === incrItem?.userId)
     if (findObj) {
       findObj.quantity = incrItem.quantity;
     } else {
-      diTtem.push({
+      incItem.push({
         ...incrItem,
         quantity: incrItem.quantity
       });
     }
-    localStorage.setItem('cart_items', JSON.stringify(diTtem))
+    localStorage.setItem('cart_items', JSON.stringify(incItem))
     this.addCartService.removeCart();
-    this.searchItem = JSON.parse(diTtem)
+    this.searchItem = JSON.parse(incItem)
 
     setTimeout(() => {
       this.reloadCurrentRoute();

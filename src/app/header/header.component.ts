@@ -17,6 +17,8 @@ import { DOCUMENT } from '@angular/common';
 import { AddcartService } from '../services/addcart.service';
 import { Product } from '../product-zoom/product-zoom.component';
 import { LoginService } from '../services/login.service';
+import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
+
 export interface DialogData {
   animal: string;
   name: string;
@@ -42,12 +44,15 @@ export class HeaderComponent implements OnInit {
   zoomId: any;
   searchName: string = "";
   public cartItems: Product[] = [];
+  public exiestShipment: any = [];
   public formdata: any
+  public radioForm: FormGroup;
+
   public isMenuOpen: boolean = false
   public itemQuantity: number = 0;
   username: string | null = null;
   constructor(@Inject(DOCUMENT) private document: Document, public addCartService: AddcartService, public loginService: LoginService, private cdRef: ChangeDetectorRef,private zone: NgZone,
-    public dialog: MatDialog, private http: HttpClient, public router: Router, private fb: FormBuilder, private apiService: ApiService) {
+    public dialog: MatDialog, private http: HttpClient, public router: Router, private fb: FormBuilder, private apiService: ApiService,private _bottomSheet: MatBottomSheet) {
   this.apiService.getProductListDetailsData().subscribe((data: any) => {
   // Collect product names + categories
   let searchList: string[] = [];
@@ -58,6 +63,9 @@ export class HeaderComponent implements OnInit {
   // Remove duplicates
   this.options = Array.from(new Set(searchList));
 });
+    this.radioForm = new FormGroup({
+      radioOption: new FormControl('')
+    });
 
   }
   get f() { return this.formdata.controls; }
@@ -73,9 +81,32 @@ export class HeaderComponent implements OnInit {
       startWith(),
       map(value => this._filter(value || '')),
     );
+        this.radioForm = new FormGroup({
+      radioOption: new FormControl()
+    });
+
+    this.getshipDetails();
   }
   ngAfterViewInit() {
 
+  }
+    getshipDetails() {
+    this.apiService.getShippingAddress().subscribe((res: any) => {
+      let userInfo: any;
+      userInfo = localStorage.getItem("login_user")
+      let user = JSON.parse(userInfo)
+      const shipingObj = res?.filter((shipment: any) => (
+        shipment.login_user_mobile === user?.user_phone &&
+        shipment?.login_user_first_name === user?.user_first_name &&
+        shipment?.login_user_email === user?.user_email &&
+        shipment?.login_user_password === user?.user_password
+      ))
+      this.exiestShipment = shipingObj;
+    })
+  }
+
+   openBottomSheet(): void {
+    this._bottomSheet.open(BottomSheetOverviewExampleSheet);
   }
 
   private _filter(value: string): string[] {
@@ -171,4 +202,18 @@ export class HeaderComponent implements OnInit {
   // }
 
 
+}
+@Component({
+  selector: 'bottom-sheet-overview-example-sheet',
+  templateUrl: './bottom-sheet-overview-example-sheet.html',
+  styleUrls: ['./bottom-sheet-overview-example-sheet.css']
+
+})
+export class BottomSheetOverviewExampleSheet {
+  constructor(private _bottomSheetRef: MatBottomSheetRef<BottomSheetOverviewExampleSheet>) {}
+
+  openLink(event: MouseEvent): void {
+    this._bottomSheetRef.dismiss();
+    event.preventDefault();
+  }
 }

@@ -77,7 +77,6 @@ export class AddcartComponent implements OnInit {
             p_description: item?.product_description
           }
           userBuyerPayload.push(cart)
-          console.log(userBuyerPayload)
         })
         this.apiService.ProductBuyerDetails(userBuyerPayload).subscribe(res => {
         })

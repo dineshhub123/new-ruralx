@@ -99,3 +99,8 @@ body, input, textarea, button, select {
 .toast-warning {
   border-radius: 12px !important;
 }
+.mat-bottom-sheet-container{
+border-top-left-radius: 18px;
+border-top-right-radius: 18px;
+padding: 0px !important;
+}

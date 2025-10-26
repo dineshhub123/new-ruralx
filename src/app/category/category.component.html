@@ -1,7 +1,7 @@
 <!-- categories.component.html -->
 <div class="categories-page">
   <!-- Sidebar -->
-  <div class="sidebar">
+  <div class="sidebar pt-5">
     <!-- <h3>Categories</h3> -->
     <ul>
       <li *ngFor="let cat of uniqueCategories" class="cat-name" (click)="onSelectCategory(cat.category)"
@@ -18,7 +18,7 @@
     </ul>
   </div>
 <!-- Main Content -->
-<div class="content">
+<div class="content pt-5">
   <div class="category-heading">{{selectedCategory | titlecase}}</div>
   <div class="sub-grid">
     <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">

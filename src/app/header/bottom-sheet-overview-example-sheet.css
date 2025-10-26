@@ -1,0 +1,17 @@
+.choose-location-title {
+  position: sticky;           /* Fixes the element to the viewport */
+  top: 0px;                 /* Distance from the top */
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  color: #ffffff;
+  height: 42px;
+  background-color: #0a4984;
+border-top-left-radius: 18px;
+border-top-right-radius: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 15px;           /* Optional spacing */
+  z-index: 1000;             /* Keeps it above other elements */
+}

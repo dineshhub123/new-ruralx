@@ -12,9 +12,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { ReplacePathPipe } from '../custom-pipes/replace-path.pipe';
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [DashboardComponent,ReplacePathPipe],
   imports: [
   CommonModule, 
    RouterModule, 

@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { environment } from 'src/environments/environment'; 
 import { MaterialModule } from './shared/material.module';
 import { SharedModule } from './shared/shared.module';
-import { DashboardModule } from './dashboard/dashboard.module';
+//import { DashboardModule } from './dashboard/dashboard.module';
 import { ErrorModule } from './error/error.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginModule } from './login/login.module';
@@ -42,7 +42,12 @@ import { SwiperModule } from 'swiper/angular';
 import SwiperCore, { Zoom,Thumbs, Pagination } from 'swiper';
 import { CategoryComponent } from './category/category.component';
 import {MatTabsModule} from '@angular/material/tabs';
-
+import {
+  MatBottomSheet,
+  MatBottomSheetModule,
+  MatBottomSheetRef,
+} from '@angular/material/bottom-sheet';
+import { MatButtonModule } from '@angular/material/button';
 // Register Swiper modules
 SwiperCore.use([Zoom,Thumbs, Pagination]);
 
@@ -53,7 +58,7 @@ SwiperCore.use([Zoom,Thumbs, Pagination]);
   declarations: [
     AppComponent,
     DailogComponent,ProductZoomComponent,DisplaySearchItemComponent,HeaderComponent,
-    HeaderComponent,FooterComponent,AddcartComponent,UseraddressComponent,
+    HeaderComponent,FooterComponent,AddcartComponent,UseraddressComponent,DashboardComponent,
     ReplacePathPipe, CategoryComponent,
   ],
   imports: [
@@ -63,8 +68,8 @@ SwiperCore.use([Zoom,Thumbs, Pagination]);
     BrowserAnimationsModule,
     MaterialModule,
     SharedModule,
-    CommonModule,
-    DashboardModule,
+    CommonModule,MatButtonModule, MatBottomSheetModule,
+    //DashboardModule,
     ErrorModule,
     LoginModule,
     SignupModule,

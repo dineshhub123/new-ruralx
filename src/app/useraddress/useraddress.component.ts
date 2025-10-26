@@ -131,7 +131,6 @@ export class UseraddressComponent implements OnInit {
   }
   editShipAddress(ship: any) {
     this.editId = ship?.id
-    console.log(ship?.id)
     this.addShipTextForm = true;
     this.editbtn = true;
     this.addressForm.patchValue({
