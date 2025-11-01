@@ -48,6 +48,7 @@ import {
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
+import { LoaderComponent } from './loader/loader.component';
 // Register Swiper modules
 SwiperCore.use([Zoom,Thumbs, Pagination]);
 
@@ -59,7 +60,7 @@ SwiperCore.use([Zoom,Thumbs, Pagination]);
     AppComponent,
     DailogComponent,ProductZoomComponent,DisplaySearchItemComponent,HeaderComponent,
     HeaderComponent,FooterComponent,AddcartComponent,UseraddressComponent,DashboardComponent,
-    ReplacePathPipe, CategoryComponent,
+    ReplacePathPipe, CategoryComponent, LoaderComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,35 +1,42 @@
+
+<app-loader [isLoading]="loading"></app-loader>
+<div *ngIf="!loading">
 <div class="container-fluid pt-5">
   <mat-chip-set>
-    <mat-chip style="cursor: pointer; color: teal;" (click)="userNoSearchItem('bestseller')">
-      <img matChipAvatar class="chips-img" src="./assets/img/watch2.png" alt="Photo of a Shiba Inu" />
-      Best Seller</mat-chip>
-    <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('mobile')">
+    <mat-chip style="cursor: pointer; color: teal;" (click)="userNoSearchItem('smartwatches')">
+      <img matChipAvatar class="chips-img" src="./assets/img/watch1.png" alt="Photo of a Shiba Inu" />
+      Watches</mat-chip>
+    <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('smartphones')">
       <img matChipAvatar class="chips-img" src="./assets/img/color-mobile.jpg" alt="Photo of a Shiba Inu" />
       Mobiles</mat-chip>
-    <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('new release')">
-      <img matChipAvatar class="chips-img" src="./assets/img/shoes.jpg" alt="Photo of a Shiba Inu" />
-      New Release</mat-chip>
-    <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('electronic')">
-      <img matChipAvatar class="chips-img" src="./assets/img/electronics_component.jpg" alt="Photo of a Shiba Inu" />
-      Electronics</mat-chip>
-    <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('cloth')">
-      <img matChipAvatar class="chips-img" src="./assets/img/saree.png" alt="Photo of a Shiba Inu" />
+    <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('shoes')">
+      <img matChipAvatar class="chips-img" src="./assets/uploads/shoes-red3.webp" alt="Photo of a Shiba Inu" />
+      Shoes</mat-chip>
+    <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('tshirts')">
+      <img matChipAvatar class="chips-img" src="./assets/uploads/tshirt3.webp" alt="Photo of a Shiba Inu" />
       Clothes</mat-chip>
-    <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('grocery')">
-      <img matChipAvatar class="chips-img" src="./assets/img/grocery.png" alt="Photo of a Grocery" />
-      Grocery</mat-chip>
-    <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('fashion')">
-      <img matChipAvatar class="chips-img" src="./assets/img/fashion.png" alt="Photo of a Shiba Inu" />
-      Fashion</mat-chip>
-    <!-- <mat-chip style="cursor: pointer; color: teal;"(click)="customerServiceFunc('customer')">
-      Costomer Service</mat-chip> -->
+    <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('saree')">
+      <img matChipAvatar class="chips-img" src="./assets/uploads/red_image.jpg" alt="Photo of a Shiba Inu" />
+      Saree</mat-chip>
+      <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('kids wear')">
+      <img matChipAvatar class="chips-img" src="./assets/uploads/newbornbaby.webp" alt="Photo of a Shiba Inu" />
+      Kids</mat-chip>
+      <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('belts')">
+      <img matChipAvatar class="chips-img" src="./assets/uploads/belts2.webp" alt="Photo of a Shiba Inu" />
+      Belts</mat-chip>
+      <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('sandals')">
+      <img matChipAvatar class="chips-img" src="./assets/uploads/men-sandals-gray.webp" alt="Photo of a Shiba Inu" />
+      Sandals</mat-chip>
+      <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('earrings')">
+      <img matChipAvatar class="chips-img" src="./assets/uploads/earing-blue4.webp" alt="Photo of a Shiba Inu" />
+      Jwellery</mat-chip>
+
   </mat-chip-set>
   <div>
     <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel">
-      <div class="carousel-inner">
+      <div class="carousel-inner" (click)="onClickImage('sandals')">
         <div class="carousel-item" *ngFor="let image of sliderImage1; let i = index" [class.active]="i === 0">
-          <img class="d-block w-100" [src]="image | replacePath:'new-ruralx/src':'..'"
-           alt="Slide {{ i + 1 }}" />
+          <img class="d-block w-100" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Slide {{ i + 1 }}" />
         </div>
       </div>
       <a class="carousel-control-prev" href="#carouselExampleControls1" role="button" data-slide="prev">
@@ -41,142 +48,198 @@
         <span class="sr-only">Next</span>
       </a>
     </div>
-<div class="product-grid-container">
-  <div class="row justify-content-flex-start">
+    <div class="product-grid-container">
+      <div class="row justify-content-flex-start">
 
-    <!-- Card 1 -->
-    <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
-      <div class="card shadow-sm p-2 h-100">
-        <div class="row g-2">
-          <div
-            class="col-6 d-flex align-items-center justify-content-center"
-            *ngFor="let image of sliderImage4; let i = index"
-          >
-            <ng-container *ngIf="i < 4">
-              <img
-                class="img-fluid p-1"
-                [src]="image | replacePath:'new-ruralx/src':'..'"
-                alt="Image {{ i + 1 }}"
-                style="width: 100%; object-fit: cover; border-radius: 8px;"
-              />
-            </ng-container>
-          </div>
-        </div>
-      </div>
-    </div>
+        <!-- Card 1 -->
+        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
+          <div class="card shadow-sm h-100">
+            <div *ngFor="let imgName of productName let i = index">
+              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
+            </div>
 
-    <!-- Card 2 -->
-    <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
-      <div class="card shadow-sm p-2 h-100">
-        <div class="row g-2">
-          <div
-            class="col-6 d-flex align-items-center justify-content-center"
-            *ngFor="let image of sliderImage5; let i = index"
-          >
-            <ng-container *ngIf="i < 4">
-              <img
-                class="img-fluid p-1"
-                [src]="image | replacePath:'new-ruralx/src':'..'"
-                alt="Image {{ i + 1 }}"
-                style="width: 100%; object-fit: cover; border-radius: 8px;"
-              />
-            </ng-container>
-          </div>
-        </div>
-      </div>
-    </div>
+            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
 
-    <!-- Card 3 -->
-    <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
-      <div class="card shadow-sm p-2 h-100">
-        <div class="row g-2">
-          <div
-            class="col-6 d-flex align-items-center justify-content-center"
-            *ngFor="let image of sliderImage6; let i = index"
-          >
-            <ng-container *ngIf="i < 4">
-              <img
-                class="img-fluid p-1"
-                [src]="image | replacePath:'new-ruralx/src':'..'"
-                alt="Image {{ i + 1 }}"
-                style="width: 100%; object-fit: cover; border-radius: 8px;"
-              />
-            </ng-container>
-          </div>
-        </div>
-      </div>
-    </div>
+              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
+                *ngFor="let image of sliderImage4; let i = index">
 
-    <!-- Card 4 -->
-    <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
-      <div class="card shadow-sm p-2 h-100">
-        <div class="row g-2">
-          <div
-            class="col-6 d-flex align-items-center justify-content-center"
-            *ngFor="let image of sliderImage7; let i = index"
-          >
-            <ng-container *ngIf="i < 4">
-              <img
-                class="img-fluid p-1"
-                [src]="image | replacePath:'new-ruralx/src':'..'"
-                alt="Image {{ i + 1 }}"
-                style="width: 100%; object-fit: cover; border-radius: 8px;"
-              />
-            </ng-container>
+                <ng-container *ngIf="i < 4">
+                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
+                    style="width: 100%; object-fit: cover; border-radius: 8px;cursor: pointer;"
+                    (click)="onClickImage('saree')" />
+                </ng-container>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <!-- Card 5 -->
-    <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
-      <div class="card shadow-sm p-2 h-100">
-        <div class="row g-2">
-          <div
-            class="col-6 d-flex align-items-center justify-content-center"
-            *ngFor="let image of sliderImage8; let i = index"
-          >
-            <ng-container *ngIf="i < 4">
-              <img
-                class="img-fluid p-1"
-                [src]="image | replacePath:'new-ruralx/src':'..'"
-                alt="Image {{ i + 1 }}"
-                style="width: 100%; object-fit: cover; border-radius: 8px;"
-              />
-            </ng-container>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Card 6 -->
-    <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
-      <div class="card shadow-sm p-2 h-100">
-        <div class="row g-2">
-          <div
-            class="col-6 d-flex align-items-center justify-content-center"
-            *ngFor="let image of sliderImage9; let i = index"
-          >
-            <ng-container *ngIf="i < 4">
-              <img
-                class="img-fluid p-1"
-                [src]="image | replacePath:'new-ruralx/src':'..'"
-                alt="Image {{ i + 1 }}"
-                style="width: 100%; object-fit: cover; border-radius: 8px;"
-              />
-            </ng-container>
-          </div>
-        </div>
-      </div>
-    </div>
 
-  </div>
-</div>
+        <!-- Card 2 -->
+        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
+          <div class="card shadow-sm h-100">
+            <div *ngFor="let imgName of salwarName let i = index">
+              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
+            </div>
+
+            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
+              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
+                *ngFor="let image of sliderImage5; let i = index">
+                <ng-container *ngIf="i < 4">
+                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
+                    style="width: 100%; object-fit: cover; border-radius: 8px;cursor: pointer;"
+                    (click)="onClickImage('salwar_suits')" />
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
+          <div class="card shadow-sm h-100">
+            <div *ngFor="let imgName of ironName let i = index">
+              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
+            </div>
+
+            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
+              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
+                *ngFor="let image of sliderImage6; let i = index">
+                <ng-container *ngIf="i < 4">
+                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
+                    style="width: 100%; object-fit: cover; border-radius: 8px;cursor: pointer;"
+                    (click)="onClickImage('irons')" />
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
+          <div class="card shadow-sm h-100">
+            <div *ngFor="let imgName of kidShoesName let i = index">
+              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
+            </div>
+
+            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
+              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
+                *ngFor="let image of sliderImage7; let i = index">
+                <ng-container *ngIf="i < 4">
+                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
+                    style="width: 100%; object-fit: cover; border-radius: 8px; cursor: pointer;"
+                    (click)="onClickImage('shoes_kids')" />
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 5 -->
+        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
+          <div class="card shadow-sm h-100">
+            <div *ngFor="let imgName of walletName let i = index">
+              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
+            </div>
+
+            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
+              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
+                *ngFor="let image of sliderImage8; let i = index">
+                <ng-container *ngIf="i < 4">
+                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
+                    style="width: 100%; object-fit: cover; border-radius: 8px;cursor: pointer;"
+                    (click)="onClickImage('wallets')" />
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 6 -->
+        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
+          <div class="card shadow-sm h-100">
+            <div *ngFor="let imgName of jentsShoesName let i = index">
+              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
+            </div>
+
+            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
+              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
+                *ngFor="let image of sliderImage9; let i = index">
+                <ng-container *ngIf="i < 4">
+                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
+                    style="width: 100%; object-fit: cover; border-radius: 8px;cursor: pointer;"
+                    (click)="onClickImage('shoes')" />
+                </ng-container>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 7 -->
+        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
+          <div class="card shadow-sm h-100">
+            <div *ngFor="let imgName of smartwatchName let i = index">
+              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
+            </div>
+
+            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
+              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
+                *ngFor="let image of sliderImage10; let i = index">
+                <ng-container *ngIf="i < 4">
+                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
+                    style="width: 100%; object-fit: cover; border-radius: 8px;cursor: pointer;"
+                    (click)="onClickImage('smartwatches')" />
+                </ng-container>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 8 -->
+        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
+          <div class="card shadow-sm h-100">
+            <div *ngFor="let imgName of kidsWearName let i = index">
+              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
+            </div>
+
+            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
+              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
+                *ngFor="let image of sliderImage11; let i = index">
+                <ng-container *ngIf="i < 4">
+                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
+                    style="width: 100%; object-fit: cover; border-radius: 8px;cursor: pointer;"
+                    (click)="onClickImage('kids wear')" />
+                </ng-container>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 9 -->
+        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
+          <div class="card shadow-sm h-100">
+            <div *ngFor="let imgName of smartPhoneName let i = index">
+              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
+            </div>
+
+            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
+              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
+                *ngFor="let image of sliderImage12; let i = index">
+                <ng-container *ngIf="i < 4">
+                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
+                    style="width: 100%; object-fit: cover; border-radius: 8px;cursor: pointer;"
+                    (click)="onClickImage('smartphones')" />
+                </ng-container>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
 
     <div id="carouselExampleControls2" class="carousel slide" data-ride="carousel">
-      <div class="carousel-inner">
+      <div class="carousel-inner" (click)="onClickImage('tshirts')">
         <div class="carousel-item" *ngFor="let image of sliderImage2; let i = index" [class.active]="i === 0">
-          <img class="d-block w-100" [src]="image | replacePath:'new-ruralx/src':'..'"
-           alt="Slide {{ i + 1 }}" />
+          <img class="d-block w-100" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Slide {{ i + 1 }}" />
         </div>
       </div>
       <a class="carousel-control-prev" href="#carouselExampleControls2" role="button" data-slide="prev">
@@ -191,6 +254,8 @@
 
 
   </div>
+  <br>
+  <br>
   <!-- <div class="footer">
     <div class="col-md-12">
       <div class="row">
@@ -280,4 +345,10 @@
       </small>
     </div>
   </div> -->
+        <small class="web-link">
+        Visit our webside for more details  :  <a href="https://www.Ruralx.in" target="_blank" class="ml-1">www.Ruralx.in </a>
+      </small>
+<br>
+<br>
+</div>
 </div>
