@@ -20,7 +20,7 @@ label {
   height: 500px;
   overflow-x: hidden;
   scrollbar-width: none;
- background-color:burlywood;
+ background-color:#08589a;
  position: fixed;
  top: 111px;
 
@@ -86,8 +86,8 @@ label {
 }
 
 .sub-card img {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
   border-radius: 50%;       /* Makes it a circle */
   overflow: hidden;         /* Hide extra corners */
@@ -98,14 +98,14 @@ label {
   justify-content: center;
 }
 .category-title{
-font-size: 10px;
+font-size: 12px;
 font-weight: 600;
 text-align: center;
 color: #ffffff;
 cursor: pointer;
 }
 .subcategory-title{
-font-size: 9px;
+font-size: 11px;
 text-align: center;
 color: #f44336;
 border-bottom: 1px solid gray;
@@ -121,9 +121,12 @@ font-weight: 600;
 
 }
 .category-heading{
-  font-size: 12px;
+  font-size: 16px;
   color: teal;
   font-weight: 600;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+   
 }
  /* Highlight when clicked (active) */
 

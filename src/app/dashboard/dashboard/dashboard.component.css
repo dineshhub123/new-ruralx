@@ -158,8 +158,16 @@ mat-chip:focus, mat-chip.mat-mdc-chip-selected {
 }
 ::ng-deep .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) .mdc-evolution-chip__text-label {
   color: #fff !important;
+  font-size: 11px;
+  font-weight: 600;
 }
 ::ng-deep .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) {
   background-color: #08589a !important;
 }
-
+::ng-deep .mdc-evolution-chip--with-avatar.mdc-evolution-chip--with-primary-graphic .mdc-evolution-chip__action--primary {
+padding-right: 3px !important;
+}
+::ng-deep .mdc-evolution-chip--with-avatar.mdc-evolution-chip--with-primary-graphic .mdc-evolution-chip__graphic {
+  padding-left: 3px !important;
+  padding-right: 3px !important;
+}
