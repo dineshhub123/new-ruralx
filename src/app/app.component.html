@@ -1,4 +1,4 @@
-<mat-toolbar class="mat-elevation-z8">
+<mat-toolbar class="mat-elevation-z8  main-header" [class.hide]="hideHeader">
   <div class="menu">
     <button class="btn-menu" mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
       <mat-icon *ngIf="!sidenav.opened" class="toggle-sidenav"> menu </mat-icon>
@@ -12,29 +12,29 @@
   <div></div>
   <span class="toolbar-item-spacer"></span>
   <ul class="icon-list">
-    <li (click)="cartFun()">
+    <span  class="cart-invisible">
+     <li (click)="cartFun()">
       <div class="cart-container shopping-cart">
-        <mat-icon class="shopping-cart">shopping_cart</mat-icon>
+        <mat-icon class="shopping-cart" [attr.id]="isDesktop ? 'cartIconTarget' : ''">shopping_cart</mat-icon>
         <span class="cart-badge">{{itemQuantity}}</span>
       </div>
       <span class="icon-menu-cart">Cart</span>
-      <span class="icon-menu-cart">Item</span>
-
-    </li>
+    </li> 
+    </span>
     <li (click)="openDialogD()">
-      <mat-icon  class="shopping-map">location_on</mat-icon>
-      <span class="icon-menu">Check Item</span>
-      <span class="icon-menu"><strong>Availability</strong></span>
+      <mat-icon class="shopping-map">location_on</mat-icon>
+      <span class="icon-menu">Check</span>
+      <span class="icon-menu"><strong>Availability</strong></span> 
     </li>
 
     <li [matMenuTriggerFor]="userAccountMenu">
       <mat-icon id="signMake" mat-icon-button matTooltip="" class="shopping-user">account_circle</mat-icon>
-      <span class="icon-menu">Hello, {{(username?username:'Sign in')|titlecase }}</span>
-      <span class="icon-menu"><strong>Account & Lists</strong></span>
+      <span class="icon-menu">Hello</span>
+       <span class="icon-menu"><strong>{{(username?username:'Sign in')|titlecase }}</strong></span> 
     </li>
 
     <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
-      <button mat-menu-item routerLink="#"><mat-icon>person</mat-icon><span>My Account</span></button>
+      <button mat-menu-item routerLink="/my-account"><mat-icon>person</mat-icon><span>My Account</span></button>
       <button mat-menu-item routerLink="#"><mat-icon>settings</mat-icon><span>Settings</span></button>
       <button mat-menu-item routerLink="#"><mat-icon>help</mat-icon><span>Help</span></button>
       <button mat-menu-item (click)="userLogout()"><mat-icon>exit_to_app</mat-icon>Logout</button>
@@ -197,12 +197,16 @@
     </mat-accordion>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-header></app-header>
-    <!-- <div class="pt-5" style="height: calc(100vh + 249px);overflow-y: auto;" > -->
+    <!-- <app-header></app-header>
     <div class="pt-5" style="height: calc(100vh - 120px); overflow: auto;">
       <router-outlet></router-outlet>
     </div>
-    <app-footer></app-footer>
+    <app-footer class="footer"></app-footer> -->
+    <app-header></app-header>
+    <div class="main-content pt-5" #scrollContainer (scroll)="onContentScroll($event)">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer class="footer"></app-footer>
 
   </mat-sidenav-content>
 </mat-sidenav-container>

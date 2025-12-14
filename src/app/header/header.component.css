@@ -695,6 +695,10 @@ input.mat-input-element {
     background: none !important;
 
   }
+/* When scrolling UP */
+.headerPositionFixed.at-top {
+  top: 0px;
+}
 
   /* .navbar-menu{
       position: fixed;
@@ -1246,7 +1250,7 @@ hr.new1 {
 }
 
 .location-content {
-  font-size: 12px;
+  font-size: 9px;
   color: #ffffff;
   font-weight: 600;
   padding: 10px 10px 10px 0px;
@@ -1258,5 +1262,9 @@ hr.new1 {
 }
 
 .locatin-icon-align {
-  color:yellow;
+  color: yellow;
+    width: 16px;
+    font-size: 18px;
+    margin-top: 6px;
+
 }

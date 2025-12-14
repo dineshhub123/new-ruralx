@@ -7,7 +7,8 @@
             [pagination]="{clickable: true}" class="mySwiper">
             <ng-template swiperSlide *ngFor="let image of cartItem?.images">
               <div class="swiper-zoom-container-main">
-                <img (click)="show()" [src]="image | replacePath:'new-ruralx/src':'..'" />
+                <img #mainProductImage
+               class="product-image" (click)="show()" [src]="image | replacePath:'new-ruralx/src':'..'" />
               </div>
             </ng-template>
           </swiper>
@@ -66,7 +67,7 @@
             <span class="delivery_title">Select Delivery Location</span>
           </strong>
           <div class="pt-3">
-            <button class="btn btn-warning btn-md mb-2 mr-2 btn-align-buy" (click)="addCart(cartItems)"><i
+            <button class="btn btn-warning btn-md mb-2 mr-2 btn-align-buy" (click)="$event.stopPropagation(); flyActiveSwiperImageToCart();addCart(cartItems)"><i
                 class="fa fa-shopping-cart"> </i> ADD TO CART
             </button>
             <button class="btn btn-danger btn-md mb-2 btn-align-buy" (click)="addDetails()"><i class="fa fa-credit-card"
@@ -97,7 +98,7 @@
           <swiper #mainSwiper [zoom]="{ minRatio: 1, maxRatio: 5 }" [spaceBetween]="0" [centeredSlides]="true"
             [slidesPerView]="1" [thumbs]="{ swiper: thumbsSwiperRef?.swiperRef }" class="mySwiper">
             <ng-template swiperSlide *ngFor="let image of cartItem?.images">
-              <div class="swiper-zoom-container">
+              <div class="swiper-zoom-container responsive-image-container">
                 <img [src]="image | replacePath:'new-ruralx/src':'..'" />
               </div>
             </ng-template>

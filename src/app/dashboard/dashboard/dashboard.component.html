@@ -1,354 +1,63 @@
-
 <app-loader [isLoading]="loading"></app-loader>
 <div *ngIf="!loading">
-<div class="container-fluid pt-5">
-  <mat-chip-set>
-    <mat-chip style="cursor: pointer; color: teal;" (click)="userNoSearchItem('smartwatches')">
-      <img matChipAvatar class="chips-img" src="./assets/img/watch1.png" alt="Photo of a Shiba Inu" />
-      Watches</mat-chip>
-    <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('smartphones')">
-      <img matChipAvatar class="chips-img" src="./assets/img/color-mobile.jpg" alt="Photo of a Shiba Inu" />
-      Mobiles</mat-chip>
-    <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('shoes')">
-      <img matChipAvatar class="chips-img" src="./assets/uploads/shoes-red3.webp" alt="Photo of a Shiba Inu" />
-      Shoes</mat-chip>
-    <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('tshirts')">
-      <img matChipAvatar class="chips-img" src="./assets/uploads/tshirt3.webp" alt="Photo of a Shiba Inu" />
-      Clothes</mat-chip>
-    <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('saree')">
-      <img matChipAvatar class="chips-img" src="./assets/uploads/red_image.jpg" alt="Photo of a Shiba Inu" />
-      Saree</mat-chip>
-      <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('kids wear')">
-      <img matChipAvatar class="chips-img" src="./assets/uploads/newbornbaby.webp" alt="Photo of a Shiba Inu" />
-      Kids</mat-chip>
-      <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('belts')">
-      <img matChipAvatar class="chips-img" src="./assets/uploads/belts2.webp" alt="Photo of a Shiba Inu" />
-      Belts</mat-chip>
-      <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('sandals')">
-      <img matChipAvatar class="chips-img" src="./assets/uploads/men-sandals-gray.webp" alt="Photo of a Shiba Inu" />
-      Sandals</mat-chip>
-      <mat-chip style="cursor: pointer;color: teal;" (click)="userNoSearchItem('earrings')">
-      <img matChipAvatar class="chips-img" src="./assets/uploads/earing-blue4.webp" alt="Photo of a Shiba Inu" />
-      Jwellery</mat-chip>
+      <div class="category-scroll" [class.at-top]="showHeaderAtTop">
+      <div class="category-item" *ngFor="let chip of chipsList" (click)="onClickImage(chip.category)">
+        <img class="chips-img" [src]="chip.image[0] | replacePath:'new-ruralx/src':'..'" [alt]="chip.category" />
+        <span>{{ chip.category | titlecase }}</span>
+      </div>
+    </div>
 
-  </mat-chip-set>
-  <div>
-    <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel">
-      <div class="carousel-inner" (click)="onClickImage('sandals')">
-        <div class="carousel-item" *ngFor="let image of sliderImage1; let i = index" [class.active]="i === 0">
-          <img class="d-block w-100" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Slide {{ i + 1 }}" />
+  <div class="container-fluid pt-5">
+    <div>
+      <div *ngFor="let data of carouselData; let i = index" class="mb-1">
+        <!-- <div class="product-name-content mb-3">{{ data.productNames[0] }}</div> -->
+        <div id="{{data.category}}Carousel" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner" (click)="onClickImage(data.category)">
+            <div class="carousel-item" *ngFor="let image of data.images; let j = index" [class.active]="j === 0">
+              <img class="d-block w-100" [src]="image | replacePath:'new-ruralx/src':'..'"
+                alt="{{ data.category }} Slide {{ j + 1 }}" />
+            </div>
+          </div>
+          <!-- Controls -->
+          <a class="carousel-control-prev" href="#{{data.category}}Carousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          </a>
+          <a class="carousel-control-next" href="#{{data.category}}Carousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </a>
         </div>
       </div>
-      <a class="carousel-control-prev" href="#carouselExampleControls1" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleControls1" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
-    <div class="product-grid-container">
-      <div class="row justify-content-flex-start">
 
-        <!-- Card 1 -->
-        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
-          <div class="card shadow-sm h-100">
-            <div *ngFor="let imgName of productName let i = index">
-              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
-            </div>
-
-            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
-
-              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
-                *ngFor="let image of sliderImage4; let i = index">
-
-                <ng-container *ngIf="i < 4">
-                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
-                    style="width: 100%; object-fit: cover; border-radius: 8px;cursor: pointer;"
-                    (click)="onClickImage('saree')" />
-                </ng-container>
+      <!-- Dynamic Card Sub Category Wise  -->
+      <div class="product-grid-container">
+        <div class="row justify-content-flex-start">
+          <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2"
+            *ngFor="let subcategory of cardSubCategoryList">
+            <div class="card shadow-sm h-100">
+              <!-- Category name -->
+              <div class="product-name-content">
+                {{ categoryData[subcategory]?.name }}
               </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
-          <div class="card shadow-sm h-100">
-            <div *ngFor="let imgName of salwarName let i = index">
-              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
-            </div>
-
-            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
-              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
-                *ngFor="let image of sliderImage5; let i = index">
-                <ng-container *ngIf="i < 4">
-                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
-                    style="width: 100%; object-fit: cover; border-radius: 8px;cursor: pointer;"
-                    (click)="onClickImage('salwar_suits')" />
-                </ng-container>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
-          <div class="card shadow-sm h-100">
-            <div *ngFor="let imgName of ironName let i = index">
-              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
-            </div>
-
-            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
-              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
-                *ngFor="let image of sliderImage6; let i = index">
-                <ng-container *ngIf="i < 4">
-                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
-                    style="width: 100%; object-fit: cover; border-radius: 8px;cursor: pointer;"
-                    (click)="onClickImage('irons')" />
-                </ng-container>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
-          <div class="card shadow-sm h-100">
-            <div *ngFor="let imgName of kidShoesName let i = index">
-              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
-            </div>
-
-            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
-              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
-                *ngFor="let image of sliderImage7; let i = index">
-                <ng-container *ngIf="i < 4">
-                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
+              <!-- Category images -->
+              <div class="row g-2 px-3">
+                <div class="col-6 d-flex align-items-center justify-content-center slider-img"
+                  *ngFor="let image of categoryData[subcategory]?.images">
+                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image"
                     style="width: 100%; object-fit: cover; border-radius: 8px; cursor: pointer;"
-                    (click)="onClickImage('shoes_kids')" />
-                </ng-container>
+                    (click)="onClickImage(subcategory)" />
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- Card 5 -->
-        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
-          <div class="card shadow-sm h-100">
-            <div *ngFor="let imgName of walletName let i = index">
-              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
-            </div>
-
-            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
-              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
-                *ngFor="let image of sliderImage8; let i = index">
-                <ng-container *ngIf="i < 4">
-                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
-                    style="width: 100%; object-fit: cover; border-radius: 8px;cursor: pointer;"
-                    (click)="onClickImage('wallets')" />
-                </ng-container>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Card 6 -->
-        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
-          <div class="card shadow-sm h-100">
-            <div *ngFor="let imgName of jentsShoesName let i = index">
-              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
-            </div>
-
-            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
-              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
-                *ngFor="let image of sliderImage9; let i = index">
-                <ng-container *ngIf="i < 4">
-                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
-                    style="width: 100%; object-fit: cover; border-radius: 8px;cursor: pointer;"
-                    (click)="onClickImage('shoes')" />
-                </ng-container>
-
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Card 7 -->
-        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
-          <div class="card shadow-sm h-100">
-            <div *ngFor="let imgName of smartwatchName let i = index">
-              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
-            </div>
-
-            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
-              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
-                *ngFor="let image of sliderImage10; let i = index">
-                <ng-container *ngIf="i < 4">
-                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
-                    style="width: 100%; object-fit: cover; border-radius: 8px;cursor: pointer;"
-                    (click)="onClickImage('smartwatches')" />
-                </ng-container>
-
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Card 8 -->
-        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
-          <div class="card shadow-sm h-100">
-            <div *ngFor="let imgName of kidsWearName let i = index">
-              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
-            </div>
-
-            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
-              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
-                *ngFor="let image of sliderImage11; let i = index">
-                <ng-container *ngIf="i < 4">
-                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
-                    style="width: 100%; object-fit: cover; border-radius: 8px;cursor: pointer;"
-                    (click)="onClickImage('kids wear')" />
-                </ng-container>
-
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Card 9 -->
-        <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
-          <div class="card shadow-sm h-100">
-            <div *ngFor="let imgName of smartPhoneName let i = index">
-              <div class="product-name-content" *ngIf="i === 0">{{ imgName }}</div>
-            </div>
-
-            <div class="row g-2" style="padding-left: 15px; padding-right: 15px;">
-              <div class="col-6 d-flex align-items-center justify-content-center slider-img"
-                *ngFor="let image of sliderImage12; let i = index">
-                <ng-container *ngIf="i < 4">
-                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image {{ i + 1 }}"
-                    style="width: 100%; object-fit: cover; border-radius: 8px;cursor: pointer;"
-                    (click)="onClickImage('smartphones')" />
-                </ng-container>
-
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
+    <br>
+    <small class="web-link pt-1">
+      Discover more on RuralX : <a href="https://www.ruralx.in" target="_blank" class="ml-1">www.ruralx.in</a>
+    </small>
 
-
-    <div id="carouselExampleControls2" class="carousel slide" data-ride="carousel">
-      <div class="carousel-inner" (click)="onClickImage('tshirts')">
-        <div class="carousel-item" *ngFor="let image of sliderImage2; let i = index" [class.active]="i === 0">
-          <img class="d-block w-100" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Slide {{ i + 1 }}" />
-        </div>
-      </div>
-      <a class="carousel-control-prev" href="#carouselExampleControls2" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleControls2" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
-
-
+    <br>
   </div>
-  <!-- <div class="footer">
-    <div class="col-md-12">
-      <div class="row">
-        <div class="col-sm-4 col-md-4">
-          <h4 class="footer_content">Footer Content</h4>
-          <div class="content_align">
-            This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.
-            This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.
-
-          </div>
-          <hr />
-        </div>
-        <div class="col-sm-4 col-md-4">
-          <h4 class="footer_content">Footer Content</h4>
-          <div class="content_align">
-            This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.
-            This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.
-
-          </div>
-          <hr />
-        </div>
-        <div class="col-sm-4 col-md-4">
-          <h4 class="footer_content">Footer Content</h4>
-          <div class="content_align">
-            This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.
-            This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.This is for selling Product If you feel content, you're
-            satisfied and happy. The content of a book, movie, or song is what it's about:
-            the topic.
-
-          </div>
-          <hr />
-        </div>
-      </div>
-    </div>
-    <div class="foot">
-      <div class="contactFooter footer_content"><strong>Connect with_us</strong></div>
-      <div class="socialLink">
-        <span><a href="https://www.facebook.com">
-            <i class="mdi mdi-facebook" style="font-size: 28px;"></i>
-          </a></span>
-        <span><a href="https://twitter.com">
-            <i class="mdi mdi-twitter" style="font-size: 28px;"></i>
-          </a></span>
-        <span><a href="https://google.com/">
-            <i class="mdi mdi-instagram" style="font-size: 28px;"></i>
-          </a></span>
-        <span><a href="https://instagram.com">
-            <i class="mdi mdi-linkedin" style="font-size: 28px;"></i>
-          </a></span>
-      </div>
-      <small class="web-link">
-        visit our webside for more details: <a href="https://www.Ruralx.in" target="_blank">www.Ruralx.in</a>
-      </small>
-    </div>
-  </div> -->
-  <br>
-        <small class="web-link pt-1">
-        Visit our webside for more details  :  <a href="https://www.Ruralx.in" target="_blank" class="ml-1">www.Ruralx.in </a>
-      </small>
-<br>
-<br>
-<br>
 </div>
-</div>
+

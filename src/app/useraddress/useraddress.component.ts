@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ApiService } from '../services/api.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-useraddress',
   templateUrl: './useraddress.component.html',
@@ -18,7 +19,7 @@ export class UseraddressComponent implements OnInit {
   public exiestShipment: any = [];
   public loginUserAddress: any = [];
   public selectedAddress = "defaultAddress"
-  constructor(private fb: FormBuilder, private apiService: ApiService) {
+  constructor(private fb: FormBuilder, private apiService: ApiService,public router:Router) {
     let cartItem: any;
     cartItem = localStorage.getItem('cart_items')
     this.addCartData = JSON.parse(cartItem)
@@ -159,5 +160,6 @@ export class UseraddressComponent implements OnInit {
   }
   confirmOrder() {
     console.log(this.radioForm?.value?.radioOption)
+    this.router.navigateByUrl('/payment-options')
   }
 }

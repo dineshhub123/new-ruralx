@@ -3,8 +3,9 @@
     color:green;
     }
   .errorToast{
-    font-size: 18px;
+    font-size: 12px;
     color:red;
+    text-align: center;
   }
 h4{
     font-size: 16px;

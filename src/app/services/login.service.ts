@@ -34,6 +34,7 @@ export class LoginService {
   }
 
   logout() {
+    localStorage.clear();
     const guestUser: User = {
       userId: 'guest_user',
       user_first_name: 'Guest',

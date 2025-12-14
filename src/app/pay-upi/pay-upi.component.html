@@ -1,0 +1,30 @@
+<section class="d-flex align-items-center justify-content-center pt-4 pl-2 pr-2">
+
+<div class="upi-card">
+
+  <h2 class="title">Pay Using UPI</h2>
+
+  <!-- UPI App Icons Row (Optional) -->
+  <div class="upi-icons">
+    <img src="../assets/img/gpay.png" class="upi-icon">
+    <img src="../assets/img/phonePe.png" class="upi-icon-p">
+    <img src="../assets/img/paytm.png" class="upi-icon">
+  </div>
+
+  <!-- UPI DeepLink Button -->
+  <a [href]="upiLink" class="pay-btn">
+    Pay Now via UPI App
+  </a>
+
+  <p class="or-text">or</p>
+
+  <!-- UPI ID -->
+  <p class="upi-id">UPI ID: <strong>ruralx@upi</strong></p>
+
+  <!-- I Have Paid Button -->
+  <button class="paid-btn" (click)="goToUpload()">
+    I Have Paid
+  </button>
+
+</div>
+</section>

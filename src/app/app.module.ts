@@ -26,7 +26,7 @@ import { DailogComponent } from './dailog/dailog.component';
 import { ProductZoomComponent } from './product-zoom/product-zoom.component';
 import { ReplacePathPipe } from './custom-pipes/replace-path.pipe';
 import { DisplaySearchItemComponent } from './display-search-item/display-search-item.component';
-import { HeaderComponent } from './header/header.component';
+import { BottomSheetOverviewExampleSheet, HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { AddcartComponent } from './addcart/addcart.component';
@@ -41,7 +41,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SwiperModule } from 'swiper/angular';
 import SwiperCore, { Zoom,Thumbs, Pagination } from 'swiper';
 import { CategoryComponent } from './category/category.component';
-import {MatTabsModule} from '@angular/material/tabs';
 import {
   MatBottomSheet,
   MatBottomSheetModule,
@@ -49,6 +48,20 @@ import {
 } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { LoaderComponent } from './loader/loader.component';
+import { PaymentOptionsComponent } from './payment-options/payment-options.component';
+import { PayQrComponent } from './pay-qr/pay-qr.component';
+import { UploadScreenshotComponent } from './upload-screenshot/upload-screenshot.component';
+import { PayUpiComponent } from './pay-upi/pay-upi.component';
+import { CodConfirmComponent } from './cod-confirm/cod-confirm.component';
+import { WaitingVerificationComponent } from './waiting-verification/waiting-verification.component';
+import { OrderConfirmedComponent } from './order-confirmed/order-confirmed.component';
+import { ComingSoonComponent } from './coming-soon/coming-soon.component';
+import { MyAccountComponent } from './my-account/my-account.component';
+import { MyOrderComponent } from './my-order/my-order.component';
+import { MyOrderStatusComponent } from './my-order-status/my-order-status.component';
+import { SettingComponent } from './setting/setting.component';
+import { MatTabsModule } from '@angular/material/tabs';
+
 // Register Swiper modules
 SwiperCore.use([Zoom,Thumbs, Pagination]);
 
@@ -58,14 +71,15 @@ SwiperCore.use([Zoom,Thumbs, Pagination]);
 @NgModule({
   declarations: [
     AppComponent,
-    DailogComponent,ProductZoomComponent,DisplaySearchItemComponent,HeaderComponent,
+    DailogComponent,ProductZoomComponent,DisplaySearchItemComponent,
     HeaderComponent,FooterComponent,AddcartComponent,UseraddressComponent,DashboardComponent,
-    ReplacePathPipe, CategoryComponent, LoaderComponent,
+    ReplacePathPipe, CategoryComponent, LoaderComponent,BottomSheetOverviewExampleSheet, PaymentOptionsComponent, PayQrComponent, UploadScreenshotComponent, PayUpiComponent, CodConfirmComponent, WaitingVerificationComponent, OrderConfirmedComponent, ComingSoonComponent, MyAccountComponent, MyOrderComponent, MyOrderStatusComponent, SettingComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     BrowserAnimationsModule,
     MaterialModule,
     SharedModule,

@@ -1,4 +1,4 @@
-<div class="headerPositionFixed" >
+<div class="headerPositionFixed" [class.at-top]="showHeaderAtTop">
   <nav class="navbar navbar-menu">
     <div class="input-text-and-btn">
       <form #searchData="ngForm" (ngSubmit)="searchDataFn(myControl.value)">
@@ -20,5 +20,5 @@
       </form>  
     </div>
   </nav>
-  <div (click)="openBottomSheet()" class="location-content"><mat-icon class="locatin-icon-align mr-1 ml-2">location_on</mat-icon> Deliver to Dinesh Bhagat, Balaghat - 481001</div> 
+ <div (click)="openBottomSheet()" class="location-content"><mat-icon class="locatin-icon-align mr-1 ml-2">location_on</mat-icon> {{deliverToText}}</div>
 </div>

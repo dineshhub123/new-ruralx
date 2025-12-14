@@ -22,9 +22,9 @@
 </div>
 </div>-->
 <br> 
-<div class="product-grid-container">
+<!-- <div class="product-grid-container">
   <div *ngFor="let searchData of searchItem" class="product-card" >
-    <img class="product-image"
+    <img #productImage class="product-image"
       [src]="searchData?.variants[0]?.images[0]| replacePath:'new-ruralx/src':'..'" (click)="imgClick(searchData)"/>
     <div class="product-details mb-2"  (click)="imgClick(searchData)">
       <div class="product-name">{{ searchData?.product_name }}</div>
@@ -44,7 +44,55 @@
           </ul>
         </nav>
       </div>
-   <button class="btn btn-warning btn-md btn-align-buy"  *ngIf="searchData.quantity == 0"(click)="addCartQuntity(searchData)"> ADD TO CART</button>
+   <button class="btn btn-warning btn-md btn-align-buy"  *ngIf="searchData.quantity == 0"(click)="addCartQuntity(searchData);flyToCart(productImg)"> ADD TO CART</button>
+  </div>
+</div> -->
+
+<div class="product-grid-container">
+  <div *ngFor="let searchData of searchItem" class="product-card">
+
+    <!-- Product Image -->
+    <img
+      #productImage
+      class="product-image"
+      [src]="searchData?.variants[0]?.images[0] | replacePath:'new-ruralx/src':'..'"
+      (click)="imgClick(searchData)"
+    />
+
+    <!-- Product Details -->
+    <div class="product-details mb-2" (click)="imgClick(searchData)">
+      <div class="product-name">{{ searchData?.product_name }}</div>
+      <div class="product-mrp">MRP: ₹{{ searchData?.product_mrp_price }}</div>
+      <div class="product-price">Price: ₹{{ searchData?.product_price }}</div>
+    </div>
+
+    <!-- Quantity Buttons -->
+    <div class="quantity-btn-align" *ngIf="searchData.quantity > 0">
+      <nav aria-label="quantity-navigation">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" (click)="$event.stopPropagation();decrement(searchData)">−</a>
+          </li>
+          <li class="page-item item-font">
+            <a class="page-link qunt-back">{{ searchData.quantity }}</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" (click)="$event.stopPropagation();flyToCartFromEvent($event);increment(searchData)">+</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- ADD TO CART BUTTON -->
+    <button
+      class="btn btn-warning btn-md btn-align-buy"
+      *ngIf="searchData.quantity == 0"
+      (click)="addCartQuntity(searchData); flyToCartFromEvent($event)"
+    >
+      ADD TO CART
+    </button>
+
   </div>
 </div>
+
  </div>

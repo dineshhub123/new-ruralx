@@ -104,3 +104,44 @@ border-top-left-radius: 18px;
 border-top-right-radius: 18px;
 padding: 0px !important;
 }
+
+/* flying animation cart */
+.fly-img {
+  position: fixed;
+  z-index: 10000;
+  pointer-events: none;
+  border-radius: 18px;
+   /* 🔥 SLOW MOTION SETTINGS */
+  transition:
+    transform 1.6s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 1.6s ease;
+    will-change: transform, border-radius, opacity;
+}
+/* Cart glow animation */
+.cart-glow {
+  animation: glowPulse 1.6s ease-out;
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 0 rgba(255, 193, 7, 0);
+  }
+  50% {
+    box-shadow: 0 0 15px 6px rgba(255, 193, 7, 0.9);
+  }
+  100% {
+    box-shadow: 0 0 0 rgba(255, 193, 7, 0);
+  }
+}
+.main-header {
+  position: sticky; /* or fixed */
+  top: 0;
+  z-index: 1000;
+  background: #fff;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Hidden state */
+.main-header.hide {
+  transform: translateY(-100%);
+}

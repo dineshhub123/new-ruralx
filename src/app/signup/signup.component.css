@@ -21,4 +21,8 @@ margin-top: 2%;
 .mat-headline{
   font-weight: 700;
 }
-
+.matError{
+    display: flex !important;
+    width: max-content !important;
+    margin-left: -15px !important;
+}

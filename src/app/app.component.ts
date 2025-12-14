@@ -1,4 +1,4 @@
-import { Component, NgZone, ViewChild } from '@angular/core';
+import { Component, NgZone, Renderer2, ViewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddcartService } from './services/addcart.service';
 import { Product } from './product-zoom/product-zoom.component';
 import { ToastrService } from 'ngx-toastr';
+import { ScrollService } from './scroll.service';
 
 @Component({
   selector: 'app-root',
@@ -42,17 +43,20 @@ export class AppComponent {
   public buyerUsername: any;
   public getNotifyUserArray: any;
   private sub = new Subscription();
-  constructor(private zone: NgZone, public dialog: MatDialog, public location: Location, public addCartService: AddcartService, private toastr: ToastrService,
+  public hideHeader: boolean = false;
+  public lastScrollTop = 0;
+  public isDesktop: boolean = false;
+  constructor(private renderer: Renderer2, private zone: NgZone, public dialog: MatDialog, public location: Location, public addCartService: AddcartService, private toastr: ToastrService,
     public loginService: LoginService,
     public router: Router,
     private http: HttpClient,
     private _DomSanitizationService: DomSanitizer,
     public apiService: ApiService,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
+    private scrollService: ScrollService
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        //this.viewportScroller.scrollToPosition([0, 0]);
         window.scrollTo({
           top: 0,
           left: 0,
@@ -74,10 +78,16 @@ export class AppComponent {
   }
   ngOnInit(): void {
     this.loginService.user$.subscribe(user => {
-     if (user) {
-       this.calculateUserCartQuantity(user);
-     }
-  });
+      if (user) {
+        this.calculateUserCartQuantity(user);
+      }
+    });
+    this.scrollService.hideHeader$.subscribe(val => {
+      this.hideHeader = val;
+    });
+    this.checkScreen();
+    window.addEventListener('resize', () => this.checkScreen());
+
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(),
       map(value => this._filter(value || '')),
@@ -87,15 +97,58 @@ export class AppComponent {
     this.loginService.user$.subscribe(user => {
       this.username = user?.user_first_name ?? null;
     });
+    // Fix for Android Chrome not applying theme color immediately
+    const metaThemeColor = document.querySelector("meta[name=theme-color]");
+    if (metaThemeColor) {
+      // Reset once, then set again to force reapply
+      this.renderer.setAttribute(metaThemeColor, 'content', '#ffffff');
+      setTimeout(() => {
+        this.renderer.setAttribute(metaThemeColor, 'content', '#0a4984');
+      }, 100);
+
+
+    }
+  }
+  checkScreen() {
+    this.isDesktop = window.innerWidth >= 769;
   }
 
-  calculateUserCartQuantity(loginUser:any){
-  this.addCartService.cart$.subscribe(items => {
-    const userCartItems = items.filter((item: any) => item?.userId === loginUser?.userId);
-    this.cartItems = userCartItems;
-    let filerCartItems = userCartItems.filter((item: any) => item?.userId === loginUser?.userId)
-    this.itemQuantity = filerCartItems.reduce((total:number, item:any) => total + (item?.quantity || 0), 0);
-  });
+  onContentScroll(event: Event) {
+    // If laptop/desktop → DO NOTHING
+    if (window.innerWidth >= 769) {
+      this.hideHeader = false;
+      return;
+    }
+
+    const scrollTop = (event.target as HTMLElement).scrollTop;
+    this.scrollService.emit(scrollTop);
+
+    // Always show header at top
+    if (scrollTop <= 0) {
+      this.hideHeader = false;
+      this.lastScrollTop = 0;
+      return;
+    }
+
+    // Scroll down → hide (MOBILE ONLY)
+    if (scrollTop > this.lastScrollTop && scrollTop > 80) {
+      this.hideHeader = true;
+    }
+    // Scroll up → show
+    else if (scrollTop < this.lastScrollTop) {
+      this.hideHeader = false;
+    }
+
+    this.lastScrollTop = scrollTop;
+  }
+
+  calculateUserCartQuantity(loginUser: any) {
+    this.addCartService.cart$.subscribe(items => {
+      const userCartItems = items.filter((item: any) => item?.userId === loginUser?.userId);
+      this.cartItems = userCartItems;
+      let filerCartItems = userCartItems.filter((item: any) => item?.userId === loginUser?.userId)
+      this.itemQuantity = filerCartItems.reduce((total: number, item: any) => total + (item?.quantity || 0), 0);
+    });
 
   }
   private _filter(value: string): string[] {
@@ -169,25 +222,6 @@ export class AppComponent {
   cartFun() {
     this.router.navigate(['addcart'])
   }
-  // searchDataFn(searchData: any) {
-  //   let searchValue = this.options.find(value => value === searchData)
-  //   if (searchValue) {
-  //     let userData = {
-  //       searchData: searchValue
-  //     };
-  //     this.apiService.searchData(userData).subscribe((res: any) => {
-  //       let displaySearchData = res;
-  //       localStorage.setItem('displaySearchData', JSON.stringify(displaySearchData))
-  //       this.router.navigate(['./display-item'])
-  //       setTimeout(() => {
-  //         this.reloadCurrentRoute();
-  //       }, 5)
-  //       this.input.nativeElement.value = '';
-
-  //     })
-  //   }
-  // }
-
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {

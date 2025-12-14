@@ -1,0 +1,53 @@
+.coming-soon-container {
+   /* background-color: rgb(6, 45, 81);  */
+   background: linear-gradient(
+  135deg,
+  rgb(6, 45, 81) 0%,
+  #8A2E4C 35%,
+  #C36A32 100%
+);
+
+  text-align: center;
+   /* padding-top: 60px; */
+   min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  color: #f1e85b;
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+}
+
+.wifi-section {
+    position: relative;
+    top: 0px;
+}
+
+.wifi-image {
+  max-width: 25%;
+}
+
+.logo-section {
+  margin-bottom: 30px;
+}
+
+.logo-image {
+  width: 370px;
+  max-width: 70%;
+  position: relative;
+  bottom: 40px;
+}
+
+.subtitle {
+  color: #e5e5e5;
+  font-size: 16px;
+  line-height: 1.5;
+  position: relative;
+  bottom: 110px;
+}

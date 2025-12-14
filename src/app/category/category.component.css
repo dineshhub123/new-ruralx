@@ -15,14 +15,15 @@ label {
 }
 
 .sidebar {
-  width: 100px;
-  overflow-y: scroll;
-  height: 500px;
-  overflow-x: hidden;
-  scrollbar-width: none;
- background-color:#08589a;
- position: fixed;
- top: 111px;
+  width: 75px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    background-color: #08589a;
+    position: fixed;
+    top: 111px;
+    height: calc(100vh - 178px);
+
 
 }
 
@@ -44,9 +45,11 @@ label {
 .content {
     flex: 1;
     position: absolute;
-    left: 115px;
-    height: 480px;
+    left: 90px;
+    top: 63px;
+    height: calc(100vh - 183px);
     overflow-y: auto;
+    right: 0;
 }
 
 .grid {
@@ -78,7 +81,7 @@ label {
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
-    gap: 20px;
+    gap: 10px;
 }
 
 .sub-card {
@@ -86,8 +89,8 @@ label {
 }
 
 .sub-card img {
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
   border-radius: 50%;       /* Makes it a circle */
   overflow: hidden;         /* Hide extra corners */
@@ -98,16 +101,19 @@ label {
   justify-content: center;
 }
 .category-title{
-font-size: 12px;
-font-weight: 600;
+font-size: 10px;
+font-weight: 500;
 text-align: center;
 color: #ffffff;
 cursor: pointer;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
 }
 .subcategory-title{
-font-size: 11px;
+font-size: 10px;
 text-align: center;
-color: #f44336;
+color: #ffffff;
 border-bottom: 1px solid gray;
 cursor: pointer;
 
@@ -117,11 +123,11 @@ font-size: 10px;
 text-align: left;
 color: black;
 cursor: pointer;
-font-weight: 600;
+font-weight: 500;
 
 }
 .category-heading{
-  font-size: 16px;
+  font-size: 14px;
   color: teal;
   font-weight: 600;
   padding-bottom: 5px;
@@ -143,7 +149,10 @@ label {
 .category-title.selected{
   color:teal;
 }
+.subcategory-title.selected{
+    color:teal;
 
+}
 .all-card-grid{
     display: flex;
     flex-direction: column;

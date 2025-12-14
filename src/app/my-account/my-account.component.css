@@ -1,0 +1,96 @@
+.account-container {
+    width: 90%;
+    margin: 50px auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+/* Header */
+.account-header {
+    background: #0a4984;
+    padding: 15px;
+    color: white;
+    text-align: center;
+    position: relative;
+}
+
+.account-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.back-arrow {
+    position: absolute;
+    top: 20px;
+    left: 15px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* Profile Section */
+.profile-section {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.profile-img {
+    width: 60px;
+    height: 60px;
+    background: #e5e5e5;
+    border-radius: 50%;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+
+}
+
+.profile-info {
+    margin-left: 15px;
+}
+
+.profile-info h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.profile-info p {
+    margin: 2px 0 0;
+    color: #666;
+}
+
+/* List Items */
+.account-list {
+    padding: 10px 0;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #f4f4f4;
+    cursor: pointer;
+}
+
+.list-item .icon {
+    width: 25px;
+    font-size: 20px;
+    margin-right: 20px;
+}
+
+.list-item .text {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.list-item .arrow {
+    font-size: 20px;
+    color: #999;
+}

@@ -132,4 +132,57 @@ export class AddcartComponent implements OnInit {
     }, 5)
 
   }
+    flyToCart(productImg: HTMLElement) {
+    const cartIcon = document.getElementById('cartIconTarget');
+    if (!cartIcon || !productImg) return;
+
+    const imgClone = productImg.cloneNode(true) as HTMLElement;
+    imgClone.classList.add('fly-img');
+    document.body.appendChild(imgClone);
+
+    const start = productImg.getBoundingClientRect();
+    const end = cartIcon.getBoundingClientRect();
+
+    // start position
+    imgClone.style.left = start.left + 'px';
+    imgClone.style.top = start.top + 'px';
+    imgClone.style.width = start.width + 'px';
+    imgClone.style.height = start.height + 'px';
+    imgClone.style.borderRadius = '18px';
+    // center of cart icon
+    const xMove =
+      end.left + end.width / 2 - (start.left + start.width / 2);
+    const yMove =
+      end.top + end.height / 2 - (start.top + start.height / 2);
+
+    requestAnimationFrame(() => {
+      imgClone.style.transform =
+        `translate(${xMove}px, ${yMove}px) scale(0.15)`;
+      imgClone.style.opacity = '0';
+    });
+    /* ✨ CART GLOW */
+    cartIcon.classList.add('cart-glow', 'cart-bounce');
+    setTimeout(() => {
+      cartIcon.classList.remove('cart-glow', 'cart-bounce');
+    }, 600);
+
+    setTimeout(() => imgClone.remove(), 700);
+  }
+  flyToCartFromEvent(event: MouseEvent) {
+  const target = event.currentTarget as HTMLElement;
+
+  // Find the product card
+  const productCard = target.closest('.product-card');
+  if (!productCard) return;
+
+  // Find the image inside this card
+  const productImg = productCard.querySelector(
+    '.product-image'
+  ) as HTMLElement;
+
+  if (productImg) {
+    this.flyToCart(productImg);
+  }
+}
+
 }

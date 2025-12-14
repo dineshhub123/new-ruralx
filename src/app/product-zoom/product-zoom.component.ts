@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
@@ -11,6 +11,7 @@ import SwiperCore, { Zoom, Thumbs, Pagination, } from 'swiper';
 import { ApiService } from '../services/api.service';
 import { SwiperComponent } from 'swiper/angular';
 import { SizeService } from '../services/size.service';
+import { ScrollService } from '../scroll.service';
 // Register Swiper modules
 SwiperCore.use([Zoom, Thumbs, Pagination]);
 
@@ -22,11 +23,14 @@ SwiperCore.use([Zoom, Thumbs, Pagination]);
 export class ProductZoomComponent implements OnInit {
   @ViewChild('mainSwiper') mainSwiper?: SwiperComponent;
   @ViewChild('thumbsSwiperRef') thumbsSwiperRef?: SwiperComponent;
+  @ViewChild('mainProductImage', { static: false })
+  mainProductImage!: ElementRef<HTMLElement>;
 
   thumbsSwiper: any;
   public showModal: boolean = false;
   show() {
     this.showModal = true;
+    this.scrollService.openPopup();
     setTimeout(() => {
       this.resetThumbsSwiper();
       this.thumbsSwiper?.update();
@@ -85,7 +89,8 @@ export class ProductZoomComponent implements OnInit {
     private apiService: ApiService,
     @Inject(DOCUMENT) private document: Document,
     private cd: ChangeDetectorRef,
-    private sizeService: SizeService
+    private sizeService: SizeService,
+    private scrollService:ScrollService
   ) {
 
     let itemZoom: any;
@@ -126,6 +131,7 @@ export class ProductZoomComponent implements OnInit {
 
   hide() {
     this.showModal = false;
+    this.scrollService.closePopup();
     this.document.body.classList.remove('no-scroll');
 
   }
@@ -192,6 +198,58 @@ export class ProductZoomComponent implements OnInit {
       (v: any) => v.colorCode === this.selectedColor);
     this.selectedImage = match ? match : null;
   }
+  flyToCart(productImg: HTMLElement) {
+    const cartIcon = document.getElementById('cartIconTarget');
+    if (!cartIcon || !productImg) return;
+
+    const imgClone = productImg.cloneNode(true) as HTMLElement;
+    imgClone.classList.add('fly-img');
+    document.body.appendChild(imgClone);
+
+    const start = productImg.getBoundingClientRect();
+    const end = cartIcon.getBoundingClientRect();
+
+    // start position
+    imgClone.style.left = start.left + 'px';
+    imgClone.style.top = start.top + 'px';
+    imgClone.style.width = start.width + 'px';
+    imgClone.style.height = start.height + 'px';
+    imgClone.style.borderRadius = '18px';
+    // center of cart icon
+    const xMove =
+      end.left + end.width / 2 - (start.left + start.width / 2);
+    const yMove =
+      end.top + end.height / 2 - (start.top + start.height / 2);
+
+    requestAnimationFrame(() => {
+      imgClone.style.transform =
+        `translate(${xMove}px, ${yMove}px) scale(0.15)`;
+      imgClone.style.opacity = '0';
+    });
+    /* ✨ CART GLOW */
+    cartIcon.classList.add('cart-glow', 'cart-bounce');
+    setTimeout(() => {
+      cartIcon.classList.remove('cart-glow', 'cart-bounce');
+    }, 600);
+
+    setTimeout(() => imgClone.remove(), 700);
+  }
+flyActiveSwiperImageToCart() {
+  const activeImg = document.querySelector(
+    '.swiper-slide-active img.product-image'
+  ) as HTMLElement;
+
+  if (activeImg) {
+    this.flyToCart(activeImg);
+  } else {
+    console.warn('No active swiper image found');
+  }
+}
+
+ngOnDestroy() {
+  this.scrollService.closePopup();
+  this.document.body.classList.remove('no-scroll');
+}
 
 }
 export interface Product {

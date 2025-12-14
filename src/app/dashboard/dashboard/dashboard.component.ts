@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { EChartsOption } from 'echarts';
@@ -7,6 +7,7 @@ import { trigger, transition, animate, style } from '@angular/animations';
 import { range } from 'rxjs';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
+import { ScrollService } from 'src/app/scroll.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,201 +16,143 @@ import { ApiService } from 'src/app/services/api.service';
 
 })
 export class DashboardComponent {
-  sliderImage1: any[] = []
-  sliderImage2: any[] = []
-  sliderImage4: any[] = []
-  sliderImage5: any[] = []
-  sliderImage6: any[] = []
-  sliderImage7: any[] = []
-  sliderImage8: any[] = []
-  sliderImage9: any[] = []
-  sliderImage10: any[] = []
-  sliderImage11: any[] = []
-  sliderImage12: any[] = []
-  productName: any;
-  salwarName: any;
-  ShoesName: any;
-  tshirtName: any;
-  sandalsName: any;
-  ironName: any;
-  walletName: any;
-  kidShoesName: any;
-  jentsShoesName: any;
-  smartwatchName: any;
-  kidsWearName: any;
-  smartPhoneName: any;
+  @ViewChild('tabHeader', { read: ElementRef })
+   tabHeader!: ElementRef;
+   public showHeaderAtTop :boolean = false;
+   public lastScrollTop = 0;
   loading = true;
+  cardSubCategoryList: any[] = [];
+  categoryData: any = {}; // store data per category
+  constructor(private router: Router, private apiService: ApiService,private scrollService: ScrollService) {
+    this.apiService.getProductListDetailsData().subscribe(list => {
+      const subCategory = list.map((sub: any) => sub.sub_category)
+      // Remove duplicates
+      const uniqueSubCategory = [...new Set(subCategory)];
+      this.cardSubCategoryList = uniqueSubCategory;
+      this.fetchChipCategories(this.cardSubCategoryList)
+      this.cardSubCategoryList.forEach((sub: any) => {
+        this.dynamicCardCategory(sub);
+      });
+    })
 
-  constructor(private router: Router, private apiService: ApiService) { }
+  }
 
   ngOnInit() {
     this.fetchCategoriesTypeItems();
+    this.scrollService.scroll$.subscribe(scrollTop => {
+  // Always show header at top
+  if (scrollTop <= 0) {
+    this.showHeaderAtTop = false;
+    return;
   }
+
+  // Scroll down → hide
+  if (scrollTop > this.lastScrollTop && scrollTop > 80) {
+    this.showHeaderAtTop = true;
+  }
+  // Scroll up → show
+  else if (scrollTop < this.lastScrollTop) {
+    this.showHeaderAtTop = false;
+  }
+
+  this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+ });
+  
+
+  }
+
+ngAfterViewInit() {
+  const header = this.tabHeader.nativeElement
+    .querySelector('.mat-mdc-tab-header');
+
+  if (!header) return;
+
+  let isDown = false;
+  let startX = 0;
+  let scrollLeft = 0;
+
+  header.addEventListener('mousedown', (e: MouseEvent) => {
+    isDown = true;
+    startX = e.pageX - header.offsetLeft;
+    scrollLeft = header.scrollLeft;
+  });
+
+  header.addEventListener('mouseleave', () => isDown = false);
+  header.addEventListener('mouseup', () => isDown = false);
+
+  header.addEventListener('mousemove', (e: MouseEvent) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - header.offsetLeft;
+    const walk = (x - startX) * 1.5; // speed
+    header.scrollLeft = scrollLeft - walk;
+  });
+}
+  chipsList: any[] = []; // dynamic chip list
+  fetchChipCategories(category: any) {
+    let payload = { searchData: category };
+    this.apiService.searchData(payload).subscribe((list: any[]) => {
+      // Remove duplicate categories
+      const uniqueCategories = [
+        ...new Set(list.map((item: any) => item.sub_category))
+      ];
+      // Build chip list dynamically
+      this.chipsList = uniqueCategories.map(category => {
+        const firstItem = list.find(item => item.sub_category === category);
+        const image = firstItem?.variants?.[0]?.images || ['../assets/img/default.png'];
+        this.loading = false;
+         // ✅ limit to max 10 chips
+        return {
+          category: category,
+          image: image
+        };
+
+      });
+      this.chipsList = this.chipsList.slice(0, 14)
+    });
+  }
+
+  dynamicCardCategory(subCategory: any) {
+    let payload = { searchData: subCategory };
+    this.apiService.searchData(payload).subscribe(itemList => {
+      const productNames = itemList.flatMap((p: any) => p.product_name);
+      const images = itemList.flatMap((p: any) =>
+        p.variants.flatMap((v: any) => v.images[0])
+      );
+      // Store per subcategory
+      this.categoryData[subCategory] = {
+        name: productNames[0], // show first name or customize
+        images: images.slice(0, 4) // first 4 images
+      };
+      this.loading = false;
+    });
+  }
+
+  // for carousel
+  carouselData: any[] = []; // to store category + images + names
   fetchCategoriesTypeItems() {
+    const categories = ['sandals', 'tshirts', 'shoes', 'saree', 'salwar_suit']; // you can fetch this from backend
+    categories.forEach(category => {
+      const payload = { searchData: category };
+      this.apiService.searchData(payload).subscribe(itemList => {
+        const names = itemList.map((p: any) => p.product_name);
+        const images = itemList.flatMap((p: any) =>
+          p.variants.flatMap((v: any) => v.images[0])
+        );
 
-    let sandalPayload = {
-      searchData: "sandals"
-    }
-    this.apiService.searchData(sandalPayload).subscribe(itemList => {
-      const productN = itemList.flatMap((name: any) => name.product_name
-      )
-      this.sandalsName = productN;
-
-      const allImages = itemList.flatMap((product: any) =>
-        product.variants.flatMap((variant: any) => variant.images[0])
-      );
-      this.sliderImage1 = allImages;
-      this.loading = false
-    })
-    let sareePayload = {
-      searchData: "saree"
-    }
-    this.apiService.searchData(sareePayload).subscribe(itemList => {
-      const productN = itemList.flatMap((name: any) => name.product_name
-      )
-      this.productName = productN;
-      const allImages = itemList.flatMap((product: any) =>
-        product.variants.flatMap((variant: any) => variant.images[0])
-      );
-      this.sliderImage4 = allImages;
-      this.loading = false
-    })
-    let salwarPayload = {
-      searchData: "salwar_suits"
-    }
-    this.apiService.searchData(salwarPayload).subscribe(itemList => {
-      const productN = itemList.flatMap((name: any) => name.product_name
-      )
-      this.salwarName = productN;
-
-      const allImages = itemList.flatMap((product: any) =>
-        product.variants.flatMap((variant: any) => variant.images[0])
-      );
-      this.sliderImage5 = allImages;
-      this.loading = false
-    })
-    let beltPayload = {
-      searchData: "irons"
-    }
-    this.apiService.searchData(beltPayload).subscribe(itemList => {
-      const productN = itemList.flatMap((name: any) => name.product_name
-      )
-      this.ironName = productN;
-
-      const allImages = itemList.flatMap((product: any) =>
-        product.variants.flatMap((variant: any) => variant.images[0])
-      );
-      this.sliderImage6 = allImages;
-      this.loading = false
-    })
-
-    let shoeKidesPayload = {
-      searchData: "shoes_kids"
-    }
-    this.apiService.searchData(shoeKidesPayload).subscribe(itemList => {
-      const productN = itemList.flatMap((name: any) => name.product_name
-      )
-      this.kidShoesName = productN;
-
-      const allImages = itemList.flatMap((product: any) =>
-        product.variants.flatMap((variant: any) => variant.images[0])
-      );
-      this.sliderImage7 = allImages;
-      this.loading = false
-    })
-
-    let walletPayload = {
-      searchData: "wallets"
-    }
-    this.apiService.searchData(walletPayload).subscribe(itemList => {
-      const productN = itemList.flatMap((name: any) => name.product_name
-      )
-      this.walletName = productN;
-
-      const allImages = itemList.flatMap((product: any) =>
-        product.variants.flatMap((variant: any) => variant.images[0])
-      );
-      this.sliderImage8 = allImages;
-      this.loading = false
-
-    })
-    let shoesPayload = {
-      searchData: "shoes"
-    }
-    this.apiService.searchData(shoesPayload).subscribe(itemList => {
-      const productN = itemList.flatMap((name: any) => name.product_name
-      )
-      this.jentsShoesName = productN;
-
-      const allImages = itemList.flatMap((product: any) =>
-        product.variants.flatMap((variant: any) => variant.images[0])
-      );
-      this.sliderImage9 = allImages;
-      this.loading = false
-
-    })
-    let watchPayload = {
-      searchData: "smartwatches"
-    }
-    this.apiService.searchData(watchPayload).subscribe(itemList => {
-      const productN = itemList.flatMap((name: any) => name.product_name
-      )
-      this.smartwatchName = productN;
-
-      const allImages = itemList.flatMap((product: any) =>
-        product.variants.flatMap((variant: any) => variant.images[0])
-      );
-      this.sliderImage10 = allImages;
-      this.loading = false
-    })
-    let kidWearPayload = {
-      searchData: "kids wear"
-    }
-    this.apiService.searchData(kidWearPayload).subscribe(itemList => {
-      const productN = itemList.flatMap((name: any) => name.product_name
-      )
-      this.kidsWearName = productN;
-
-      const allImages = itemList.flatMap((product: any) =>
-        product.variants.flatMap((variant: any) => variant.images[0])
-      );
-      this.sliderImage11 = allImages;
-      this.loading = false
-    })
-    let smartPhonePayload = {
-      searchData: "smartphones"
-    }
-    this.apiService.searchData(smartPhonePayload).subscribe(itemList => {
-      const productN = itemList.flatMap((name: any) => name.product_name
-      )
-      this.smartPhoneName = productN;
-
-      const allImages = itemList.flatMap((product: any) =>
-        product.variants.flatMap((variant: any) => variant.images[0])
-      );
-      this.sliderImage12 = allImages;
-      this.loading = false
-    })
-
-    let tshirtPayload = {
-      searchData: "tshirts"
-    }
-    this.apiService.searchData(tshirtPayload).subscribe(itemList => {
-      const productN = itemList.flatMap((name: any) => name.product_name
-      )
-      this.tshirtName = productN;
-
-      const allImages = itemList.flatMap((product: any) =>
-        product.variants.flatMap((variant: any) => variant.images[0])
-      );
-      this.sliderImage2 = allImages;
-      this.loading = false
-    })
-
+        this.carouselData.push({
+          category: category,
+          productNames: names,
+          images: images
+        });
+      });
+    });
   }
-  onClickImage(catgory: any) {
+
+
+  onClickImage(category: any) {
     let selectedImage = {
-      searchData: catgory
+      searchData: category
     };
     this.apiService.searchData(selectedImage).subscribe((res: any) => {
       let displaySearchData = res;
@@ -218,23 +161,18 @@ export class DashboardComponent {
     })
 
   }
-
-  userNoSearchItem(searchData: any) {
-    let userChipsData = {
-      searchData: searchData
-    };
-    this.apiService.searchData(userChipsData).subscribe(res => {
-      let displayMobileData = res;
-      localStorage.setItem('displaySearchData', JSON.stringify(displayMobileData))
-      this.router.navigate(['./display-item'])
-    })
-  }
-
-
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate([currentUrl]);
     });
   }
+
+  onTabChange(event: any) {
+  const selectedCategory = this.chipsList[event.index]?.category;
+  if ( event.index!== 0 ) {
+    this.onClickImage(selectedCategory);
+  }
+}
+
 }

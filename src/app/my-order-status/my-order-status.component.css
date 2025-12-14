@@ -1,0 +1,156 @@
+.order-details-card {
+    width: 90%;
+    margin: 50px auto;
+    padding: 15px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    font-family: Arial, sans-serif;
+}
+.back-arrow {
+    font-size: 22px;
+    cursor: pointer;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+
+/* Header */
+.header-row {
+     display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+
+}
+
+.back-btn {
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.header-row h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+/* Product Section */
+.product-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.details-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.product-info {
+    flex: 1;
+}
+
+.product-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.size {
+    color: #666;
+    margin-top: 4px;
+}
+
+.status-row {
+    font-size: 16px;
+    color: #0bbd6f;
+    margin-top: 8px;
+}
+
+.status-row .tick {
+    margin-right: 5px;
+}
+
+/* Right Section */
+.right-section {
+    text-align: right;
+}
+
+.date {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 8px;
+}
+
+.order-id {
+    color: #777;
+}
+
+/* Progress Section */
+.progress-section {
+    margin: 15px 0;
+}
+
+.progress {
+    display: flex;
+    align-items: center;
+}
+
+.circle {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+.circle.done {
+    background: #26d07c;
+}
+
+.line {
+    width: 45px;
+    height: 4px;
+    background: #ccc;
+}
+
+.line.done {
+    background: #26d07c;
+}
+
+.labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Sections */
+.section {
+    margin-top: 20px;
+}
+
+.section h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin: 6px 0;
+}
+
+.total strong {
+    font-size: 18px;
+}
+.total span {
+    font-size: 14px;
+    font-weight: 500;
+}

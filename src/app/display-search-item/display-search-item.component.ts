@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ElementRef,Renderer2 ,ViewChild,HostListener} from '@angular/core';
 import { Router } from '@angular/router';
 import { AddcartService } from '../services/addcart.service';
 
@@ -8,15 +8,99 @@ import { AddcartService } from '../services/addcart.service';
   styleUrls: ['./display-search-item.component.css']
 })
 export class DisplaySearchItemComponent implements OnInit {
+  @HostListener('window:scroll', [])
+
   public searchItem: any;
   public items: any;
   public addCartData: any;
+  public hideHeader:boolean = false;
+  lastScrollTop = 0;
+
+
   constructor(public router: Router, public addCartService: AddcartService) {
 
   }
   ngOnInit() {
     this.itemInitilize();
   }
+
+onWindowScroll() {
+  const currentScroll =
+    window.pageYOffset || document.documentElement.scrollTop;
+console.log("currentScroll",currentScroll)
+  // Always show header at top
+  if (currentScroll <= 0) {
+    this.hideHeader = false;
+    return;
+  }
+
+  // Scroll down → hide
+  if (currentScroll > this.lastScrollTop && currentScroll > 80) {
+    this.hideHeader = true;
+  }
+  // Scroll up → show
+  else if (currentScroll < this.lastScrollTop) {
+    this.hideHeader = false;
+  }
+
+  this.lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+}
+
+
+flyToCart(productImg: HTMLElement) {
+  const cartIcon = document.getElementById('cartIconTarget');
+  if (!cartIcon || !productImg) return;
+
+  const imgClone = productImg.cloneNode(true) as HTMLElement;
+  imgClone.classList.add('fly-img');
+  document.body.appendChild(imgClone);
+
+  const start = productImg.getBoundingClientRect();
+  const end = cartIcon.getBoundingClientRect();
+
+  // start position
+  imgClone.style.left = start.left + 'px';
+  imgClone.style.top = start.top + 'px';
+  imgClone.style.width = start.width + 'px';
+  imgClone.style.height = start.height + 'px';
+  imgClone.style.borderRadius = '18px';
+  // center of cart icon
+  const xMove =
+    end.left + end.width / 2 - (start.left + start.width / 2);
+  const yMove =
+    end.top + end.height / 2 - (start.top + start.height / 2);
+
+  requestAnimationFrame(() => {
+    imgClone.style.transform =
+      `translate(${xMove}px, ${yMove}px) scale(0.15)`;
+    imgClone.style.opacity = '0';
+  });
+ /* ✨ CART GLOW */
+      cartIcon.classList.add('cart-glow', 'cart-bounce');
+      setTimeout(() => {
+        cartIcon.classList.remove('cart-glow', 'cart-bounce');
+      }, 600);
+
+  setTimeout(() => imgClone.remove(), 700);
+}
+
+flyToCartFromEvent(event: MouseEvent) {
+  const target = event.currentTarget as HTMLElement;
+
+  // Find the product card
+  const productCard = target.closest('.product-card');
+  if (!productCard) return;
+
+  // Find the image inside this card
+  const productImg = productCard.querySelector(
+    '.product-image'
+  ) as HTMLElement;
+
+  if (productImg) {
+    this.flyToCart(productImg);
+  }
+}
+
   itemInitilize() {
     let data: any;
     data = localStorage.getItem('displaySearchData')

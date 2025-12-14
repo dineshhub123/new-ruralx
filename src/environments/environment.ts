@@ -1,5 +1,22 @@
 export const environment = {
   production: false,
+
+  getUserDetailsApiURL: 'https://ruralx.in/api/getUserLoginDetails.php',
+  searchApiUrl: 'https://ruralx.in/api/search_product.php',
+  uploadDataApiUrl: 'https://ruralx.in/api/uploadAdminData.php',
+  insertUserDetailsApiUrl: 'https://ruralx.in/api/insertUserDetailsData.php',
+  getProductListDetailsApiUrl: 'https://ruralx.in/api/getProductDetails.php',
+  productBuyerApiUrl: 'https://ruralx.in/api/productbuyer.php',
+  getProductNotifyApiUrl: 'https://ruralx.in/api/getProductNotification.php',
+  getBuyerDataApiUrl: 'https://ruralx.in/api/getProductBuyerData.php',
+  insertshippingAddressApiUrl: 'https://ruralx.in/api/insertShippingAddress.php',
+  getShippingAddressApiUrl: 'https://ruralx.in/api/getShippingAddress.php',
+  updateShippingAddressApiUrl: 'https://ruralx.in/api/updateShippingaddress.php',
+  deleteShippingAddressApiUrl: 'https://ruralx.in/api/deleteShippingaddress.php',
+  getCategoryListApiUrl: 'https://ruralx.in/api/get_all_category.php',
+  getMainCategoryApiUrl: 'https://ruralx.in/api/mainCategorySearchData.php',
+
+
   // getUserDetailsApiURL: 'http://localhost/getUserLoginDetails.php',
   // searchApiUrl: 'http://localhost/search_product.php',
   // uploadDataApiUrl: 'http://localhost/uploadAdminData.php',
@@ -15,21 +32,21 @@ export const environment = {
   // getCategoryListApiUrl: 'http://localhost/get_all_category.php',
   // getMainCategoryApiUrl: 'http://localhost/mainCategorySearchData.php',
 
- 
-  getUserDetailsApiURL: 'https://ruralx.in/api/getUserLoginDetails.php',
-  searchApiUrl: 'https://ruralx.in/api/search_product.php',
-  uploadDataApiUrl: 'https://ruralx.in/api/uploadAdminData.php',
-  insertUserDetailsApiUrl: 'https://ruralx.in/api/insertUserDetailsData.php',
-  getProductListDetailsApiUrl: 'https://ruralx.in/api/getProductDetails.php',
-  productBuyerApiUrl: 'https://ruralx.in/api/productbuyer.php',
-  getProductNotifyApiUrl: 'https://ruralx.in/api/getProductNotification.php',
-  getBuyerDataApiUrl: 'https://ruralx.in/api/getProductBuyerData.php',
-  insertshippingAddressApiUrl: 'https://ruralx.in/api/insertShippingAddress.php',
-  getShippingAddressApiUrl: 'https://ruralx.in/api/getShippingAddress.php',
-  updateShippingAddressApiUrl: 'https://ruralx.in/api/updateShippingaddress.php',
-  deleteShippingAddressApiUrl: 'https://ruralx.in/api/deleteShippingaddress.php',
-  getCategoryListApiUrl: 'https://ruralx.in/api/get_all_category.php',
-  getMainCategoryApiUrl: 'https://ruralx.in/api/mainCategorySearchData.php',
+
+  //   getUserDetailsApiURL: 'http://160.250.205.46/api/getUserLoginDetails.php',
+  // searchApiUrl: 'http://160.250.205.46/api/search_product.php',
+  // uploadDataApiUrl: 'http://160.250.205.46/api/uploadAdminData.php',
+  // insertUserDetailsApiUrl: 'http://160.250.205.46/api/insertUserDetailsData.php',
+  // getProductListDetailsApiUrl: 'http://160.250.205.46/api/getProductDetails.php',
+  // productBuyerApiUrl: 'http://160.250.205.46/api/productbuyer.php',
+  // getProductNotifyApiUrl: 'http://160.250.205.46/api/getProductNotification.php',
+  // getBuyerDataApiUrl: 'http://160.250.205.46/api/getProductBuyerData.php',
+  // insertshippingAddressApiUrl: 'http://160.250.205.46/api/insertShippingAddress.php',
+  // getShippingAddressApiUrl: 'http://160.250.205.46/api/getShippingAddress.php',
+  // updateShippingAddressApiUrl: 'http://160.250.205.46/api/updateShippingaddress.php',
+  // deleteShippingAddressApiUrl: 'http://160.250.205.46/api/deleteShippingaddress.php',
+  // getCategoryListApiUrl: 'http://160.250.205.46/api/get_all_category.php',
+  // getMainCategoryApiUrl: 'http://160.250.205.46/api/mainCategorySearchData.php',
 
 };
 

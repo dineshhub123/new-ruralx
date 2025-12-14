@@ -11,7 +11,7 @@
           <li class="sub-card"
               [class.selected]="selectedCategory === cat.category">
             <img [src]="cat.variants[0].images[0] | replacePath:'new-ruralx/src':'..'" />
-           <label class="subcategory-title">{{ cat.sub_category | titlecase }}</label>
+           <label class="subcategory-title" [class.selected]="selectedCategory === cat.category">{{ cat.sub_category | titlecase }}</label>
           </li>
         </ul>
       </li>
