@@ -23,15 +23,56 @@ export class AddcartService {
   saveCart(cart: any[]): void {
     localStorage.setItem(this.cartKey, JSON.stringify(cart));
   }
-  addToCart(product: any): void {
-    const cart = this.getCart();
-    const exists = cart.find(item => item.id === product.id && item.userId === product.userId);
-    if (!exists) {
-      cart.push(product);
-      this.saveCart(cart);
-      this.cartSubject.next([...cart]);
+  // addToCart(product: any): void {
+  //   const cart = this.getCart();
+  //   const exists = cart.find(item => item.id === product.id && item.userId === product.userId && item.color === product.color);
+  //   if (exists) {
+  //   exists.quantity = (exists.quantity || 1) + product.quantity;
+  // } else {
+  //   cart.push(product);
+  // }
+
+  // this.saveCart(cart);
+  // this.cartSubject.next([...cart]);
+  // }
+
+  addToCart(product: any): boolean {
+  const MAX_QTY = 4;
+  const cart = this.getCart();
+
+  const exists = cart.find(
+    item =>
+      item.id === product.id &&
+      item.userId === product.userId &&
+      item.color === product.color
+  );
+
+  if (exists) {
+    const currentQty = exists.quantity || 1;
+    const addQty = product.quantity || 1;
+
+    const newQty = currentQty + addQty;
+
+    // 🔒 CAP at 4
+    exists.quantity = newQty > MAX_QTY ? MAX_QTY : newQty;
+
+    // ❌ If already max, stop
+    if (currentQty >= MAX_QTY) {
+      return false; // max reached
     }
+
+  } else {
+    // New product → but still cap
+    product.quantity = Math.min(product.quantity || 1, MAX_QTY);
+    cart.push(product);
   }
+
+  this.saveCart(cart);
+  this.cartSubject.next([...cart]);
+  return true;
+}
+
+
   setCart(items: any[]): void {
     this.saveCart(items);
     this.cartSubject.next(items);

@@ -4,8 +4,9 @@
     position: fixed;
     z-index: 1;
     width: 100%;
-    bottom: -2px;
+    bottom: 0px;
     left: 0;
+    height: 58px;
     /* background-color:rgb(90, 95, 64);rgb(20, 20, 87) */
     background-color: rgb(6, 45, 81);
     margin: 0;
@@ -15,7 +16,7 @@
 }
 
 .mobi-sec-footer ul li {
-    width: 20%;
+    width: 25%;
     float: left;
 }
 

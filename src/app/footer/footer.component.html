@@ -22,21 +22,21 @@
 
     <li>
       <a class="footer-menu-link" (click)="cartFun()" routerLinkActive="active" #rla="routerLinkActive">
-        <span class="mobi-foot-image orders-lst-image ml-3">
+        <span class="mobi-foot-image orders-lst-image">
           <mat-icon id="cartIconTarget">shopping_cart</mat-icon>
         </span>
         <label class="cart-badge">{{itemQuantity}}</label>
 
-        <span class="mobi-foot-name">Cart </span>
+        <span class="mobi-foot-name mr-3">Cart </span>
       </a>
     </li>
 
-    <li>
+    <!-- <li>
       <a class="footer-menu-link" (click)="back()" routerLinkActive="active" #rla="routerLinkActive">
         <span class="mobi-foot-image fund-lst-image"><mat-icon>keyboard_backspace</mat-icon></span>
         <span class="mobi-foot-name">BACK</span>
       </a>
-    </li>
+    </li> -->
   </ul>
 </div>
 <div class="overlay"></div>

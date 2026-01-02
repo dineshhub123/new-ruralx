@@ -13,7 +13,6 @@ import { AddcartService } from './services/addcart.service';
 import { Product } from './product-zoom/product-zoom.component';
 import { ToastrService } from 'ngx-toastr';
 import { ScrollService } from './scroll.service';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -53,7 +52,7 @@ export class AppComponent {
     private _DomSanitizationService: DomSanitizer,
     public apiService: ApiService,
     private viewportScroller: ViewportScroller,
-    private scrollService: ScrollService
+    private scrollService: ScrollService,
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -108,7 +107,11 @@ export class AppComponent {
 
 
     }
+
   }
+
+
+
   checkScreen() {
     this.isDesktop = window.innerWidth >= 769;
   }

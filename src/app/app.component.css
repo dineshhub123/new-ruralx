@@ -54,7 +54,7 @@ mat-sidenav {
 }
 
 ::ng-deep .mat-sidenav-container {
-   height: calc(100vh - 120px); 
+   height: calc(100vh - 113px); 
    overflow: hidden;
 }
 

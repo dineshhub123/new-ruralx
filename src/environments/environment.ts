@@ -15,7 +15,7 @@ export const environment = {
   deleteShippingAddressApiUrl: 'https://ruralx.in/api/deleteShippingaddress.php',
   getCategoryListApiUrl: 'https://ruralx.in/api/get_all_category.php',
   getMainCategoryApiUrl: 'https://ruralx.in/api/mainCategorySearchData.php',
-
+  placeOrderApiUrl: 'https://ruralx.in/api/place_order.php'
 
   // getUserDetailsApiURL: 'http://localhost/getUserLoginDetails.php',
   // searchApiUrl: 'http://localhost/search_product.php',

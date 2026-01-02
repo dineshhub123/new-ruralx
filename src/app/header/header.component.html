@@ -4,7 +4,7 @@
       <form #searchData="ngForm" (ngSubmit)="searchDataFn(myControl.value)">
         <div class="navbar-input_btn ">
           <div class="setwidth">
-            <input type="text" placeholder="Search for product, brand & more" aria-label="Number" matInput
+            <input type="text" placeholder="Type to search products" aria-label="Number" matInput
               [formControl]="myControl" [matAutocomplete]="auto" #searchValue (keyup)="searchDataFn(myControl.value)">
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
               <mat-option *ngFor="let option of filteredOptions | async" [value]="option">

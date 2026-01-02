@@ -7,8 +7,8 @@
             [pagination]="{clickable: true}" class="mySwiper">
             <ng-template swiperSlide *ngFor="let image of cartItem?.images">
               <div class="swiper-zoom-container-main">
-                <img #mainProductImage
-               class="product-image" (click)="show()" [src]="image | replacePath:'new-ruralx/src':'..'" />
+                <img #mainProductImage class="product-image" (click)="show()"
+                  [src]="image | replacePath:'new-ruralx/src':'..'" />
               </div>
             </ng-template>
           </swiper>
@@ -46,7 +46,12 @@
         </div>
         <div class="description-title">Product Description : </div>
         <div [innerHTML]="cartItems.product_description"></div>
-        <!-- <div class="mrp-content">In Stocks : {{inStock}} </div> -->
+        <div class="mrp-content">In Stocks :
+          <span
+            [ngClass]="{'in-stock': selectedImage[0]?.stock >=5,'limited-stock': selectedImage[0]?.stock > 0 && selectedImage[0]?.stock < 5,'out-stock': selectedImage[0]?.stock === 0}">
+            {{selectedImage[0]?.stock >=5? 'In Stock': selectedImage[0]?.stock > 0 && selectedImage[0]?.stock < 5? 'Limited Stock': 'Out of Stock'}}
+          </span>
+        </div>
         <div class="pt-2 quantity-btn-align">
           <nav aria-label="quantity-navigation">
             <h5><strong>Quantity:</strong></h5>
@@ -67,11 +72,12 @@
             <span class="delivery_title">Select Delivery Location</span>
           </strong>
           <div class="pt-3">
-            <button class="btn btn-warning btn-md mb-2 mr-2 btn-align-buy" (click)="$event.stopPropagation(); flyActiveSwiperImageToCart();addCart(cartItems)"><i
+            <button class="btn btn-warning btn-md mb-2 mr-2 btn-align-buy"[disabled]="selectedImage[0]?.stock === 0"
+              (click)="$event.stopPropagation(); flyActiveSwiperImageToCart();addCart(cartItems)"><i
                 class="fa fa-shopping-cart"> </i> ADD TO CART
             </button>
-            <button class="btn btn-danger btn-md mb-2 btn-align-buy" (click)="addDetails()"><i class="fa fa-credit-card"
-                aria-hidden="true"></i> BUY NOW</button>
+            <button class="btn btn-danger btn-md mb-2 btn-align-buy" (click)="addDetails()" [disabled]="selectedImage[0]?.stock === 0"><i class="fa fa-credit-card"
+              aria-hidden="true"></i> BUY NOW</button>
           </div>
           <div>
             <strong style="color:red;font-size: 11px;"> Secure Transaction </strong>

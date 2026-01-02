@@ -15,8 +15,8 @@ export class DisplaySearchItemComponent implements OnInit {
   public addCartData: any;
   public hideHeader:boolean = false;
   lastScrollTop = 0;
-
-
+  MAX_QTY = 4;
+ flyCartIncreament:any
   constructor(public router: Router, public addCartService: AddcartService) {
 
   }
@@ -85,6 +85,9 @@ flyToCart(productImg: HTMLElement) {
 }
 
 flyToCartFromEvent(event: MouseEvent) {
+  if (this.currentQty >= this.MAX_QTY) {
+    return;
+  }
   const target = event.currentTarget as HTMLElement;
 
   // Find the product card
@@ -99,6 +102,11 @@ flyToCartFromEvent(event: MouseEvent) {
   if (productImg) {
     this.flyToCart(productImg);
   }
+
+}
+get currentQty(): number {
+  const item = this.searchItem.find( (i:any) =>i.id);  
+  return item?.quantity || 0;
 }
 
   itemInitilize() {
@@ -121,6 +129,9 @@ flyToCartFromEvent(event: MouseEvent) {
     addItam.userId = findUser?.userId;
     addItam.isGuest = findUser?.isGuest;
     addItam.image_url = addItam?.variants[0].images;
+    addItam.size = addItam?.variants[0].size
+    addItam.color = addItam?.variants[0].color
+    //addItam.variants = []
     this.addCartService.addToCart(addItam)
   }
 
@@ -132,7 +143,7 @@ flyToCartFromEvent(event: MouseEvent) {
     let deleteItem: any = {};
     deleteItem = localStorage.getItem('cart_items')
     let diTtem = JSON.parse(deleteItem)
-    let index = diTtem.findIndex((x: any) => x?.id === decItem?.id && x?.userId === decItem?.userId)
+    let index = diTtem.findIndex((x: any) => x?.id === decItem?.id && x?.userId === decItem?.userId && x.color === decItem.color)
     if (index !== -1) {
       if (decItem.quantity === 0) {
         diTtem.splice(index, 1);
@@ -150,11 +161,13 @@ flyToCartFromEvent(event: MouseEvent) {
 
   }
   increment(incrItem: any) {
-    incrItem.quantity++;
+    if (incrItem.quantity < this.MAX_QTY) {
+       this.flyCartIncreament =  incrItem.quantity++;
+        }
     let addItem: any = {};
     addItem = localStorage.getItem('cart_items')
     let incItem = JSON.parse(addItem)
-    let findObj = incItem.find((x: any) => x?.id === incrItem?.id && x?.userId === incrItem?.userId)
+    let findObj = incItem.find((x: any) => x?.id === incrItem?.id && x?.userId === incrItem?.userId && x.color === incrItem.color)
     if (findObj) {
       findObj.quantity = incrItem.quantity;
     } else {
@@ -166,7 +179,6 @@ flyToCartFromEvent(event: MouseEvent) {
     localStorage.setItem('cart_items', JSON.stringify(incItem))
     this.addCartService.removeCart();
     this.searchItem = JSON.parse(incItem)
-
     setTimeout(() => {
       this.reloadCurrentRoute();
     }, 5)

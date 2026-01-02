@@ -148,3 +148,7 @@ background-color: #ff9f00;
 
 }
 
+.page-link.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}

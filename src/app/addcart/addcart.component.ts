@@ -17,6 +17,7 @@ export class AddcartComponent implements OnInit {
   unsubscribe: any;
   public counter: number = 1;
   checkUserExiest: boolean = false;
+   MAX_QTY = 4;
   constructor(private router: Router, public addCartService: AddcartService, public apiService: ApiService,public toastr:ToastrService) {
     let user:any;
     user = localStorage.getItem("login_user")
@@ -101,8 +102,8 @@ export class AddcartComponent implements OnInit {
     let deleteItem: any = {};
     deleteItem = localStorage.getItem('cart_items')
     let diTtem = JSON.parse(deleteItem)
-    let index = diTtem.findIndex((x: any) => x?.id === itemDec?.id && x?.userId === itemDec?.userId)
-    let findObj = diTtem.find((x: any) => x?.id === itemDec?.id && x?.userId === itemDec?.userId)
+    let index = diTtem.findIndex((x: any) => x?.id === itemDec?.id && x?.userId === itemDec?.userId && x.color === itemDec.color)
+    let findObj = diTtem.find((x: any) => x?.id === itemDec?.id && x?.userId === itemDec?.userId && x.color === itemDec.color)
     let updatedQuantity = findObj?.quantity
     updatedQuantity--
     findObj["quantity"] = updatedQuantity
@@ -117,14 +118,17 @@ export class AddcartComponent implements OnInit {
 
 
   }
+  updatedQuantity:any;
   increment(itemInc: any) {
     let deleteItem: any = {};
     deleteItem = localStorage.getItem('cart_items')
     let diTtem = JSON.parse(deleteItem)
-    let findObj = diTtem.find((x: any) => x?.id === itemInc?.id && x?.userId === itemInc?.userId)
-    let updatedQuantity = findObj?.quantity
-    updatedQuantity += 1
-    findObj["quantity"] = updatedQuantity
+    let findObj = diTtem.find((x: any) => x?.id === itemInc?.id && x?.userId === itemInc?.userId && x.color === itemInc.color)
+     this.updatedQuantity = findObj?.quantity
+    if (this.updatedQuantity < this.MAX_QTY) {
+    this.updatedQuantity += 1
+        }
+    findObj["quantity"] = this.updatedQuantity
     localStorage.setItem('cart_items', JSON.stringify(diTtem))
     this.addCartService.removeCart();
     setTimeout(() => {
@@ -169,6 +173,10 @@ export class AddcartComponent implements OnInit {
     setTimeout(() => imgClone.remove(), 700);
   }
   flyToCartFromEvent(event: MouseEvent) {
+    if (this.updatedQuantity >= this.MAX_QTY) {
+    return;
+  }
+
   const target = event.currentTarget as HTMLElement;
 
   // Find the product card

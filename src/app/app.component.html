@@ -1,4 +1,4 @@
-<mat-toolbar class="mat-elevation-z8  main-header" [class.hide]="hideHeader">
+<mat-toolbar class="mat-elevation-z8 main-header" [class.hide]="hideHeader">
   <div class="menu">
     <button class="btn-menu" mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
       <mat-icon *ngIf="!sidenav.opened" class="toggle-sidenav"> menu </mat-icon>
@@ -19,6 +19,7 @@
         <span class="cart-badge">{{itemQuantity}}</span>
       </div>
       <span class="icon-menu-cart">Cart</span>
+      <span class="icon-menu-cart">Items</span>
     </li> 
     </span>
     <li (click)="openDialogD()">
@@ -40,7 +41,6 @@
       <button mat-menu-item (click)="userLogout()"><mat-icon>exit_to_app</mat-icon>Logout</button>
     </mat-menu>
   </ul>
-
 </mat-toolbar>
 
 <!-- Toolbar -->
@@ -202,7 +202,7 @@
       <router-outlet></router-outlet>
     </div>
     <app-footer class="footer"></app-footer> -->
-    <app-header></app-header>
+     <app-header class="header"></app-header>
     <div class="main-content pt-5" #scrollContainer (scroll)="onContentScroll($event)">
       <router-outlet></router-outlet>
     </div>

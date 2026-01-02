@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
-
 @Component({
   selector: 'app-my-account',
   templateUrl: './my-account.component.html',
@@ -8,7 +7,4 @@ import { Location } from '@angular/common';
 })
 export class MyAccountComponent {
   constructor(private location: Location){}
-goBack() {
-    this.location.back();
-  }
 }

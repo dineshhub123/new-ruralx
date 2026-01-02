@@ -4,7 +4,6 @@ import { Location } from '@angular/common';
 import { AddcartService } from '../services/addcart.service';
 import { Product } from '../product-zoom/product-zoom.component';
 import { LoginService } from '../services/login.service';
-
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
@@ -14,7 +13,9 @@ export class FooterComponent implements OnInit {
   public itemQuantity: number = 0;
   public cartItems: Product[] = [];
 
-  constructor(public router: Router, public location: Location, public addCartService: AddcartService, public loginService: LoginService,) { }
+  constructor(public router: Router, public location: Location,
+     public addCartService: AddcartService, public loginService: LoginService,
+    ) { }
 
   ngOnInit() {
     this.loginService.user$.subscribe(user => {
@@ -39,7 +40,7 @@ export class FooterComponent implements OnInit {
   }
 
 
-  back(): void {
-    this.location.back()
-  }
+//   back(): void {
+//   this.backButtonService.triggerBack();  
+// }
 }

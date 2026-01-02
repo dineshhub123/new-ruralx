@@ -10,9 +10,8 @@
     color: white;
     padding: 15px;
     border-radius: 15px 15px 0px 0px;
-    display: flex;
-    align-items: center;
     gap: 10px;
+    text-align: center;
 }
 
 .back-btn {

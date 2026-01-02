@@ -68,8 +68,11 @@ export class ProductZoomComponent implements OnInit {
   selectedColor: string | null = null;
   selectedSize: string | null = null;
   selectedImage: any[] = [];
+  MAX_QTY = 4;
   increment() {
+    if (this.counter < this.MAX_QTY) {
     this.counter += 1;
+    }
   }
 
   decrement() {
@@ -90,7 +93,7 @@ export class ProductZoomComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     private cd: ChangeDetectorRef,
     private sizeService: SizeService,
-    private scrollService:ScrollService
+    private scrollService:ScrollService,
   ) {
 
     let itemZoom: any;
@@ -104,7 +107,6 @@ export class ProductZoomComponent implements OnInit {
       const indexB = sizeOrder.indexOf(b);
       return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
     });
-    // this.inStock = this.cartItems?.variants[2].stock
   }
 
   swiperVal: any
@@ -150,8 +152,10 @@ export class ProductZoomComponent implements OnInit {
   ngOnInit() {
     this.sizes = this.sizeService.getSizes(this.cartItems.category, this.cartItems.sub_category);
     this.selectedColor = this.colorCodes[0];
+    this.selectedSize = "M"
     this.updateImage();
   }
+
   addCartItem: any = []
   addCart(cartData: any) {
     let user: any
@@ -161,9 +165,9 @@ export class ProductZoomComponent implements OnInit {
     cartData.quantity = this.counter
     cartData.isGuest = userId?.isGuest
     cartData.image_url = this.selectedImage[0].images
-    cartData.size = this.selectedImage[0].size
+    cartData.size = this.sizes[0]
     cartData.color = this.selectedImage[0].color
-    cartData.variants = []
+    //cartData.variants = []
     this.addCartService.addToCart(cartData)
   }
   addDetails() {
@@ -194,8 +198,7 @@ export class ProductZoomComponent implements OnInit {
   }
 
   updateImage() {
-    const match = this.cartItems?.variants.filter(
-      (v: any) => v.colorCode === this.selectedColor);
+    const match = this.cartItems?.variants.filter((v: any) => v.colorCode === this.selectedColor);
     this.selectedImage = match ? match : null;
   }
   flyToCart(productImg: HTMLElement) {
@@ -249,6 +252,7 @@ flyActiveSwiperImageToCart() {
 ngOnDestroy() {
   this.scrollService.closePopup();
   this.document.body.classList.remove('no-scroll');
+
 }
 
 }

@@ -1,10 +1,10 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, NgZone, ViewChild } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { EChartsOption } from 'echarts';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { trigger, transition, animate, style } from '@angular/animations';
-import { range } from 'rxjs';
+import { forkJoin, range } from 'rxjs';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { ScrollService } from 'src/app/scroll.service';
@@ -23,7 +23,7 @@ export class DashboardComponent {
   loading = true;
   cardSubCategoryList: any[] = [];
   categoryData: any = {}; // store data per category
-  constructor(private router: Router, private apiService: ApiService,private scrollService: ScrollService) {
+  constructor(private router: Router, private apiService: ApiService,private scrollService: ScrollService,private ngZone: NgZone) {
     this.apiService.getProductListDetailsData().subscribe(list => {
       const subCategory = list.map((sub: any) => sub.sub_category)
       // Remove duplicates
@@ -39,7 +39,12 @@ export class DashboardComponent {
 
   ngOnInit() {
     this.fetchCategoriesTypeItems();
-    this.scrollService.scroll$.subscribe(scrollTop => {
+window.addEventListener('pullToRefresh', () => {
+    // 🔥 ENTER ANGULAR ZONE
+    this.ngZone.run(() => {
+      this.fetchCategoriesTypeItems();
+    });
+  });    this.scrollService.scroll$.subscribe(scrollTop => {
   // Always show header at top
   if (scrollTop <= 0) {
     this.showHeaderAtTop = false;
@@ -57,7 +62,7 @@ export class DashboardComponent {
 
   this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
  });
-  
+
 
   }
 
@@ -130,24 +135,49 @@ ngAfterViewInit() {
 
   // for carousel
   carouselData: any[] = []; // to store category + images + names
-  fetchCategoriesTypeItems() {
-    const categories = ['sandals', 'tshirts', 'shoes', 'saree', 'salwar_suit']; // you can fetch this from backend
-    categories.forEach(category => {
-      const payload = { searchData: category };
-      this.apiService.searchData(payload).subscribe(itemList => {
+fetchCategoriesTypeItems() {
+  // 🔄 Reset data on refresh
+  this.carouselData = [];
+
+  const categories = ['sandals', 'tshirts', 'shoes', 'saree', 'salwar_suit'];
+
+  // Create API calls array
+  const requests = categories.map(category => {
+    const payload = { searchData: category };
+    return this.apiService.searchData(payload);
+  });
+
+  // 🔥 WAIT FOR ALL APIS
+  forkJoin(requests).subscribe({
+    next: (responses: any[]) => {
+
+      responses.forEach((itemList, index) => {
+        const category = categories[index];
+
         const names = itemList.map((p: any) => p.product_name);
         const images = itemList.flatMap((p: any) =>
-          p.variants.flatMap((v: any) => v.images[0])
+          p.variants?.flatMap((v: any) => v.images?.[0] || []) || []
         );
 
         this.carouselData.push({
-          category: category,
+          category,
           productNames: names,
-          images: images
+          images
         });
       });
-    });
-  }
+
+      // ✅ STOP ANDROID SPINNER (ONLY ONCE)
+      (window as any).Android?.stopSwipeRefresh();
+      this.loading =false
+    },
+    error: (err) => {
+      console.error(err);
+      (window as any).Android?.stopSwipeRefresh();
+      this.loading = false
+    }
+  });
+}
+
 
 
   onClickImage(category: any) {

@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class UseraddressComponent implements OnInit {
   public addShipTextForm: boolean = false
-  public  addCartData: any;
+  public addCartData: any;
   couponFormControl = new FormControl('');
 
   public editId: any = Number
@@ -19,7 +19,7 @@ export class UseraddressComponent implements OnInit {
   public exiestShipment: any = [];
   public loginUserAddress: any = [];
   public selectedAddress = "defaultAddress"
-  constructor(private fb: FormBuilder, private apiService: ApiService,public router:Router) {
+  constructor(private fb: FormBuilder, private apiService: ApiService, public router: Router) {
     let cartItem: any;
     cartItem = localStorage.getItem('cart_items')
     this.addCartData = JSON.parse(cartItem)
@@ -159,7 +159,47 @@ export class UseraddressComponent implements OnInit {
     this.addShipTextForm = !this.addShipTextForm;
   }
   confirmOrder() {
-    console.log(this.radioForm?.value?.radioOption)
-    this.router.navigateByUrl('/payment-options')
+    //console.log(this.radioForm?.value?.radioOption)
+    //this.router.navigateByUrl('/payment-options')
+
+    let orderPayload = {
+      // user_id: 1,
+      // total_amount: 599.00,
+      // {
+      "user_id": 25,
+      "order_amount": 1299,
+      "payment_method": "COD",
+      "order_source": "APP",
+      "delivery_address": {
+        "name": "Dinesh Bhagat",
+        "mobile": "9876543210",
+        "address": "Main Road, Near Bus Stand",
+        "village": "Garra",
+        "district": "Balaghat",
+        "state": "Madhya Pradesh",
+        "pincode": "481331"
+      },
+      "items": [
+        {
+          "product_id": 101,
+          "product_name": "Chiffon Saree",
+          "price": 300,
+          "quantity": 2
+        },
+        {
+          "product_id": 205,
+          "product_name": "Cotton Shirt",
+          "price": 699,
+          "quantity": 1
+        }
+      ]
+      //}
+
+    }
+
+    this.apiService.placeAnOrder(orderPayload).subscribe(res => {
+      console.log("orderRes:", res)
+    })
+
   }
 }

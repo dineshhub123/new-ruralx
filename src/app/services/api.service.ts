@@ -26,7 +26,7 @@ export class ApiService {
   apiDeleteShippingAddressURL:string = environment.deleteShippingAddressApiUrl
   apiCategoryListURL:string = environment.getCategoryListApiUrl
   apiOnSelectCategoryListURL:string = environment.getMainCategoryApiUrl
-
+  apiPlaceOrderUrl:string = environment.placeOrderApiUrl
   constructor(private http: HttpClient,private router:Router) { }
   
   commonHeaderFunction(){
@@ -90,6 +90,9 @@ export class ApiService {
   }
   getOnSelctCategoryList(object:any):Observable<any> {
     return this.http.post(this.apiOnSelectCategoryListURL,object).pipe(map((res:any)=>res))
+  }
+  placeAnOrder(object:any):Observable<any> {
+    return this.http.post(this.apiPlaceOrderUrl,object).pipe(map((res:any)=>res))
   }
 
 }
