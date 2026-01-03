@@ -70,143 +70,59 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-action-list>
-          <a mat-list-item routerLink="dashboard" routerLinkActive="active-link">
-            <mat-icon matListIcon>dashboard</mat-icon> Overview
+          <a mat-list-item routerLink="dashboard" routerLinkActive="active-link" (click)="sidenav.toggle()">
+            <mat-icon matListIcon>dashboard</mat-icon><span class="ml-2">Home</span> 
           </a>
         </mat-action-list>
       </mat-expansion-panel>
-
-      <!-- Orders -->
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <mat-icon>shopping_cart</mat-icon>
-            <span class="ml-2">Orders</span>
+            <mat-icon>category</mat-icon>
+            <span class="ml-2">Category</span>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-action-list>
-          <a mat-list-item routerLink="/customerorder" routerLinkActive="active-link">
-            <mat-icon matListIcon>assignment</mat-icon> All Orders
-          </a>
-          <a mat-list-item routerLink="/orders/new" routerLinkActive="active-link">
-            <mat-icon matListIcon>assignment</mat-icon> New Orders
-          </a>
-          <a mat-list-item routerLink="/orders/processing" routerLinkActive="active-link">
-            <mat-icon matListIcon>autorenew</mat-icon> Processing
-          </a>
-          <a mat-list-item routerLink="/orders/shipped" routerLinkActive="active-link">
-            <mat-icon matListIcon>local_shipping</mat-icon> Shipped
-          </a>
-          <a mat-list-item routerLink="/orders/delivered" routerLinkActive="active-link">
-            <mat-icon matListIcon>check_circle</mat-icon> Delivered
-          </a>
-          <a mat-list-item routerLink="/orders/cancelled" routerLinkActive="active-link">
-            <mat-icon matListIcon>cancel</mat-icon> Cancelled
-          </a>
-          <a mat-list-item routerLink="/orders/returned" routerLinkActive="active-link">
-            <mat-icon matListIcon>undo</mat-icon> Returned
+          <a mat-list-item routerLink="category" routerLinkActive="active-link" (click)="sidenav.toggle()">
+            <mat-icon matListIcon>category</mat-icon> <span class="ml-2">Category</span> 
           </a>
         </mat-action-list>
       </mat-expansion-panel>
+<div class="info-list">
+  <div class="info-item">
+     <mat-icon matListIcon>description</mat-icon> 
+    <span class="text">Terms & Condition</span>
+     <mat-icon matListIcon>chevron_right</mat-icon> 
+  </div>
 
-      <!-- Products -->
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>inventory_2</mat-icon>
-            <span class="ml-2">Products</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-action-list>
-          <a mat-list-item routerLink="/products/all" routerLinkActive="active-link">
-            <mat-icon matListIcon>inventory</mat-icon> All Products
-          </a>
-          <a mat-list-item routerLink="/uploadproduct" routerLinkActive="active-link">
-            <mat-icon matListIcon>add_box</mat-icon> Add Product
-          </a>
-          <a mat-list-item routerLink="/products/categories" routerLinkActive="active-link">
-            <mat-icon matListIcon>category</mat-icon> Categories
-          </a>
-          <a mat-list-item routerLink="/products/categories/brands" routerLinkActive="active-link">
-            <mat-icon matListIcon>layers</mat-icon> Brands
-          </a>
-          <a mat-list-item routerLink="/products/low-stock" routerLinkActive="active-link">
-            <mat-icon matListIcon>report_problem</mat-icon> Low Stock
-          </a>
-        </mat-action-list>
-      </mat-expansion-panel>
+  <div class="info-item">
+    <mat-icon matListIcon>lock</mat-icon> 
+    <span class="text">Privacy Policy</span>
+    <mat-icon matListIcon>chevron_right</mat-icon> 
+  </div>
 
-      <!-- Customers -->
-      <!-- Customers -->
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>group</mat-icon>
-            <span class="ml-2">Customers</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-action-list>
-          <a mat-list-item routerLink="/customers" routerLinkActive="active-link">
-            <mat-icon matListIcon>person</mat-icon> All Customers
-          </a>
-          <a mat-list-item routerLink="/customers/reviews" routerLinkActive="active-link">
-            <mat-icon matListIcon>star_rate</mat-icon> Reviews
-          </a>
-        </mat-action-list>
-      </mat-expansion-panel>
+  <div class="info-item">
+    <mat-icon matListIcon>language</mat-icon> 
+    <span class="text">www.ruralx.in</span>
+    <mat-icon matListIcon>chevron_right</mat-icon> 
+  </div>
 
-      <!-- Reports -->
-      <!-- Customers -->
-      <mat-expansion-panel>
-
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>bar_chart</mat-icon>
-            <span class="ml-2">Reports</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-action-list>
-          <a mat-list-item routerLink="/reports/sales" routerLinkActive="active-link">
-            <mat-icon matListIcon>analytics</mat-icon> Sales Reports
-          </a>
-          <a mat-list-item routerLink="/reports/performance" routerLinkActive="active-link">
-            <mat-icon matListIcon>insights</mat-icon> Product Performance
-          </a>
-        </mat-action-list>
-      </mat-expansion-panel>
-
-      <!-- Settings -->
-      <!-- Customers -->
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>settings</mat-icon>
-            <span class="ml-2">Settings</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-action-list>
-          <a mat-list-item routerLink="/settings/store" routerLinkActive="active-link">
-            <mat-icon matListIcon>store</mat-icon> Store Settings
-          </a>
-          <a mat-list-item routerLink="/settings/security" routerLinkActive="active-link">
-            <mat-icon matListIcon>security</mat-icon> Security
-          </a>
-        </mat-action-list>
-      </mat-expansion-panel>
-
+  <div class="info-item">
+    <mat-icon matListIcon>email</mat-icon> 
+    <span class="text">Support : info@ruralx.in</span>
+    <mat-icon matListIcon>chevron_right</mat-icon> 
+  </div>
+</div>
+<div class="drawer-version">
+  App Version <span>1.0.0</span>
+</div>
     </mat-accordion>
   </mat-sidenav>
   <mat-sidenav-content>
-    <!-- <app-header></app-header>
-    <div class="pt-5" style="height: calc(100vh - 120px); overflow: auto;">
-      <router-outlet></router-outlet>
-    </div>
-    <app-footer class="footer"></app-footer> -->
      <app-header class="header"></app-header>
     <div class="main-content pt-5" #scrollContainer (scroll)="onContentScroll($event)">
       <router-outlet></router-outlet>
     </div>
     <app-footer class="footer"></app-footer>
-
   </mat-sidenav-content>
 </mat-sidenav-container>
