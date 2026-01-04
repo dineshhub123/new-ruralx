@@ -12,6 +12,7 @@ import { ApiService } from '../services/api.service';
 import { SwiperComponent } from 'swiper/angular';
 import { SizeService } from '../services/size.service';
 import { ScrollService } from '../scroll.service';
+import { environment } from 'src/environments/environment.prod';
 // Register Swiper modules
 SwiperCore.use([Zoom, Thumbs, Pagination]);
 
@@ -21,6 +22,7 @@ SwiperCore.use([Zoom, Thumbs, Pagination]);
   styleUrls: ['./product-zoom.component.css']
 })
 export class ProductZoomComponent implements OnInit {
+  imageBaseUrl = environment.imageBaseUrl;
   @ViewChild('mainSwiper') mainSwiper?: SwiperComponent;
   @ViewChild('thumbsSwiperRef') thumbsSwiperRef?: SwiperComponent;
   @ViewChild('mainProductImage', { static: false })

@@ -8,7 +8,7 @@
             <ng-template swiperSlide *ngFor="let image of cartItem?.images">
               <div class="swiper-zoom-container-main">
                 <img #mainProductImage class="product-image" (click)="show()"
-                  [src]="image | replacePath:'new-ruralx/src':'..'" />
+                  [src]="imageBaseUrl + image" />
               </div>
             </ng-template>
           </swiper>
@@ -105,7 +105,7 @@
             [slidesPerView]="1" [thumbs]="{ swiper: thumbsSwiperRef?.swiperRef }" class="mySwiper">
             <ng-template swiperSlide *ngFor="let image of cartItem?.images">
               <div class="swiper-zoom-container responsive-image-container">
-                <img [src]="image | replacePath:'new-ruralx/src':'..'" />
+                <img [src]="imageBaseUrl + image" />
               </div>
             </ng-template>
           </swiper>
@@ -113,7 +113,7 @@
           <swiper #thumbsSwiperRef [slidesPerView]="'auto'" [spaceBetween]="1" (swiper)="onThumbsSwiperInit($event)"
             [watchSlidesProgress]="true" class="thumbs-swiper">
             <ng-template swiperSlide class="swiper-slide-thumb" *ngFor="let image of cartItem?.images">
-              <img [src]="image | replacePath:'new-ruralx/src':'..'"
+              <img [src]="imageBaseUrl + image"
                 style="width: 80px; height: auto;cursor: pointer;" />
             </ng-template>
           </swiper>

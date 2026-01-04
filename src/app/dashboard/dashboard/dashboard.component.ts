@@ -8,7 +8,7 @@ import { forkJoin, range } from 'rxjs';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { ScrollService } from 'src/app/scroll.service';
-
+import { environment } from 'src/environments/environment.prod';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -16,6 +16,7 @@ import { ScrollService } from 'src/app/scroll.service';
 
 })
 export class DashboardComponent {
+  imageBaseUrl = environment.imageBaseUrl;
   @ViewChild('tabHeader', { read: ElementRef })
   tabHeader!: ElementRef;
   public showHeaderAtTop: boolean = false;
@@ -38,6 +39,7 @@ export class DashboardComponent {
   }
 
   ngOnInit() {
+    console.log(this.imageBaseUrl)
     this.fetchCategoriesTypeItems();
     window.addEventListener('pullToRefresh', () => {
       // 🔥 ENTER ANGULAR ZONE

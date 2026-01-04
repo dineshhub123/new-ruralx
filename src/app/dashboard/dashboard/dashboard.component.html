@@ -2,7 +2,7 @@
 <div *ngIf="!loading">
       <div class="category-scroll" [class.at-top]="showHeaderAtTop">
       <div class="category-item" *ngFor="let chip of chipsList" (click)="onClickImage(chip.category)">
-        <img class="chips-img" [src]="chip.image[0] | replacePath:'new-ruralx/src':'..'" [alt]="chip.category" />
+        <img class="chips-img" [src]="imageBaseUrl + chip.image[0]" [alt]="chip.category" />
         <span>{{ chip.category | titlecase }}</span>
       </div>
     </div>
@@ -14,7 +14,7 @@
         <div id="{{data.category}}Carousel" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner" (click)="onClickImage(data.category)">
             <div class="carousel-item" *ngFor="let image of data.images; let j = index" [class.active]="j === 0">
-              <img class="d-block w-100" [src]="image | replacePath:'new-ruralx/src':'..'"
+              <img class="d-block w-100" [src]="imageBaseUrl + image"
                 alt="{{ data.category }} Slide {{ j + 1 }}" />
             </div>
           </div>
@@ -42,7 +42,7 @@
               <div class="row g-2 px-3">
                 <div class="col-6 d-flex align-items-center justify-content-center slider-img"
                   *ngFor="let image of categoryData[subcategory]?.images">
-                  <img class="img-fluid p-1" [src]="image | replacePath:'new-ruralx/src':'..'" alt="Image"
+                  <img class="img-fluid p-1" [src]="imageBaseUrl + image" alt="Image"
                     style="width: 100%; object-fit: cover; border-radius: 8px; cursor: pointer;"
                     (click)="onClickImage(subcategory)" />
                 </div>

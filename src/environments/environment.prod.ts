@@ -1,5 +1,6 @@
 export const environment = {
     production: true,
+  imageBaseUrl: 'https://ruralx.in/api/',
   getUserDetailsApiURL: 'https://ruralx.in/api/getUserLoginDetails.php',
   searchApiUrl: 'https://ruralx.in/api/search_product.php',
   uploadDataApiUrl: 'https://ruralx.in/api/uploadAdminData.php',

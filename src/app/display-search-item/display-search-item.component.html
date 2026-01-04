@@ -52,10 +52,16 @@
   <div *ngFor="let searchData of searchItem" class="product-card">
 
     <!-- Product Image -->
-    <img
+    <!-- <img
       #productImage
       class="product-image"
       [src]="searchData?.variants[0]?.images[0] | replacePath:'new-ruralx/src':'..'"
+      (click)="imgClick(searchData)"
+    /> -->
+    <img
+      #productImage
+      class="product-image"
+      [src]="imageBaseUrl + searchData?.variants[0]?.images[0]"
       (click)="imgClick(searchData)"
     />
 

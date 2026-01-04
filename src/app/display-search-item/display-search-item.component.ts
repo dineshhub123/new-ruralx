@@ -1,7 +1,7 @@
 import { Component, OnInit,ElementRef,Renderer2 ,ViewChild,HostListener} from '@angular/core';
 import { Router } from '@angular/router';
 import { AddcartService } from '../services/addcart.service';
-
+import { environment } from 'src/environments/environment.prod';
 @Component({
   selector: 'app-display-search-item',
   templateUrl: './display-search-item.component.html',
@@ -9,7 +9,7 @@ import { AddcartService } from '../services/addcart.service';
 })
 export class DisplaySearchItemComponent implements OnInit {
   @HostListener('window:scroll', [])
-
+  imageBaseUrl = environment.imageBaseUrl;
   public searchItem: any;
   public items: any;
   public addCartData: any;
