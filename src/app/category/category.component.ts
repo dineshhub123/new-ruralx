@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment.prod';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent {
+  imageBaseUrl = environment.imageBaseUrl;
   constructor(public apiService: ApiService, public router: Router) { }
   selectedCategory: string | null = null;
   uniqueCategories: any[] = [];

@@ -10,7 +10,7 @@
         <ul>
           <li class="sub-card"
               [class.selected]="selectedCategory === cat.category">
-            <img [src]="cat.variants[0].images[0] | replacePath:'new-ruralx/src':'..'" />
+            <img [src]="imageBaseUrl + cat.variants[0].images[0]" />
            <label class="subcategory-title" [class.selected]="selectedCategory === cat.category">{{ cat.sub_category | titlecase }}</label>
           </li>
         </ul>
@@ -22,48 +22,48 @@
   <div class="category-heading">{{selectedCategory | titlecase}}</div>
   <div class="sub-grid">
     <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="sub.image | replacePath:'new-ruralx/src':'..'" 
+      <img [src]="imageBaseUrl + sub.image" 
            alt="{{ sub.name }}" />
       <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
     </div>
         <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="sub.image | replacePath:'new-ruralx/src':'..'" 
+      <img [src]="imageBaseUrl + sub.image" 
            alt="{{ sub.name }}" />
       <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
     </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="sub.image | replacePath:'new-ruralx/src':'..'" 
+      <img [src]="imageBaseUrl + sub.image" 
            alt="{{ sub.name }}" />
       <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
     </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="sub.image | replacePath:'new-ruralx/src':'..'" 
+      <img [src]="imageBaseUrl + sub.image" 
            alt="{{ sub.name }}" />
       <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
     </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="sub.image | replacePath:'new-ruralx/src':'..'" 
+      <img [src]="imageBaseUrl + sub.image" 
            alt="{{ sub.name }}" />
       <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
     </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="sub.image | replacePath:'new-ruralx/src':'..'" 
+      <img [src]="imageBaseUrl + sub.image" 
            alt="{{ sub.name }}" />
       <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
     </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="sub.image | replacePath:'new-ruralx/src':'..'" 
+      <img [src]="imageBaseUrl + sub.image" 
            alt="{{ sub.name }}" />
       <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
     </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="sub.image | replacePath:'new-ruralx/src':'..'" 
+      <img [src]="imageBaseUrl + sub.image" 
            alt="{{ sub.name }}" />
       <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
     </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="sub.image | replacePath:'new-ruralx/src':'..'" 
+      <img [src]="imageBaseUrl + sub.image" 
            alt="{{ sub.name }}" />
       <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
     </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="sub.image | replacePath:'new-ruralx/src':'..'" 
+      <img [src]="imageBaseUrl + sub.image" 
            alt="{{ sub.name }}" />
       <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
     </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="sub.image | replacePath:'new-ruralx/src':'..'" 
+      <img [src]="imageBaseUrl + sub.image" 
            alt="{{ sub.name }}" />
       <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
     </div>
