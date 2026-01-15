@@ -34,7 +34,9 @@ export class LoginService {
   }
 
   logout() {
-    localStorage.clear();
+    //localStorage.clear();
+    localStorage.removeItem('displaySearchData');
+    localStorage.removeItem('selected-item');
     const guestUser: User = {
       userId: 'guest_user',
       user_first_name: 'Guest',

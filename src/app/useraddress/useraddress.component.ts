@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
+import { AddcartService } from '../services/addcart.service';
 @Component({
   selector: 'app-useraddress',
   templateUrl: './useraddress.component.html',
@@ -19,11 +20,19 @@ export class UseraddressComponent implements OnInit {
   public exiestShipment: any = [];
   public loginUserAddress: any = [];
   public selectedAddress = "defaultAddress"
-  constructor(private fb: FormBuilder, private apiService: ApiService, public router: Router) {
-    let cartItem: any;
-    cartItem = localStorage.getItem('cart_items')
-    this.addCartData = JSON.parse(cartItem)
-    console.log(this.addCartData)
+  constructor(private fb: FormBuilder, private apiService: ApiService, public router: Router ,public addCartService:AddcartService) {
+    // let cartItem: any;
+    // cartItem = localStorage.getItem('cart_items')
+    // let loginUser = JSON.parse(cartItem)
+    // this.addCartService.cart$.subscribe((res: any) => {
+    // if(res){
+    // let  filerCartItem = res.filter((item:any)=>item?.userId === loginUser?.userId)
+    // this.addCartData = filerCartItem;
+    //   }
+    // })
+    // console.log("addCartData",this.addCartData)
+
+
     let userAdd: any
     userAdd = localStorage.getItem("shiping_address")
     this.exiestShipment = JSON.parse(userAdd);
@@ -91,6 +100,15 @@ export class UseraddressComponent implements OnInit {
     userAddress = localStorage.getItem("login_user")
     let address = JSON.parse(userAddress)
     this.loginUserAddress.push(address)
+        console.log(this.loginUserAddress)
+    this.addCartService.cart$.subscribe((res: any) => {
+    if(res){
+    let  filerCartItem = res.filter((item:any)=>item?.userId === address?.userId)
+    this.addCartData = filerCartItem;
+      }
+    })
+    console.log("addCartData",this.addCartData)
+
     this.radioForm = new FormGroup({
       radioOption: new FormControl(this.loginUserAddress[0])
     });
@@ -158,48 +176,48 @@ export class UseraddressComponent implements OnInit {
   addShippingAddress() {
     this.addShipTextForm = !this.addShipTextForm;
   }
+  calculateOrderAmount(): number {
+  return this.addCartData.reduce((total: number, item: any) => {
+    const price = Number(item.product_price);
+    const qty = Number(item.quantity);
+    return total + price * qty;
+  }, 0);
+}
+
   confirmOrder() {
-    //console.log(this.radioForm?.value?.radioOption)
-    //this.router.navigateByUrl('/payment-options')
+    console.log(this.radioForm?.value?.radioOption)
+    console.log(this.addCartData)
 
-    let orderPayload = {
-      // user_id: 1,
-      // total_amount: 599.00,
-      // {
-      "user_id": 25,
-      "order_amount": 1299,
-      "payment_method": "COD",
-      "order_source": "APP",
-      "delivery_address": {
-        "name": "Dinesh Bhagat",
-        "mobile": "9876543210",
-        "address": "Main Road, Near Bus Stand",
-        "village": "Garra",
-        "district": "Balaghat",
-        "state": "Madhya Pradesh",
-        "pincode": "481331"
-      },
-      "items": [
-        {
-          "product_id": 101,
-          "product_name": "Chiffon Saree",
-          "price": 300,
-          "quantity": 2
-        },
-        {
-          "product_id": 205,
-          "product_name": "Cotton Shirt",
-          "price": 699,
-          "quantity": 1
-        }
-      ]
-      //}
+const user = this.radioForm.get('radioOption')?.value;
+const orderPayload = {
+  user_id: 1,
+  order_amount: this.calculateOrderAmount(),
+  payment_method: 'COD',
+  order_source: 'APP',
 
-    }
+  delivery_address: {
+    name: `${user?.user_first_name} ${user?.user_last_name}`.trim(),
+    mobile: user?.user_phone,
+    address: user?.user_address,
+    pincode: user?.user_pincode
+  },
 
-    this.apiService.placeAnOrder(orderPayload).subscribe(res => {
+  items: this.addCartData.map((item: any) => ({
+    product_id: item.product_id,
+    product_name: item.product_name,
+    price: item.product_price,
+    mrp: item.product_mrp_price,
+    quantity: item.quantity,
+    sub_category: item.sub_category,
+    category: item.category,
+    color: item.color,
+    user_id: item.userId,
+    image: item.image_url
+  }))
+};
+console.log("orderPayload",orderPayload)
+this.apiService.placeAnOrder(orderPayload).subscribe(res => {
       console.log("orderRes:", res)
     })
-
   }
 }

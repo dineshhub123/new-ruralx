@@ -13,7 +13,7 @@
               <div class="col-md-6 mb-2">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>First Name</mat-label>
-                  <input matInput formControlName="firstname">
+                  <input matInput formControlName="firstname" placeholder="First Name">
                   <mat-error class="matError" *ngIf="f['firstname'].touched && f['firstname'].invalid">
                     First name is required (min 2 characters)
                   </mat-error>
@@ -24,7 +24,7 @@
               <div class="col-md-6 mb-2">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Last Name</mat-label>
-                  <input matInput formControlName="lastname">
+                  <input matInput formControlName="lastname" placeholder="Last Name">
                   <mat-error class="matError" *ngIf="f['lastname'].touched && f['lastname'].invalid">
                     Last name is required (min 2 characters)
                   </mat-error>
@@ -36,7 +36,7 @@
             <div class="mb-2">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Email</mat-label>
-                <input matInput type="email" formControlName="email">
+                <input matInput type="email" formControlName="email" placeholder="Email">
                 <mat-error class="matError" *ngIf="f['email'].touched && f['email'].invalid">
                   Please enter a valid email address
                 </mat-error>
@@ -47,7 +47,7 @@
             <div class="mb-2">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Phone</mat-label>
-                <input matInput type="tel" formControlName="phone">
+                <input matInput type="tel" formControlName="phone" placeholder="Mobile">
                 <mat-error class="matError" *ngIf="f['phone'].touched && f['phone'].invalid">
                   Enter a valid 10-digit phone number
                 </mat-error>
@@ -58,7 +58,7 @@
             <div class="mb-2">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Password</mat-label>
-                <input matInput type="password" formControlName="password">
+                <input matInput type="password" formControlName="password" placeholder="Password">
                 <mat-error class="matError" *ngIf="f['password'].touched && f['password'].invalid">
                   Password must be minimum 6 characters
                 </mat-error>
@@ -69,30 +69,85 @@
             <!-- Address -->
             <div class="mb-2">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Address</mat-label>
-                <input matInput formControlName="address">
-                <mat-error class="matError" *ngIf="f['address'].touched && f['address'].invalid">
-                  Address must be minimum 30 characters
+                <mat-label>House No  / Building Name</mat-label>
+                <input matInput formControlName="house_no" placeholder="e.g. H.No 12, Plot 45, Shiv Shakti Bhawan">
+                <mat-error class="matError" *ngIf="f['house_no'].touched && f['house_no'].invalid">
+                  Please enter a valid House No
                 </mat-error>
               </mat-form-field>
-              <div class="d-flex justify-content-between">
-                <small class="text-muted">
-                  {{ f['address'].value?.length || 0 }}/30
-                </small>
-              </div>
-            </div>
-
-            <!-- Pincode -->
+            </div>   
+            <div class="mb-2">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Street / Area / Village</mat-label>
+                <input matInput formControlName="street_area" placeholder="e.g. Village , Road , Mohalla">
+                <mat-error class="matError" *ngIf="f['street_area'].touched && f['street_area'].invalid">
+                  Please enter a valid street area
+                </mat-error>
+              </mat-form-field>
+            </div>            
+            <div class="mb-2">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Landmark</mat-label> 
+                <input matInput formControlName="landmark" placeholder="e.g Near Govt School / Temple / Bus Stand">
+                <mat-error class="matError" *ngIf="f['landmark'].touched && f['landmark'].invalid">
+                  Please enter a valid landmark
+                </mat-error>
+              </mat-form-field>
+            </div>            
+            <div class="mb-2">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Post Office</mat-label>
+                <input matInput formControlName="post_office" placeholder="Post Office">
+                <mat-error class="matError" *ngIf="f['post_office'].touched && f['post_office'].invalid">
+                  Please enter a valid post office
+                </mat-error>
+              </mat-form-field>
+            </div>            
+            <div class="mb-2">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Tehsil</mat-label>
+                <input matInput formControlName="tehsil" placeholder="Tehsil">
+                <mat-error class="matError" *ngIf="f['tehsil'].touched && f['tehsil'].invalid">
+                  Please enter a valid tehsil
+                </mat-error>
+              </mat-form-field>
+            </div>            
+            <div class="mb-2">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>District</mat-label>
+                <input matInput formControlName="district" placeholder="District">
+                <mat-error class="matError" *ngIf="f['district'].touched && f['district'].invalid">
+                  Please enter a valid district
+                </mat-error>
+              </mat-form-field>
+            </div>            
+            <div class="mb-2">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>State</mat-label>
+                <input matInput formControlName="state" placeholder="State">
+                <mat-error class="matError" *ngIf="f['state'].touched && f['state'].invalid">
+                  Please enter a valid state
+                </mat-error>
+              </mat-form-field>
+            </div>            
             <div class="mb-2">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Pincode</mat-label>
-                <input matInput type="number" formControlName="pincode">
+                <input matInput formControlName="pincode" placeholder="Pincode">
                 <mat-error class="matError" *ngIf="f['pincode'].touched && f['pincode'].invalid">
-                  Enter valid 6-digit pincode
+                  Please enter a valid pincode
                 </mat-error>
               </mat-form-field>
-            </div>
-
+            </div>            
+            <div class="mb-2">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Country</mat-label>
+                <input matInput formControlName="country" placeholder="Country">
+                <mat-error class="matError" *ngIf="f['country'].touched && f['country'].invalid">
+                  Please enter a valid country
+                </mat-error>
+              </mat-form-field>
+            </div>            
             <!-- Submit -->
             <div class="text-right mt-4 mb-5">
               <button mat-raised-button color="primary" type="submit" [disabled]="signupForm.invalid">

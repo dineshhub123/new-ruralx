@@ -9,12 +9,12 @@ import { AddcartService } from '../services/addcart.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
- 
+
 })
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup = new FormGroup({
-    mobile: new FormControl('', [Validators.required]),
+    mobile: new FormControl('', [Validators.required, Validators.pattern(/^([0-9]{10}|[^\s@]+@[^\s@]+\.[^\s@]+)$/)]),
     password: new FormControl('', [Validators.required])
   });
 
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     public loginService: LoginService,
     private apiService: ApiService,
     private toastr: ToastrService,
-    public addcartService:AddcartService,
+    public addcartService: AddcartService,
     private ngZone: NgZone) { }
   pass: any
   mobile: any
@@ -33,72 +33,40 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['signup'])
   }
 
-// userLogin(loginData: any): void {
-//   if (!this.loginForm.valid) {
-//     return;
-//   }
+  userLogin(loginData: any): void {
+    if (!this.loginForm.valid) return;
 
-//   this.apiService.getUserDetailsData().subscribe({
-//     next: (users) => {
-//       const found = users.find(
-//         (u: any) =>
-//           u.user_password === loginData.password &&
-//           (u.user_phone === loginData.mobile || u.user_email === loginData.mobile)
-//       );
-//       if (found) {
-//         let userCartItems:any=[]
-//         found.userId = `user_${found.id}`;
-//         found.user_first_name = found.user_first_name;
-//         found.isGuest =  false // or omit
-//         this.loginService.setUser(found);
-//         const saveCartItems = this.addcartService.getCart();
-//         userCartItems = saveCartItems.filter((item: any) => item.userId === found.userId);
-//         this.addcartService.setCart(userCartItems); // you need a method like this in your service
-//         this.loginForm.reset();
-//         this.router.navigate(['/']);
-//         this.toastr.success('Login successful!', 'Welcome');
+    const payload = {
+      login: loginData.mobile,   // email OR phone
+      password: loginData.password
+    };
 
-//       } else {
-//         this.toastr.error('User not found. Please register first.', 'Login Failed');
-//       }
-//     },
-//     error: (err) => {
-//       console.error('An error occurred during login:', err);
-//       this.toastr.error('An unexpected error occurred. Please try again.', 'Login Error');
-//     }
-//   });
-// }
-userLogin(loginData: any): void {
-  if (!this.loginForm.valid) return;
+    this.apiService.getUserDetailsData(payload).subscribe({
+      next: (res: any) => {
+        const user = res.user;
+        user.userId = `user_${user.id}`;
+        user.isGuest = false;
 
-  /*remember current (guest) user before we switch */
-  const guestId = this.loginService.getUser()?.userId;
+        const guestId = this.loginService.getUser()?.userId;
+        this.loginService.setUser(user);
 
-  this.apiService.getUserDetailsData().subscribe({
-    next: users => {
-      const found = users.find((u:any) =>
-        u.user_password === loginData.password &&
-        (u.user_phone === loginData.mobile || u.user_email === loginData.mobile));
+        if (guestId?.startsWith('guest_')) {
+          this.addcartService.transferCart(guestId, user.userId);
+        }
 
-      if (!found) {
+        this.loginForm.reset();
+        this.router.navigate(['/']);
+        this.toastr.success(
+          'You are login successfully!',
+          `Welcome, ${user.user_first_name}`
+        );
+      },
+      error: err => {
+        console.error(err);
         this.toastr.error('User not found. Please register first or might be wrong credential.', 'Login Failed');
-        return;
       }
-      found.userId = `user_${found.id}`;
-      found.isGuest = false;
-      this.loginService.setUser(found);
-      if (guestId && guestId.startsWith('guest_')) {
-        this.addcartService.transferCart(guestId, found.userId);
-      }
-      this.loginForm.reset();
-      this.router.navigate(['/']);
-      this.toastr.success('You are login successfully!', `Welcome, ${found.user_first_name}`);
-    },
-    error: err => {
-      console.error('Login error:', err);
-      this.toastr.error('Unexpected error. Please try again.', 'Login Error');
-    }
-  });
-}
+    });
+  }
+
 
 }

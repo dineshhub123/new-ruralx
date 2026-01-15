@@ -51,8 +51,8 @@ export class ApiService {
   getProductListDetailsData(): Observable<any> {
     return this.http.get(this.apiProductListURL).pipe(map((res: any) => res)); 
   }
-  getUserDetailsData(): Observable<any> {
-    return this.http.get(this.getUserInfoURL).pipe(map((res: any) => res)); 
+  getUserDetailsData(object:any): Observable<any> {
+    return this.http.post(this.getUserInfoURL,object).pipe(map((res: any) => res)); 
   }
   searchData(object:any): Observable<any> {
     return this.http.post(this.apiSearchURL,object).pipe(map((res: any) => res));

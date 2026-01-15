@@ -13,6 +13,7 @@ import { AddcartService } from './services/addcart.service';
 import { Product } from './product-zoom/product-zoom.component';
 import { ToastrService } from 'ngx-toastr';
 import { ScrollService } from './scroll.service';
+import { MatMenuTrigger } from '@angular/material/menu';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -21,6 +22,7 @@ import { ScrollService } from './scroll.service';
 
 
 export class AppComponent {
+  @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
   title = 'material-ui-angular';
   username: string | null = null;
   expandedPanel: string = '';
@@ -45,6 +47,7 @@ export class AppComponent {
   public hideHeader: boolean = false;
   public lastScrollTop = 0;
   public isDesktop: boolean = false;
+  public isGuest = true;
   constructor(private renderer: Renderer2, private zone: NgZone, public dialog: MatDialog, public location: Location, public addCartService: AddcartService, private toastr: ToastrService,
     public loginService: LoginService,
     public router: Router,
@@ -94,9 +97,14 @@ export class AppComponent {
     this.setExpandedPanel(this.router.url);
     this.userlist()
     this.loginService.user$.subscribe(user => {
-      this.username = user?.user_first_name ?? null;
-    });
-    // Fix for Android Chrome not applying theme color immediately
+    if (!user || user.user_first_name === 'Guest') {
+      this.username = 'Sign In';
+      this.isGuest = true;
+    } else {
+      this.username = user.user_first_name;
+      this.isGuest = false;
+    }
+  });    // Fix for Android Chrome not applying theme color immediately
     const metaThemeColor = document.querySelector("meta[name=theme-color]");
     if (metaThemeColor) {
       // Reset once, then set again to force reapply
@@ -187,6 +195,7 @@ export class AppComponent {
       const userItems = items.filter((item: any) => item.userId === loginUser?.userId);
       this.itemQuantity = userItems.reduce((sum: number, item: any) => sum + (item?.quantity || 0), 0);
     });
+    this.menuTrigger.closeMenu();
     this.router.navigate(['login']);
   }
   notification() {
@@ -241,7 +250,9 @@ export class AppComponent {
       this.animal = result;
     });
   }
-
+goToLogin() {
+  this.router.navigate(['/login']);
+}
 
 }
 
