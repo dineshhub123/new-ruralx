@@ -184,10 +184,7 @@ export class UseraddressComponent implements OnInit {
   }, 0);
 }
 
-  confirmOrder() {
-    console.log(this.radioForm?.value?.radioOption)
-    console.log(this.addCartData)
-
+confirmOrder() {
 const user = this.radioForm.get('radioOption')?.value;
 const orderPayload = {
   user_id: 1,
@@ -198,8 +195,8 @@ const orderPayload = {
   delivery_address: {
     name: `${user?.user_first_name} ${user?.user_last_name}`.trim(),
     mobile: user?.user_phone,
-    address: user?.user_address,
-    pincode: user?.user_pincode
+    address: `${user?.house_no ?? ''}, ${user?.street_area ?? ''}, ${user?.landmark ?? ''}, ${user?.post_office ?? ''}, ${user?.tehsil ?? ''}, ${user?.district ?? ''}, ${user?.state ?? ''}, ${user?.country ?? ''} - ${user?.user_pincode ?? ''}`,
+    email:user?.user_email
   },
 
   items: this.addCartData.map((item: any) => ({
@@ -215,9 +212,7 @@ const orderPayload = {
     image: item.image_url
   }))
 };
-console.log("orderPayload",orderPayload)
 this.apiService.placeAnOrder(orderPayload).subscribe(res => {
-      console.log("orderRes:", res)
     })
   }
 }
