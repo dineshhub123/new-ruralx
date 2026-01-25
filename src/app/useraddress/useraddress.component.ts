@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
 import { AddcartService } from '../services/addcart.service';
+import { ScrollService } from '../scroll.service';
+
 @Component({
   selector: 'app-useraddress',
   templateUrl: './useraddress.component.html',
@@ -11,8 +13,8 @@ import { AddcartService } from '../services/addcart.service';
 export class UseraddressComponent implements OnInit {
   public addShipTextForm: boolean = false
   public addCartData: any;
+  public isLoading:boolean = false;
   couponFormControl = new FormControl('');
-
   public editId: any = Number
   public addressForm: FormGroup;
   public radioForm: FormGroup;
@@ -20,7 +22,11 @@ export class UseraddressComponent implements OnInit {
   public exiestShipment: any = [];
   public loginUserAddress: any = [];
   public selectedAddress = "defaultAddress"
-  constructor(private fb: FormBuilder, private apiService: ApiService, public router: Router ,public addCartService:AddcartService) {
+  public hideHeader:boolean = false;
+  lastScrollTop = 0;
+  showHeaderAtTop = false;
+
+  constructor(private fb: FormBuilder, private apiService: ApiService, public router: Router ,public addCartService:AddcartService,public scrollService:ScrollService) {
     // let cartItem: any;
     // cartItem = localStorage.getItem('cart_items')
     // let loginUser = JSON.parse(cartItem)
@@ -95,6 +101,7 @@ export class UseraddressComponent implements OnInit {
     }
   }
   ngOnInit() {
+    this.isLoading = true;
     this.getshipDetails();
     let userAddress: any;
     userAddress = localStorage.getItem("login_user")
@@ -105,6 +112,7 @@ export class UseraddressComponent implements OnInit {
     if(res){
     let  filerCartItem = res.filter((item:any)=>item?.userId === address?.userId)
     this.addCartData = filerCartItem;
+    this.isLoading = false;
       }
     })
     console.log("addCartData",this.addCartData)
@@ -112,10 +120,32 @@ export class UseraddressComponent implements OnInit {
     this.radioForm = new FormGroup({
       radioOption: new FormControl(this.loginUserAddress[0])
     });
+this.scrollService.scroll$.subscribe(scrollTop => {
+  // Always show header at top
+  if (scrollTop <= 0) {
+    this.hideHeader = false;
+    this.showHeaderAtTop = false;
+    return;
+  }
 
+  // Scroll down → hide
+  if (scrollTop > this.lastScrollTop && scrollTop > 80) {
+    this.hideHeader = true;
+    this.showHeaderAtTop = true;
+  }
+  // Scroll up → show
+  else if (scrollTop < this.lastScrollTop) {
+    this.hideHeader = false;
+    this.showHeaderAtTop = false;
+  }
+
+  this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+ });
   }
   getshipDetails() {
+    this.isLoading = true;
     this.apiService.getShippingAddress().subscribe((res: any) => {
+      this.isLoading = false;
       let userInfo: any;
       userInfo = localStorage.getItem("login_user")
       let user = JSON.parse(userInfo)

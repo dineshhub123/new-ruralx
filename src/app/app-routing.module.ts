@@ -50,7 +50,7 @@ const routes: Routes = [
   { path: 'order-confirmed', component: OrderConfirmedComponent },
   { path: 'coming-soon', component: ComingSoonComponent },
   { path: 'my-order', component: MyOrderComponent },
-  { path: 'order-status', component: MyOrderStatusComponent },
+  { path: 'my-order/order-status/:order_id', component: MyOrderStatusComponent },
   { path: 'setting', component: SettingComponent }
 
 ];

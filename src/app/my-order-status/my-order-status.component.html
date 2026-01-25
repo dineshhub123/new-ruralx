@@ -1,82 +1,181 @@
-<div class="order-details-card">
+<app-loader [isLoading]="isLoading"></app-loader>
+<div *ngIf="!isLoading">
+    <div class="orders-container pt-5" *ngIf="orderStatusData">
+        <!-- HEADER -->
+        <div class="header">
+            <div>
+                <h2 class="title">Order #{{ orderStatusData?.order_id }}</h2>
+                <p class="sub">Order Placed on
+                    <span class="text1"> {{ orderStatusData?.created_at | date:'dd MMM yyyy, hh:mm a' }}</span>
+                </p>
+                <p class="sub" *ngIf="orderStatusData?.status==='delivered';else notDeliveredBlock">Delivered on
+                    <span class="text2">{{ orderStatusData?.updated_at | date:'dd MMM yyyy, hh:mm a'}}</span>
+                </p>
+                <ng-template #notDeliveredBlock>
+                    <!-- Cancelled -->
+                    <p  class="cancel-order-text" *ngIf="orderStatusData?.status === 'cancelled'; else onTheWay">
+                        ❌ Your order has been cancelled
+                    </p>
+                    <!-- On the way -->
+                    <ng-template #onTheWay>
+                        <p class="expected-delevery-text">
+                            <span>👉</span>
+                            {{ getExpectedDeliveryMessage(orderStatusData?.created_at) }}
+                        </p>
+                    </ng-template>
+                </ng-template>
+            </div>
 
-    <!-- Header -->
-    <div class="header-row">
-        <h2>Order Details</h2>
-    </div>
-
-    <!-- Product Section -->
-    <div class="product-row">
-        <img src="../assets/uploads/shoes-yellow.webp" class="details-img">
-
-        <div class="product-info">
-            <div class="product-title">Nike Air Max 270</div>
-            <div class="size">Size: 10</div>
-
-            <div class="status-row">
-                <span class="tick">✔</span> Packed
+            <div class="status-badge" [ngClass]="statusClass(orderStatusData?.status)">
+                <span class="dot"></span>
+                {{ orderStatusData?.status==='out_for_delivery'?'Out for Delivery' : orderStatusData?.status | titlecase
+                }}
             </div>
         </div>
 
-        <div class="right-section">
-            <div class="date">Apr 23</div>
-            <div class="price">₹1,495</div>
-            <div class="order-id">Order #9876</div>
+        <!-- STEPPER -->
+        <div class="card">
+            <div class="order-stepper" [class.vertical]="isMobile">
+                <div class="step" *ngFor="let s of steps; let i = index" [class.completed]="i < currentIndex"
+                    [class.active]="i === currentIndex">
+                    <div class="left">
+                        <div class="circle">
+                            <span class="icon"> <mat-icon>{{ s.icon }}</mat-icon></span>
+                        </div>
+
+                        <div class="line" *ngIf="i !== steps.length - 1"></div>
+                    </div>
+
+                    <div class="right">
+                        <div class="label">{{ s.label }}</div>
+                        <div class="label-des">{{ s.description }}</div>
+                        <div class="step-indicator" *ngIf="i === currentIndex">
+                            <div class="active-pulse"></div>
+                            <span>Current Step</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
         </div>
+
+        <!-- ITEMS + SUMMARY GRID -->
+        <div class="grid">
+
+            <!-- ITEMS -->
+            <div class="card">
+                <h3 class="section-title">Items Ordered</h3>
+
+                <div class="item" *ngFor="let item of orderStatusData?.items">
+
+                    <!-- product image -->
+                    <img class="item-img" [src]="getProductImage(item)" alt="product" />
+
+                    <div class="item-info">
+                        <div class="item-name">{{ item?.product_name | titlecase}}</div>
+
+                        <div class="item-meta">Qty: {{ item?.quantity }}</div>
+                        <div class="item-meta">Color: {{ item?.color | titlecase }}</div>
+                        <div class="item-meta">
+                            Category: <span class="seller">{{ item?.sub_category | titlecase }}</span>
+                        </div>
+                    </div>
+
+                    <div class="item-price">₹{{ item?.price }}</div>
+                </div>
+            </div>
+
+            <!-- SUMMARY -->
+            <div class="card">
+                <h3 class="section-title">Price Summary</h3>
+
+                <div class="summary-row">
+                    <span>Total Amount</span>
+                    <span>₹{{ orderStatusData?.total_amount }}</span>
+                </div>
+
+                <div class="summary-row">
+                    <span>Payment Method</span>
+                    <span>{{ orderStatusData?.payment_method | titlecase}}</span>
+                </div>
+
+                <div class="summary-row">
+                    <span>Order Source</span>
+                    <span>{{ orderStatusData?.order_source | titlecase }}</span>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="summary-row total">
+                    <span>Grand Total</span>
+                    <span>₹{{ orderStatusData?.total_amount }}</span>
+                </div>
+
+                <div class="btn-row">
+                    <button mat-raised-button class="btn primary">View Invoice</button>
+                    <button mat-raised-button class="btn outline"
+                        *ngIf="orderStatusData?.status !== 'delivered' && orderStatusData?.status !== 'cancelled'; else reorderBtn"
+                        (click)="cancelOrder()">
+                        Cancel Order
+                    </button>
+                    <ng-template #reorderBtn>
+                        <button mat-raised-button class="btn outline" (click)="reOrder()">Reorder</button>
+                    </ng-template>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- DELIVERY INFO -->
+        <div class="card">
+            <h3 class="section-title">Delivery Information</h3>
+
+            <div class="delivery-grid">
+
+                <!-- Address -->
+                <div class="delivery-box">
+                    <div class="delivery-title">Deliver To</div>
+
+                    <div class="delivery-text">
+                        {{ orderStatusData?.delivery_address?.name | titlecase }}
+                    </div>
+
+                    <div class="delivery-text">
+                        {{ orderStatusData?.delivery_address?.address | titlecase }}
+                    </div>
+
+                    <div class="delivery-text">
+                        {{ orderStatusData?.delivery_address?.mobile }}
+                    </div>
+
+                    <div class="delivery-text">
+                        {{ orderStatusData?.delivery_address?.email }}
+                    </div>
+                </div>
+
+                <!-- Payment -->
+                <div class="delivery-box">
+                    <div class="delivery-title">Payment</div>
+
+                    <div class="delivery-text">
+                        {{ orderStatusData?.payment_method | titlecase }}
+                    </div>
+
+                    <div class="delivery-text">
+                        Status: <b>{{ orderStatusData?.status==='out_for_delivery'?'Out for Delivery' :
+                            orderStatusData?.status | titlecase }}</b>
+                    </div>
+
+                    <div class="support-links">
+                        <a href="javascript:void(0)">Contact Support : info@ruralx.in</a>
+                        <a href="javascript:void(0)">Download Invoice (PDF)</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
-
-    <!-- Progress Bar -->
-    <div class="progress-section">
-        <div class="progress">
-            <div class="circle done"></div>
-            <div class="line done"></div>
-            <div class="circle done"></div>
-            <div class="line done"></div>
-            <div class="circle done"></div>
-        </div>
-
-        <div class="labels">
-            <span>Ordered</span>
-            <span>Packed</span>
-            <span>Shipped</span>
-            <span>Delivered</span>
-        </div>
-    </div>
-
-    <!-- Delivery Address -->
-    <div class="section">
-        <h3>Delivery Address</h3>
-        <p>
-            Dinesh Bhagat<br>
-            Garra, Balaghat, MP 481001<br>
-            +91 9876543210
-        </p>
-    </div>
-
-    <!-- Payment Info -->
-    <div class="section">
-        <h3>Payment</h3>
-        <p>
-            Paid by UPI<br>
-            Transaction ID: TXN983472
-        </p>
-    </div>
-
-    <!-- Order Summary -->
-    <div class="section">
-        <h3>Order Summary</h3>
-        <div class="row">
-            <span>Item Price</span>
-            <strong>₹1,495</strong>
-        </div>
-        <div class="row">
-            <span>Delivery Fee</span>
-            <strong>₹0</strong>
-        </div>
-        <div class="row total">
-            <span>Total Paid</span>
-            <strong>₹1,495</strong>
-        </div>
-    </div>
-
 </div>

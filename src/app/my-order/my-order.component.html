@@ -1,57 +1,45 @@
+
+<app-loader [isLoading]="isLoading"></app-loader>
+<div *ngIf="!isLoading">
 <div class="orders-container">
-
-    <!-- Order Card 1 -->
-    <div class="order-card" routerLink="/order-status">
-        <img src="../assets/uploads/shoes-yellow.webp" class="product-img">
-
-        <div class="order-details" >
-      <div class="product-title">Nike Air Max 270</div>
-            <p class="size">Size: 10</p>
+  <!-- ONE CARD PER ORDER ID -->
+  <div class="order-card" *ngFor="let order of groupedOrders" (click)="getOrderId(order?.order_id)">
+    <!-- 🔥 Items list inside same order card -->
+    <div class="order-items">
+      <div class="order-item-row" *ngFor="let item of order.items">
+        <img [src]="imageBaseUrl + item?.image[0]" class="product-img">
+        <div class="order-details" [ngClass]="{'delivered-card': ['delivered','cancelled'].includes((order?.status || '').toLowerCase())}"
+>
+          <div class="product-title">{{item?.product | titlecase}}</div>
+          <!-- Status badge only once (optional) -->
+          <div class="delivered-status" *ngIf="order.items[0] === item" [ngClass]="{
+                 'status-delivered': order?.status === 'delivered',
+                 'status-pending': order?.status === 'pending',
+                 'status-cancelled': order?.status === 'cancelled',
+                 'status-processing': order?.status === 'processing',
+                 'status-shipped': order?.status === 'shipped',
+                 'status-out-for-delivery': order?.status === 'out_for_delivery',
+                 'status-confirmed': order?.status === 'confirmed'
+               }">
+            <span class="tick" *ngIf="order?.status === 'delivered'">✔</span>
+            {{ order?.status === 'out_for_delivery' ? 'Out for Delivery' : (order?.status | titlecase) }}
+          </div>
+          <p class="size">Size: {{item?.size || 10}}</p>
         </div>
-
-        <div class="right-info">
-            <span class="date">Apr 23</span>
-            <span class="price">₹1,495</span>
-            <span class="order-id">Order #9876</span>
+        <div class="right-info" [ngClass]="{'delivered-card': ['delivered','cancelled'].includes((order?.status || '').toLowerCase())}">
+          <span class="date">{{order?.order_date | date:'dd MMM yyyy, hh:mm a'}}</span>
+          <span class="price"> ₹{{item?.price}} Qty ({{item?.quantity}})</span>
+          <span class="order-id">Order # {{order?.order_id}}</span>
         </div>
+      </div>
+      <div class="border-top-grand" [ngClass]="{'delivered-card': ['delivered','cancelled'].includes((order?.status || '').toLowerCase())}">
+        <span class="total-text">Grand Total :  </span>
+        <span class="total-price"> ₹ {{order?.totalAmount}}</span>
+      </div>
     </div>
-
-    <!-- Order Card 2 -->
-    <div class="order-card">
-        <img src="../assets/uploads/women sandal 2.jpg" class="product-img">
-
-        <div class="order-details">
-            <div class="product-title">Womens sandals</div>
-
-            <div class="delivered-status">
-                <span class="tick">✔</span> Delivered
-            </div>
-        </div>
-
-        <div class="right-info">
-            <span class="date">Apr 17</span>
-            <span class="price">₹799</span>
-            <span class="order-id">Order #9875</span>
-        </div>
-    </div>
-
-    <!-- Order Card 3 -->
-    <div class="order-card">
-        <img src="../assets/uploads/men-sandals-white.webp" class="product-img">
-
-        <div class="order-details">
-            <div class="product-title">Mens Sandals</div>
-            <div class="delivered-status">
-                <span class="tick">✔</span> Delivered
-            </div>
-
-        </div>
-
-        <div class="right-info">
-            <span class="date">Apr 12</span>
-            <span class="price">₹499</span>
-            <span class="order-id">Order #9874</span>
-        </div>
-    </div>
-
+  </div>
+</div>
+</div>
+<div *ngIf="noDataFound?.status==='empty' || groupedOrders?.length === 0 " class="nodata-found">
+  No Orders Available
 </div>

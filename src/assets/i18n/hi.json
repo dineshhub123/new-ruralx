@@ -1,0 +1,27 @@
+{
+  "HEADER": {
+    "CART": "कार्ट",
+    "ITEMS": "आइटम",
+    "CHECK": "चेक",
+    "AVAILABILITY": "उपलब्धता",
+    "HELLO": "नमस्ते",
+    "SIGN_IN": "साइन इन"
+  },
+  "MENU": {
+    "MY_ACCOUNT": "मेरा अकाउंट",
+    "SETTINGS": "सेटिंग्स",
+    "HELP": "मदद",
+    "LOGOUT": "लॉगआउट"
+  },
+  "SIDEBAR": {
+    "WELCOME": "स्वागत है",
+    "DASHBOARD": "डैशबोर्ड",
+    "HOME": "होम",
+    "CATEGORY": "कैटेगरी",
+    "TERMS": "नियम और शर्तें",
+    "PRIVACY": "प्राइवेसी पॉलिसी",
+    "WEBSITE": "www.ruralx.in",
+    "SUPPORT": "सपोर्ट : info@ruralx.in",
+    "APP_VERSION": "ऐप वर्जन"
+  }
+}

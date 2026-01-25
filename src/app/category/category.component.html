@@ -1,75 +1,34 @@
-<!-- categories.component.html -->
-<div class="categories-page pt-3">
-  <!-- Sidebar -->
-  <div class="sidebar pt-4 mt-1 ">
-    <!-- <h3>Categories</h3> -->
-    <ul>
-      <li *ngFor="let cat of uniqueCategories" class="cat-name" (click)="onSelectCategory(cat.category)"
-      [class.selected]="selectedCategory === cat.category">
-       <label class="category-title" [class.selected]="selectedCategory === cat.category"> {{ cat.category | titlecase}} </label>
-        <ul>
-          <li class="sub-card"
-              [class.selected]="selectedCategory === cat.category">
-            <img [src]="imageBaseUrl + cat.variants[0].images[0]" />
-           <label class="subcategory-title" [class.selected]="selectedCategory === cat.category">{{ cat.sub_category | titlecase }}</label>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </div>
-<!-- Main Content -->
-<div class="content pt-4">
-  <div class="category-heading">{{selectedCategory | titlecase}}</div>
-  <div class="sub-grid">
-    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="imageBaseUrl + sub.image" 
-           alt="{{ sub.name }}" />
-      <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
+<app-loader [isLoading]="isLoading"></app-loader>
+<div *ngIf="!isLoading">
+  <div class="categories-page pt-3">
+    <!-- Sidebar -->
+    <div class="sidebar pt-4 mt-1 ">
+      <!-- <h3>Categories</h3> -->
+      <ul>
+        <li *ngFor="let cat of uniqueCategories" class="cat-name" (click)="onSelectCategory(cat.category)"
+          [class.selected]="selectedCategory === cat.category">
+          <label class="category-title" [class.selected]="selectedCategory === cat.category"> {{ cat.category |
+            titlecase}} </label>
+          <ul>
+            <li class="sub-card" [class.selected]="selectedCategory === cat.category">
+              <img [src]="imageBaseUrl + cat.variants[0].images[0]" />
+              <label class="subcategory-title" [class.selected]="selectedCategory === cat.category">{{ cat.sub_category
+                | titlecase }}</label>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
-        <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="imageBaseUrl + sub.image" 
-           alt="{{ sub.name }}" />
-      <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
-    </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="imageBaseUrl + sub.image" 
-           alt="{{ sub.name }}" />
-      <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
-    </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="imageBaseUrl + sub.image" 
-           alt="{{ sub.name }}" />
-      <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
-    </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="imageBaseUrl + sub.image" 
-           alt="{{ sub.name }}" />
-      <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
-    </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="imageBaseUrl + sub.image" 
-           alt="{{ sub.name }}" />
-      <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
-    </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="imageBaseUrl + sub.image" 
-           alt="{{ sub.name }}" />
-      <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
-    </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="imageBaseUrl + sub.image" 
-           alt="{{ sub.name }}" />
-      <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
-    </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="imageBaseUrl + sub.image" 
-           alt="{{ sub.name }}" />
-      <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
-    </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="imageBaseUrl + sub.image" 
-           alt="{{ sub.name }}" />
-      <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
-    </div>    <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories" (click)="onSelectMainCategory(sub.name)">
-      <img [src]="imageBaseUrl + sub.image" 
-           alt="{{ sub.name }}" />
-      <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
+    <!-- Main Content -->
+    <div class="content pt-4">
+      <div class="category-heading">{{selectedCategory | titlecase}}</div>
+      <div class="sub-grid">
+        <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories"
+          (click)="onSelectMainCategory(sub.name)">
+          <img [src]="imageBaseUrl + sub.image" alt="{{ sub.name }}" />
+          <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
-</div>
-
-

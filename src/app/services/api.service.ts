@@ -27,6 +27,10 @@ export class ApiService {
   apiCategoryListURL:string = environment.getCategoryListApiUrl
   apiOnSelectCategoryListURL:string = environment.getMainCategoryApiUrl
   apiPlaceOrderUrl:string = environment.placeOrderApiUrl
+  apiOrderListUrl:string = environment.getOrderListApiUrl;
+  apiOrderByIdUrl:string = environment.getOrderByIdApiUrl;
+  apiUpadateStatusUrl = environment.upadateStatusApiUrl;
+
   constructor(private http: HttpClient,private router:Router) { }
   
   commonHeaderFunction(){
@@ -93,6 +97,15 @@ export class ApiService {
   }
   placeAnOrder(object:any):Observable<any> {
     return this.http.post(this.apiPlaceOrderUrl,object).pipe(map((res:any)=>res))
+  }
+  getOrderList():Observable<any>{
+    return this.http.get(this.apiOrderListUrl).pipe(map((res:any)=>res))
+  }
+  getOrderByID(orderId:number):Observable<any>{
+    return this.http.get(`${this.apiOrderByIdUrl}?order_id=${orderId}`).pipe(map((res:any)=>res))
+  }
+  updateOrderStatus(object:any): Observable<any> {
+    return this.http.post(this.apiUpadateStatusUrl,object).pipe(map((res: any) => res));
   }
 
 }

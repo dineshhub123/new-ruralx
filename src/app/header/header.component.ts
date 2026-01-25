@@ -129,11 +129,12 @@ this.scrollService.scroll$.subscribe(scrollTop => {
   public deliverToText: string = "Choose your location";
 
   setHeaderAddress(address: any) {
+    console.log(address)
     // For logged-in user address
     if (address?.user_first_name) {
       this.deliverToText =
         `Deliver to ${address.user_first_name} ${address.user_last_name}, ` +
-        `${address.user_address} - ${address.user_pincode}`;
+        `${address.street_area} - ${address.user_pincode}`;
     }
 
     // For shipment address
@@ -235,6 +236,14 @@ this.scrollService.scroll$.subscribe(scrollTop => {
   // displayFn(user: User) {
   //   if (user) { return user.name; }
   // }
+  toTitleCase(value: string): string {
+  return value
+    ?.toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
 loadUserAddress() {
   const userInfo = localStorage.getItem("login_user");
   if (!userInfo) {
@@ -256,7 +265,7 @@ loadUserAddress() {
       this.deliverToText = `Deliver to ${ship.shipment_fullname}, ${ship.shipment_city} - ${ship.shipment_zipcode}`;
     } else {
       // fallback to user's main address
-      this.deliverToText = `Deliver to ${user.user_first_name} ${user.user_last_name}, ${user.user_address} - ${user.user_pincode}`;
+      this.deliverToText = `Deliver to ${user.user_first_name} ${user.user_last_name}, ${this.toTitleCase(user.street_area) } - ${user.user_pincode}`;
     }
   }
 }

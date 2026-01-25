@@ -14,6 +14,8 @@ import { Product } from './product-zoom/product-zoom.component';
 import { ToastrService } from 'ngx-toastr';
 import { ScrollService } from './scroll.service';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -48,7 +50,7 @@ export class AppComponent {
   public lastScrollTop = 0;
   public isDesktop: boolean = false;
   public isGuest = true;
-  constructor(private renderer: Renderer2, private zone: NgZone, public dialog: MatDialog, public location: Location, public addCartService: AddcartService, private toastr: ToastrService,
+  constructor(private renderer: Renderer2, private zone: NgZone, public dialog: MatDialog, public location: Location, public addCartService: AddcartService, private toastr: ToastrService,private translate: TranslateService,
     public loginService: LoginService,
     public router: Router,
     private http: HttpClient,
@@ -57,6 +59,10 @@ export class AppComponent {
     private viewportScroller: ViewportScroller,
     private scrollService: ScrollService,
   ) {
+    this.translate.addLangs(['en', 'hi']);
+    this.translate.setDefaultLang('hi');
+    this.translate.use('en'); // default language
+
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         window.scrollTo({
@@ -118,7 +124,10 @@ export class AppComponent {
 
   }
 
-
+changeLang(lang: string) {
+  console.log(lang)
+    this.translate.use(lang);
+  }
 
   checkScreen() {
     this.isDesktop = window.innerWidth >= 769;

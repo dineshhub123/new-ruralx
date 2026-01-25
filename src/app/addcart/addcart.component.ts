@@ -18,14 +18,17 @@ export class AddcartComponent implements OnInit {
   unsubscribe: any;
   public counter: number = 1;
   checkUserExiest: boolean = false;
+  public isLoading:boolean = false;
    MAX_QTY = 4;
   constructor(private router: Router, public addCartService: AddcartService, public apiService: ApiService,public toastr:ToastrService) {
     let user:any;
     user = localStorage.getItem("login_user")
     let loginUser = JSON.parse(user)
+    this.isLoading = true;
     this.unsubscribe = this.addCartService.cart$.subscribe((res: any) => {
     if(res){
     let  filerCartItem = res.filter((item:any)=>item?.userId === loginUser?.userId)
+    this.isLoading = false;
     this.addCartData = filerCartItem;
       }
     })
