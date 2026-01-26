@@ -80,8 +80,8 @@ export class ApiService {
   insertShippingAddress(object:any): Observable<any> {
     return this.http.post(this.apiShippingAddressURL,object).pipe(map((res: any) => res));
   }
-  getShippingAddress():Observable<any> {
-    return this.http.get(this.apiGetShippingAddressURL).pipe(map((res:any)=>res))
+  getShippingAddressByUserId(userId:any):Observable<any> {
+    return this.http.get(`${this.apiGetShippingAddressURL}?user_id=${userId}`).pipe(map((res:any)=>res))
   }
   updateShippingAddress(object:any): Observable<any> {
     return this.http.post(this.apiUpdateShippingAddressURL,object).pipe(map((res: any) => res));

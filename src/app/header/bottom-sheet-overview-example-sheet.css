@@ -15,3 +15,17 @@ border-top-right-radius: 18px;
   padding: 0 15px;           /* Optional spacing */
   z-index: 1000;             /* Keeps it above other elements */
 }
+.saveAddress{
+  border: 1px solid gray;
+    border-radius: 8px;
+    margin: 0px 15px 0px 15px;
+    color: black;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 10px;
+    cursor: pointer;
+  }
+.address-form.selected-card {
+  background: #e8f5e9;   /* light green */
+  border: 1px solid #43a047;
+}

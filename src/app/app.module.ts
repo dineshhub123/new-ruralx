@@ -60,6 +60,7 @@ import SwiperCore, { Zoom, Thumbs, Pagination } from 'swiper';
 // ✅ Translate loader function
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 export function HttpLoaderFactory(http:HttpClient){
   return new TranslateHttpLoader(http, './assets/i18n/', '.json')
@@ -95,7 +96,8 @@ SwiperCore.use([Zoom, Thumbs, Pagination]);
     MyAccountComponent,
     MyOrderComponent,
     MyOrderStatusComponent,
-    SettingComponent
+    SettingComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,

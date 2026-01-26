@@ -12,7 +12,7 @@ export const environment = {
   insertshippingAddressApiUrl: 'https://ruralx.in/api/insertShippingAddress.php',
   getShippingAddressApiUrl: 'https://ruralx.in/api/getShippingAddress.php',
   updateShippingAddressApiUrl: 'https://ruralx.in/api/updateShippingaddress.php',
-  deleteShippingAddressApiUrl: 'https://ruralx.in/api/deleteShippingaddress.php',
+  deleteShippingAddressApiUrl: 'https://ruralx.in/api/deleteShippingAddress.php',
   getCategoryListApiUrl: 'https://ruralx.in/api/get_all_category.php',
   getMainCategoryApiUrl: 'https://ruralx.in/api/mainCategorySearchData.php',
   placeOrderApiUrl: 'https://ruralx.in/api/place_order.php',

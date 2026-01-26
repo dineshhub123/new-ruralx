@@ -1,44 +1,58 @@
-
+<app-loader [isLoading]="isLoading"></app-loader>
 <div class="choose-location-title ">Choose your location</div>
+<div *ngIf="!isLoading"></div>
+<div style="height: 200px;padding: 16px;" *ngIf="loginUserAddress?.[0]?.isGuest !== true; else noData">
 
-<div style="height: 200px;padding: 16px;">
 <form [formGroup]="radioForm">
 <div *ngIf="loginUserAddress[0] !== null">
-<div class="address-form saveAddress mb-2" style="background-color: #d5e3da;" *ngFor="let user of loginUserAddress">
+<div class="address-form saveAddress mb-2"  *ngFor="let user of loginUserAddress"  [class.selected-card]="radioForm.value.radioOption?.id == user.id" (click)="onAddressSelect(user)">
 <div class="row align-items-center" >
   <!-- Radio Button -->
   <div class="col-2 col-md-1 d-flex justify-content-center mb-2 mb-md-0">
-    <input type="radio" formControlName="radioOption" [value]="user" (change)="onAddressSelect()">
+    <input type="radio" formControlName="radioOption" [value]="user" (click)="$event.stopPropagation()" (change)="onAddressSelect(user)">
   </div>
   <!-- Address List -->
   <div class="col-10 col-md-7 mb-2 mb-md-0 mb-2">
-    <div>{{user?.user_first_name}} {{user?.user_last_name}}</div>
-    <div>{{user?.user_phone}}</div>
-    <div>{{user?.user_email}}</div>
-    <div>{{user?.user_address}}</div>
-    <div>{{user?.user_pincode}}</div>
+              <div>{{user?.user_first_name|titlecase}}{{user?.user_last_name|titlecase}}</div>
+              <div>{{user?.user_phone}}</div>
+              <div>{{user?.user_email}}</div>
+              <div>{{user?.house_no | titlecase}}, {{user?.street_area | titlecase}}, {{user?.landmark | titlecase}},
+                {{user?.post_office | titlecase}}, {{user?.tehsil | titlecase}}, {{user?.district | titlecase}},
+                {{user?.state | titlecase}}, {{user?.country | titlecase}} - {{user?.user_pincode}} </div>
   </div>
 </div>
 </div>
 </div>
 <div *ngIf="loginUserAddress[0]!== null || exiestShipment?.length > 0">
-<div class="address-form saveAddress mb-2" *ngFor="let ship of exiestShipment">
+<div class="address-form saveAddress mb-2" *ngFor="let ship of exiestShipment" [class.selected-card]="radioForm.value.radioOption?.id == ship.id"  (click)="onAddressSelect(ship)">
   <div class="row">
   <div class="col-2 col-md-1 d-flex justify-content-center mb-2 mb-md-0">
-  <input type="radio" formControlName="radioOption" [value]="ship" (change)="onAddressSelect()">
+  <input type="radio" formControlName="radioOption" [value]="ship" (click)="$event.stopPropagation()"  (change)="onAddressSelect(ship)">
   </div>
  <div class="col-10 col-md-7 mb-md-0 mb-2">
-  <div>{{ship?.shipment_fullname }}</div>
-  <div>{{ship?.shipment_mobile}}</div>
-  <div>{{ship?.shipment_state}}</div>
-  <div>{{ship?.shipment_streetAddress}}</div>
-  <div>{{ship?.shipment_city}}</div>
-  <div>{{ship?.shipment_zipcode}}</div>
-  <div>{{ship?.shipment_country}}</div>
-  <div>{{ship?.shipment_additonalNote}}</div>
+              <div>{{ship?.full_name | titlecase}}</div>
+              <div>{{ship?.user_phone}}</div>
+              <div>{{ship?.user_email}}</div>
+              <div>{{ship?.house_no | titlecase}}, {{ship?.street_area | titlecase}}, {{ship?.landmark | titlecase}},
+                {{ship?.post_office | titlecase}}, {{ship?.tehsil | titlecase}}, {{ship?.district | titlecase}},
+                {{ship?.state | titlecase}}, {{ship?.country | titlecase}} - {{ship?.user_pincode}} </div>
   </div>
   </div>
 </div>
 </div>
 </form>
+<br>
 </div>
+
+
+  <ng-template #noData>
+    <div class="col-12 text-center">
+      <div class="address-form p-3">
+        <h5 class="mb-2">You are browsing as Guest</h5>
+        <p class="mb-3">Please login first to continue checkout and place your order.</p>
+        <button mat-raised-button color="primary" (click)="goToLogin()">
+          Login Now
+        </button>
+      </div>
+    </div>
+  </ng-template>

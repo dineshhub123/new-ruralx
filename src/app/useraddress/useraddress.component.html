@@ -1,171 +1,230 @@
 <app-loader [isLoading]="isLoading"></app-loader>
 <div *ngIf="!isLoading">
-<div class="shipingAddresText" [class.at-top]="showHeaderAtTop">
-  Shipping Address
-</div>
-<div class="col-lg-12 col-md-12 col-sm-12 mt-5">
-<div class="address-form alignAdressBtn p-3">
-<button mat-raised-button color="warn" [disabled]="loginUserAddress[0]==null" class="align-center" type="button" (click)="addShippingAddress()"> + Add New Address</button>
-</div>
-<form  *ngIf="addShipTextForm" [formGroup]="addressForm" class="address-form p-3 mb-5">
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Full Name</mat-label>
-    <input matInput formControlName="fullName" placeholder="John Doe" />
-    <mat-error *ngIf="addressForm.get('fullName')?.hasError('required')">
-      Full Name is required
-    </mat-error>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Street Address</mat-label>
-    <input matInput formControlName="streetAddress" placeholder="123 Main St" />
-    <mat-error *ngIf="addressForm.get('streetAddress')?.hasError('required')">
-      Street Address is required
-    </mat-error>
-  </mat-form-field>
-
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>City</mat-label>
-      <input matInput formControlName="city" placeholder="New York" />
-      <mat-error *ngIf="addressForm.get('city')?.hasError('required')">
-        City is required
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>State</mat-label>
-      <input matInput formControlName="state" placeholder="NY" />
-      <mat-error *ngIf="addressForm.get('state')?.hasError('required')">
-        State is required
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Zip Code</mat-label>
-      <input matInput formControlName="zipCode" placeholder="10001" />
-      <mat-error *ngIf="addressForm.get('zipCode')?.hasError('required')">
-        Zip Code is required
-      </mat-error>
-      <mat-error *ngIf="addressForm.get('zipCode')?.hasError('pattern')">
-        Zip Code must be 5 digits
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Country</mat-label>
-      <input matInput formControlName="country" placeholder="USA" />
-      <mat-error *ngIf="addressForm.get('country')?.hasError('required')">
-        Country is required
-      </mat-error>
-    </mat-form-field>
-
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Phone Number</mat-label>
-    <input matInput formControlName="phoneNumber" placeholder="234 567 8900" />
-    <mat-error *ngIf="addressForm.get('phoneNumber')?.hasError('required')">
-      Phone Number is required
-    </mat-error>
-    <mat-error *ngIf="addressForm.get('phoneNumber')?.hasError('pattern')">
-      Phone Number is invalid
-    </mat-error>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Additional Notes</mat-label>
-    <textarea matInput formControlName="additionalNotes" rows="3" placeholder="Leave a note..."></textarea>
-  </mat-form-field>
-<button mat-raised-button color="primary" class="float-right ml-2" type="submit" *ngIf="editbtn" (click)="updateShippingAddress(addressForm)">Update</button>
-<button mat-raised-button color="primary" class="float-right ml-2" type="submit" *ngIf="!editbtn" (click)="onSubmitAddress(addressForm)">Add</button>
-</form>
-
-<form [formGroup]="radioForm">
-<div *ngIf="loginUserAddress[0] !== null">
-<div class="address-form saveAddress mb-2" style="background-color: #d5e3da;" *ngFor="let user of loginUserAddress">
-<div class="row align-items-center" >
-  <!-- Radio Button -->
-  <div class="col-2 col-md-1 d-flex justify-content-center mb-2 mb-md-0">
-    <input type="radio" formControlName="radioOption" [value]="user">
+  <div class="shipingAddresText" [class.at-top]="showHeaderAtTop">
+    Shipping Address
   </div>
-  <!-- Address List -->
-  <div class="col-10 col-md-7 mb-2 mb-md-0 mb-2">
-    <div>{{user?.user_first_name|titlecase}} {{user?.user_last_name|titlecase}}</div>
-    <div>{{user?.user_phone}}</div>
-    <div>{{user?.user_email}}</div>
-    <div>{{user?.user_address|titlecase}}</div>
-    <div>{{user?.user_pincode}}</div>
-  </div>
-</div>
-</div>
-</div>
-<div *ngIf="loginUserAddress[0]!== null || exiestShipment?.length > 0">
-<div class="address-form saveAddress mb-2" *ngFor="let ship of exiestShipment">
-  <div class="row">
-  <div class="col-2 col-md-1 d-flex justify-content-center mb-2 mb-md-0">
-  <input type="radio" formControlName="radioOption" [value]="ship">
-  </div>
- <div class="col-10 col-md-7 mb-md-0 mb-2">
-  <div>{{ship?.shipment_fullname |titlecase}}</div>
-  <div>{{ship?.shipment_mobile}}</div>
-  <div>{{ship?.shipment_state|titlecase}}</div>
-  <div>{{ship?.shipment_streetAddress|titlecase}}</div>
-  <div>{{ship?.shipment_city|titlecase}}</div>
-  <div>{{ship?.shipment_zipcode}}</div>
-  <div>{{ship?.shipment_country|titlecase}}</div>
-  <div>{{ship?.shipment_additonalNote|titlecase}}</div>
-  </div>
-  <div class="col-6 col-md-2 d-flex align-items-center justify-content-start"> 
-     <mat-icon  style="color:#70e39c" aria-label="Edit" (click)="editShipAddress(ship)">edit</mat-icon>edit</div>
-   <div class="col-6 col-md-2 d-flex align-items-center justify-content-end" (click)="deleteShippingaddress(ship)">
-    <mat-icon style="color:#f44336">delete</mat-icon>delete</div>
-  </div>
-</div>
-</div>
-</form>
-</div>
-<div class="col-lg-6 col-md-6 col-sm-6" *ngIf="loginUserAddress[0]!==null">
-<div class="address-form total-summary" >
-<div class="tot-sum-cont">Total Summary</div>
-<div class="tot-sub-content">
-  SubTotal 
-<div class="total-amount">
-  1200
-</div>
-</div>
-<div class="tot-sub-content">
-  Discount 
-  <div class="total-amount">
-  20
-</div>
+  <div class="col-lg-12 col-md-12 col-sm-12 mt-5" *ngIf="loginUserAddress?.length > 0 && loginUserAddress?.[0]?.isGuest !== true; else noData">
+    <div class="address-form alignAdressBtn p-3">
+      <button mat-raised-button color="warn" [disabled]="loginUserAddress[0]==null" class="align-center" type="button"
+        (click)="addShippingAddress()"> + Add New Address</button>
+    </div>
+    <form *ngIf="addShipTextForm" [formGroup]="addressForm" class="address-form p-3 mb-5">
+      <!-- Full Name -->
+      <div class="mb-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Full Name</mat-label>
+          <input matInput type="text" formControlName="fullName" placeholder="John Doe" />
+          <mat-error class="matError" *ngIf="f['fullName'].touched && f['fullName'].invalid">
+            Full Name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <!-- Email -->
+      <div class="mb-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="Email">
+          <mat-error class="matError" *ngIf="f['email'].touched && f['email'].invalid">
+            Please enter a valid email address
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <!-- Phone -->
+      <div class="mb-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Phone</mat-label>
+          <input matInput type="tel" formControlName="phone" placeholder="Mobile">
+          <mat-error class="matError" *ngIf="f['phone'].touched && f['phone'].invalid">
+            Enter a valid 10-digit phone number
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <!-- Address -->
+      <div class="mb-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>House No / Building Name</mat-label>
+          <input matInput formControlName="house_no" placeholder="e.g. H.No 12, Plot 45, Shiv Shakti Bhawan">
+          <mat-error class="matError" *ngIf="f['house_no'].touched && f['house_no'].invalid">
+            Please enter a valid House No
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mb-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Street / Area / Village</mat-label>
+          <input matInput formControlName="street_area" placeholder="e.g. Village , Road , Mohalla">
+          <mat-error class="matError" *ngIf="f['street_area'].touched && f['street_area'].invalid">
+            Please enter a valid street area
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mb-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Landmark</mat-label>
+          <input matInput formControlName="landmark" placeholder="e.g Near Govt School / Temple / Bus Stand">
+          <mat-error class="matError" *ngIf="f['landmark'].touched && f['landmark'].invalid">
+            Please enter a valid landmark
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mb-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Post Office</mat-label>
+          <input matInput formControlName="post_office" placeholder="Post Office">
+          <mat-error class="matError" *ngIf="f['post_office'].touched && f['post_office'].invalid">
+            Please enter a valid post office
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mb-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Tehsil</mat-label>
+          <input matInput formControlName="tehsil" placeholder="Tehsil">
+          <mat-error class="matError" *ngIf="f['tehsil'].touched && f['tehsil'].invalid">
+            Please enter a valid tehsil
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mb-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>District</mat-label>
+          <input matInput formControlName="district" placeholder="District">
+          <mat-error class="matError" *ngIf="f['district'].touched && f['district'].invalid">
+            Please enter a valid district
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mb-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>State</mat-label>
+          <input matInput formControlName="state" placeholder="State">
+          <mat-error class="matError" *ngIf="f['state'].touched && f['state'].invalid">
+            Please enter a valid state
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mb-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Pincode</mat-label>
+          <input matInput formControlName="pincode" placeholder="Pincode">
+          <mat-error class="matError" *ngIf="f['pincode'].touched && f['pincode'].invalid">
+            Please enter a valid pincode
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mb-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Country</mat-label>
+          <input matInput formControlName="country" placeholder="Country">
+          <mat-error class="matError" *ngIf="f['country'].touched && f['country'].invalid">
+            Please enter a valid country
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <!-- Update -->
+      <button mat-raised-button color="primary" class="float-right ml-2" type="submit" *ngIf="editbtn"
+        (click)="updateShippingAddress(addressForm)" [disabled]="addressForm.invalid">Update</button>
+      <button mat-raised-button color="primary" class="float-right ml-2" type="submit" *ngIf="!editbtn"
+        (click)="onSubmitAddress()" [disabled]="addressForm.invalid">Add</button>
+    </form>
 
-</div>
-<div class="tot-sub-content">
-  Shipping Fee 
-  <div class="total-amount">
-  12
-</div>
-
-</div>
-<div>
-  <hr>
-<!-- <form class="example-form">
-  <mat-form-field class="example-full-width mt-4" appearance="outline">
-    <input type="text" matInput [formControl]="couponFormControl" placeholder="Enter Coupon Code">
-  </mat-form-field>
-  <button mat-raised-button color="primary" class="float-right" style="position: relative;right: 0px;top: 25px;" type="submit">Apply</button>
-</form> -->
-</div>
-<div class="total-amount-content">
-  Total
-  <div class="total-amount">
-    Rs:1232.00
+    <form [formGroup]="radioForm">
+      <div *ngIf="loginUserAddress[0] !== null">
+        <div class="address-form saveAddress mb-2" [class.selected-card]="radioForm.value.radioOption?.id == user.id" (click)="onAddressSelect(user)"
+          *ngFor="let user of loginUserAddress">
+          <div class="row align-items-center">
+            <!-- Radio Button -->
+            <div class="col-2 col-md-1 d-flex justify-content-center mb-2 mb-md-0">
+              <input type="radio" formControlName="radioOption" [value]="user" (click)="$event.stopPropagation()" (change)="onAddressSelect(user)">
+            </div>
+            <!-- Address List -->
+            <div class="col-10 col-md-7 mb-2 mb-md-0 mb-2">
+              <div>{{user?.user_first_name|titlecase}}{{user?.user_last_name|titlecase}}</div>
+              <div>{{user?.user_phone}}</div>
+              <div>{{user?.user_email}}</div>
+              <div>{{user?.house_no | titlecase}}, {{user?.street_area | titlecase}}, {{user?.landmark | titlecase}},
+                {{user?.post_office | titlecase}}, {{user?.tehsil | titlecase}}, {{user?.district | titlecase}},
+                {{user?.state | titlecase}}, {{user?.country | titlecase}} - {{user?.user_pincode}} </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="loginUserAddress[0]!== null || exiestShipment?.length > 0">
+        <div class="address-form saveAddress mb-2" *ngFor="let ship of addressList" [class.selected-card]="radioForm.value.radioOption?.id == ship.id"  (click)="onAddressSelect(ship)">
+          <div class="row">
+            <div class="col-2 col-md-1 d-flex justify-content-center mb-2 mb-md-0">
+              <input type="radio" formControlName="radioOption" [value]="ship" (click)="$event.stopPropagation()"  (change)="onAddressSelect(ship)">
+            </div>
+            <div class="col-10 col-md-7 mb-md-0 mb-2">
+              <div>{{ship?.full_name | titlecase}}</div>
+              <div>{{ship?.user_phone}}</div>
+              <div>{{ship?.user_email}}</div>
+              <div>{{ship?.house_no | titlecase}}, {{ship?.street_area | titlecase}}, {{ship?.landmark | titlecase}},
+                {{ship?.post_office | titlecase}}, {{ship?.tehsil | titlecase}}, {{ship?.district | titlecase}},
+                {{ship?.state | titlecase}}, {{ship?.country | titlecase}} - {{ship?.user_pincode}} </div>
+            </div>
+            <div class="col-6 col-md-2 d-flex align-items-center justify-content-start">
+              <mat-icon style="color:#70e39c" aria-label="Edit" (click)="editShipAddress(ship)">edit</mat-icon>edit
+            </div>
+            <div class="col-6 col-md-2 d-flex align-items-center justify-content-end"
+              (click)="deleteShippingaddress(ship)">
+              <mat-icon style="color:#f44336">delete</mat-icon>delete
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
-</div>
-<button mat-raised-button class="float-right btn-align-color" type="submit" (click)="confirmOrder()">Confirm Order</button>
-</div>
-</div>
-<br>
-<br>
-<br>
-<br>
-</div>
+  <div class="col-lg-6 col-md-6 col-sm-6" *ngIf="loginUserAddress?.length > 0 && loginUserAddress?.[0]?.isGuest !== true">
+    <div class="address-form total-summary">
+      <div class="tot-sum-cont">Total Summary</div>
+      <div class="tot-sub-content">
+        Total Amount
+        <div class="total-amount">
+          {{totalMrp | number:'1.2-2'}}
+        </div>
+      </div>
+      <div class="tot-sub-content">
+        Discount
+        <div class="total-amount">
+          {{totalDiscount | number:'1.2-2'}}
+        </div>
 
+      </div>
+      <div class="tot-sub-content">
+        Shipping Fee
+        <div class="total-amount">
+          0.00
+        </div>
+
+      </div>
+      <div>
+        <hr>
+      </div>
+      <div class="total-amount-content">
+       Grand Total
+        <div class="total-amount">
+          Rs: {{totalAmount | number:'1.2-2' }}
+        </div>
+      </div>
+      <button mat-raised-button class="float-right btn-align-color" type="submit" (click)="confirmOrder()">Confirm
+        Order</button>
+    </div>
+  </div>
+   <!-- Guest User Template -->
+  <br>
+  <br>
+  <br>
+  <br>
+</div>
+  <ng-template #noData>
+    <div class="col-12 text-center pt-5">
+      <div class="address-form p-3">
+        <h5 class="mb-2">You are browsing as Guest</h5>
+        <p class="mb-3">Please login first to continue checkout and place your order.</p>
+        <button mat-raised-button color="primary" (click)="goToLogin()">
+          Login Now
+        </button>
+      </div>
+    </div>
+  </ng-template>

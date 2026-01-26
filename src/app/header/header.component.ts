@@ -18,7 +18,7 @@ import { Product } from '../product-zoom/product-zoom.component';
 import { LoginService } from '../services/login.service';
 import { MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { ScrollService } from '../scroll.service';
-
+import { AddressService } from '../address.service';
 export interface DialogData {
   animal: string;
   name: string;
@@ -46,6 +46,7 @@ export class HeaderComponent implements OnInit {
   public cartItems: Product[] = [];
   public hideHeader:boolean = false;
   lastScrollTop = 0;
+  public isLoading:boolean = false;
   showHeaderAtTop = false;
 @HostListener('window:scroll', [])
 
@@ -54,7 +55,7 @@ export class HeaderComponent implements OnInit {
   public isMenuOpen: boolean = false
   public itemQuantity: number = 0;
   username: string | null = null;
-  constructor(@Inject(DOCUMENT) private document: Document, public addCartService: AddcartService, public loginService: LoginService, private cdRef: ChangeDetectorRef, private zone: NgZone,
+  constructor(@Inject(DOCUMENT) private document: Document,private addressService: AddressService, public addCartService: AddcartService, public loginService: LoginService, private cdRef: ChangeDetectorRef, private zone: NgZone,
     public dialog: MatDialog, private http: HttpClient, public router: Router, private fb: FormBuilder, private apiService: ApiService, private _bottomSheet: MatBottomSheet,private scrollService: ScrollService
     ) {
     this.apiService.getProductListDetailsData().subscribe((data: any) => {
@@ -74,7 +75,30 @@ export class HeaderComponent implements OnInit {
   }
   // get f() { return this.formdata.controls; }
   ngOnInit() {
-    this.loadUserAddress();
+
+
+
+  // 1) On refresh set from localStorage
+  const saved = this.addressService.getSelectedAddress();
+
+  if (saved) {
+    this.updateHeader(saved);
+  } else {
+    this.deliverText = 'Choose your location';
+  }
+
+  // 2) Subscribe: only update when address is not null
+  this.addressService.selectedAddress$.subscribe((addr: any) => {
+    if (addr) {
+      this.updateHeader(addr);
+    }
+  });
+
+
+
+
+
+
     this.addCartService.cart$.subscribe(items => {
       this.cartItems = items
       this.cartItems = this.addCartService.getCart();
@@ -109,8 +133,9 @@ this.scrollService.scroll$.subscribe(scrollTop => {
  });
   }
 
-
-
+updateHeader(addr: any) {
+  this.deliverText = `Deliver to ${addr.full_name?addr.full_name:addr.user_first_name + ' ' + addr.user_last_name}, ${addr.street_area} - ${addr.user_pincode}`;
+}
 
 
   ngAfterViewInit() {
@@ -121,29 +146,10 @@ this.scrollService.scroll$.subscribe(scrollTop => {
     // this._bottomSheet.open(BottomSheetOverviewExampleSheet);
     const bottomSheetRef = this._bottomSheet.open(BottomSheetOverviewExampleSheet);
     bottomSheetRef.afterDismissed().subscribe((selectedAddress) => {
-      if (selectedAddress) {
-        this.setHeaderAddress(selectedAddress);
-      }
     });
   }
-  public deliverToText: string = "Choose your location";
+ public deliverText : string = "Choose your location";
 
-  setHeaderAddress(address: any) {
-    console.log(address)
-    // For logged-in user address
-    if (address?.user_first_name) {
-      this.deliverToText =
-        `Deliver to ${address.user_first_name} ${address.user_last_name}, ` +
-        `${address.street_area} - ${address.user_pincode}`;
-    }
-
-    // For shipment address
-    else if (address?.shipment_fullname) {
-      this.deliverToText =
-        `Deliver to ${address.shipment_fullname}, ` +
-        `${address.shipment_city} - ${address.shipment_zipcode}`;
-    }
-  }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -244,67 +250,45 @@ this.scrollService.scroll$.subscribe(scrollTop => {
     .join(' ');
 }
 
-loadUserAddress() {
-  const userInfo = localStorage.getItem("login_user");
-  if (!userInfo) {
-    this.deliverToText = "Choose your location";
-    return;
-  }
-
-  const user = JSON.parse(userInfo);
-
-  if (user.isGuest) {
-    // Guest user → reset header
-    this.deliverToText = "Choose your location";
-    localStorage.removeItem("default_shipment_address");
-  } else {
-    // Logged-in user → check if there is a selected shipment
-    const selectedAddress = localStorage.getItem("default_shipment_address");
-    if (selectedAddress) {
-      const ship = JSON.parse(selectedAddress);
-      this.deliverToText = `Deliver to ${ship.shipment_fullname}, ${ship.shipment_city} - ${ship.shipment_zipcode}`;
-    } else {
-      // fallback to user's main address
-      this.deliverToText = `Deliver to ${user.user_first_name} ${user.user_last_name}, ${this.toTitleCase(user.street_area) } - ${user.user_pincode}`;
-    }
-  }
-}
-
-
 }
 
 @Component({
   selector: 'bottom-sheet-overview-example-sheet',
   templateUrl: './bottom-sheet-overview-example-sheet.html',
   styleUrls: ['./bottom-sheet-overview-example-sheet.css'],
-
-
 })
 export class BottomSheetOverviewExampleSheet {
   public loginUserAddress: any[] = []
   public radioForm: FormGroup;
   public exiestShipment: any = [];
-
-  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: any, private apiService: ApiService,
+  public isLoading:boolean = false;
+  public user:any;
+  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: any, public router: Router, public loginService:LoginService, private apiService: ApiService,private addressService: AddressService,
     private _bottomSheetRef: MatBottomSheetRef<BottomSheetOverviewExampleSheet>) {
+    let loginUserStr = localStorage.getItem('login_user');
+    if (loginUserStr) {
+      this.user = JSON.parse(loginUserStr);
+    }
+
     this.radioForm = new FormGroup({
       radioOption: new FormControl('')
     });
 
   }
-  getshipDetails() {
-    this.apiService.getShippingAddress().subscribe((res: any) => {
-      let userInfo: any;
-      userInfo = localStorage.getItem("login_user")
-      let user = JSON.parse(userInfo)
-      const shipingObj = res?.filter((shipment: any) => (
-        shipment.login_user_mobile === user?.user_phone &&
-        shipment?.login_user_first_name === user?.user_first_name &&
-        shipment?.login_user_email === user?.user_email &&
-        shipment?.login_user_password === user?.user_password
-      ))
-      this.exiestShipment = shipingObj;
-    })
+  loadAddresses() {
+    try {
+     this.isLoading = true;
+      this.apiService.getShippingAddressByUserId(this.user.userId).subscribe((res: any) => {
+        if (res?.status) {
+          this.isLoading = false;
+          this.exiestShipment = res.data;
+          this.setDefaultRadio()
+        }
+      });
+    } catch (err) {
+      this.isLoading = false;
+      console.error(err)
+    }
   }
 
   openLink(event: MouseEvent): void {
@@ -314,18 +298,36 @@ export class BottomSheetOverviewExampleSheet {
   get f() { return this.radioForm.controls; }
 
   ngOnInit() {
-    let userAddress: any;
-    userAddress = localStorage.getItem("login_user")
-    let address = JSON.parse(userAddress)
-    this.loginUserAddress.push(address)
-    this.radioForm = new FormGroup({
-      radioOption: new FormControl(this.loginUserAddress[0])
-    });
-    this.getshipDetails();
-  }
+    this.loadAddresses();
+    let user: any = {};
+    user = this.user;
+    this.loginUserAddress.push(user)
+    this.addressService.selectedAddress$.subscribe((addr: any) => {
+    if (!addr) return;
+    const sameRef = this.loginUserAddress?.find((x: any) => x?.id == addr?.id);
+    const shipRef = this.exiestShipment?.find((x: any) => x?.id == addr?.id);
+    this.radioForm.patchValue({ radioOption: sameRef ?? shipRef ?? null });
+  });
 
-  onAddressSelect() {
-    const selectedAddress = this.radioForm.value.radioOption;
-    this._bottomSheetRef.dismiss(selectedAddress);
+
   }
+setDefaultRadio() {
+  const selectedAddr = this.addressService.getSelectedAddress();
+  if (!selectedAddr) return;
+  const sameRef = this.loginUserAddress?.find((x: any) => x?.id == selectedAddr?.id);
+  const shipRef = this.exiestShipment?.find((x: any) => x?.id == selectedAddr?.id);
+  this.radioForm.patchValue({ radioOption: sameRef ?? shipRef ?? null });
+}
+
+  onAddressSelect(user: any) {
+    this.radioForm.patchValue({ radioOption: user });
+    const selectedAddress = this.radioForm.value.radioOption;
+    this.addressService.setSelectedAddress(selectedAddress);
+    this._bottomSheetRef.dismiss();
+  }
+goToLogin(){
+  this.router.navigate(['/login']);
+  this._bottomSheetRef.dismiss();
+}
+
 }

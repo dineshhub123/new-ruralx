@@ -50,9 +50,9 @@ export class MyOrderComponent {
           })
 
           if (userOrderList) {
-            const filerOrder = userOrderList.filter((item: any) => item?.userId === address.userId)
+            const filterOrder = userOrderList.filter((item: any) => item?.userId === address.userId)
             this.isLoading = false;
-            this.userOrder = filerOrder
+            this.userOrder = filterOrder
             console.log(this.userOrder)
             this.groupOrdersById();
           }

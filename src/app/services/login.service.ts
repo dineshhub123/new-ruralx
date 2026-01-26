@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { AddressService } from '../address.service';
 
 export interface User {
   userId: string;
@@ -13,7 +14,7 @@ export interface User {
 export class LoginService {
   private userSubject = new BehaviorSubject<any>(null);
   user$ = this.userSubject.asObservable();
-  constructor() {
+  constructor(public addressService:AddressService) {
     const storedUser = localStorage.getItem('login_user');
     if (storedUser) {
       this.userSubject.next(JSON.parse(storedUser));
@@ -31,10 +32,11 @@ export class LoginService {
   setUser(user: User) {
     localStorage.setItem('login_user', JSON.stringify(user));
     this.userSubject.next(user);
+    this.addressService.setSelectedAddress(user);
+
   }
 
-  logout() {
-    //localStorage.clear();
+  logout() {  
     localStorage.removeItem('displaySearchData');
     localStorage.removeItem('selected-item');
     const guestUser: User = {
@@ -44,6 +46,9 @@ export class LoginService {
     };
     localStorage.setItem('login_user', JSON.stringify(guestUser));
     this.userSubject.next(guestUser);
+    this.addressService.setSelectedAddress(null);
+    localStorage.removeItem('selected_address'); // extra safe
+
   }
   getUser(): User | null {
     return this.userSubject.value;
