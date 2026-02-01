@@ -31,8 +31,11 @@
       </div>
       <div class="item-mrp">
         ₹ {{cartData.product_price}}
-
       </div>
+      <div class="item-mrp" *ngIf="cartData?.size?.length > 0">
+        Size : {{cartData.size}}
+      </div>
+
       <div class="card-title_1">Subtotal : ₹ {{cartData.product_price*cartData.quantity}} ({{cartData.quantity}} item)
       </div>
 

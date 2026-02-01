@@ -1,0 +1,39 @@
+<div class="bottom-sheet product-card" id="sheet">
+    <span class="cursor-pointer">
+        <mat-icon class="float-right " mat-dialog-close>close</mat-icon>
+    </span>
+    <div class="product-row ">
+        <img [src]="imageBaseUrl + addItam?.cartData?.variants[0].images[0]" class="product-img">
+        <div class="product-info">
+            <h3>{{addItam?.cartData?.product_name | titlecase}}</h3>
+            <p class="color">Colour: <b>{{addItam?.cartData?.variants[0].color}}</b></p>
+            <a href="#">See all item details</a>
+        </div>
+    </div>
+    <hr>
+    <div class="variants-container" *ngIf="addItam?.sizes.length > 0">
+        <div class="selcte-size-color-text">{{ getVariantLabel(addItam) }} : </div>
+        <div *ngFor="let size of addItam?.sizes" class="variant-inline-size" (click)="onSizeSelect(size)"
+            [ngClass]="{ 'selected': size === selectedSize }">
+            <div>{{size}}</div>
+        </div>
+    </div>
+
+    <p class="recommend">
+        <b>{{selectedSize}}</b> is your Selected {{ getVariantLabel(addItam) }} <mat-icon class="green-icon">check</mat-icon>
+    </p>
+    <div class="price-section">
+        <span class="deal">Limited time deal</span>
+        <div class="price-row">
+            <span class="price">₹ {{addItam?.cartData?.product_price}}</span>
+            <span class="mrp">M.R.P ₹ {{addItam?.cartData?.product_mrp_price}}</span>
+            <span class="off">Save ₹ {{addItam?.cartData?.product_discount}}</span>
+        </div>
+        <p class="delivery">FREE of delivery By <b>Ruralx</b> Get it by <b>Today</b></p>
+    </div>
+    <button class="btn btn-warning btn-md mb-2 mr-2 btn-align-buy cart-btn"
+        [disabled]="addItam?.cartData?.variants[0].stock === 0" (click)="addCart($event,addItam)"><i class="fa fa-shopping-cart"> </i>
+        ADD TO CART
+    </button>
+
+</div>

@@ -20,12 +20,16 @@
             </div>
           </div>
           <div class="variants-container" *ngIf="sizes.length > 0">
-            <div class="selcte-size-color-text">Size : </div>
+            <div class="selcte-size-color-text">{{ getVariantLabel(sizes) }} : </div>
             <div *ngFor="let item of sizes" class="variant-inline-size" (click)="onSizeSelect(item)"
               [ngClass]="{ 'selected': item === selectedSize }">
               <div>{{item}}</div>
             </div>
           </div>
+        <label class="recommend">
+        <b>{{selectedSize}}</b> is your Selected {{ getVariantLabel(sizes) }} <mat-icon class="green-icon">check</mat-icon>
+        </label>
+
         </ng-container>
       </div>
     </div>

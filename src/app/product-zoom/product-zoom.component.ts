@@ -102,13 +102,14 @@ export class ProductZoomComponent implements OnInit {
     itemZoom = localStorage.getItem('selected-item')
     this.cartItems = JSON.parse(itemZoom)
     this.colorCodes = [...new Set(this.cartItems?.variants.map((v: any) => v.colorCode))];
-    this.sizes = [...new Set(this.cartItems?.variants.map((v: any) => v.size))];
-    const sizeOrder = ["XS", "S", "M", "L", "XL", "XXL", "6-In", "7-In", "8-In", "9-In", "10-In"]; // Define logical order
-    const sortedSizes = this.sizes.sort((a, b) => {
-      const indexA = sizeOrder.indexOf(a);
-      const indexB = sizeOrder.indexOf(b);
-      return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
-    });
+    // this.sizes = [...new Set(this.cartItems?.variants.map((v: any) => v.size))];
+    // console.log("this.sizes",this.sizes)
+    // const sizeOrder = ["XS", "S", "M", "L", "XL", "XXL", "6-In", "7-In", "8-In", "9-In", "10-In"]; // Define logical order
+    // const sortedSizes = this.sizes.sort((a, b) => {
+    //   const indexA = sizeOrder.indexOf(a);
+    //   const indexB = sizeOrder.indexOf(b);
+    //   return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
+    // });
   }
 
   swiperVal: any
@@ -154,7 +155,8 @@ export class ProductZoomComponent implements OnInit {
   ngOnInit() {
     this.sizes = this.sizeService.getSizes(this.cartItems.category, this.cartItems.sub_category);
     this.selectedColor = this.colorCodes[0];
-    this.selectedSize = "M"
+    console.log("sizes",this.sizes)
+    this.selectedSize = this.sizes[1]
     this.updateImage();
   }
 
@@ -167,7 +169,7 @@ export class ProductZoomComponent implements OnInit {
     cartData.quantity = this.counter
     cartData.isGuest = userId?.isGuest
     cartData.image_url = this.selectedImage[0].images
-    cartData.size = this.sizes[0]
+    cartData.size = this.selectedSize
     cartData.color = this.selectedImage[0].color
     //cartData.variants = []
     this.addCartService.addToCart(cartData)
@@ -188,6 +190,7 @@ export class ProductZoomComponent implements OnInit {
   }
 
   onSizeSelect(size: string) {
+    console.log("size",size)
     this.selectedSize = size;
     setTimeout(() => {
       this.mainSwiper?.swiperRef.update();
@@ -256,7 +259,31 @@ ngOnDestroy() {
   this.document.body.classList.remove('no-scroll');
 
 }
+getVariantLabel(item: any): string {
 
+  if (!item || item.length === 0) return 'Variant';
+
+  const first = item[0];
+
+  if (first.includes('GB') || first.includes('TB')) {
+    return 'Storage';
+  }
+
+if (!isNaN(first)) {
+    return 'Size';
+  }
+   // Kids Size (5C, 6C, 1Y, 2Y)
+  if (first.match(/^\d+(C|Y)$/)) {
+    return 'Size';
+  }
+
+const clothSizes = ['XS','S','M','L','XL','XXL','XXXL'];
+
+if (clothSizes.includes(first.toUpperCase())) {
+  return 'Size';
+}
+  return 'Variant';
+}
 }
 export interface Product {
   id: number,

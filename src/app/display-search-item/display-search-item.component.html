@@ -1,104 +1,42 @@
 <div class="mb-5 pt-4">
-<!-- <div class="filter_block">
-  <div class="filter-align">
-<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-  Filter
-</a>
-<div class="dropdown-menu">
-  <a class="dropdown-item" >500-1000</a>
-  <a class="dropdown-item" >1000-1500</a>
-  <a class="dropdown-item" >1500-2000</a>
-</div>
-</div>
-<div class="sort-align">
-<a class="nav-link " href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-  sort
-</a>
-<img class="short_arrow" src="assets/img/down-up-arrow.png">
-<div class="dropdown-menu">
-  <a class="dropdown-item" >A-Z Alfabatically</a>
-  <a class="dropdown-item" >Z-A Alfabatically</a>
-</div>
-</div>
-</div>-->
-<br> 
-<!-- <div class="product-grid-container">
-  <div *ngFor="let searchData of searchItem" class="product-card" >
-    <img #productImage class="product-image"
-      [src]="searchData?.variants[0]?.images[0]| replacePath:'new-ruralx/src':'..'" (click)="imgClick(searchData)"/>
-    <div class="product-details mb-2"  (click)="imgClick(searchData)">
-      <div class="product-name">{{ searchData?.product_name }}</div>
-      <div class="product-mrp">MRP: ₹{{ searchData?.product_mrp_price }}</div>
-      <div class="product-price">Price: ₹{{ searchData?.product_price }}</div>
-    </div>
-      <div class="quantity-btn-align"  *ngIf="searchData.quantity > 0">
+  <br>
+  <div class="product-grid-container">
+    <div *ngFor="let searchData of searchItem" class="product-card">
+      <img #productImage class="product-image" [src]="imageBaseUrl + searchData?.variants[0]?.images[0]"
+        (click)="imgClick(searchData)" />
+
+      <!-- Product Details -->
+      <div class="product-details mb-2" (click)="imgClick(searchData)">
+        <div class="product-name">{{ searchData?.product_name }}</div>
+        <div class="product-mrp">MRP: ₹{{ searchData?.product_mrp_price }}</div>
+        <div class="product-price">Price: ₹{{ searchData?.product_price }}</div>
+      </div>
+
+      <!-- Quantity Buttons -->
+      <div class="quantity-btn-align" *ngIf="searchData.quantity > 0">
         <nav aria-label="quantity-navigation">
           <ul class="pagination">
-            <li class="page-item"><a class="page-link" (click)="decrement(searchData)"><strong
-                  style="cursor: pointer;">-</strong></a>
+            <li class="page-item">
+              <a class="page-link" (click)="$event.stopPropagation();decrement(searchData)">−</a>
             </li>
-            <li class="page-item item-font"><a class="page-link qunt-back">{{searchData.quantity}}</a></li>
-            <li class="page-item"><a class="page-link" (click)="increment(searchData)"><strong
-                  style="cursor: pointer;">+</strong></a>
+            <li class="page-item item-font">
+              <a class="page-link qunt-back">{{ searchData.quantity }}</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" [class.disabled]="searchData.quantity >= MAX_QTY"
+                (click)="$event.stopPropagation();flyToCartFromEvent($event);increment(searchData)">+</a>
             </li>
           </ul>
         </nav>
       </div>
-   <button class="btn btn-warning btn-md btn-align-buy"  *ngIf="searchData.quantity == 0"(click)="addCartQuntity(searchData);flyToCart(productImg)"> ADD TO CART</button>
-  </div>
-</div> -->
 
-<div class="product-grid-container">
-  <div *ngFor="let searchData of searchItem" class="product-card">
+      <!-- ADD TO CART BUTTON -->
+      <button class="btn btn-warning btn-md btn-align-buy" *ngIf="searchData.quantity == 0"
+        (click)="addCartQuntity($event,searchData);">
+        ADD TO CART
+      </button>
 
-    <!-- Product Image -->
-    <!-- <img
-      #productImage
-      class="product-image"
-      [src]="searchData?.variants[0]?.images[0] | replacePath:'new-ruralx/src':'..'"
-      (click)="imgClick(searchData)"
-    /> -->
-    <img
-      #productImage
-      class="product-image"
-      [src]="imageBaseUrl + searchData?.variants[0]?.images[0]"
-      (click)="imgClick(searchData)"
-    />
-
-    <!-- Product Details -->
-    <div class="product-details mb-2" (click)="imgClick(searchData)">
-      <div class="product-name">{{ searchData?.product_name }}</div>
-      <div class="product-mrp">MRP: ₹{{ searchData?.product_mrp_price }}</div>
-      <div class="product-price">Price: ₹{{ searchData?.product_price }}</div>
     </div>
-
-    <!-- Quantity Buttons -->
-    <div class="quantity-btn-align" *ngIf="searchData.quantity > 0">
-      <nav aria-label="quantity-navigation">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" (click)="$event.stopPropagation();decrement(searchData)">−</a>
-          </li>
-          <li class="page-item item-font">
-            <a class="page-link qunt-back">{{ searchData.quantity }}</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" [class.disabled]="searchData.quantity >= MAX_QTY" (click)="$event.stopPropagation();flyToCartFromEvent($event);increment(searchData)">+</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-
-    <!-- ADD TO CART BUTTON -->
-    <button
-      class="btn btn-warning btn-md btn-align-buy"
-      *ngIf="searchData.quantity == 0"
-      (click)="addCartQuntity(searchData); flyToCartFromEvent($event)"
-    >
-      ADD TO CART
-    </button>
-
   </div>
+
 </div>
-
- </div>

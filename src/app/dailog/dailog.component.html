@@ -1,9 +1,7 @@
-<div class="container-fluid">
+<div class="container-fluid p-3">
+   <mat-icon class="float-right " mat-dialog-close>close</mat-icon>
+  <h5> <strong> Check Available Item</strong></h5>
 <div class="pt-2 py-2 w-100"  style="width:500px;overflow-x: hidden;">
-  <button href="javascript:void(0)" class="closebtn border-none" mat-button mat-dialog-close>✕</button> 
- <div>
-  <h5> <strong> Check Your Available Item</strong></h5>
-</div>
 <form [formGroup]="formdata" (ngSubmit)="PincodeApply(pincode)">
 <div>
   <input type="tel" class="form-control" placeholder="Enter Your Area Pincode"  formControlName ="userPincode" #pincode required>

@@ -1,5 +1,7 @@
 export const environment = {
   production: false,
+  razorpayKey: 'rzp_test_S8zVFIrjVuV97p',
+  apiUrl: 'https://ruralx.in/api',
   imageBaseUrl: 'https://ruralx.in/api/',
   getUserDetailsApiURL: 'https://ruralx.in/api/getUserLoginDetails.php',
   searchApiUrl: 'https://ruralx.in/api/search_product.php',
