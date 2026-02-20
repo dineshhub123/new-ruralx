@@ -1,5 +1,13 @@
+
+<div class="payment-loader" *ngIf="isPaymentLoading">
+  <div class="loader-box">
+    <div class="spinner"></div>
+    <p>Processing Payment...</p>
+    <small>Please do not refresh or press back.</small>
+  </div>
+</div>
 <app-loader [isLoading]="isLoading"></app-loader>
-<div *ngIf="!isLoading">
+<div *ngIf="!isLoading || !isPaymentLoading">
   <div class="shipingAddresText" [class.at-top]="showHeaderAtTop">
     Shipping Address
   </div>
@@ -176,7 +184,7 @@
     </form>
   </div>
   <div class="col-lg-6 col-md-6 col-sm-6" *ngIf="loginUserAddress?.length > 0 && loginUserAddress?.[0]?.isGuest !== true">
-    <div class="address-form total-summary">
+    <div class="address-form total-summary" *ngIf="totalAmount > 0">
       <div class="tot-sum-cont">Total Summary</div>
       <div class="tot-sub-content">
         Total Amount

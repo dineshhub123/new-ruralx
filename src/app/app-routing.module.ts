@@ -12,18 +12,14 @@ import { LogoutComponent } from './logout/logout.component';
 import { AuthGuard } from './services/auth.guard';
 import { UseraddressComponent } from './useraddress/useraddress.component';
 import { CategoryComponent } from './category/category.component';
-import { PaymentOptionsComponent } from './payment-options/payment-options.component';
-import { PayQrComponent } from './pay-qr/pay-qr.component';
-import { UploadScreenshotComponent } from './upload-screenshot/upload-screenshot.component';
-import { PayUpiComponent } from './pay-upi/pay-upi.component';
 import { CodConfirmComponent } from './cod-confirm/cod-confirm.component';
-import { WaitingVerificationComponent } from './waiting-verification/waiting-verification.component';
 import { OrderConfirmedComponent } from './order-confirmed/order-confirmed.component';
 import { ComingSoonComponent } from './coming-soon/coming-soon.component';
 import { MyAccountComponent } from './my-account/my-account.component';
 import { MyOrderComponent } from './my-order/my-order.component';
 import { MyOrderStatusComponent } from './my-order-status/my-order-status.component';
 import { SettingComponent } from './setting/setting.component';
+import { WriteReviewComponent } from './write-review/write-review.component';
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
@@ -41,17 +37,13 @@ const routes: Routes = [
   { path: "signup", component: SignupComponent },
   { path: "category", component: CategoryComponent },
   { path: "display-item", component: DisplaySearchItemComponent },
-  { path: 'payment-options', component: PaymentOptionsComponent },
-  { path: 'pay-qr', component: PayQrComponent },
-  { path: 'pay-upi', component: PayUpiComponent },
   { path: 'cod-confirm', component: CodConfirmComponent },
-  { path: 'upload-screenshot', component: UploadScreenshotComponent },
-  { path: 'waiting-verification', component: WaitingVerificationComponent },
   { path: 'order-confirmed', component: OrderConfirmedComponent },
   { path: 'coming-soon', component: ComingSoonComponent },
   { path: 'my-order', component: MyOrderComponent },
   { path: 'my-order/order-status/:order_id', component: MyOrderStatusComponent },
-  { path: 'setting', component: SettingComponent }
+  { path: 'setting', component: SettingComponent },
+  { path: 'write-review/:id',component: WriteReviewComponent}
 
 ];
 

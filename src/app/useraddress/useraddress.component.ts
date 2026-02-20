@@ -11,6 +11,8 @@ import { AddressService } from '../address.service';
 import { LoginService } from '../services/login.service';
 import { RazorpayService } from '../razorpay.service';
 import { PaymentApiService } from '../payment-api.service';
+import { NgZone } from '@angular/core';
+
 
 @Component({
   selector: 'app-useraddress',
@@ -19,8 +21,9 @@ import { PaymentApiService } from '../payment-api.service';
 })
 export class UseraddressComponent implements OnInit {
   public addShipTextForm: boolean = false
-  public addCartData: any;
+  public userCheckOutData: any;
   public isLoading: boolean = false;
+  public isPaymentLoading :boolean = false;
   couponFormControl = new FormControl('');
   public editId: any = Number
   public addressForm: FormGroup;
@@ -39,7 +42,7 @@ export class UseraddressComponent implements OnInit {
   public totalDiscount: any;
 
   constructor(private razorpay: RazorpayService,
-    private paymentApi: PaymentApiService,
+    private paymentApi: PaymentApiService,private ngZone: NgZone,
     private fb: FormBuilder, public loginService: LoginService, public addressService: AddressService, private dialog: MatDialog, public toastr: ToastrService, private apiService: ApiService, public router: Router, public addCartService: AddcartService, public scrollService: ScrollService) {
     let loginUserStr = localStorage.getItem('login_user');
     if (loginUserStr) {
@@ -119,21 +122,7 @@ export class UseraddressComponent implements OnInit {
     userAddress = localStorage.getItem("login_user")
     let address = JSON.parse(userAddress)
     this.loginUserAddress.push(address)
-    this.addCartService.cart$.subscribe((res: any) => {
-      if (res) {
-        let filerCartItem = res.filter((item: any) => item?.userId === address?.userId)
-        this.addCartData = filerCartItem;
-        const totals = this.calculateTotals(this.addCartData)
-        console.log("Total MRP:", totals.totalMrp);
-        console.log("Total Price:", totals.totalPrice);
-        console.log("Total Discount:", totals.totalDiscount);
-
-        this.totalMrp = totals.totalMrp;
-        this.totalAmount = totals.totalPrice;
-        this.totalDiscount = totals.totalDiscount;
-      }
-    })
-
+    this.loadCheckoutData();
     this.addressService.selectedAddress$.subscribe((addr: any) => {
       if (!addr) return;
       const sameRef = this.loginUserAddress?.find((x: any) => x?.id == addr?.id);
@@ -161,20 +150,48 @@ export class UseraddressComponent implements OnInit {
       this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     });
   }
+  loadCheckoutData() {
+    let userAddress: any;
+    userAddress = localStorage.getItem("login_user")
+    let address = JSON.parse(userAddress)
+    this.addCartService.buyItems$.subscribe((res: any) => {
+      if (res) {
+        let filerCartItem = res.filter((item: any) => item?.userId === address?.userId)
+        this.userCheckOutData = filerCartItem;
+      }
+    })
+    const totals = this.calculateTotals(this.userCheckOutData);
+    this.totalMrp = totals.totalMrp;
+    this.totalAmount = totals.totalPrice;
+    this.totalDiscount = totals.totalDiscount;
 
+  }
+
+  buildOrderItems(items: any[]) {
+    return items.map((item: any) => ({
+      product_id: item.product_id,
+      product_name: item.product_name,
+      price: item.product_price,
+      mrp: item.product_mrp_price,
+      quantity: item.quantity,
+      sub_category: item.sub_category,
+      category: item.category,
+      color: item.color,
+      user_id: item.userId,
+      image: item.image_url,
+      size: item.size || ""
+    }));
+  }
 
   calculateTotals(cart: any[]) {
     const totals = cart.reduce(
       (acc: any, item: any) => {
         const qty = Number(item.quantity || 1);
-
         const mrp = Number(item.product_mrp_price || 0);
         const price = Number(item.product_price || 0);
-
         acc.totalMrp += mrp * qty;
         acc.totalPrice += price * qty;
         acc.totalDiscount += (mrp - price) * qty;
-
         return acc;
       },
       { totalMrp: 0, totalPrice: 0, totalDiscount: 0 }
@@ -182,7 +199,6 @@ export class UseraddressComponent implements OnInit {
 
     return totals;
   }
-
 
   loadAddresses() {
     this.isLoading = true;
@@ -207,7 +223,6 @@ export class UseraddressComponent implements OnInit {
     const shipRef = this.addressList?.find((x: any) => x?.id == selectedAddr?.id);
     this.radioForm.patchValue({ radioOption: sameRef ?? shipRef ?? null });
   }
-
 
   updateShippingAddress(updatedAddress: any) {
     try {
@@ -294,51 +309,13 @@ export class UseraddressComponent implements OnInit {
     this.addShipTextForm = !this.addShipTextForm;
   }
   calculateOrderAmount(): number {
-    return this.addCartData.reduce((total: number, item: any) => {
+    return this.userCheckOutData.reduce((total: number, item: any) => {
       const price = Number(item.product_price);
       const qty = Number(item.quantity);
       return total + price * qty;
     }, 0);
   }
 
-  // confirmOrder() {
-  //   try {
-  //     this.isLoading = true;
-  //     const user = this.radioForm.get('radioOption')?.value;
-  //     const orderPayload = {
-  //       user_id: 1,
-  //       order_amount: this.calculateOrderAmount(),
-  //       payment_method: 'netbanking',
-  //       order_source: 'APP',
-  //       delivery_address: {
-  //         name: (user?.full_name ? user.full_name : `${user?.user_first_name ?? ''} ${user?.user_last_name ?? ''}`.trim()),
-  //         mobile: user?.user_phone,
-  //         address: `${user?.house_no ?? ''}, ${user?.street_area ?? ''}, ${user?.landmark ?? ''}, ${user?.post_office ?? ''}, ${user?.tehsil ?? ''}, ${user?.district ?? ''}, ${user?.state ?? ''}, ${user?.country ?? ''} - ${user?.user_pincode ?? ''}`,
-  //         email: user?.user_email
-  //       },
-  //       items: this.addCartData.map((item: any) => ({
-  //         product_id: item.product_id,
-  //         product_name: item.product_name,
-  //         price: item.product_price,
-  //         mrp: item.product_mrp_price,
-  //         quantity: item.quantity,
-  //         sub_category: item.sub_category,
-  //         category: item.category,
-  //         color: item.color,
-  //         user_id: item.userId,
-  //         image: item.image_url
-  //       }))
-  //     };
-  //     this.apiService.placeAnOrder(orderPayload).subscribe(res => {
-  //       if (res?.status) {
-  //         this.isLoading = false;
-  //       }
-  //     })
-  //   } catch (err) {
-  //     this.isLoading = false;
-  //     console.error(err)
-  //   }
-  // }
   onAddressSelect(user: any) {
     this.radioForm.patchValue({ radioOption: user });
     const selectedAddress = this.radioForm.value.radioOption;
@@ -347,175 +324,93 @@ export class UseraddressComponent implements OnInit {
   goToLogin() {
     this.router.navigate(['/login']);
   }
-
-  // pay() {
-  //   if ((window as any).Android) {
-  //     (window as any).Android.startPayment(this.totalAmount);
-  //     return;
-  //   }
-  //   this.webPay();
-  // }
-
-  // async webPay() {
-  //   await this.razorpay.loadScript();
-  //   const amountInPaise = Math.round(this.totalAmount * 100);
-  //   this.paymentApi.createOrder(amountInPaise).subscribe(order => {
-  //     const options = {
-  //       amount: amountInPaise,
-  //       currency: 'INR',
-  //       name: 'Ruralx Test',
-  //       description: 'Test Payment',
-  //       order_id: order.order_id,
-  //       method: {
-  //         upi: true,
-  //         card: true,
-  //         netbanking: true,
-  //         wallet: false,
-  //         emi: false,
-  //         paylater: false,
-  //         cred: false
-  //       },
-  //       handler: (response: any) => {
-  //         this.verify(response);
-  //       }
-  //     };
-
-  //     this.razorpay.openCheckout(options);
-  //   });
-  // }
-
-
-  // verify(response: any) {
-  //   this.paymentApi.verifyPayment(response)
-  //     .subscribe(res => {
-  //       console.log('Payment result:', res);
-  //     });
-  // }
-
-
-
-
-
-
-
   async confirmOrder() {
-  try {
-    if ((window as any).Android) {
-      (window as any).Android.startPayment(this.totalAmount);
-      return;
-    }
-
-    //this.isLoading = true;
-    const user = this.radioForm.get('radioOption')?.value;
-    const orderPayload = {
-      user_id: 1,
-      order_amount: this.calculateOrderAmount(),
-      payment_method: 'ONLINE',
-      order_source: 'APP',
-      delivery_address: {
-        name: (user?.full_name ? user.full_name :
-          `${user?.user_first_name ?? ''} ${user?.user_last_name ?? ''}`.trim()),
-        mobile: user?.user_phone,
-        address: `${user?.house_no ?? ''}, ${user?.street_area ?? ''},
+    try {
+      if ((window as any).Android) {
+        (window as any).Android.startPayment(this.totalAmount);
+        return;
+      }
+      let orderItems;
+      orderItems = this.buildOrderItems(this.userCheckOutData);
+      const user = this.radioForm.get('radioOption')?.value;
+      const orderPayload = {
+        user_id: 1,
+        order_amount: this.calculateOrderAmount(),
+        payment_method: 'ONLINE',
+        order_source: 'APP',
+        delivery_address: {
+          name: (user?.full_name ? user.full_name :
+            `${user?.user_first_name ?? ''} ${user?.user_last_name ?? ''}`.trim()),
+          mobile: user?.user_phone,
+          address: `${user?.house_no ?? ''}, ${user?.street_area ?? ''},
         ${user?.landmark ?? ''}, ${user?.post_office ?? ''},
         ${user?.tehsil ?? ''}, ${user?.district ?? ''},
         ${user?.state ?? ''}, ${user?.country ?? ''} - ${user?.user_pincode ?? ''}`,
-        email: user?.user_email
-      },
-      items: this.addCartData.map((item: any) => ({
-        product_id: item.product_id,
-        product_name: item.product_name,
-        price: item.product_price,
-        mrp: item.product_mrp_price,
-        quantity: item.quantity,
-        sub_category: item.sub_category,
-        category: item.category,
-        color: item.color,
-        user_id: item.userId,
-        image: item.image_url
-      }))
-    };
-    await this.razorpay.loadScript();
-    const amountInPaise = Math.round(orderPayload.order_amount * 100);
-
-    // 🔥 STEP 1 → CREATE RAZORPAY ORDER
-    this.paymentApi.createOrder(amountInPaise).subscribe(order => {
-    this.isLoading = false;
-
-      this.openRazorpay(order, orderPayload, amountInPaise);
-
-    });
-
-  } catch (err) {
-    this.isLoading = false;
-    console.error(err);
-  }
-}
-
-openRazorpay(order: any, orderPayload: any, amountInPaise: number) {
-  const options: any = {
-    key: 'rzp_test_S8zVFIrjVuV97p',
-    amount: amountInPaise,
-    currency: 'INR',
-    name: 'Ruralx',
-    description: 'Order Payment',
-    order_id: order.order_id,
-
-    method: {
-      upi: true,
-      card: true,
-      netbanking: true,
-      wallet: false,
-      emi: false,
-      paylater: false,
-      cred: false
-    },
-
-    handler: (response: any) => {
-
-      // ✅ VERIFY PAYMENT
-      this.verifyPayment(response, orderPayload);
-
-    },
-
-    prefill: {
-      name: orderPayload.delivery_address.name,
-      email: orderPayload.delivery_address.email,
-      contact: orderPayload.delivery_address.mobile
-    }
-  };
-
-  const rzp = new (window as any).Razorpay(options);
-  rzp.open();
-}
-verifyPayment(response: any, orderPayload: any) {
-      this.apiService.placeAnOrder(orderPayload).subscribe(res => {
-        this.isLoading = false;
-        if (res?.status) {
-          alert("Order Placed Successfully");
-        }
+          email: user?.user_email
+        },
+        items: orderItems,
+      };
+      await this.razorpay.loadScript();
+      const amountInPaise = Math.round(orderPayload.order_amount * 100);
+      this.paymentApi.createOrder(amountInPaise).subscribe(order => {
+        this.openRazorpay(order, orderPayload, amountInPaise);
       });
 
-  // this.paymentApi.verifyPayment(response).subscribe(verifyRes => {
-  //   if (verifyRes?.status) {
+    } catch (err) {
+      this.isLoading = false;
+      console.error(err);
+    }
+  }
 
-  //     // ✅ PAYMENT VERIFIED → NOW SAVE ORDER
-  //     this.apiService.placeAnOrder(orderPayload).subscribe(res => {
+  openRazorpay(order: any, orderPayload: any, amountInPaise: number) {
+    const options: any = {
+      key: 'rzp_test_S8zVFIrjVuV97p',
+      amount: amountInPaise,
+      currency: 'INR',
+      name: 'Ruralx',
+      description: 'Order Payment',
+      order_id: order.order_id,
+      method: {
+        upi: true,
+        card: true,
+        netbanking: true,
+        wallet: false,
+        emi: false,
+        paylater: false,
+        cred: false
+      },
 
-  //       this.isLoading = false;
+      handler: (response: any) => {
+        // ✅ VERIFY PAYMENT
+        this.verifyPayment(response, orderPayload);
+      },
 
-  //       if (res?.status) {
-  //         alert("Order Placed Successfully");
-  //       }
+      prefill: {
+        name: orderPayload.delivery_address.name,
+        email: orderPayload.delivery_address.email,
+        contact: orderPayload.delivery_address.mobile
+      }
+    };
 
-  //     });
+    const rzp = new (window as any).Razorpay(options);
+    rzp.open();
+  }
+  verifyPayment(response: any, orderPayload: any) {
+    console.log("response",response)
+    this.ngZone.run(() => {
+    this.isPaymentLoading = true;
+  });
+    this.apiService.placeAnOrder(orderPayload).subscribe(res => {
+      this.ngZone.run(() => {
+      this.isPaymentLoading = false;
+      if (res) {
+        this.addCartService.clearBuyNowItem();
+        this.loadCheckoutData();
+       this.router.navigate(['/order-confirmed']);
+      }
+      })
+    });
 
-  //   } else {
-  //     this.isLoading = false;
-  //     alert("Payment Verification Failed");
-  //   }
-
-  // });
-}
-
+  }
+  
 }

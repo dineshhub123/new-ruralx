@@ -40,12 +40,7 @@ import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { UseraddressComponent } from './useraddress/useraddress.component';
 import { CategoryComponent } from './category/category.component';
 import { LoaderComponent } from './loader/loader.component';
-import { PaymentOptionsComponent } from './payment-options/payment-options.component';
-import { PayQrComponent } from './pay-qr/pay-qr.component';
-import { UploadScreenshotComponent } from './upload-screenshot/upload-screenshot.component';
-import { PayUpiComponent } from './pay-upi/pay-upi.component';
 import { CodConfirmComponent } from './cod-confirm/cod-confirm.component';
-import { WaitingVerificationComponent } from './waiting-verification/waiting-verification.component';
 import { OrderConfirmedComponent } from './order-confirmed/order-confirmed.component';
 import { ComingSoonComponent } from './coming-soon/coming-soon.component';
 import { MyAccountComponent } from './my-account/my-account.component';
@@ -62,6 +57,9 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { AddcartDailogComponent } from './addcart-dailog/addcart-dailog.component';
+import { WriteReviewComponent } from './write-review/write-review.component';
+import { TermsAndConditionComponent } from './terms-and-condition/terms-and-condition.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 export function HttpLoaderFactory(http:HttpClient){
   return new TranslateHttpLoader(http, './assets/i18n/', '.json')
 }
@@ -85,12 +83,7 @@ SwiperCore.use([Zoom, Thumbs, Pagination]);
     CategoryComponent,
     LoaderComponent,
     BottomSheetOverviewExampleSheet,
-    PaymentOptionsComponent,
-    PayQrComponent,
-    UploadScreenshotComponent,
-    PayUpiComponent,
     CodConfirmComponent,
-    WaitingVerificationComponent,
     OrderConfirmedComponent,
     ComingSoonComponent,
     MyAccountComponent,
@@ -99,6 +92,9 @@ SwiperCore.use([Zoom, Thumbs, Pagination]);
     SettingComponent,
     ConfirmDialogComponent,
     AddcartDailogComponent,
+    WriteReviewComponent,
+    TermsAndConditionComponent,
+    PrivacyPolicyComponent,
   ],
   imports: [
     BrowserModule,
@@ -143,7 +139,7 @@ SwiperCore.use([Zoom, Thumbs, Pagination]);
 
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
-      timeOut: 5000,
+      timeOut: 3000,
       closeButton: true,
       progressBar: true
     }),

@@ -8,8 +8,7 @@
     <div class="order-items">
       <div class="order-item-row" *ngFor="let item of order.items">
         <img [src]="imageBaseUrl + item?.image[0]" class="product-img">
-        <div class="order-details" [ngClass]="{'delivered-card': ['delivered','cancelled'].includes((order?.status || '').toLowerCase())}"
->
+        <div class="order-details" [ngClass]="{'delivered-card': ['delivered','cancelled'].includes((order?.status || '').toLowerCase())}">
           <div class="product-title">{{item?.product | titlecase}}</div>
           <!-- Status badge only once (optional) -->
           <div class="delivered-status" *ngIf="order.items[0] === item" [ngClass]="{
@@ -24,7 +23,7 @@
             <span class="tick" *ngIf="order?.status === 'delivered'">✔</span>
             {{ order?.status === 'out_for_delivery' ? 'Out for Delivery' : (order?.status | titlecase) }}
           </div>
-          <p class="size">Size: {{item?.size || 10}}</p>
+          <div *ngIf="item?.size" class="size">{{ getVariantLabel(item?.size) }}: {{item?.size}}</div>
         </div>
         <div class="right-info" [ngClass]="{'delivered-card': ['delivered','cancelled'].includes((order?.status || '').toLowerCase())}">
           <span class="date">{{order?.order_date | date:'dd MMM yyyy, hh:mm a'}}</span>

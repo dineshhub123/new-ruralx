@@ -30,6 +30,12 @@ export class ApiService {
   apiOrderListUrl:string = environment.getOrderListApiUrl;
   apiOrderByIdUrl:string = environment.getOrderByIdApiUrl;
   apiUpadateStatusUrl = environment.upadateStatusApiUrl;
+  apiSubmitReviewUrl = environment.submitReviewApiUrl;
+  apiGetReviewUrl = environment.getReviewApiUrl;
+  apisubmitReviewHelpfulUrl = environment.submitReviewHelpfulApiUrl;
+  apiGetReviewSummaryApiUrl = environment.getReviewSummaryApiUrl;
+
+
 
   constructor(private http: HttpClient,private router:Router) { }
   
@@ -107,5 +113,19 @@ export class ApiService {
   updateOrderStatus(object:any): Observable<any> {
     return this.http.post(this.apiUpadateStatusUrl,object).pipe(map((res: any) => res));
   }
+  submitReview(object:any): Observable<any> {
+    return this.http.post(this.apiSubmitReviewUrl,object).pipe(map((res: any) => res));
+  }
+    submitReviewHelpful(object:any): Observable<any> {
+    return this.http.post(this.apisubmitReviewHelpfulUrl,object).pipe(map((res: any) => res));
+  }
+
+    getProductReview(productId:number):Observable<any>{
+    return this.http.get(`${this.apiGetReviewUrl}?product_id=${productId}`).pipe(map((res:any)=>res))
+  }
+    getReviewSummary(productId:number):Observable<any>{
+    return this.http.get(`${this.apiGetReviewSummaryApiUrl}?product_id=${productId}`).pipe(map((res:any)=>res))
+  }
+
 
 }

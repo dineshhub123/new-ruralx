@@ -15,7 +15,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ScrollService } from './scroll.service';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { TranslateService } from '@ngx-translate/core';
-
+import { TermsAndConditionComponent } from './terms-and-condition/terms-and-condition.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -33,7 +34,6 @@ export class AppComponent {
   public data: any;
   public filteredOptions: any = [];
   public name: any;
-  public animal: any
   public cartItems: Product[] = [];
   options: string[] = [];
   public retrieveResonse: any;
@@ -50,7 +50,7 @@ export class AppComponent {
   public lastScrollTop = 0;
   public isDesktop: boolean = false;
   public isGuest = true;
-  constructor(private renderer: Renderer2, private zone: NgZone, public dialog: MatDialog, public location: Location, public addCartService: AddcartService, private toastr: ToastrService,private translate: TranslateService,
+  constructor(private renderer: Renderer2, private zone: NgZone, public dialog: MatDialog, public location: Location, public addCartService: AddcartService, private toastr: ToastrService, private translate: TranslateService,
     public loginService: LoginService,
     public router: Router,
     private http: HttpClient,
@@ -59,9 +59,9 @@ export class AppComponent {
     private viewportScroller: ViewportScroller,
     private scrollService: ScrollService,
   ) {
-    this.translate.addLangs(['en', 'hi']);
-    this.translate.setDefaultLang('hi');
-    this.translate.use('en'); // default language
+    // this.translate.addLangs(['en', 'hi']);
+    // this.translate.setDefaultLang('hi');
+    // this.translate.use('en'); // default language
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -103,14 +103,14 @@ export class AppComponent {
     this.setExpandedPanel(this.router.url);
     this.userlist()
     this.loginService.user$.subscribe(user => {
-    if (!user || user.user_first_name === 'Guest') {
-      this.username = 'Sign In';
-      this.isGuest = true;
-    } else {
-      this.username = user.user_first_name;
-      this.isGuest = false;
-    }
-  });    // Fix for Android Chrome not applying theme color immediately
+      if (!user || user.user_first_name === 'Guest') {
+        this.username = 'Sign In';
+        this.isGuest = true;
+      } else {
+        this.username = user.user_first_name;
+        this.isGuest = false;
+      }
+    });    // Fix for Android Chrome not applying theme color immediately
     const metaThemeColor = document.querySelector("meta[name=theme-color]");
     if (metaThemeColor) {
       // Reset once, then set again to force reapply
@@ -124,8 +124,8 @@ export class AppComponent {
 
   }
 
-changeLang(lang: string) {
-  console.log(lang)
+  changeLang(lang: string) {
+    console.log(lang)
     this.translate.use(lang);
   }
 
@@ -253,15 +253,41 @@ changeLang(lang: string) {
   openDialogD(): void {
     const dialogRef = this.dialog.open(DailogComponent, {
       width: '250px',
-      data: { name: this.name, animal: this.animal }
+      data: {}
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.animal = result;
+
     });
   }
-goToLogin() {
-  this.router.navigate(['/login']);
-}
+
+  openTermsAndConditionDialog() {
+    const dialogRef = this.dialog.open(TermsAndConditionComponent, {
+      data: {}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+
+  }
+  openPrivacyPolicyDialog() {
+    const dialogRef = this.dialog.open(PrivacyPolicyComponent, {
+      data: {}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+  }
+  ruralxRedirection() {
+    window.open('https://www.ruralx.in', '_blank');
+  }
+  contactEmail() {
+    window.location.href =
+      'mailto:info@ruralx.in?subject=Ruralx Support';
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
 
 }
 

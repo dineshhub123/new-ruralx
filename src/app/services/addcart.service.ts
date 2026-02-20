@@ -9,8 +9,11 @@ export class AddcartService {
   private cartKey = 'cart_items';
   private cartSubject = new BehaviorSubject<any[]>([]);
   cart$ = this.cartSubject.asObservable();
+  private buyItemsSource = new BehaviorSubject<any[]>([]);
+  buyItems$ = this.buyItemsSource.asObservable();
   constructor() {
     this.loadCart();
+    this.loadBuyDataFromStorage();
   }
   private loadCart(): void {
     const saved = localStorage.getItem(this.cartKey);
@@ -23,19 +26,6 @@ export class AddcartService {
   saveCart(cart: any[]): void {
     localStorage.setItem(this.cartKey, JSON.stringify(cart));
   }
-  // addToCart(product: any): void {
-  //   const cart = this.getCart();
-  //   const exists = cart.find(item => item.id === product.id && item.userId === product.userId && item.color === product.color);
-  //   if (exists) {
-  //   exists.quantity = (exists.quantity || 1) + product.quantity;
-  // } else {
-  //   cart.push(product);
-  // }
-
-  // this.saveCart(cart);
-  // this.cartSubject.next([...cart]);
-  // }
-
   addToCart(product: any): boolean {
   const MAX_QTY = 4;
   const cart = this.getCart();
@@ -50,13 +40,8 @@ export class AddcartService {
   if (exists) {
     const currentQty = exists.quantity || 1;
     const addQty = product.quantity || 1;
-
     const newQty = currentQty + addQty;
-
-    // 🔒 CAP at 4
     exists.quantity = newQty > MAX_QTY ? MAX_QTY : newQty;
-
-    // ❌ If already max, stop
     if (currentQty >= MAX_QTY) {
       return false; // max reached
     }
@@ -71,7 +56,6 @@ export class AddcartService {
   this.cartSubject.next([...cart]);
   return true;
 }
-
 
   setCart(items: any[]): void {
     this.saveCart(items);
@@ -92,5 +76,28 @@ export class AddcartService {
     const others = all.filter(i => i.userId !== fromId);
     const merged = [...others, ...moved];
     this.setCart(merged);        // saves + broadcasts
+  }
+
+// Set Buy Now Items
+  setBuyNowItem(data: any | any[]) {
+  const finalData = Array.isArray(data) ? data : [data];
+  localStorage.setItem('checkout_data', JSON.stringify(finalData));
+  this.buyItemsSource.next(finalData);
+}
+
+ //  Clear buy now data
+  clearBuyNowItem() {
+    localStorage.removeItem('checkout_data');
+    this.buyItemsSource.next([]);
+  }
+  // Get Current buy Value (optional)
+  getCurrentBuyItems() {
+    return this.buyItemsSource.value;
+  }
+  loadBuyDataFromStorage() {
+    const stored = localStorage.getItem('checkout_data');
+    if (stored) {
+      this.buyItemsSource.next(JSON.parse(stored));
+    }
   }
 }

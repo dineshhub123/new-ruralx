@@ -21,7 +21,10 @@ export const environment = {
   getOrderListApiUrl: 'https://ruralx.in/api/getOrders.php',
   getOrderByIdApiUrl: 'https://ruralx.in/api/get_order_by_id.php',
   upadateStatusApiUrl: 'https://ruralx.in/api/update_order_status.php',
-
+  submitReviewApiUrl: 'https://ruralx.in/api/submit-review.php',
+  getReviewApiUrl: 'https://ruralx.in/api/get-review.php',
+  submitReviewHelpfulApiUrl: 'https://ruralx.in/api/review-helpful.php',
+  getReviewSummaryApiUrl: 'https://ruralx.in/api/get-review-summary.php',
 
   // getUserDetailsApiURL: 'http://localhost/getUserLoginDetails.php',
    //searchApiUrl: 'http://localhost/search_product.php',

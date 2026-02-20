@@ -7,7 +7,7 @@
         <div class="product-info">
             <h3>{{addItam?.cartData?.product_name | titlecase}}</h3>
             <p class="color">Colour: <b>{{addItam?.cartData?.variants[0].color}}</b></p>
-            <a href="#">See all item details</a>
+            <a  (click)="showDetails(addItam?.cartData)">See all item details</a>
         </div>
     </div>
     <hr>
@@ -29,11 +29,12 @@
             <span class="mrp">M.R.P ₹ {{addItam?.cartData?.product_mrp_price}}</span>
             <span class="off">Save ₹ {{addItam?.cartData?.product_discount}}</span>
         </div>
-        <p class="delivery">FREE of delivery By <b>Ruralx</b> Get it by <b>Today</b></p>
+        <p class="delivery">FREE of delivery By <b>Ruralx</b></p>
     </div>
-    <button class="btn btn-warning btn-md mb-2 mr-2 btn-align-buy cart-btn"
+    <div class="text-center">
+    <button class="btn btn-warning btn-md mb-2 mr-2 btn-align-buy btn-design"
         [disabled]="addItam?.cartData?.variants[0].stock === 0" (click)="addCart($event,addItam)"><i class="fa fa-shopping-cart"> </i>
         ADD TO CART
     </button>
-
+</div>
 </div>

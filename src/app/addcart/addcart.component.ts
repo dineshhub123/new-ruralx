@@ -60,31 +60,7 @@ export class AddcartComponent implements OnInit {
      storedUserString = localStorage.getItem("login_user");
       const exiestUser = JSON.parse(storedUserString);
       if (exiestUser && !exiestUser?.isGuest) {
-        let userBuyerPayload: any = []
-        cartData.forEach((item: any, index: number) => {
-          const cart = {
-            u_firstname: exiestUser?.user_first_name,
-            u_lastname: exiestUser?.user_last_name,
-            u_email: exiestUser?.user_email,
-            u_phone: exiestUser?.user_phone,
-            u_password: exiestUser?.user_password,
-            u_address: exiestUser?.user_address,
-            u_pincode: exiestUser?.user_pincode,
-            p_name: item?.product_name,
-            p_price: item?.product_price,
-            p_mrp: item?.product_mrp_price,
-            p_discount: item?.product_discount,
-            delivery_date: item?.delivery_date,
-            image_front: item?.img_front,
-            p_category: item?.category,
-            p_quantity: item?.quantity,
-            p_buy_time: "12:45:22",
-            p_description: item?.product_description
-          }
-          userBuyerPayload.push(cart)
-        })
-        this.apiService.ProductBuyerDetails(userBuyerPayload).subscribe(res => {
-        })
+        this.addCartService.setBuyNowItem(cartData);
         this.router.navigate(['./useraddress'])
       }
      else {

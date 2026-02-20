@@ -1,0 +1,40 @@
+.review-card {
+  max-width: 600px;
+  margin: auto;
+  border-radius: 12px;
+}
+
+.rating-select mat-icon {
+  font-size: 27px;
+  cursor: pointer;
+  color: #ddd;
+}
+
+.rating-select mat-icon.active {
+  color: #ffa41c;
+}
+
+.upload-box {
+  width: 100%;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.preview-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.preview-img {
+     width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: contain;
+    border: 1px solid gray;
+
+}
+.red-cross-icon{
+  margin-left: 20px;
+  margin-bottom: -8px;
+}

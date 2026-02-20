@@ -7,17 +7,19 @@
             [pagination]="{clickable: true}" class="mySwiper">
             <ng-template swiperSlide *ngFor="let image of cartItem?.images">
               <div class="swiper-zoom-container-main">
-                <img #mainProductImage class="product-image" (click)="show()"
-                  [src]="imageBaseUrl + image" />
+                <img #mainProductImage class="product-image" (click)="show()" [src]="imageBaseUrl + image" />
               </div>
             </ng-template>
           </swiper>
           <div class="expend-content">Tap image to expand</div>
-          <div class="variants-container">
-            <div class="selcte-size-color-text">Color : </div>
+          <div class="variants-container-image">
+            <div class="swiper-slide-thumb" *ngFor="let image of cartItems?.variants" (click)="onColorSelect(image?.colorCode)"[ngClass]="{ 'selected': image.colorCode === selectedColor }">
+              <img [src]="imageBaseUrl + image.images[0]" style="width: 80px; height: auto;cursor: pointer;" />
+            </div>
+           <!-- <div class="selcte-size-color-text"> Color : </div>
             <div *ngFor="let item of colorCodes" class="variant-inline" (click)="onColorSelect(item)"
               [ngClass]="{ 'selected': item === selectedColor }" [ngStyle]="{ 'background-color': item }">
-            </div>
+            </div> -->
           </div>
           <div class="variants-container" *ngIf="sizes.length > 0">
             <div class="selcte-size-color-text">{{ getVariantLabel(sizes) }} : </div>
@@ -26,9 +28,10 @@
               <div>{{item}}</div>
             </div>
           </div>
-        <label class="recommend">
-        <b>{{selectedSize}}</b> is your Selected {{ getVariantLabel(sizes) }} <mat-icon class="green-icon">check</mat-icon>
-        </label>
+          <label class="recommend" *ngIf="sizes.length > 0">
+            <b>{{selectedSize}}</b> is your Selected {{ getVariantLabel(sizes) }} <mat-icon
+              class="green-icon">check</mat-icon>
+          </label>
 
         </ng-container>
       </div>
@@ -53,8 +56,8 @@
         <div class="mrp-content">In Stocks :
           <span
             [ngClass]="{'in-stock': selectedImage[0]?.stock >=5,'limited-stock': selectedImage[0]?.stock > 0 && selectedImage[0]?.stock < 5,'out-stock': selectedImage[0]?.stock === 0}">
-            {{selectedImage[0]?.stock >=5? 'In Stock': selectedImage[0]?.stock > 0 && selectedImage[0]?.stock < 5? 'Limited Stock': 'Out of Stock'}}
-          </span>
+            {{selectedImage[0]?.stock >=5? 'In Stock': selectedImage[0]?.stock > 0 && selectedImage[0]?.stock <
+              5? 'Limited Stock' : 'Out of Stock' }} </span>
         </div>
         <div class="pt-2 quantity-btn-align">
           <nav aria-label="quantity-navigation">
@@ -76,21 +79,94 @@
             <span class="delivery_title">Select Delivery Location</span>
           </strong>
           <div class="pt-3">
-            <button class="btn btn-warning btn-md mb-2 mr-2 btn-align-buy"[disabled]="selectedImage[0]?.stock === 0"
-              (click)="$event.stopPropagation(); flyActiveSwiperImageToCart();addCart(cartItems)"><i
-                class="fa fa-shopping-cart"> </i> ADD TO CART
+            <button class="btn btn-warning btn-md mb-2 mr-2 btn-align-buy" [disabled]="selectedImage[0]?.stock === 0"
+              (click)="$event.stopPropagation(); flyActiveSwiperImageToCart();addCart(cartItems)"> ADD TO CART
             </button>
-            <button class="btn btn-danger btn-md mb-2 btn-align-buy" (click)="addDetails()" [disabled]="selectedImage[0]?.stock === 0"><i class="fa fa-credit-card"
-              aria-hidden="true"></i> BUY NOW</button>
+            <button class="btn btn-danger btn-md mb-2 btn-align-buy" (click)="buyNow(cartItems)"
+              [disabled]="selectedImage[0]?.stock === 0">
+               BUY NOW 
+              </button>
           </div>
           <div>
             <strong style="color:red;font-size: 11px;"> Secure Transaction </strong>
           </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!--Rating Summary Card -->
+  <mat-card class="rating-summary-card">
+    <div class="customer-review-title mb-4">Customer reviews</div>
+    <div class="rating-summary-container">
+      <!-- Left: Average Rating -->
+      <div class="avg-rating">
+        <div class="rating-point">{{summary?.avg_rating}}</div>
+        <div class="stars">
+          <mat-icon *ngFor="let s of getFullStars()">star</mat-icon>
+          <mat-icon *ngIf="hasHalfStar()">star_half</mat-icon>
+        </div>
+        <p><strong> {{summary.total_reviews}}</strong> <small> Global Ratings</small></p>
+        
+      </div>
+      <!-- Right: Rating Distribution -->
+      <div class="rating-bars">
+        <div class="bar-row" *ngFor="let rating of ratingSummary">
+          <span class="star-text">{{rating.star}} star</span>
+          <mat-progress-bar class="custom-bar" mode="determinate" [value]="rating.percent">
+          </mat-progress-bar>
+          <span>{{rating.percent}}%</span>
         </div>
       </div>
     </div>
+    <div class="button-aling-rating">
+      <button mat-raised-button color="primary" (click)="writeReview()">
+        Write Review
+      </button>
+    </div>
+  </mat-card>
+
+  <!-- Reviews List -->
+  <div *ngFor="let review of visibleRatings">
+    <mat-card class="review-card" *ngIf="review.verified_purchase == 0">
+      <div class="review-header">
+        <div class="stars">
+          <mat-icon *ngFor="let s of [].constructor(review.rating)">star</mat-icon>
+        </div>
+        <div class="review-title">{{review.review_title | titlecase}}</div>
+      </div>
+      <p class="review-text">
+        {{review.review_text | titlecase}}
+      </p>
+      <div class="review-images" *ngIf="review.review_images?.length">
+        <img *ngFor="let img of review.review_images" [src]="imageBaseUrl + 'uploads/' + img" class="review-img" />
+      </div>
+      <div class="review-footer">
+        <div>
+          <strong>{{review.user_name}}</strong>
+          <span *ngIf="review.verified_purchase == 0" class="verified">
+            ✔ Verified Purchase
+          </span>
+          <span class="date">
+            {{review.created_at | date}}
+          </span>
+        </div>
+      </div>
+      <div class="helpfull-text"> <a (click)="markHelpful(review)"> 👍 Helpful ({{review.helpful_count}})</a></div>
+    </mat-card>
   </div>
+  <!-- Show More Button -->
+<label class="show-more" *ngIf="productReview.length > 5"
+        (click)="toggleRatings()">
+  {{ showAll ? 'Show Less' : 'Show More' }} >>
+</label>
 </div>
+<br>
+<br>
 <!-- model -->
 <div [style.display]="showModal ? 'block' : 'none'" class="modal" id="imagemodal" tabindex="-1" role="dialog"
   aria-labelledby="myModalLabel" aria-hidden="true">
@@ -117,8 +193,7 @@
           <swiper #thumbsSwiperRef [slidesPerView]="'auto'" [spaceBetween]="1" (swiper)="onThumbsSwiperInit($event)"
             [watchSlidesProgress]="true" class="thumbs-swiper">
             <ng-template swiperSlide class="swiper-slide-thumb" *ngFor="let image of cartItem?.images">
-              <img [src]="imageBaseUrl + image"
-                style="width: 80px; height: auto;cursor: pointer;" />
+              <img [src]="imageBaseUrl + image" style="width: 80px; height: auto;cursor: pointer;" />
             </ng-template>
           </swiper>
         </ng-container>

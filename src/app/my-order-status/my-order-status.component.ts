@@ -65,6 +65,26 @@ getExpectedDeliveryMessage(createdAt: string): string {
 }
 
 
+  getVariantLabel(item: any): string {
+  if (!item) return 'Variant';
+  const values = Array.isArray(item) ? item : [item];
+  if (values.length === 0) return 'Variant';
+  const first = String(values[0]).trim().toUpperCase();
+  if (first.includes('GB') || first.includes('TB')) {
+    return 'Storage';
+  }
+  if (/^\d+(C|Y)$/.test(first)) {
+    return 'Size';
+  }
+  if (/^\d+$/.test(first)) {
+    return 'Size';
+  }
+  const clothSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL','3XL'];
+  if (clothSizes.includes(first)) {
+    return 'Size';
+  }
+  return 'Variant';
+}
 
 checkMobile() {
   this.isMobile = window.innerWidth <= 768; // mobile breakpoint
@@ -151,6 +171,29 @@ cancelOrder(): void {
     }
   });
 
+}
+requestReturn(order:any){
+  console.log("order",order)
+   const payload = {
+      order_id: order.id,
+      user_id: "this.userId",
+      reason: "this.reason",
+      comment: "this.commen"
+   };
+
+  //  this.apiService.requestReturn(payload).subscribe(res=>{
+  //     alert("Return Request Submitted");
+  //  });
+}
+canReturn(): boolean {
+  const order = this.orderStatusData;
+  if (!order) return false;
+  if (order.status !== 'delivered') return false;
+  const deliveryDate = new Date(order.updated_at);
+  const today = new Date();
+  const diffTime = today.getTime() - deliveryDate.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays <= 7;
 }
 
 

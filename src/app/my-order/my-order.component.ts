@@ -19,6 +19,27 @@ export class MyOrderComponent {
     this.orderdList();
   }
 
+  getVariantLabel(item: any): string {
+  if (!item) return 'Variant';
+  const values = Array.isArray(item) ? item : [item];
+  if (values.length === 0) return 'Variant';
+  const first = String(values[0]).trim().toUpperCase();
+  if (first.includes('GB') || first.includes('TB')) {
+    return 'Storage';
+  }
+  if (/^\d+(C|Y)$/.test(first)) {
+    return 'Size';
+  }
+  if (/^\d+$/.test(first)) {
+    return 'Size';
+  }
+  const clothSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL','3XL'];
+  if (clothSizes.includes(first)) {
+    return 'Size';
+  }
+  return 'Variant';
+}
+
   orderdList() {
     try {
       this.isLoading = true;
@@ -27,6 +48,7 @@ export class MyOrderComponent {
       let address = JSON.parse(userAddress)
       this.apiService.getOrderList().subscribe((res: any) => {
         this.noDataFound = res;
+        console.log("res",res)
         this.isLoading = false;
         const userOrderList: any[] = [];
         res?.orders?.forEach((order: any) => {
@@ -44,6 +66,7 @@ export class MyOrderComponent {
               status: order.status,
               order_date: order.created_at,
               userId: item.user_id,
+              size: item.size,
               image: item.image,
               delivery_date: order.updated_at
             })
@@ -53,7 +76,6 @@ export class MyOrderComponent {
             const filterOrder = userOrderList.filter((item: any) => item?.userId === address.userId)
             this.isLoading = false;
             this.userOrder = filterOrder
-            console.log(this.userOrder)
             this.groupOrdersById();
           }
         })
@@ -97,7 +119,6 @@ this.groupedOrders = this.groupedOrders.sort((a: any, b: any) => {
   const bBottom = (bStatus === 'delivered' || bStatus === 'cancelled');
   return Number(aBottom) - Number(bBottom);
 });
-console.log("groupedOrders",this.groupedOrders)
 }
 getOrderId(orderId:string){
   this.router.navigate(['/my-order/order-status', orderId]);

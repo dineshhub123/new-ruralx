@@ -1,0 +1,61 @@
+<app-loader [isLoading]="isLoading"></app-loader>
+<div *ngIf="!isLoading">
+    <div class="container mt-5 mb-5">
+        <mat-card class="review-card p-4">
+            <h2 class="mb-3">Write Review</h2>
+            <!-- ⭐ Rating -->
+            <div class="rating-select mb-4">
+                <mat-icon *ngFor="let star of [1,2,3,4,5]" (click)="selectRating(star)"
+                    [class.active]="star <= reviewForm.value.rating">
+                    star
+                </mat-icon>
+            </div>
+
+            <form [formGroup]="reviewForm">
+                <!-- ⭐ Title -->
+                <mat-form-field appearance="outline" class="w-100 mb-3">
+                    <mat-label>Review Title</mat-label>
+                    <input matInput formControlName="title">
+                    <mat-error
+                        *ngIf="reviewForm.get('title')?.touched && reviewForm.get('title')?.hasError('required')">
+                        Please enter review title
+                    </mat-error> </mat-form-field>
+
+                <!-- ⭐ Description -->
+                <mat-form-field appearance="outline" class="w-100 mb-3">
+                    <mat-label>Write Your Review</mat-label>
+                    <textarea matInput rows="4" formControlName="text"></textarea>
+                    <mat-error *ngIf="reviewForm.get('text')?.touched && reviewForm.get('text')?.hasError('required')">
+                        Please enter review description
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- ⭐ Photo Upload -->
+                <div class="upload-box mb-3">
+                    <input #fileInput type="file" multiple accept="image/*" (change)="onImageSelect($event)" style="display: none">
+                    <button (click)="fileInput.click()" mat-raised-button color="primary">Upload Image</button>
+                    <mat-icon *ngIf="previewImages.length !== 0" class="red-cross-icon" color="warn" (click)="resetSelectedImage()">cancel</mat-icon>
+                    <div class="preview-container mt-2">
+                        <img *ngFor="let img of previewImages" [src]="img" class="preview-img">
+                    </div>
+                </div>
+
+                <!-- ⭐ Buttons -->
+                <div class="text-left">
+                    <button mat-raised-button class="mr-2" color="secondary" type="button" (click)="goBack()">
+                        Cancel
+                    </button>
+
+                    <button mat-raised-button color="primary" type="button" [disabled]="reviewForm.invalid"
+                        (click)="submitReview()">
+                        Submit Review
+                    </button>
+                </div>
+
+            </form>
+
+        </mat-card>
+    </div>
+    <br>
+    <br>
+</div>

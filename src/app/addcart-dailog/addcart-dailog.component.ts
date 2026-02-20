@@ -4,6 +4,7 @@ import { Inject } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 import { AddcartService } from '../services/addcart.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-addcart-dailog',
   templateUrl: './addcart-dailog.component.html',
@@ -13,12 +14,11 @@ export class AddcartDailogComponent {
   public addItam:any;
   public selectedSize:any;
   imageBaseUrl = environment.imageBaseUrl;
-constructor(@Inject(MAT_DIALOG_DATA) public data: any,public addCartService:AddcartService,private dialogRef: MatDialogRef<AddcartDailogComponent>){
+constructor(@Inject(MAT_DIALOG_DATA) public data: any,public router : Router, public addCartService:AddcartService,private dialogRef: MatDialogRef<AddcartDailogComponent>){
 this.addItam = data;
 }
 
 ngOnInit(){
-  console.log("addItam",this.addItam)
   this.selectedSize = this.addItam?.sizes[1]
 }
 
@@ -51,6 +51,11 @@ if (clothSizes.includes(first.toUpperCase())) {
 }
   return 'Variant';
 }
+  showDetails(item: any) {
+    localStorage.setItem('selected-item', JSON.stringify(item))
+    this.router.navigate(['pzoom'])
+    this.dialogRef.close();
+ }
 
   flyToCart(productImg: HTMLElement) {
     const cartIcon = document.getElementById('cartIconTarget');

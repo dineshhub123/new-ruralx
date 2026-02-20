@@ -19,13 +19,6 @@ import { LoginService } from '../services/login.service';
 import { MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { ScrollService } from '../scroll.service';
 import { AddressService } from '../address.service';
-export interface DialogData {
-  animal: string;
-  name: string;
-
-  //constructor(private dialogRef:MatDialogRef){}
-
-}
 
 @Component({
   selector: 'app-header',
@@ -35,7 +28,6 @@ export interface DialogData {
 export class HeaderComponent implements OnInit {
   @ViewChild('searchValue') input: any;
   myControl = new FormControl();
-  //opt: string[] = ['mobile', 'fan', 't-shirt', 'telephone', 'jins', 'bicycle', 'shoes'];
   options: string[] = [];
   public filteredOptions: any = [];
   public name: any;
@@ -44,20 +36,18 @@ export class HeaderComponent implements OnInit {
   zoomId: any;
   searchName: string = "";
   public cartItems: Product[] = [];
-  public hideHeader:boolean = false;
+  public hideHeader: boolean = false;
   lastScrollTop = 0;
-  public isLoading:boolean = false;
+  public isLoading: boolean = false;
   showHeaderAtTop = false;
-@HostListener('window:scroll', [])
-
-  //public formdata: any
-  //public radioForm: FormGroup;
+  public deliverText: string = "Choose your location";
+  @HostListener('window:scroll', [])
   public isMenuOpen: boolean = false
   public itemQuantity: number = 0;
   username: string | null = null;
-  constructor(@Inject(DOCUMENT) private document: Document,private addressService: AddressService, public addCartService: AddcartService, public loginService: LoginService, private cdRef: ChangeDetectorRef, private zone: NgZone,
-    public dialog: MatDialog, private http: HttpClient, public router: Router, private fb: FormBuilder, private apiService: ApiService, private _bottomSheet: MatBottomSheet,private scrollService: ScrollService
-    ) {
+  constructor(@Inject(DOCUMENT) private document: Document, private addressService: AddressService, public addCartService: AddcartService, public loginService: LoginService, private cdRef: ChangeDetectorRef, private zone: NgZone,
+    public dialog: MatDialog, private http: HttpClient, public router: Router, private fb: FormBuilder, private apiService: ApiService, private _bottomSheet: MatBottomSheet, private scrollService: ScrollService
+  ) {
     this.apiService.getProductListDetailsData().subscribe((data: any) => {
       // Collect product names + categories
       let searchList: string[] = [];
@@ -68,37 +58,29 @@ export class HeaderComponent implements OnInit {
       // Remove duplicates
       this.options = Array.from(new Set(searchList));
     });
-    // this.radioForm = new FormGroup({
-    //   radioOption: new FormControl('')
-    // });
 
   }
   // get f() { return this.formdata.controls; }
   ngOnInit() {
+    this.loginService.user$.subscribe((res: any) => {
+      if (res?.isGuest) {
+        this.deliverText = 'Choose your location';
+      }
+    })
+    // 1) On refresh set from localStorage
+    const saved = this.addressService.getSelectedAddress();
 
-
-
-  // 1) On refresh set from localStorage
-  const saved = this.addressService.getSelectedAddress();
-
-  if (saved) {
-    this.updateHeader(saved);
-  } else {
-    this.deliverText = 'Choose your location';
-  }
-
-  // 2) Subscribe: only update when address is not null
-  this.addressService.selectedAddress$.subscribe((addr: any) => {
-    if (addr) {
-      this.updateHeader(addr);
+    if (saved) {
+      this.updateHeader(saved);
+    } else {
+      this.deliverText = 'Choose your location';
     }
-  });
-
-
-
-
-
-
+    // 2) Subscribe: only update when address is not null
+    this.addressService.selectedAddress$.subscribe((addr: any) => {
+      if (addr) {
+        this.updateHeader(addr);
+      }
+    });
     this.addCartService.cart$.subscribe(items => {
       this.cartItems = items
       this.cartItems = this.addCartService.getCart();
@@ -110,46 +92,38 @@ export class HeaderComponent implements OnInit {
       map(value => this._filter(value || '')),
     );
 
-this.scrollService.scroll$.subscribe(scrollTop => {
-  // Always show header at top
-  if (scrollTop <= 0) {
-    this.hideHeader = false;
-    this.showHeaderAtTop = false;
-    return;
+    this.scrollService.scroll$.subscribe(scrollTop => {
+      // Always show header at top
+      if (scrollTop <= 0) {
+        this.hideHeader = false;
+        this.showHeaderAtTop = false;
+        return;
+      }
+
+      // Scroll down → hide
+      if (scrollTop > this.lastScrollTop && scrollTop > 80) {
+        this.hideHeader = true;
+        this.showHeaderAtTop = true;
+      }
+      // Scroll up → show
+      else if (scrollTop < this.lastScrollTop) {
+        this.hideHeader = false;
+        this.showHeaderAtTop = false;
+      }
+
+      this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    });
   }
 
-  // Scroll down → hide
-  if (scrollTop > this.lastScrollTop && scrollTop > 80) {
-    this.hideHeader = true;
-    this.showHeaderAtTop = true;
+  updateHeader(addr: any) {
+    this.deliverText = `Deliver to ${addr.full_name ? addr.full_name : addr.user_first_name + ' ' + addr.user_last_name}, ${addr.street_area} - ${addr.user_pincode}`;
   }
-  // Scroll up → show
-  else if (scrollTop < this.lastScrollTop) {
-    this.hideHeader = false;
-    this.showHeaderAtTop = false;
-  }
-
-  this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
- });
-  }
-
-updateHeader(addr: any) {
-  this.deliverText = `Deliver to ${addr.full_name?addr.full_name:addr.user_first_name + ' ' + addr.user_last_name}, ${addr.street_area} - ${addr.user_pincode}`;
-}
-
-
-  ngAfterViewInit() {
-
-  }
-
   openBottomSheet(): void {
     // this._bottomSheet.open(BottomSheetOverviewExampleSheet);
     const bottomSheetRef = this._bottomSheet.open(BottomSheetOverviewExampleSheet);
     bottomSheetRef.afterDismissed().subscribe((selectedAddress) => {
     });
   }
- public deliverText : string = "Choose your location";
-
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -161,7 +135,6 @@ updateHeader(addr: any) {
       this.document.body.classList.remove('no-scroll');
     } else if (!isMenuOpen) {
       this.document.body.classList.add('no-scroll');
-
     }
   }
   openCloseSidepanel(ev: any) {
@@ -195,11 +168,10 @@ updateHeader(addr: any) {
   openDialogD(): void {
     const dialogRef = this.dialog.open(DailogComponent, {
       width: '250px',
-      data: { name: this.name, animal: this.animal }
+      data: {}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.animal = result;
     });
   }
 
@@ -208,21 +180,6 @@ updateHeader(addr: any) {
   }
   searchItem(items: any) {
   }
-  keyword = 'name';
-  product = [
-    {
-      id: 1,
-      name: 'Georgia'
-    },
-    {
-      id: 2,
-      name: 'Usa'
-    },
-    {
-      id: 3,
-      name: 'England'
-    }
-  ];
   loginPage() {
     this.router.navigate(['login'])
   }
@@ -243,12 +200,12 @@ updateHeader(addr: any) {
   //   if (user) { return user.name; }
   // }
   toTitleCase(value: string): string {
-  return value
-    ?.toLowerCase()
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-}
+    return value
+      ?.toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
 
 }
 
@@ -261,9 +218,9 @@ export class BottomSheetOverviewExampleSheet {
   public loginUserAddress: any[] = []
   public radioForm: FormGroup;
   public exiestShipment: any = [];
-  public isLoading:boolean = false;
-  public user:any;
-  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: any, public router: Router, public loginService:LoginService, private apiService: ApiService,private addressService: AddressService,
+  public isLoading: boolean = false;
+  public user: any;
+  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: any, public router: Router, public loginService: LoginService, private apiService: ApiService, private addressService: AddressService,
     private _bottomSheetRef: MatBottomSheetRef<BottomSheetOverviewExampleSheet>) {
     let loginUserStr = localStorage.getItem('login_user');
     if (loginUserStr) {
@@ -277,7 +234,7 @@ export class BottomSheetOverviewExampleSheet {
   }
   loadAddresses() {
     try {
-     this.isLoading = true;
+      this.isLoading = true;
       this.apiService.getShippingAddressByUserId(this.user.userId).subscribe((res: any) => {
         if (res?.status) {
           this.isLoading = false;
@@ -303,21 +260,21 @@ export class BottomSheetOverviewExampleSheet {
     user = this.user;
     this.loginUserAddress.push(user)
     this.addressService.selectedAddress$.subscribe((addr: any) => {
-    if (!addr) return;
-    const sameRef = this.loginUserAddress?.find((x: any) => x?.id == addr?.id);
-    const shipRef = this.exiestShipment?.find((x: any) => x?.id == addr?.id);
-    this.radioForm.patchValue({ radioOption: sameRef ?? shipRef ?? null });
-  });
+      if (!addr) return;
+      const sameRef = this.loginUserAddress?.find((x: any) => x?.id == addr?.id);
+      const shipRef = this.exiestShipment?.find((x: any) => x?.id == addr?.id);
+      this.radioForm.patchValue({ radioOption: sameRef ?? shipRef ?? null });
+    });
 
 
   }
-setDefaultRadio() {
-  const selectedAddr = this.addressService.getSelectedAddress();
-  if (!selectedAddr) return;
-  const sameRef = this.loginUserAddress?.find((x: any) => x?.id == selectedAddr?.id);
-  const shipRef = this.exiestShipment?.find((x: any) => x?.id == selectedAddr?.id);
-  this.radioForm.patchValue({ radioOption: sameRef ?? shipRef ?? null });
-}
+  setDefaultRadio() {
+    const selectedAddr = this.addressService.getSelectedAddress();
+    if (!selectedAddr) return;
+    const sameRef = this.loginUserAddress?.find((x: any) => x?.id == selectedAddr?.id);
+    const shipRef = this.exiestShipment?.find((x: any) => x?.id == selectedAddr?.id);
+    this.radioForm.patchValue({ radioOption: sameRef ?? shipRef ?? null });
+  }
 
   onAddressSelect(user: any) {
     this.radioForm.patchValue({ radioOption: user });
@@ -325,9 +282,9 @@ setDefaultRadio() {
     this.addressService.setSelectedAddress(selectedAddress);
     this._bottomSheetRef.dismiss();
   }
-goToLogin(){
-  this.router.navigate(['/login']);
-  this._bottomSheetRef.dismiss();
-}
+  goToLogin() {
+    this.router.navigate(['/login']);
+    this._bottomSheetRef.dismiss();
+  }
 
 }

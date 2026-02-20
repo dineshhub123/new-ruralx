@@ -1,0 +1,60 @@
+.privacy-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    background: #ffffff;
+    height: 100vh;
+    min-height: 100%;
+    overflow-y: auto;
+
+}
+
+.privacy-content {
+    width: 100%;
+    max-width: 1100px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.last-updated {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #777;
+}
+
+section {
+    margin-bottom: 25px;
+}
+
+h2 {
+    color: #2e86de;
+    margin-bottom: 10px;
+}
+
+p {
+    line-height: 1.7;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 6px;
+}
+::ng-deep .cdk-overlay-pane {
+    max-width: 100vh !important;
+}
+
+
+/* Mobile */
+@media (max-width: 768px) {
+    .privacy-content {
+        padding: 25px 15px;
+    }
+}

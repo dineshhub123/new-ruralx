@@ -13,6 +13,9 @@ import { SwiperComponent } from 'swiper/angular';
 import { SizeService } from '../services/size.service';
 import { ScrollService } from '../scroll.service';
 import { environment } from 'src/environments/environment.prod';
+import { LoginService } from '../services/login.service';
+import { ToastrService } from 'ngx-toastr';
+
 // Register Swiper modules
 SwiperCore.use([Zoom, Thumbs, Pagination]);
 
@@ -66,14 +69,18 @@ export class ProductZoomComponent implements OnInit {
   public inStock: any;
   public colorCodes: any[] = [];
   public sizes: any[] = [];
-
+  public productReview: any[] = [];
+  public ratingSummary: any[] = [];
+  public visibleRatings: any[] = [];
+  public showAll = false;
   selectedColor: string | null = null;
   selectedSize: string | null = null;
   selectedImage: any[] = [];
+  summary: any = {};
   MAX_QTY = 4;
   increment() {
     if (this.counter < this.MAX_QTY) {
-    this.counter += 1;
+      this.counter += 1;
     }
   }
 
@@ -95,21 +102,16 @@ export class ProductZoomComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     private cd: ChangeDetectorRef,
     private sizeService: SizeService,
-    private scrollService:ScrollService,
+    private scrollService: ScrollService,
+    private loginService:LoginService,
+    private toast:ToastrService
   ) {
 
     let itemZoom: any;
     itemZoom = localStorage.getItem('selected-item')
     this.cartItems = JSON.parse(itemZoom)
+    this.getProductReview(this.cartItems?.product_id)
     this.colorCodes = [...new Set(this.cartItems?.variants.map((v: any) => v.colorCode))];
-    // this.sizes = [...new Set(this.cartItems?.variants.map((v: any) => v.size))];
-    // console.log("this.sizes",this.sizes)
-    // const sizeOrder = ["XS", "S", "M", "L", "XL", "XXL", "6-In", "7-In", "8-In", "9-In", "10-In"]; // Define logical order
-    // const sortedSizes = this.sizes.sort((a, b) => {
-    //   const indexA = sizeOrder.indexOf(a);
-    //   const indexB = sizeOrder.indexOf(b);
-    //   return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
-    // });
   }
 
   swiperVal: any
@@ -144,18 +146,17 @@ export class ProductZoomComponent implements OnInit {
   openDialog_(): void {
     const dialogRef = this.dialog.open(DailogComponent, {
       width: '250px',
-      data: { name: this.name, animal: this.animal }
+      data: {}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.animal = result;
+     
     });
   }
   getCart: any = []
   ngOnInit() {
     this.sizes = this.sizeService.getSizes(this.cartItems.category, this.cartItems.sub_category);
     this.selectedColor = this.colorCodes[0];
-    console.log("sizes",this.sizes)
     this.selectedSize = this.sizes[1]
     this.updateImage();
   }
@@ -174,9 +175,39 @@ export class ProductZoomComponent implements OnInit {
     //cartData.variants = []
     this.addCartService.addToCart(cartData)
   }
-  addDetails() {
-    this.router.navigate(['./useraddress'])
+  buyNow(buyNowData:any) {
+    this.loginService.user$.subscribe(user => {
+      if (!user || user.user_first_name === 'Guest') {
+    this.router.navigate(['/login']);
+    return;
   }
+    })
+  if (!this.selectedColor) {
+    this.toast.error('Please select color');
+    return;
+  }
+
+  // if (!this.selectedSize) {
+  //   this.toast.error('Please select size');
+  //   return;
+  // }
+
+    let user: any
+    user = localStorage.getItem("login_user")
+    let userId = JSON.parse(user);
+    buyNowData.userId = userId?.userId
+    buyNowData.quantity = this.counter
+    buyNowData.isGuest = userId?.isGuest
+    buyNowData.image_url = this.selectedImage[0].images
+    buyNowData.size = this.selectedSize
+    buyNowData.color = this.selectedImage[0].color
+    this.addCartService.setBuyNowItem(buyNowData);
+    console.log("payload",buyNowData)
+    this.router.navigate(['./useraddress'])
+
+}
+
+  
   onColorSelect(code: any) {
     this.selectedColor = code;
     setTimeout(() => {
@@ -190,7 +221,6 @@ export class ProductZoomComponent implements OnInit {
   }
 
   onSizeSelect(size: string) {
-    console.log("size",size)
     this.selectedSize = size;
     setTimeout(() => {
       this.mainSwiper?.swiperRef.update();
@@ -242,48 +272,120 @@ export class ProductZoomComponent implements OnInit {
 
     setTimeout(() => imgClone.remove(), 700);
   }
-flyActiveSwiperImageToCart() {
-  const activeImg = document.querySelector(
-    '.swiper-slide-active img.product-image'
-  ) as HTMLElement;
+  flyActiveSwiperImageToCart() {
+    const activeImg = document.querySelector(
+      '.swiper-slide-active img.product-image'
+    ) as HTMLElement;
 
-  if (activeImg) {
-    this.flyToCart(activeImg);
-  } else {
-    console.warn('No active swiper image found');
-  }
-}
-
-ngOnDestroy() {
-  this.scrollService.closePopup();
-  this.document.body.classList.remove('no-scroll');
-
-}
-getVariantLabel(item: any): string {
-
-  if (!item || item.length === 0) return 'Variant';
-
-  const first = item[0];
-
-  if (first.includes('GB') || first.includes('TB')) {
-    return 'Storage';
+    if (activeImg) {
+      this.flyToCart(activeImg);
+    } else {
+      console.warn('No active swiper image found');
+    }
   }
 
-if (!isNaN(first)) {
-    return 'Size';
+  ngOnDestroy() {
+    this.scrollService.closePopup();
+    this.document.body.classList.remove('no-scroll');
+
   }
-   // Kids Size (5C, 6C, 1Y, 2Y)
-  if (first.match(/^\d+(C|Y)$/)) {
-    return 'Size';
+  getVariantLabel(item: any): string {
+
+    if (!item || item.length === 0) return 'Variant';
+
+    const first = item[0];
+
+    if (first.includes('GB') || first.includes('TB')) {
+      return 'Storage';
+    }
+
+    if (!isNaN(first)) {
+      return 'Size';
+    }
+    // Kids Size (5C, 6C, 1Y, 2Y)
+    if (first.match(/^\d+(C|Y)$/)) {
+      return 'Size';
+    }
+
+    const clothSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+
+    if (clothSizes.includes(first.toUpperCase())) {
+      return 'Size';
+    }
+    return 'Variant';
   }
 
-const clothSizes = ['XS','S','M','L','XL','XXL','XXXL'];
+  // cusomer Review
 
-if (clothSizes.includes(first.toUpperCase())) {
-  return 'Size';
+  selectedSort = 'top';
+
+  sortChanged() {
+    console.log('Sort:', this.selectedSort);
+    // Call API based on sort
+  }
+
+  markHelpful(review: any) {
+    try {
+      const formData = new FormData();
+      formData.append('review_id', String(review?.id));
+      formData.append('user_id', review?.user_id);
+      formData.append('user_name', review?.user_name);
+      this.apiService.submitReviewHelpful(formData).subscribe((res) => {
+        if (res.status) {
+          review.helpful_count++;
+        }
+      })
+    } catch (err) {
+      console.log(err)
+    }
+
+  }
+
+  writeReview() {
+    this.router.navigate(['/write-review', this.cartItems.product_id])
+  }
+
+  getProductReview(productId: any) {
+    try {
+      this.apiService.getProductReview(productId).subscribe((res) => {
+        this.productReview = res?.data;
+         this.visibleRatings = this.productReview.slice(0, 5);
+      })
+      this.apiService.getReviewSummary(productId).subscribe((res) => {
+        this.summary = res?.data
+        // ⭐ Convert to UI Array Format
+        this.ratingSummary = [
+          { star: 5, percent: this.summary.five_star },
+          { star: 4, percent: this.summary.four_star },
+          { star: 3, percent: this.summary.three_star },
+          { star: 2, percent: this.summary.two_star },
+          { star: 1, percent: this.summary.one_star }
+        ];
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+toggleRatings() {
+  this.showAll = !this.showAll;
+  this.updateVisibleRatings();
 }
-  return 'Variant';
+
+updateVisibleRatings() {
+  this.visibleRatings = this.showAll
+    ? this.productReview
+    : this.productReview.slice(0, 5);
 }
+
+getFullStars() {
+  const rating = Number(this.summary?.avg_rating) || 0;
+  return Array(Math.floor(rating)).fill(0);
+}
+
+  hasHalfStar() {
+    return this.summary?.avg_rating % 1 >= 0.2;
+  }
+
 }
 export interface Product {
   id: number,

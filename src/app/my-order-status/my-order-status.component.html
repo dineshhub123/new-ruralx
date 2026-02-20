@@ -13,7 +13,7 @@
                 </p>
                 <ng-template #notDeliveredBlock>
                     <!-- Cancelled -->
-                    <p  class="cancel-order-text" *ngIf="orderStatusData?.status === 'cancelled'; else onTheWay">
+                    <p class="cancel-order-text" *ngIf="orderStatusData?.status === 'cancelled'; else onTheWay">
                         ❌ Your order has been cancelled
                     </p>
                     <!-- On the way -->
@@ -78,6 +78,8 @@
 
                         <div class="item-meta">Qty: {{ item?.quantity }}</div>
                         <div class="item-meta">Color: {{ item?.color | titlecase }}</div>
+                        <div class="item-meta" *ngIf="item?.size">{{ getVariantLabel(item?.size) }}: {{ item?.size }}
+                        </div>
                         <div class="item-meta">
                             Category: <span class="seller">{{ item?.sub_category | titlecase }}</span>
                         </div>
@@ -114,17 +116,25 @@
                 </div>
 
                 <div class="btn-row">
-                    <button mat-raised-button class="btn primary">View Invoice</button>
-                    <button mat-raised-button class="btn outline"
-                        *ngIf="orderStatusData?.status !== 'delivered' && orderStatusData?.status !== 'cancelled'; else reorderBtn"
+                    <button mat-raised-button class="btn primary" *ngIf="orderStatusData?.status === 'delivered'"
+                        (click)="requestReturn(orderStatusData)" [disabled]="!canReturn()">Return/Refund</button>
+                    <button mat-raised-button class="btn outline" 
+                        *ngIf="orderStatusData?.status !== 'delivered' && orderStatusData?.status !== 'cancelled' && orderStatusData?.status !== 'out_for_delivery'"
                         (click)="cancelOrder()">
                         Cancel Order
                     </button>
-                    <ng-template #reorderBtn>
-                        <button mat-raised-button class="btn outline" (click)="reOrder()">Reorder</button>
-                    </ng-template>
+                        <button mat-raised-button class="btn outline"
+                            *ngIf="orderStatusData?.status === 'delivered' || orderStatusData?.status === 'cancelled'"
+                            (click)="reOrder()">
+                            Reorder
+                        </button>
                 </div>
+
             </div>
+            <div class="return-order-text" *ngIf="!canReturn() && orderStatusData?.status === 'delivered'">
+                Return period is over. You can raise return request within 7 days from delivery date.
+            </div>
+                                        
 
         </div>
 
@@ -170,7 +180,9 @@
 
                     <div class="support-links">
                         <a href="javascript:void(0)">Contact Support : info@ruralx.in</a>
-                        <a href="javascript:void(0)">Download Invoice (PDF)</a>
+                        <div> <a>Download Invoice (PDF)</a> <mat-icon color="primary"
+                                class="float-right">visibility</mat-icon></div>
+
                     </div>
                 </div>
 

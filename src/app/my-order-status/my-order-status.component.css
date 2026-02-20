@@ -377,6 +377,14 @@ font-weight: 600;
     font-style: italic;
 
 }
+.return-order-text{
+font-size: 12px;
+    font-weight: 500;
+    color: #e31729;
+    font-style: italic;
+    margin:  0px 10px 10px 10px;
+}
+
 
 /* ===== MOBILE (VERTICAL) ===== */
 @media (max-width: 768px) {

@@ -33,7 +33,6 @@
 
 .size {
     color: #000000;
-    margin: 3px 0 10px;
     font-size: 10px;
     font-weight: 600;
 }
@@ -146,7 +145,7 @@
   align-items: center;
   gap: 12px;
   border-bottom: 1px solid lightgray;
-
+  padding-bottom: 5px;
 }
 
 .order-footer{
