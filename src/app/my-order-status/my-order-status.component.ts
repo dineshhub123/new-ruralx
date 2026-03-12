@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../services/api.service';
+import { ReturnDailogComponent } from '../return-dailog/return-dailog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-my-order-status',
@@ -34,7 +36,8 @@ export class MyOrderStatusComponent {
 
   constructor(
     public activatedRoute: ActivatedRoute,
-    public apiService: ApiService
+    public apiService: ApiService,
+    public dialog:MatDialog
   ) { }
 
   ngOnInit() {
@@ -190,11 +193,19 @@ canReturn(): boolean {
   if (!order) return false;
   if (order.status !== 'delivered') return false;
   const deliveryDate = new Date(order.updated_at);
-  const today = new Date();
-  const diffTime = today.getTime() - deliveryDate.getTime();
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays <= 7;
+  const now = new Date();
+  const diffTime = now.getTime() - deliveryDate.getTime();
+  return diffTime <= (24 * 60 * 60 * 1000); // 24 hours
 }
 
-
+openReturnDialog(item: any,orderId:any) {
+  this.dialog.open(ReturnDailogComponent, {
+    width: '500px',
+    maxWidth: '90vw',
+    data: { 
+      item :item,
+      orderId: orderId
+    }
+  });
+}
 }

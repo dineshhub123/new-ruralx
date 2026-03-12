@@ -12,8 +12,8 @@ import { LoginService } from '../services/login.service';
 import { RazorpayService } from '../razorpay.service';
 import { PaymentApiService } from '../payment-api.service';
 import { NgZone } from '@angular/core';
-
-
+import { CodConfirmDialogComponent } from '../cod-confirm-dialog/cod-confirm-dialog.component';
+import { PincodeService } from '../pincode.service';
 @Component({
   selector: 'app-useraddress',
   templateUrl: './useraddress.component.html',
@@ -23,7 +23,7 @@ export class UseraddressComponent implements OnInit {
   public addShipTextForm: boolean = false
   public userCheckOutData: any;
   public isLoading: boolean = false;
-  public isPaymentLoading :boolean = false;
+  public isPaymentLoading: boolean = false;
   couponFormControl = new FormControl('');
   public editId: any = Number
   public addressForm: FormGroup;
@@ -40,10 +40,10 @@ export class UseraddressComponent implements OnInit {
   public totalMrp: any;
   public totalAmount: any;
   public totalDiscount: any;
-
+  public selectedPaymentMethod: string = 'ONLINE'; // default
   constructor(private razorpay: RazorpayService,
-    private paymentApi: PaymentApiService,private ngZone: NgZone,
-    private fb: FormBuilder, public loginService: LoginService, public addressService: AddressService, private dialog: MatDialog, public toastr: ToastrService, private apiService: ApiService, public router: Router, public addCartService: AddcartService, public scrollService: ScrollService) {
+    private paymentApi: PaymentApiService, private ngZone: NgZone,
+    private fb: FormBuilder, public loginService: LoginService, public pincodeService: PincodeService, public addressService: AddressService, private dialog: MatDialog, public toastr: ToastrService, private apiService: ApiService, public router: Router, public addCartService: AddcartService, public scrollService: ScrollService) {
     let loginUserStr = localStorage.getItem('login_user');
     if (loginUserStr) {
       this.user = JSON.parse(loginUserStr);
@@ -179,7 +179,9 @@ export class UseraddressComponent implements OnInit {
       color: item.color,
       user_id: item.userId,
       image: item.image_url,
-      size: item.size || ""
+      size: item.size || "",
+      gst_rate: item.gst_rate,
+      hsn_code: item.hsn_code
     }));
   }
 
@@ -324,7 +326,78 @@ export class UseraddressComponent implements OnInit {
   goToLogin() {
     this.router.navigate(['/login']);
   }
-  async confirmOrder() {
+
+  confirmOrder() {
+    if (this.selectedPaymentMethod === 'ONLINE') {
+      this.placeOnlineOrder();
+    }
+    else if (this.selectedPaymentMethod === 'COD') {
+      const dialogRef = this.dialog.open(CodConfirmDialogComponent, {
+        width: '500px',
+        maxWidth: '85vw',
+        maxHeight: '90vh',
+        data: { amount: this.calculateOrderAmount() }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.placeCodOrder();
+        }
+      });
+    }
+  }
+  async placeCodOrder() {
+    try {
+      this.isPaymentLoading = true;
+      let orderItems = this.buildOrderItems(this.userCheckOutData);
+      const user = this.radioForm.get('radioOption')?.value;
+      const pin = Number(user?.user_pincode);
+      if (!this.pincodeService.isServiceable(pin)) {
+        this.router.navigate(["coming-soon"])
+        return;
+      }
+      const orderPayload = {
+        user_id: user.userId,
+        order_amount: this.calculateOrderAmount(),
+        payment_method: 'COD',
+        payment_status: 'PENDING',
+        order_source: 'APP',
+        delivery_address: {
+          name: (user?.full_name ? user.full_name :
+            `${user?.user_first_name ?? ''} ${user?.user_last_name ?? ''}`.trim()),
+          mobile: user?.user_phone,
+          address: `${user?.house_no ?? ''}, ${user?.street_area ?? ''},
+        ${user?.landmark ?? ''}, ${user?.post_office ?? ''},
+        ${user?.tehsil ?? ''}, ${user?.district ?? ''},
+        ${user?.state ?? ''}, ${user?.country ?? ''} - ${user?.user_pincode ?? ''}`,
+          email: user?.user_email
+        },
+        items: orderItems,
+      };
+
+      this.apiService.placeAnOrder(orderPayload).subscribe({
+        next: (res) => {
+          this.isPaymentLoading = false;
+
+          if (res) {
+            this.addCartService.clearBuyNowItem();
+            this.loadCheckoutData();
+            this.router.navigate(['/order-confirmed']);
+          }
+        },
+        error: (err) => {
+          this.isPaymentLoading = false;
+          console.error(err);
+        }
+      });
+
+    } catch (err) {
+      this.isPaymentLoading = false;
+      console.error(err);
+    }
+  }
+
+  async placeOnlineOrder() {
     try {
       if ((window as any).Android) {
         (window as any).Android.startPayment(this.totalAmount);
@@ -333,8 +406,13 @@ export class UseraddressComponent implements OnInit {
       let orderItems;
       orderItems = this.buildOrderItems(this.userCheckOutData);
       const user = this.radioForm.get('radioOption')?.value;
+      const pin = Number(user?.user_pincode);
+      if (!this.pincodeService.isServiceable(pin)) {
+        this.router.navigate(["coming-soon"])
+        return;
+      }
       const orderPayload = {
-        user_id: 1,
+        user_id: user.userId,
         order_amount: this.calculateOrderAmount(),
         payment_method: 'ONLINE',
         order_source: 'APP',
@@ -396,21 +474,21 @@ export class UseraddressComponent implements OnInit {
     rzp.open();
   }
   verifyPayment(response: any, orderPayload: any) {
-    console.log("response",response)
+    console.log("orderPayload", orderPayload)
     this.ngZone.run(() => {
-    this.isPaymentLoading = true;
-  });
+      this.isPaymentLoading = true;
+    });
     this.apiService.placeAnOrder(orderPayload).subscribe(res => {
       this.ngZone.run(() => {
-      this.isPaymentLoading = false;
-      if (res) {
-        this.addCartService.clearBuyNowItem();
-        this.loadCheckoutData();
-       this.router.navigate(['/order-confirmed']);
-      }
+        this.isPaymentLoading = false;
+        if (res) {
+          this.addCartService.clearBuyNowItem();
+          this.loadCheckoutData();
+          this.router.navigate(['/order-confirmed']);
+        }
       })
     });
 
   }
-  
+
 }

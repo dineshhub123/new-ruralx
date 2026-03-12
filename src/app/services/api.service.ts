@@ -34,6 +34,7 @@ export class ApiService {
   apiGetReviewUrl = environment.getReviewApiUrl;
   apisubmitReviewHelpfulUrl = environment.submitReviewHelpfulApiUrl;
   apiGetReviewSummaryApiUrl = environment.getReviewSummaryApiUrl;
+  apiInsertReturnOrderApiUrl = environment.getReturnOrderApiUrl;
 
 
 
@@ -127,5 +128,8 @@ export class ApiService {
     return this.http.get(`${this.apiGetReviewSummaryApiUrl}?product_id=${productId}`).pipe(map((res:any)=>res))
   }
 
+  returnOrder(object:any): Observable<any> {
+    return this.http.post(this.apiInsertReturnOrderApiUrl,object).pipe(map((res: any) => res));
+  }
 
 }

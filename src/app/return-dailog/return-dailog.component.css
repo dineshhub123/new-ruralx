@@ -1,0 +1,58 @@
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.product-summary {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.product-summary img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.price {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.section-title {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.upload-section input {
+  margin-top: 6px;
+}
+
+.refund-summary {
+  background: #f5f7fa;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.final-amount {
+  font-weight: 600;
+  color: #1a73e8;
+}
+.preview-img {
+     width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: contain;
+    border: 1px solid gray;
+
+}
+.preview-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}

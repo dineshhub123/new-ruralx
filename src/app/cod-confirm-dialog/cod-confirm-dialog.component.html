@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Confirm Cash on Delivery</h2>
+
+<div mat-dialog-content>
+  <p>
+    You have selected Cash on Delivery.
+  </p>
+  <p>
+    Please pay <strong>₹{{ data.amount }}</strong> at the time of delivery.
+  </p>
+  <p>Do you want to place this order?</p>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()" color="secondary">Cancel</button>
+  <button mat-raised-button color="primary" (click)="confirm()">
+    Confirm Order
+  </button>
+</div>

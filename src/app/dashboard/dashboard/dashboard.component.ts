@@ -30,6 +30,7 @@ export class DashboardComponent {
       // Remove duplicates
       const uniqueSubCategory = [...new Set(subCategory)];
       this.cardSubCategoryList = uniqueSubCategory;
+      this.groupCards();
       this.fetchChipCategories(this.cardSubCategoryList)
       this.cardSubCategoryList.forEach((sub: any) => {
         this.dynamicCardCategory(sub);
@@ -39,7 +40,6 @@ export class DashboardComponent {
   }
 
   ngOnInit() {
-    console.log(this.imageBaseUrl)
     this.fetchCategoriesTypeItems();
     window.addEventListener('pullToRefresh', () => {
       // 🔥 ENTER ANGULAR ZONE
@@ -129,7 +129,11 @@ export class DashboardComponent {
       // Store per subcategory
       this.categoryData[subCategory] = {
         name: productNames[0], // show first name or customize
-        images: images.slice(0, 4) // first 4 images
+        images: images.slice(0, 4), // first 4 images
+        mrp:itemList.flatMap((p: any) => p.product_mrp_price),
+        price:itemList.flatMap((p: any) => p.product_price),
+        discount:itemList.flatMap((p: any) => p.product_discount)
+
       };
       this.loading = false;
     });
@@ -142,6 +146,7 @@ export class DashboardComponent {
     this.carouselData = [];
 
     const categories = ['sandals', 'tshirts', 'shoes', 'saree', 'salwar_suit'];
+    //const categories = ['saree'];
 
     // Create API calls array
     const requests = categories.map(category => {
@@ -206,5 +211,13 @@ export class DashboardComponent {
       this.onClickImage(selectedCategory);
     }
   }
-
+groupedCategories: any[] = [];
+groupCards() {
+  const chunkSize = 4;
+  for (let i = 0; i < this.cardSubCategoryList.length; i += chunkSize) {
+    this.groupedCategories.push(
+      this.cardSubCategoryList.slice(i, i + chunkSize)
+    );
+  }
+}
 }

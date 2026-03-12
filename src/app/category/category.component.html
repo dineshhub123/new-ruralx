@@ -5,15 +5,18 @@
     <div class="sidebar pt-4 mt-1 ">
       <!-- <h3>Categories</h3> -->
       <ul>
-        <li *ngFor="let cat of uniqueCategories" class="cat-name" (click)="onSelectCategory(cat.category)"
-          [class.selected]="selectedCategory === cat.category">
-          <label class="category-title" [class.selected]="selectedCategory === cat.category"> {{ cat.category |
+        <li *ngFor="let cat of uniqueCategories" class="cat-name" (click)="onSelectCategory(cat?.category)"
+          [class.selected]="selectedCategory === cat?.category">
+          <label class="category-title" [class.selected]="selectedCategory === cat?.category"> {{ cat?.category |
             titlecase}} </label>
           <ul>
-            <li class="sub-card" [class.selected]="selectedCategory === cat.category">
-              <img [src]="imageBaseUrl + cat.variants[0].images[0]" />
-              <label class="subcategory-title" [class.selected]="selectedCategory === cat.category">{{ cat.sub_category
-                | titlecase }}</label>
+            <li class="sub-card" [class.selected]="selectedCategory === cat?.category">
+<img 
+  [src]="'assets/img/' + cat?.category + '-menu.png'"
+  [alt]="cat?.category"
+  class="category-thumb">              
+  <!-- <label class="subcategory-title" [class.selected]="selectedCategory === cat?.category">{{ cat?.sub_category
+                | titlecase }}</label> -->
             </li>
           </ul>
         </li>
@@ -24,8 +27,8 @@
       <div class="category-heading">{{selectedCategory | titlecase}}</div>
       <div class="sub-grid">
         <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories"
-          (click)="onSelectMainCategory(sub.name)">
-          <img [src]="imageBaseUrl + sub.image" alt="{{ sub.name }}" />
+          (click)="onSelectMainCategory(sub?.name)">
+          <img [src]="imageBaseUrl + sub?.image" alt="{{ sub?.name }}" />
           <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
         </div>
       </div>

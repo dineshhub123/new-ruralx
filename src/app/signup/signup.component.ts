@@ -23,7 +23,7 @@ export class SignupComponent implements OnInit {
     this.signupForm = this.fb.group({
       firstname: ['', [Validators.required, Validators.minLength(2)]],
       lastname: ['', [Validators.required, Validators.minLength(2)]],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email,Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
       phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       house_no: ['', [Validators.required]],
@@ -67,7 +67,7 @@ export class SignupComponent implements OnInit {
     };
     this.apiService.insertUserDetails(payload).subscribe(
       (res) => {
-        this.toastr.success( `Your registration is complete. You can now log in!`,`Welcome aboard, ${this.signupForm.value.firstname}!`
+        this.toastr.success( `Your registration is complete. You can now login!`,`Welcome aboard, ${this.signupForm.value.firstname}!`
         );
         setTimeout(() => {
           this.router.navigateByUrl('login');

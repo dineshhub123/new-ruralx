@@ -137,14 +137,14 @@ mat-chip:focus, mat-chip.mat-mdc-chip-selected {
 .col-6 img {
   max-height: 100%;
   width: 100%;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 8px;
 }
 @media (max-width: 768px) {
 .carousel-item img {
   width: 100%;
   max-height: auto !important;
-  object-fit: initial;
+  object-fit: contain;
 }
 }
 @media (min-width: 768px) {
@@ -200,7 +200,7 @@ padding-right: 3px !important;
 }
 
 .category-item {
-  min-width: 70px;
+  /* min-width: 70px; */
     text-align: center;
     flex-shrink: 0;
     cursor: pointer;
@@ -209,7 +209,7 @@ padding-right: 3px !important;
     padding: 5px 5px 0px 5px;
     /* background: antiquewhite; */
     box-shadow: 0px 1px 5px 1px gray;
-   background-color: burlywood;
+   background-color: #fff;
 }
 
 .category-item img {
@@ -228,3 +228,68 @@ padding-right: 3px !important;
 .category-scroll.at-top{
   top:-18px;
 }
+.product-card {
+  /* background: #fff; */
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 8px;
+  /* box-shadow: 0 2px 8px rgba(0,0,0,0.08); */
+  /* transition: 0.3s; */
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+}
+
+.product-img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.product-info {
+  margin-top: 8px;
+}
+
+.price {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.discount {
+  color: green;
+  font-size: 11px;
+  margin-left: 5px;
+  font-style: italic;
+
+  
+}
+
+.delivery {
+    font-size: 11px;
+    color: chocolate;
+    margin-top: 0px;
+}
+.mrp{
+  color:#000;
+  opacity: 0.5;  
+  font-size: 12px;
+}
+
+
+/* .carousel-item .row{
+overflow:hidden;
+}
+
+.product-img{
+height:60px;
+width:100%;
+object-fit:contain;
+border-radius:8px;
+}
+.card{
+margin:0;
+border-radius:8px;
+padding: 5px;
+} */

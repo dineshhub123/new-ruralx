@@ -1,24 +1,22 @@
 <app-loader [isLoading]="loading"></app-loader>
 <div *ngIf="!loading">
-      <div class="category-scroll" [class.at-top]="showHeaderAtTop">
-      <div class="category-item" *ngFor="let chip of chipsList" (click)="onClickImage(chip.category)">
-        <img class="chips-img" [src]="imageBaseUrl + chip.image[0]" [alt]="chip.category" />
-        <span>{{ chip.category | titlecase }}</span>
-      </div>
+  <div class="category-scroll" [class.at-top]="showHeaderAtTop">
+    <div class="category-item" *ngFor="let chip of chipsList" (click)="onClickImage(chip.category)">
+      <img class="chips-img" [src]="imageBaseUrl + chip.image[0]" [alt]="chip.category" />
+      <span>{{ chip.category | titlecase }}</span>
     </div>
+  </div>
 
   <div class="container-fluid pt-5">
     <div>
-      <div *ngFor="let data of carouselData; let i = index" class="mb-1">
-        <!-- <div class="product-name-content mb-3">{{ data.productNames[0] }}</div> -->
+       <div *ngFor="let data of carouselData; let i = index" class="mb-1">
         <div id="{{data.category}}Carousel" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner" (click)="onClickImage(data.category)">
             <div class="carousel-item" *ngFor="let image of data.images; let j = index" [class.active]="j === 0">
-              <img class="d-block w-100" [src]="imageBaseUrl + image"
+              <img class="d-block w-100 carousel-img" [src]="imageBaseUrl + image"
                 alt="{{ data.category }} Slide {{ j + 1 }}" />
             </div>
           </div>
-          <!-- Controls -->
           <a class="carousel-control-prev" href="#{{data.category}}Carousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           </a>
@@ -26,7 +24,47 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
           </a>
         </div>
-      </div>
+      </div> 
+
+
+      <!-- <div id="categoryCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item" *ngFor="let group of groupedCategories; let i=index" [class.active]="i === 0">
+            <div class="row flex-nowrap">
+              <div class="col-lg-3 col-md-4 col-6 p-2" *ngFor="let subcategory of group">
+                <div class="card shadow-sm h-100">
+                  <div class="product-name-content">
+                    {{ categoryData[subcategory]?.name }}
+                  </div>
+                  <div class="row g-0">
+                    <div class="col-md-6" *ngFor="let image of (categoryData[subcategory]?.images || []) | slice:0:2">
+                      <img class="img-fluid product-img" [src]="imageBaseUrl + image"
+                        (click)="onClickImage(subcategory)" alt="product">
+                      <div class="product-info">
+                        <div class="price">
+                          ₹ {{categoryData[subcategory]?.price?.[0]}}
+                          <del class="mrp">{{categoryData[subcategory]?.mrp?.[0]}}</del>
+                          <span class="discount">
+                            {{categoryData[subcategory]?.discount?.[0]}} off
+                          </span>
+                        </div>
+                        <div class="delivery">Free Delivery</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#categoryCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#categoryCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </a>
+      </div> -->
+
 
       <!-- Dynamic Card Sub Category Wise  -->
       <div class="product-grid-container">
@@ -38,13 +76,20 @@
               <div class="product-name-content">
                 {{ categoryData[subcategory]?.name }}
               </div>
-              <!-- Category images -->
-              <div class="row g-2 px-3">
-                <div class="col-6 d-flex align-items-center justify-content-center slider-img"
-                  *ngFor="let image of categoryData[subcategory]?.images">
-                  <img class="img-fluid p-1" [src]="imageBaseUrl + image" alt="Image"
-                    style="width: 100%; object-fit: cover; border-radius: 8px; cursor: pointer;"
-                    (click)="onClickImage(subcategory)" />
+              <div class="row g-3 px-3">
+                <div class="col-6 col-md-6" *ngFor="let image of categoryData[subcategory]?.images">
+                  <div class="product-card">
+                    <img class="img-fluid product-img" [src]="imageBaseUrl + image" alt="Image"
+                      (click)="onClickImage(subcategory)" />
+                    <div class="product-info">
+                      <div class="price">
+                        ₹ {{categoryData[subcategory].price[0]}}
+                        <del class="mrp">{{categoryData[subcategory].mrp[0] }}</del>
+                        <span class="discount">{{categoryData[subcategory].discount[0] }} off</span>
+                      </div>
+                      <div class="delivery">Free Delivery</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -56,8 +101,7 @@
     <small class="web-link pt-1">
       Discover more on RuralX : <a href="https://www.ruralx.in" target="_blank" class="ml-1">www.ruralx.in</a>
     </small>
-     <br>
+    <br>
     <br>
   </div>
 </div>
-

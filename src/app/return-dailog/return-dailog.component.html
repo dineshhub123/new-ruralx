@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>Return Item</h2>
+<mat-dialog-content class="dialog-content">
+  <!-- Product Info -->
+  <div class="product-summary">
+     <img [src]="imageBaseUrl + data?.item?.image[0]" /> 
+    <div>
+      <h4 class="price">{{ data?.item?.product_name | titlecase }}</h4>
+      <div class="price">Qty: {{ data?.item?.quantity }}</div>
+      <div class="price">Size: {{ data?.item?.size }}</div>
+      <div class="price">₹{{ data?.item?.price }}</div>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <!-- Reason Selection -->
+  <h4 class="section-title">Select Reason</h4>
+  <mat-radio-group [(ngModel)]="selectedReason" class="price">
+    <mat-radio-button value="Damaged product">Damaged product</mat-radio-button>
+    <mat-radio-button value="Wrong item">Wrong item received</mat-radio-button>
+    <mat-radio-button value="Size issue">Size issue</mat-radio-button>
+    <mat-radio-button value="Quality issue">Quality not good</mat-radio-button>
+    <mat-radio-button value="Other">Other</mat-radio-button>
+  </mat-radio-group>
+  <!-- Return Type -->
+  <h4 class="section-title">Return Type</h4>
+  <mat-radio-group [(ngModel)]="returnType">
+    <mat-radio-button value="Refund">Refund</mat-radio-button>
+    <mat-radio-button value="Replace">Replace</mat-radio-button>
+  </mat-radio-group>
+  <!-- Upload Image -->
+  <div class="upload-section" *ngIf="selectedReason === 'Damaged product' || selectedReason === 'Wrong item'">
+    <input #fileInput type="file" multiple accept="image/*" (change)="onImageSelect($event)" style="display: none">
+    <button (click)="fileInput.click()" mat-raised-button color="primary">Upload Image</button>
+    <div class="preview-container mt-2">
+    <img *ngFor="let img of previewImages" [src]="img" class="preview-img">
+    </div>
+  </div>
+  <!-- Refund Summary -->
+  <div class="refund-summary">
+    <p>Product Price: ₹{{ data?.item?.price }}</p>
+    <p>Return Charges: ₹0</p>
+    <p class="final-amount">Refund Amount: ₹{{ data?.item?.price }}</p>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close color="secondary">Cancel</button>
+  <button mat-raised-button color="primary"
+          [disabled]="!selectedReason"
+          (click)="submitReturn()">
+    Confirm Return
+  </button>
+</mat-dialog-actions>

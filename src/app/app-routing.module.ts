@@ -12,7 +12,6 @@ import { LogoutComponent } from './logout/logout.component';
 import { AuthGuard } from './services/auth.guard';
 import { UseraddressComponent } from './useraddress/useraddress.component';
 import { CategoryComponent } from './category/category.component';
-import { CodConfirmComponent } from './cod-confirm/cod-confirm.component';
 import { OrderConfirmedComponent } from './order-confirmed/order-confirmed.component';
 import { ComingSoonComponent } from './coming-soon/coming-soon.component';
 import { MyAccountComponent } from './my-account/my-account.component';
@@ -37,7 +36,6 @@ const routes: Routes = [
   { path: "signup", component: SignupComponent },
   { path: "category", component: CategoryComponent },
   { path: "display-item", component: DisplaySearchItemComponent },
-  { path: 'cod-confirm', component: CodConfirmComponent },
   { path: 'order-confirmed', component: OrderConfirmedComponent },
   { path: 'coming-soon', component: ComingSoonComponent },
   { path: 'my-order', component: MyOrderComponent },

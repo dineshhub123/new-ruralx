@@ -40,7 +40,6 @@ import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { UseraddressComponent } from './useraddress/useraddress.component';
 import { CategoryComponent } from './category/category.component';
 import { LoaderComponent } from './loader/loader.component';
-import { CodConfirmComponent } from './cod-confirm/cod-confirm.component';
 import { OrderConfirmedComponent } from './order-confirmed/order-confirmed.component';
 import { ComingSoonComponent } from './coming-soon/coming-soon.component';
 import { MyAccountComponent } from './my-account/my-account.component';
@@ -60,6 +59,8 @@ import { AddcartDailogComponent } from './addcart-dailog/addcart-dailog.componen
 import { WriteReviewComponent } from './write-review/write-review.component';
 import { TermsAndConditionComponent } from './terms-and-condition/terms-and-condition.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { ReturnDailogComponent } from './return-dailog/return-dailog.component';
+import { CodConfirmDialogComponent } from './cod-confirm-dialog/cod-confirm-dialog.component';
 export function HttpLoaderFactory(http:HttpClient){
   return new TranslateHttpLoader(http, './assets/i18n/', '.json')
 }
@@ -83,7 +84,6 @@ SwiperCore.use([Zoom, Thumbs, Pagination]);
     CategoryComponent,
     LoaderComponent,
     BottomSheetOverviewExampleSheet,
-    CodConfirmComponent,
     OrderConfirmedComponent,
     ComingSoonComponent,
     MyAccountComponent,
@@ -95,6 +95,8 @@ SwiperCore.use([Zoom, Thumbs, Pagination]);
     WriteReviewComponent,
     TermsAndConditionComponent,
     PrivacyPolicyComponent,
+    ReturnDailogComponent,
+    CodConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,

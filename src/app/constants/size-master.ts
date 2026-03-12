@@ -1,18 +1,22 @@
 export const SIZE_MASTER: any = {
-  clothing: {
-  // 👕 Tops & Upper Wear
+ womens : {
+
+  // 👕 Western & Top Wear
   shirts: ["XS", "S", "M", "L", "XL", "XXL"],
   tshirts: ["XS", "S", "M", "L", "XL", "XXL"],
-  kurtas: ["S", "M", "L", "XL", "XXL", "3XL"],
+  tops: ["XS", "S", "M", "L", "XL", "XXL"],
+  crop_tops: ["XS", "S", "M", "L", "XL"],
+  tunics: ["S", "M", "L", "XL", "XXL"],
   dresses: ["XS", "S", "M", "L", "XL", "XXL"],
+  gowns: ["S", "M", "L", "XL", "XXL"],
+  jumpsuits: ["S", "M", "L", "XL", "XXL"],
   jackets: ["S", "M", "L", "XL", "XXL"],
   sweaters: ["S", "M", "L", "XL", "XXL"],
-  hoodies: ["S", "M", "L", "XL", "XXL",],
-  tops: ["XS", "S", "M", "L", "XL", "XXL"],
+  hoodies: ["S", "M", "L", "XL", "XXL"],
 
   // 👖 Bottom Wear
   jeans: ["28", "30", "32", "34", "36", "38", "40", "42"],
-  pants: ["28", "30", "32", "34", "36", "38", "40", "42"],
+  trousers: ["28", "30", "32", "34", "36", "38", "40", "42"],
   leggings: ["XS", "S", "M", "L", "XL", "XXL"],
   shorts: ["28", "30", "32", "34", "36", "38"],
   skirts: ["XS", "S", "M", "L", "XL", "XXL"],
@@ -20,189 +24,394 @@ export const SIZE_MASTER: any = {
   trackpants: ["28", "30", "32", "34", "36", "38", "40"],
 
   // 👗 Ethnic Wear
-  saree: [], // usually one-size with blouse piece
+  sarees: [],
+  kurtas: ["S", "M", "L", "XL", "XXL", "3XL"],
   salwar_suits: ["S", "M", "L", "XL", "XXL", "3XL"],
-  lehenga: ["S", "M", "L", "XL", "XXL"],
+  lehenga_choli: ["S", "M", "L", "XL", "XXL"],
   ethnic_sets: ["S", "M", "L", "XL", "XXL"],
   dupattas: ["Free Size"],
 
   // 🛌 Innerwear & Nightwear
-  innerwear: ["XS", "S", "M", "L", "XL", "XXL"],
+  bras: ["28", "30", "32", "34", "36", "38", "40"],
+  panties: ["XS", "S", "M", "L", "XL", "XXL"],
+  shapewear: ["S", "M", "L", "XL", "XXL"],
   nightwear: ["S", "M", "L", "XL", "XXL", "3XL"],
-  thermal: ["S", "M", "L", "XL", "XXL"],
+  thermals: ["S", "M", "L", "XL", "XXL"],
 
   // 🧥 Seasonal
   winterwear: ["S", "M", "L", "XL", "XXL"],
-  rainwear: ["S", "M", "L", "XL", "XXL"]
+  rainwear: ["S", "M", "L", "XL", "XXL"],
 
-  },
-  footwear: {
-  // 👟 Casual & Everyday
-  sneakers: ["6", "7", "8", "9", "10", "11"],
-  loafers: ["6", "7", "8", "9", "10", "11"],
-  slipons: ["6", "7", "8", "9", "10", "11"],
+  // 👠 Footwear (India Sizes)
+  heels: ["3", "4", "5", "6", "7", "8", "9"],
+  flats: ["3", "4", "5", "6", "7", "8", "9"],
+  sandals: ["3", "4", "5", "6", "7", "8", "9"],
+  slippers: ["3", "4", "5", "6", "7", "8", "9"],
+  sports_shoes: ["4", "5", "6", "7", "8", "9"],
+  casual_shoes: ["4", "5", "6", "7", "8", "9"],
+  boots: ["4", "5", "6", "7", "8", "9"],
+  ethnic_footwear: ["3", "4", "5", "6", "7", "8", "9"],
 
-  // 👞 Formal
-  formal_shoes: ["6", "7", "8", "9", "10", "11"],
-  shoes: ["6", "7", "8", "9", "10", "11"],
+  // 👜 Bags (No Size)
+  handbags: [],
+  clutches: [],
+  wallets: [],
+  backpacks: [],
+  tote_bags: [],
+  sling_bags: [],
 
-  // 🏃 Sports & Active
+  // 💍 Accessories
+  jewellery: ["Free Size"],
+  watches: ["Free Size"],
+  belts: ["28", "30", "32", "34", "36"],
+  scarves: ["Free Size"],
+  sunglasses: ["Free Size"],
+  hair_accessories: ["Free Size"],
+
+  // 💄 Beauty & Cosmetics (No Size)
+  lipsticks: [],
+  foundation: [],
+  compact_powder: [],
+  kajal_eyeliner: [],
+  mascara: [],
+  nail_polish: [],
+  makeup_kits: [],
+
+  // 🧴 Personal Care (No Size)
+  skincare: [],
+  haircare: [],
+  bath_body: [],
+  fragrances: [],
+  sanitary_products: [],
+
+  // 🤰 Special
+  maternity_wear: ["S", "M", "L", "XL", "XXL"],
+  plus_size: ["XL", "XXL", "3XL", "4XL", "5XL"]
+
+},
+mens: {
+
+  // 👕 Top Wear
+  shirts: ["S", "M", "L", "XL", "XXL", "3XL"],
+  tshirts: ["S", "M", "L", "XL", "XXL", "3XL"],
+  polos: ["S", "M", "L", "XL", "XXL"],
+  kurtas: ["S", "M", "L", "XL", "XXL", "3XL"],
+  jackets: ["S", "M", "L", "XL", "XXL"],
+  blazers: ["38", "40", "42", "44", "46"],
+  sweaters: ["S", "M", "L", "XL", "XXL"],
+  hoodies: ["S", "M", "L", "XL", "XXL"],
+  sweatshirts: ["S", "M", "L", "XL", "XXL"],
+
+  // 👖 Bottom Wear
+  jeans: ["28", "30", "32", "34", "36", "38", "40", "42", "44"],
+  trousers: ["28", "30", "32", "34", "36", "38", "40", "42", "44"],
+  chinos: ["28", "30", "32", "34", "36", "38", "40", "42"],
+  trackpants: ["S", "M", "L", "XL", "XXL"],
+  shorts: ["28", "30", "32", "34", "36", "38", "40"],
+  cargos: ["28", "30", "32", "34", "36", "38", "40", "42"],
+  dhotis: ["Free Size"],
+  lungis: ["Free Size"],
+
+  // 👔 Ethnic Wear
+  sherwanis: ["S", "M", "L", "XL", "XXL"],
+  kurta_sets: ["S", "M", "L", "XL", "XXL", "3XL"],
+  nehru_jackets: ["S", "M", "L", "XL", "XXL"],
+  ethnic_jackets: ["S", "M", "L", "XL", "XXL"],
+
+  // 🧥 Seasonal
+  winterwear: ["S", "M", "L", "XL", "XXL"],
+  rainwear: ["S", "M", "L", "XL", "XXL"],
+
+  // 🛌 Innerwear & Nightwear
+  innerwear: ["S", "M", "L", "XL", "XXL"],
+  vests: ["S", "M", "L", "XL", "XXL"],
+  boxers: ["S", "M", "L", "XL", "XXL"],
+  nightwear: ["S", "M", "L", "XL", "XXL"],
+  thermals: ["S", "M", "L", "XL", "XXL"],
+
+  // 👟 Footwear (India Sizes)
   sports_shoes: ["6", "7", "8", "9", "10", "11"],
-  training_shoes: ["6", "7", "8", "9", "10", "11"],
-
-  // 🥿 Women’s Styles (EU sizes, more common in heels/flats)
-  heels: ["35", "36", "37", "38", "39", "40", "41"],
-  flats: ["35", "36", "37", "38", "39", "40", "41"],
-  wedges: ["35", "36", "37", "38", "39", "40", "41"],
-
-  // 🩴 Sandals & Open Wear
-  sandals: ["6", "7", "8", "9", "10"],
-  flipflops: ["6", "7", "8", "9", "10"],
-  sliders: ["6", "7", "8", "9", "10"],
-  crocs: ["6", "7", "8", "9", "10"],
-
-  // 🥾 Boots
+  casual_shoes: ["6", "7", "8", "9", "10", "11"],
+  formal_shoes: ["6", "7", "8", "9", "10", "11"],
+  sandals: ["6", "7", "8", "9", "10", "11"],
+  slippers: ["6", "7", "8", "9", "10", "11"],
+  loafers: ["6", "7", "8", "9", "10", "11"],
   boots: ["6", "7", "8", "9", "10", "11"],
+  ethnic_footwear: ["6", "7", "8", "9", "10", "11"],
 
-  // 👳 Ethnic & Traditional
-  ethnic: ["6", "7", "8", "9", "10", "11"]
+  // 👜 Bags (No Size)
+  backpacks: [],
+  laptop_bags: [],
+  gym_bags: [],
+  wallets: [],
 
-  },
-  jewelry: {
-  // 💍 Rings
-  rings: ["6", "7", "8", "9", "10", "11", "12"],        // US sizes
-  engagement_rings: ["6", "7", "8", "9", "10", "11"],  // standard range
-  couple_rings: ["6", "7", "8", "9", "10", "11"],
+  // ⌚ Accessories
+  watches: ["Free Size"],
+  belts: ["28", "30", "32", "34", "36", "38", "40"],
+  sunglasses: ["Free Size"],
+  caps: ["Free Size"],
+  ties: ["Free Size"],
+  cufflinks: ["Free Size"],
+  bracelets: ["Free Size"],
+  chains: ["Free Size"],
 
-  // 🪬 Bangles & Bracelets
-  bangles: ["2-2", "2-4", "2-6", "2-8", "2-10"],       // Indian bangle sizes (in inches)
-  bracelets: ["Free Size", "Small", "Medium", "Large"],
-  cuffs: ["Free Size"],
+  // 💄 Grooming & Personal Care (No Size)
+  skincare: [],
+  haircare: [],
+  beard_care: [],
+  perfumes: [],
+  deodorants: [],
+  trimmers: [],
 
-  // 📿 Neckwear
-  necklaces: ["14\"", "16\"", "18\"", "20\"", "22\""], // chain lengths in inches
-  chains: ["16\"", "18\"", "20\"", "22\"", "24\""],
-  pendants: ["Free Size"],
-  mangalsutra: ["16\"", "18\"", "20\""],
-  lockets: ["Free Size"],
-  chokers: ["12\"", "14\"", "16\""],
+  // 🏋️ Activewear
+  gym_wear: ["S", "M", "L", "XL", "XXL"],
+  sports_tshirts: ["S", "M", "L", "XL", "XXL"],
+  sports_shorts: ["S", "M", "L", "XL", "XXL"],
+  compression_wear: ["S", "M", "L", "XL"],
 
-  // 👂 Earrings
-  earrings: ["Small", "Medium", "Large"],
-  studs: ["3mm", "5mm", "7mm", "10mm"],               // stone size
-  jhumkas: ["Small", "Medium", "Large"],
-  hoops: ["10mm", "20mm", "30mm", "40mm", "50mm"],    // diameter in mm
-  drops: ["Small", "Medium", "Large"],
+  // 👔 Special
+  plus_size: ["XL", "XXL", "3XL", "4XL", "5XL"]
 
-  // ⌚ Others & Accessories
-  anklets: ["9\"", "10\"", "11\""],                   // length in inches
-  brooches: ["Free Size"],
-  nosepins: ["20G", "22G"],                           // gauge sizes
-  tiaras: ["Free Size"],
-  toe_rings: ["Free Size", "Adjustable"],
+},
+boys: {
 
-  // 👑 Premium
-  diamond_jewelry: ["Custom Size"],
-  gold_jewelry: ["Custom Size"],
-  silver_jewelry: ["Custom Size"],
-  platinum_jewelry: ["Custom Size"],
-  imitation: ["Free Size"]
-  },
-  accessories: {
-  // 🧢 Headwear
-  caps: ["S", "M", "L", "XL", "Free Size"],
-  hats: ["S", "M", "L", "XL", "Free Size"],
-  beanies: ["Free Size"],
-  headbands: ["Free Size", "Adjustable"],
-  scarves: ["Standard", "Long", "XL"],       // measured in inches/cm usually
-  bandanas: ["Standard Size"],
-  stoles: ["Standard", "XL"],
+  // 👕 Top Wear
+  tshirts: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  shirts: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  polos: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  sweatshirts: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  hoodies: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  jackets: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  sweaters: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
 
-  // 👓 Eyewear
-  sunglasses: ["Small", "Medium", "Large"],
-  spectacles: ["Small", "Medium", "Large"],
-  goggles: ["Small", "Medium", "Large"],
+  // 👖 Bottom Wear
+  jeans: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  trousers: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  trackpants: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  shorts: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  cargos: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
 
-  // ⌚ Wristwear
-  watches: ["38mm", "40mm", "42mm", "44mm", "46mm"], // dial size
-  smartwatches: ["38mm", "40mm", "42mm", "44mm"],
-  fitness_bands: ["Standard"],
+  // 👔 Ethnic Wear
+  kurtas: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  kurta_sets: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  nehru_jackets: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
 
-  // 👔 Fashion Accessories
-  belts: ["28", "30", "32", "34", "36", "38", "40", "42"],
-  wallets: ["Standard", "Compact", "Large"],
-  handkerchiefs: ["Standard Size"],
-  ties: ["Regular", "Slim", "Extra Long"],
-  bowties: ["Standard", "Adjustable"],
-  suspenders: ["Standard", "Adjustable"],
-  cufflinks: ["Standard Size"],
-  gloves: ["S", "M", "L", "XL"],
+  // 🧥 Seasonal
+  winterwear: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  rainwear: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
 
-  // 🎒 Bags & Travel Gear
-  backpacks: ["20L", "25L", "30L", "40L+"],  // liters
-  handbags: ["Small", "Medium", "Large"],
-  clutches: ["Small", "Medium"],
-  luggage: ["Cabin (20\")", "Medium (24\")", "Large (28\")"],
-  duffle_bags: ["Small", "Medium", "Large"],
-  messenger_bags: ["13-inch", "15-inch", "17-inch"], // laptop sizes
-  wallet_clutches: ["Standard"],
+  // 🛌 Innerwear & Nightwear
+  innerwear: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  nightwear: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  thermals: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
 
-  // 🛡 Protective
-  masks: ["S", "M", "L", "XL", "Free Size"],
-  umbrellas: ["Small", "Medium", "Large"],
-  raincoats: ["S", "M", "L", "XL", "XXL"],
+  // 👟 Footwear (India Sizes)
+  sports_shoes: ["1", "2", "3", "4", "5", "6"],
+  casual_shoes: ["1", "2", "3", "4", "5", "6"],
+  sandals: ["1", "2", "3", "4", "5", "6"],
+  slippers: ["1", "2", "3", "4", "5", "6"],
+  boots: ["1", "2", "3", "4", "5", "6"],
 
-  // 🎧 Tech Accessories
-  headphones: ["Standard", "Over-Ear", "On-Ear"],
-  earbuds: ["Standard", "With Case"],
-  powerbanks: ["5000mAh", "10000mAh", "20000mAh"],
-  chargers: ["10W", "20W", "30W", "65W+"],
-  mobile_cases: ["4.7\"", "5.5\"", "6.1\"", "6.7\""] // based on phone screen size
-  },
-  kids: {
-  // 👕 Kids Clothing (Age-based)
-  newborn: ["0-3M", "3-6M", "6-9M", "9-12M"],
-  toddlers: ["1Y", "2Y", "3Y"],
-  kids_4_6: ["4Y", "5Y", "6Y"],
-  kids_7_10: ["7Y", "8Y", "9Y", "10Y"],
+  // 🎒 Bags
+  school_bags: [],
+  backpacks: [],
 
-  // 👗 Clothing Types
-  tshirts: ["2Y", "3Y", "4Y", "5Y", "6Y", "7Y", "8Y", "9Y", "10Y"],
-  shirts: ["2Y", "3Y", "4Y", "5Y", "6Y", "7Y", "8Y", "9Y", "10Y"],
-  dresses: ["0-3M", "3-6M", "6-12M", "1Y", "2Y", "3Y", "4Y", "5Y", "6Y"],
-  shorts: ["2Y", "3Y", "4Y", "5Y", "6Y", "7Y", "8Y"],
-  jeans: ["2Y", "3Y", "4Y", "5Y", "6Y", "7Y", "8Y", "9Y", "10Y"],
-  ethnic: ["1Y", "2Y", "3Y", "4Y", "5Y", "6Y", "7Y", "8Y", "9Y", "10Y"],
-  nightwear: ["2Y", "3Y", "4Y", "5Y", "6Y", "7Y", "8Y", "9Y", "10Y"],
-  winterwear: ["2Y", "3Y", "4Y", "5Y", "6Y", "7Y", "8Y", "9Y", "10Y"],
+  // ⌚ Accessories
+  watches: ["Free Size"],
+  caps: ["Free Size"],
+  sunglasses: ["Free Size"],
+  belts: ["22", "24", "26", "28"],
+
+  // 🧴 Personal Care
+  skincare: [],
+  haircare: [],
+
+  // 🏃 Activewear
+  sports_tshirts: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  sports_shorts: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  sports_sets: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"]
+
+},
+girls: {
+
+  // 👕 Top Wear
+  tshirts: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  tops: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  shirts: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  sweatshirts: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  hoodies: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  jackets: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  sweaters: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+
+  // 👗 Dresses
+  dresses: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  frocks: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  jumpsuits: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  co_ords: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+
+  // 👖 Bottom Wear
+  jeans: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  trousers: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  leggings: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  skirts: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  shorts: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  trackpants: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+
+  // 👑 Ethnic Wear
+  kurtis: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  kurta_sets: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  lehenga_sets: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  ethnic_sets: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+
+  // 🧥 Seasonal
+  winterwear: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  rainwear: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+
+  // 🛌 Innerwear & Nightwear
+  innerwear: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  nightwear: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  thermals: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+
+  // 👟 Footwear (India Sizes)
+  sports_shoes: ["1", "2", "3", "4", "5", "6"],
+  casual_shoes: ["1", "2", "3", "4", "5", "6"],
+  sandals: ["1", "2", "3", "4", "5", "6"],
+  slippers: ["1", "2", "3", "4", "5", "6"],
+  boots: ["1", "2", "3", "4", "5", "6"],
+
+  // 🎒 Bags
+  school_bags: [],
+  backpacks: [],
+
+  // 🎀 Accessories
+  watches: ["Free Size"],
+  hair_accessories: ["Free Size"],
+  caps: ["Free Size"],
+  sunglasses: ["Free Size"],
+  belts: ["22", "24", "26", "28"],
+
+  // 🧴 Personal Care
+  skincare: [],
+  haircare: [],
+
+  // 🏃 Activewear
+  sports_tshirts: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  sports_shorts: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"],
+  sports_sets: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"]
+
+},
+toddler: {
+  // 👕 Top Wear
+  tshirts: ["2Y", "3Y", "4Y"],
+  tops: ["2Y", "3Y", "4Y"],
+  shirts: ["2Y", "3Y", "4Y"],
+  sweatshirts: ["2Y", "3Y", "4Y"],
+  hoodies: ["2Y", "3Y", "4Y"],
+  jackets: ["2Y", "3Y", "4Y"],
+  sweaters: ["2Y", "3Y", "4Y"],
+
+  // 👗 Dresses
+  dresses: ["2Y", "3Y", "4Y"],
+  frocks: ["2Y", "3Y", "4Y"],
+
+  // 👶 Sets
+  jumpsuits: ["2Y", "3Y", "4Y"],
+  rompers: ["2Y", "3Y", "4Y"],
+  co_ords: ["2Y", "3Y", "4Y"],
+  sports_sets: ["2Y", "3Y", "4Y"],
+
+  // 👖 Bottom Wear
+  jeans: ["2Y", "3Y", "4Y"],
+  trousers: ["2Y", "3Y", "4Y"],
+  leggings: ["2Y", "3Y", "4Y"],
+  skirts: ["2Y", "3Y", "4Y"],
+  shorts: ["2Y", "3Y", "4Y"],
+  trackpants: ["2Y", "3Y", "4Y"],
+
+  // 👑 Ethnic Wear
+  kurtis: ["2Y", "3Y", "4Y"],
+  kurtas: ["2Y", "3Y", "4Y"],
+  kurta_sets: ["2Y", "3Y", "4Y"],
+  lehenga_sets: ["2Y", "3Y", "4Y"],
+  ethnic_sets: ["2Y", "3Y", "4Y"],
+
+  // 🧥 Seasonal
+  winterwear: ["2Y", "3Y", "4Y"],
+  rainwear: ["2Y", "3Y", "4Y"],
+
+  // 🛌 Innerwear
+  innerwear: ["2Y", "3Y", "4Y"],
+  nightwear: ["2Y", "3Y", "4Y"],
+  thermals: ["2Y", "3Y", "4Y"],
 
   // 👟 Footwear
-  shoes: ["5C", "6C", "7C", "8C", "9C", "10C", "11C", "12C", "13C", "1Y", "2Y", "3Y"], // toddler/US kids sizes
-  shoes_kids: ["5C", "6C", "7C", "8C", "9C", "10C", "11C", "12C", "13C", "1Y", "2Y", "3Y"], // toddler/US kids sizes
-  sandals: ["5C", "6C", "7C", "8C", "9C", "10C"],
-  flipflops: ["5C", "6C", "7C", "8C", "9C", "10C"],
-  boots: ["7C", "8C", "9C", "10C", "11C", "12C", "13C"],
+  shoes: ["6", "7", "8", "9", "10"],
+  sports_shoes: ["6", "7", "8", "9", "10"],
+  casual_shoes: ["6", "7", "8", "9", "10"],
+  sandals: ["6", "7", "8", "9", "10"],
+  slippers: ["6", "7", "8", "9", "10"],
+  boots: ["6", "7", "8", "9", "10"],
 
-  // 🎒 School & Essentials
-  school_bags: ["10L", "15L", "20L"],
-  lunch_boxes: ["Small", "Medium", "Large"],
-  stationery: ["Standard"],
+  // 🎒 Bags
+  backpacks: [],
 
-  // 🎲 Toys & Games (mostly no sizes, so just "Standard")
-  soft_toys: ["Small", "Medium", "Large"],
-  educational_toys: ["Standard"],
-  board_games: ["Standard"],
-  remote_toys: ["Standard"],
-  outdoor_toys: ["Standard"],
+  // 🎀 Accessories
+  hair_accessories: ["Free Size"],
+  caps: ["Free Size"],
+  sunglasses: ["Free Size"],
 
-  // 👒 Accessories
-  caps: ["S", "M", "L", "Free Size"],
-  socks: ["0-6M", "6-12M", "1-2Y", "2-4Y", "4-6Y", "6-8Y", "8-10Y"],
-  belts: ["20", "22", "24", "26", "28"],
-  watches: ["Standard"],
-  hair_accessories: ["Standard"]
+  // 🧴 Personal Care
+  skincare: [],
+  haircare: []
+},
+baby: {
 
-  },
+  // 👶 One-Piece & Bodysuits
+  bodysuits: ["0-3M", "3-6M", "6-9M", "9-12M", "12-18M", "18-24M"],
+  rompers: ["0-3M", "3-6M", "6-9M", "9-12M", "12-18M", "18-24M"],
+  jumpsuits: ["0-3M", "3-6M", "6-9M", "9-12M", "12-18M", "18-24M"],
+  onesies: ["0-3M", "3-6M", "6-9M", "9-12M", "12-18M", "18-24M"],
+
+  // 👕 Top Wear
+  tshirts: ["3-6M", "6-9M", "9-12M", "12-18M", "18-24M"],
+  shirts: ["3-6M", "6-9M", "9-12M", "12-18M", "18-24M"],
+  sweaters: ["0-3M", "3-6M", "6-9M", "9-12M", "12-18M"],
+  hoodies: ["3-6M", "6-9M", "9-12M", "12-18M"],
+  jackets: ["3-6M", "6-9M", "9-12M", "12-18M"],
+
+  // 👖 Bottom Wear
+  pants: ["0-3M", "3-6M", "6-9M", "9-12M", "12-18M", "18-24M"],
+  leggings: ["0-3M", "3-6M", "6-9M", "9-12M", "12-18M", "18-24M"],
+  shorts: ["3-6M", "6-9M", "9-12M", "12-18M", "18-24M"],
+  trackpants: ["3-6M", "6-9M", "9-12M", "12-18M", "18-24M"],
+
+  // 🛌 Sleepwear
+  sleepwear: ["0-3M", "3-6M", "6-9M", "9-12M", "12-18M", "18-24M"],
+  nightwear: ["0-3M", "3-6M", "6-9M", "9-12M", "12-18M", "18-24M"],
+
+  // 🧥 Seasonal
+  winterwear: ["0-3M", "3-6M", "6-9M", "9-12M", "12-18M"],
+  thermals: ["3-6M", "6-9M", "9-12M", "12-18M"],
+
+  // 👟 Footwear
+  booties: ["0-6M", "6-12M", "12-18M", "18-24M"],
+  baby_shoes: ["0-6M", "6-12M", "12-18M", "18-24M"],
+  sandals: ["6-12M", "12-18M", "18-24M"],
+
+  // 🧸 Accessories
+  caps: ["Free Size"],
+  mittens: ["Free Size"],
+  socks: ["Free Size"],
+  bibs: ["Free Size"],
+
+  // 🧴 Baby Care
+  skincare: [],
+  haircare: [],
+  baby_products: []
+
+},
+
+
   technology: {
   // 📱 Mobiles & Tablets
   smartphones: ["64GB", "128GB", "256GB", "512GB"],
@@ -293,6 +502,57 @@ electricals: {
   drill_machines: ["500W", "750W", "1000W"],
   screwdrivers: ["Manual", "Electric"],
   testers: ["Basic", "Digital Multimeter"]
+},
+electronics: {
+
+  // 📱 Mobile Devices
+  smartphones: ["64GB", "128GB", "256GB", "512GB"],
+  feature_phones: ["Basic", "Dual SIM", "4G"],
+  tablets: ["32GB", "64GB", "128GB", "256GB"],
+
+  // 🎧 Audio Devices
+  earbuds: ["Bluetooth", "TWS", "Noise Cancelling"],
+  headphones: ["Wired", "Bluetooth", "Over-Ear", "Gaming"],
+  bluetooth_speakers: ["10W", "20W", "40W", "Portable"],
+  soundbars: ["2.1 Channel", "3.1 Channel", "5.1 Channel"],
+
+  // 🔌 Charging & Power
+  mobile_chargers: ["18W", "25W", "33W", "65W"],
+  power_banks: ["10000mAh", "20000mAh", "30000mAh"],
+  charging_cables: ["Type-C", "Micro USB", "Lightning"],
+  wireless_chargers: ["10W", "15W"],
+
+  // 💻 Computers & Accessories
+  laptops: ["8GB RAM", "16GB RAM", "32GB RAM"],
+  keyboards: ["Wired", "Wireless", "Mechanical"],
+  mice: ["Wired", "Wireless", "Gaming"],
+  webcams: ["720p", "1080p", "4K"],
+  laptop_bags: ["13 inch", "15 inch", "17 inch"],
+
+  // 📺 Entertainment
+  televisions: ["32 inch", "43 inch", "50 inch", "55 inch", "65 inch"],
+  tv_accessories: ["Wall Mount", "Remote", "HDMI Cable"],
+  projectors: ["720p", "1080p", "4K"],
+
+  // 📷 Cameras
+  digital_cameras: ["16MP", "24MP", "48MP"],
+  action_cameras: ["1080p", "4K"],
+  camera_accessories: ["Tripod", "Lens", "Memory Card"],
+
+  // 🎮 Gaming
+  gaming_consoles: ["Standard", "Digital Edition"],
+  gaming_controllers: ["Wired", "Wireless"],
+  gaming_headsets: ["Stereo", "Surround Sound"],
+
+  // ⌚ Wearables
+  smartwatches: ["Bluetooth", "GPS", "LTE"],
+  fitness_bands: ["Basic", "Heart Rate", "SpO2"],
+
+  // 💾 Storage Devices
+  memory_cards: ["16GB", "32GB", "64GB", "128GB"],
+  pendrives: ["16GB", "32GB", "64GB", "128GB"],
+  external_hard_drives: ["500GB", "1TB", "2TB", "4TB"]
+
 }
 
 };

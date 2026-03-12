@@ -171,25 +171,25 @@ font-size: 18px !important;
 .btn{
   border: none;
   padding: 11px 14px;
-  border-radius: 12px;
+  border-radius: 15px;
   font-weight: 800;
   cursor: pointer;
-  width: 100%;
 }
 
 .btn.primary{
   background: #0b57d0;
   color: #fff;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 9px;
+  font-weight: 500;
 }
 
 .btn.outline{
   background: #fff;
   border: 1px solid #dbe3ff;
   color: #0b57d0;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 500;
+  width: 50%;
 
 }
 
@@ -378,11 +378,10 @@ font-weight: 600;
 
 }
 .return-order-text{
-font-size: 12px;
+font-size: 10px;
     font-weight: 500;
     color: #e31729;
     font-style: italic;
-    margin:  0px 10px 10px 10px;
 }
 
 
@@ -425,5 +424,19 @@ font-size: 12px;
         margin-top: 0px;
         border-radius: 10px;
       }
+
+}
+.small-btn {
+  height: 22px;
+  line-height: 22px;
+  font-size: 9px;
+  padding: 0 9px;
+  border-radius: 15px;
+}
+.danger-return{
+  font-size: 10px;
+    font-weight: 500;
+    color: #e31729;
+    font-style: italic;
 
 }

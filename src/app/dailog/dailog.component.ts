@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { PincodeService } from '../pincode.service';
 
 @Component({
   selector: 'app-dailog',
@@ -17,7 +18,7 @@ export class DailogComponent implements OnInit {
   public pinNotAvail: any;
   submitted: boolean = false;
   public formdata: any;
-  constructor(private fb: FormBuilder,public router:Router,public dialogRef: MatDialogRef<any>,private toastr: ToastrService,
+  constructor(private fb: FormBuilder,public router:Router,public pincodeService:PincodeService, public dialogRef: MatDialogRef<any>,private toastr: ToastrService,
 
 ) { }
 
@@ -29,31 +30,21 @@ export class DailogComponent implements OnInit {
   }
   get f() { return this.formdata.controls; }
 
-  PincodeApply(pin: any) {
-    this.submitted = true;
-    if (this.formdata.valid) {
-       if (pin.value == 481001             //Balaghat
-        || pin.value == 481331             //warasioni
-        || pin.value == 481441             //Lalburra
-        || pin.value == 481111             //Baihar
-        || pin.value == 481051             //Birsa
-        || pin.value == 481222             //Lanji
-        || pin.value == 481337             //Khairlanji
-        || pin.value == 481556             //Parashwada
-        || pin.value == 481445             //Katangi
-        || pin.value == 481115) {           //Kirnapur
-        this.dialogRef.close();
-        this.toastr.success("Awesome! You're in a service zone! We're happy to deliver.");
-
-      }
-      else {
-         // 1️⃣ Close Dialog
-      this.dialogRef.close();
-
-      // 2️⃣ Navigate to Coming Soon
-      this.router.navigateByUrl('/coming-soon');      
-    }
-      }
-    }
+PincodeApply() {
+  this.submitted = true;
+  if (!this.formdata.valid) {
+    return;
   }
+  const pin = this.formdata.get('userPincode')?.value;
+  const userPin = Number(pin);
+  if (!this.pincodeService.isServiceable(userPin)) {
+    this.dialogRef.close();
+    this.router.navigate(["coming-soon"]);
+  } else {
+    this.toastr.success(
+      "Awesome! You're in a service zone! We're happy to deliver."
+    );
+    this.dialogRef.close();
+  }
+}  }
 
