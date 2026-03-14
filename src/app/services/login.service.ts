@@ -39,6 +39,7 @@ export class LoginService {
   logout() {  
     localStorage.removeItem('displaySearchData');
     localStorage.removeItem('selected-item');
+    localStorage.removeItem('token');
     const guestUser: User = {
       userId: 'guest_user',
       user_first_name: 'Guest',

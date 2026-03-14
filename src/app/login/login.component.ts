@@ -5,6 +5,7 @@ import { ApiService } from '../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AddcartService } from '../services/addcart.service';
+import { AuthService } from '../auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
     private apiService: ApiService,
     private toastr: ToastrService,
     public addcartService: AddcartService,
+    public authService:AuthService,
     private ngZone: NgZone) { }
   pass: any
   mobile: any
@@ -33,40 +35,93 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['signup'])
   }
 
-  userLogin(loginData: any): void {
-    if (!this.loginForm.valid) return;
+  // userLogin(loginData: any): void {
+  //   if (!this.loginForm.valid) return;
 
-    const payload = {
-      login: loginData.mobile,   // email OR phone
-      password: loginData.password
-    };
+  //   const payload = {
+  //     login: loginData.mobile, 
+  //     password: loginData.password
+  //   };
 
-    this.apiService.getUserDetailsData(payload).subscribe({
-      next: (res: any) => {
-        const user = res.user;
-        user.userId = `user_${user.id}`;
-        user.isGuest = false;
+  //   this.apiService.getUserDetailsData(payload).subscribe({
+  //     next: (res: any) => {
+  //       const user = res.user;
+  //       user.userId = `user_${user.id}`;
+  //       user.isGuest = false;
 
-        const guestId = this.loginService.getUser()?.userId;
-        this.loginService.setUser(user);
+  //       const guestId = this.loginService.getUser()?.userId;
+  //       this.loginService.setUser(user);
 
-        if (guestId?.startsWith('guest_')) {
-          this.addcartService.transferCart(guestId, user.userId);
-        }
+  //       if (guestId?.startsWith('guest_')) {
+  //         this.addcartService.transferCart(guestId, user.userId);
+  //       }
 
-        this.loginForm.reset();
-        this.router.navigate(['/']);
-        this.toastr.success(
-          'You are login successfully!',
-          `Welcome, ${user.user_first_name}`
-        );
-      },
-      error: err => {
-        console.error(err);
-        this.toastr.error('User not found. Please register first or might be wrong credential.', 'Login Failed');
+  //       this.loginForm.reset();
+  //       this.router.navigate(['/']);
+  //       this.toastr.success(
+  //         'You are login successfully!',
+  //         `Welcome, ${user.user_first_name}`
+  //       );
+  //     },
+  //     error: err => {
+  //       console.error(err);
+  //       this.toastr.error('User not found. Please register first or might be wrong credential.', 'Login Failed');
+  //     }
+  //   });
+  // }
+
+userLogin(loginData: any): void {
+
+  if (!this.loginForm.valid) return;
+
+  const payload = {
+    login: loginData.mobile,   // email OR phone
+    password: loginData.password
+  };
+
+  this.apiService.getUserDetailsData(payload).subscribe({
+
+    next: (res: any) => {
+
+      /* SAVE TOKEN */
+      this.authService.saveToken(res.token);
+
+      const user = res.user;
+      user.userId = `user_${user.id}`;
+      user.isGuest = false;
+
+      const guestId = this.loginService.getUser()?.userId;
+
+      this.loginService.setUser(user);
+
+      /* TRANSFER GUEST CART */
+      if (guestId?.startsWith('guest_')) {
+        this.addcartService.transferCart(guestId, user.userId);
       }
-    });
-  }
 
+      this.loginForm.reset();
 
+      this.router.navigate(['/']);
+
+      this.toastr.success(
+        'You are login successfully!',
+        `Welcome, ${user.user_first_name}`
+      );
+
+    },
+
+    error: err => {
+
+      console.error(err);
+
+      this.toastr.error(
+        'User not found. Please register first or might be wrong credential.',
+        'Login Failed'
+      );
+
+    }
+
+  });
+
+}
 }

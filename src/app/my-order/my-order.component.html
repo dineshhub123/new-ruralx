@@ -39,6 +39,14 @@
   </div>
 </div>
 </div>
-<div *ngIf="noDataFound?.status==='empty' || groupedOrders?.length === 0 " class="nodata-found">
+<div *ngIf="!errMessage && (noDataFound?.status === 'empty' || groupedOrders?.length === 0)" class="nodata-found">
   No Orders Available
 </div>
+  <div class="col-12 text-center pt-1" *ngIf="errMessage">
+    <div class="address-form p-3">
+      <p class="mb-3">Please login to view your orders</p>
+      <button mat-raised-button color="primary" (click)="goToLogin()">
+        Login Now
+      </button>
+    </div>
+  </div>

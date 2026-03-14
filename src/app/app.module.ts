@@ -61,6 +61,9 @@ import { TermsAndConditionComponent } from './terms-and-condition/terms-and-cond
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { ReturnDailogComponent } from './return-dailog/return-dailog.component';
 import { CodConfirmDialogComponent } from './cod-confirm-dialog/cod-confirm-dialog.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './interceptors/token.interceptor';
+
 export function HttpLoaderFactory(http:HttpClient){
   return new TranslateHttpLoader(http, './assets/i18n/', '.json')
 }
@@ -150,7 +153,14 @@ SwiperCore.use([Zoom, Thumbs, Pagination]);
     LoginModule,
     SignupModule
   ],
-  providers: [AuthGuard],
+providers: [AuthGuard,
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }
+],
+
   bootstrap: [AppComponent]
 })
 export class AppModule {}

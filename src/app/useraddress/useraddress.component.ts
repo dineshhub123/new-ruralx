@@ -357,7 +357,6 @@ export class UseraddressComponent implements OnInit {
         return;
       }
       const orderPayload = {
-        user_id: user.userId,
         order_amount: this.calculateOrderAmount(),
         payment_method: 'COD',
         payment_status: 'PENDING',
@@ -412,7 +411,6 @@ export class UseraddressComponent implements OnInit {
         return;
       }
       const orderPayload = {
-        user_id: user.userId,
         order_amount: this.calculateOrderAmount(),
         payment_method: 'ONLINE',
         order_source: 'APP',

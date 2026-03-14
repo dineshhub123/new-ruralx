@@ -101,7 +101,6 @@ export class AppComponent {
       map(value => this._filter(value || '')),
     );
     this.setExpandedPanel(this.router.url);
-    this.userlist()
     this.loginService.user$.subscribe(user => {
       if (!user || user.user_first_name === 'Guest') {
         this.username = 'Sign In';
@@ -214,24 +213,6 @@ export class AppComponent {
   upload() {
     this.router.navigate(["upload"]);
   }
-  userlist() {
-    this.apiService.getUserBuyerDetails().subscribe((Response: any) => {
-      this.sellItemData = Response
-      let userlistData = this.sellItemData.map((item: any) =>
-        item.user_first_name)
-      let removeDuplicates = new Set(userlistData)
-      this.buyerUsername = [...removeDuplicates];
-      this.getNotifyUserArray = [];
-      for (let i = 0; i < this.buyerUsername.length; i++) {
-        let getNotifyUser = this.sellItemData.find((item: any) => item.user_first_name === this.buyerUsername[i])
-        if (getNotifyUser) {
-          this.getNotifyUserArray.push(getNotifyUser);
-        }
-
-      }
-    });
-  }
-
   back(): void {
     this.location.back()
   }

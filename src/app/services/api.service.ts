@@ -18,8 +18,6 @@ export class ApiService {
   apiUploadDataURL:string = environment.uploadDataApiUrl;
   apiInsertUserInfoURL:string = environment.insertUserDetailsApiUrl;
   apiProductNotifyURL:string = environment.getProductNotifyApiUrl;
-  apiProductbuyerURL:string = environment.productBuyerApiUrl;
-  apiBuyerDataURL:string = environment.getBuyerDataApiUrl;
   apiShippingAddressURL:string = environment.insertshippingAddressApiUrl;
   apiGetShippingAddressURL:string = environment.getShippingAddressApiUrl;
   apiUpdateShippingAddressURL:string = environment.updateShippingAddressApiUrl
@@ -76,12 +74,6 @@ export class ApiService {
   }
   ProductNotificationDetails(object:any): Observable<any> {
     return this.http.post(this.apiProductNotifyURL,object).pipe(map((res: any) => res));
-  }
-  ProductBuyerDetails(object:any): Observable<any> {
-    return this.http.post(this.apiProductbuyerURL,object).pipe(map((res: any) => res));
-  }
-  getUserBuyerDetails():Observable<any> {
-    return this.http.get(this.apiBuyerDataURL).pipe(map((res:any)=>res))
   }
   
   insertShippingAddress(object:any): Observable<any> {
