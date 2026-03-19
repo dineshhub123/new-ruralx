@@ -8,19 +8,21 @@ export class AuthService {
 
   constructor() {}
 
-  saveToken(token:any){
-    localStorage.setItem('token', token);
-  }
+setTokens(access: string, refresh: string) {
+  localStorage.setItem('accessToken', access);
+  localStorage.setItem('refreshToken', refresh);
+}
 
-  getToken(){
-    return localStorage.getItem('token');
-  }
+getAccessToken() {
+  return localStorage.getItem('accessToken');
+}
 
-  logout(){
-    localStorage.removeItem('token');
-  }
+getRefreshToken() {
+  return localStorage.getItem('refreshToken');
+}
 
-  isLoggedIn(){
-    return !!localStorage.getItem('token');
-  }
+logout() {
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+}
 }

@@ -84,7 +84,8 @@ userLogin(loginData: any): void {
     next: (res: any) => {
 
       /* SAVE TOKEN */
-      this.authService.saveToken(res.token);
+      //this.authService.saveToken(res.token);
+      this.authService.setTokens(res.access_token, res.refresh_token);
 
       const user = res.user;
       user.userId = `user_${user.id}`;
