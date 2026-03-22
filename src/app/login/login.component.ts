@@ -97,7 +97,7 @@ userLogin(loginData: any): void {
 
       /* TRANSFER GUEST CART */
       if (guestId?.startsWith('guest_')) {
-        this.addcartService.transferCart(guestId, user.userId);
+       // this.addcartService.transferCart(guestId, user.userId);
       }
 
       this.loginForm.reset();

@@ -1,11 +1,11 @@
 import { Component, OnInit, ElementRef, Renderer2, ViewChild, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AddcartService } from '../services/addcart.service';
 import { environment } from 'src/environments/environment.prod';
 import { SizeService } from '../services/size.service';
 import { AddcartDailogComponent } from '../addcart-dailog/addcart-dailog.component';
 import { MatDialog } from '@angular/material/dialog';
-
+import { ApiService } from '../services/api.service';
 @Component({
   selector: 'app-display-search-item',
   templateUrl: './display-search-item.component.html',
@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class DisplaySearchItemComponent implements OnInit {
   @HostListener('window:scroll', [])
   imageBaseUrl = environment.imageBaseUrl;
+  public isLoading: boolean = false;
   public searchItem: any;
   public items: any;
   public addCartData: any;
@@ -22,12 +23,116 @@ export class DisplaySearchItemComponent implements OnInit {
   lastScrollTop = 0;
   MAX_QTY = 4;
   flyCartIncreament: any
-  constructor(public router: Router, public addCartService: AddcartService, private sizeService: SizeService, public dialog: MatDialog,
+  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public addCartService: AddcartService, private sizeService: SizeService, public dialog: MatDialog,
   ) {
 
   }
   ngOnInit() {
-    this.itemInitilize();
+
+    this.activatedRoute.queryParams.subscribe(params => {
+      const category = params['category'];
+      if (category) {
+        this.itemInitilize(category);
+      }
+    });
+
+    this.addCartService.cart$.subscribe((cart: any[]) => {
+      if (this.searchItem?.length) {
+        this.updateSearchWithCart(cart);
+      }
+    });
+
+  }
+itemInitilize(category: string) {
+
+  this.isLoading = true;
+
+  const payload = {
+    searchData: category
+  };
+
+  this.apiService.searchData(payload).subscribe((res: any) => {
+
+    this.isLoading = false;
+
+    const user = JSON.parse(localStorage.getItem('login_user') || '{}');
+
+    this.searchItem = (res || []).map((item: any) => {
+
+      const firstVariant = item.variants?.[0];
+
+      // ✅ set default selections
+      item.selectedColor = firstVariant?.colorCode || '';
+      item.selectedSize = item.size || '';
+
+      // ✅ convert to cart format
+      const cartData = this.convertToCartDBFormat(item, user.userId);
+
+      // ✅ merge (IMPORTANT FIX)
+      return {
+        ...item,        // keep original product (variants etc.)
+        ...cartData     // add cart fields (id, quantity, color, image)
+      };
+
+    });
+
+    // ✅ set sizes (only once)
+    if (this.searchItem.length > 0) {
+      this.sizes = this.sizeService.getSizes(
+        this.searchItem[0].category,
+        this.searchItem[0].sub_category
+      );
+    }
+
+    console.log("Final searchItem:", this.searchItem);
+
+    // ✅ sync with cart
+    this.updateSearchWithCart(this.addCartService.getCart());
+
+  });
+
+}
+
+
+  convertToCartDBFormat(item: any, userId: string) {
+    const selectedVariant = item.variants?.find(
+      (v: any) => v.colorCode === item.selectedColor
+    ) || item.variants?.[0];
+
+    return {
+      id: item.id || null, // if already exists in cart
+      user_id: userId, // pass from login
+      product_id: item.product_id,
+      product_name: item.product_name,
+      category: item.category,
+      sub_category: item.sub_category,
+      // ✅ convert to string (DB format)
+      price: Number(item.product_price).toFixed(2),
+      mrp: Number(item.product_mrp_price).toFixed(2),
+      discount: Number(item.product_discount).toFixed(2),
+      quantity: item.quantity > 0 ? item.quantity : 0,
+      size: item.selectedSize || item.size || '',
+      color: selectedVariant?.color || item.color || '',
+      image: selectedVariant?.images?.[0] || '',
+      hsn_code: item.hsn_code,
+      gst_rate: item.gst_rate,
+      created_at: item.created_at || null,
+      updated_at: item.updated_at || null
+    };
+
+  }
+  updateSearchWithCart(cart: any[]) {
+    this.searchItem = this.searchItem?.map((item: any) => {
+      const found = cart.find((c: any) =>
+        c.product_id === item.product_id
+      );
+      return {
+        ...item,
+        id: found?.id || null,      // 🔥 THIS IS THE FIX
+        quantity: found ? found.quantity : 0
+      };
+    });
+
   }
 
   onWindowScroll() {
@@ -114,21 +219,19 @@ export class DisplaySearchItemComponent implements OnInit {
     return item?.quantity || 0;
   }
 
-  itemInitilize() {
-    let data: any;
-    data = localStorage.getItem('displaySearchData')
-    this.searchItem = JSON.parse(data);
-    this.sizes = this.sizeService.getSizes(this.searchItem[0].category, this.searchItem[0].sub_category);
-  }
+
   ngAfterViewInit() {
 
   }
   imgClick(item: any) {
-    localStorage.setItem('selected-item', JSON.stringify(item))
-    this.router.navigate(['pzoom'])
+    this.router.navigate(['/pzoom'], {
+      queryParams: {
+        product_id: item.product_id
+      }
+    });
+
   }
-  addCartQuntity(event:any ,addItam: any) {
-    console.log("addItam",addItam)
+  addCartQuntity(event: any, addItam: any) {
     let user: any;
     user = localStorage.getItem("login_user");
     let findUser = JSON.parse(user)
@@ -137,74 +240,119 @@ export class DisplaySearchItemComponent implements OnInit {
         data: {
           cartData: addItam,
           user: findUser,
-          sizes:this.sizes
+          sizes: this.sizes
         }
       });
       dialogRef.afterClosed().subscribe(result => {
       });
     }
     else {
-      addItam.quantity = 1;
-      addItam.userId = findUser?.userId;
-      addItam.isGuest = findUser?.isGuest;
-      addItam.image_url = addItam?.variants[0].images;
-      addItam.size = addItam?.variants[0].size
-      addItam.color = addItam?.variants[0].color
-      this.addCartService.addToCart(addItam)
+      const addCartPayload = {
+        product_id: addItam.product_id,
+        product_name: addItam.product_name,
+        price: addItam.price,
+        mrp: addItam.mrp,
+        discount: addItam.product_discount,
+        quantity: 1,
+        size: addItam?.size,
+        color: addItam.color,
+        image: addItam?.image
+      };
+      this.addCartService.addToCart(addCartPayload).subscribe((res: any) => {
+        this.addCartService.loadCartFromAPI();
+      });
       this.flyToCartFromEvent(event);
     }
 
   }
 
 
-  decrement(decItem: any) {
-    if (decItem.quantity > 0) {
-      decItem.quantity--;
-    }
-    let deleteItem: any = {};
-    deleteItem = localStorage.getItem('cart_items')
-    let diTtem = JSON.parse(deleteItem)
-    let index = diTtem.findIndex((x: any) => x?.id === decItem?.id && x?.userId === decItem?.userId && x.color === decItem.color)
-    if (index !== -1) {
-      if (decItem.quantity === 0) {
-        diTtem.splice(index, 1);
-      } else {
-        diTtem[index].quantity = decItem.quantity;
-      }
-    }
-    localStorage.setItem('cart_items', JSON.stringify(diTtem))
-    this.addCartService.removeCart();
-    this.searchItem = JSON.parse(diTtem)
+  // decrement(decItem: any) {
+  //   if (decItem.quantity > 0) {
+  //     decItem.quantity--;
+  //   }
+  //   let deleteItem: any = {};
+  //   deleteItem = localStorage.getItem('cart_items')
+  //   let diTtem = JSON.parse(deleteItem)
+  //   let index = diTtem.findIndex((x: any) => x?.id === decItem?.id && x?.userId === decItem?.userId && x.color === decItem.color)
+  //   if (index !== -1) {
+  //     if (decItem.quantity === 0) {
+  //       diTtem.splice(index, 1);
+  //     } else {
+  //       diTtem[index].quantity = decItem.quantity;
+  //     }
+  //   }
+  //   localStorage.setItem('cart_items', JSON.stringify(diTtem))
+  //   this.searchItem = JSON.parse(diTtem)
 
-    setTimeout(() => {
-      this.reloadCurrentRoute();
-    }, 5)
+  //   setTimeout(() => {
+  //     this.reloadCurrentRoute();
+  //   }, 5)
+
+  // }
+
+  mapToCartFormat(item: any) {
+    const selectedVariant = item.variants?.find(
+      (v: any) => v.color === item.color || v.colorCode === item.selectedColor
+    ) || item.variants?.[0];
+
+    return {
+      id: item.id,
+      product_id: item.product_id,
+      product_name: item.product_name,
+      price: item.product_price,
+      mrp: item.product_mrp_price,
+      discount: item.product_discount,
+      quantity: item.quantity || 1,
+      // 🔥 VERY IMPORTANT
+      size: item.size || item.selectedSize || '',
+      color: item.color || selectedVariant?.color || '',
+      image: item.image || selectedVariant?.images?.[0] || '',
+      hsn_code: item.hsn_code,
+      gst_rate: item.gst_rate
+    };
+  }
+
+  increment(item: any) {
+    if (item.quantity >= this.MAX_QTY) return;
+    const cartItem = this.mapToCartFormat(item);
+    const newQty = item.quantity + 1;
+    this.addCartService.updateQuantity(cartItem, newQty).subscribe(() => {
+      this.addCartService.loadCartFromAPI();
+    });
+  }
+
+
+  decrement(item: any) {
+    const newQty = item.quantity - 1;
+    this.addCartService.updateQuantity(item, newQty).subscribe(() => {
+      this.addCartService.loadCartFromAPI();
+    });
 
   }
-  increment(incrItem: any) {
-    if (incrItem.quantity < this.MAX_QTY) {
-      this.flyCartIncreament = incrItem.quantity++;
-    }
-    let addItem: any = {};
-    addItem = localStorage.getItem('cart_items')
-    let incItem = JSON.parse(addItem)
-    let findObj = incItem.find((x: any) => x?.id === incrItem?.id && x?.userId === incrItem?.userId && x.color === incrItem.color)
-    if (findObj) {
-      findObj.quantity = incrItem.quantity;
-    } else {
-      incItem.push({
-        ...incrItem,
-        quantity: incrItem.quantity
-      });
-    }
-    localStorage.setItem('cart_items', JSON.stringify(incItem))
-    this.addCartService.removeCart();
-    this.searchItem = JSON.parse(incItem)
-    setTimeout(() => {
-      this.reloadCurrentRoute();
-    }, 5)
+  // increment(incrItem: any) {
+  //   if (incrItem.quantity < this.MAX_QTY) {
+  //     this.flyCartIncreament = incrItem.quantity++;
+  //   }
+  //   let addItem: any = {};
+  //   addItem = localStorage.getItem('cart_items')
+  //   let incItem = JSON.parse(addItem)
+  //   let findObj = incItem.find((x: any) => x?.id === incrItem?.id && x?.userId === incrItem?.userId && x.color === incrItem.color)
+  //   if (findObj) {
+  //     findObj.quantity = incrItem.quantity;
+  //   } else {
+  //     incItem.push({
+  //       ...incrItem,
+  //       quantity: incrItem.quantity
+  //     });
+  //   }
+  //   localStorage.setItem('cart_items', JSON.stringify(incItem))
+  //   this.searchItem = JSON.parse(incItem)
+  //   setTimeout(() => {
+  //     this.reloadCurrentRoute();
+  //   }, 5)
 
-  }
+  // }
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {

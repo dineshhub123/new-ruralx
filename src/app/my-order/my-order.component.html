@@ -7,7 +7,7 @@
     <!-- 🔥 Items list inside same order card -->
     <div class="order-items">
       <div class="order-item-row" *ngFor="let item of order.items">
-        <img [src]="imageBaseUrl + item?.image[0]" class="product-img">
+        <img [src]="imageBaseUrl + item?.image" class="product-img">
         <div class="order-details" [ngClass]="{'delivered-card': ['delivered','cancelled'].includes((order?.status || '').toLowerCase())}">
           <div class="product-title">{{item?.product | titlecase}}</div>
           <!-- Status badge only once (optional) -->

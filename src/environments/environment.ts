@@ -24,6 +24,12 @@ export const environment = {
   submitReviewHelpfulApiUrl: 'https://ruralx.in/api/review-helpful.php',
   getReviewSummaryApiUrl: 'https://ruralx.in/api/get-review-summary.php',
   getReturnOrderApiUrl: 'https://ruralx.in/api/create-return.php',
+  addToCartApiUrl: 'https://ruralx.in/api/addToCart.php',
+  getCartApiUrl: 'https://ruralx.in/api/getCart.php',
+  updateCartQtyApiUrl: 'https://ruralx.in/api/updateCartQuantity.php',
+  getProductByIdApiUrl: 'https://ruralx.in/api/getProductById.php',
+
+
 
   // getUserDetailsApiURL: 'http://localhost/getUserLoginDetails.php',
    //searchApiUrl: 'http://localhost/search_product.php',

@@ -7,7 +7,7 @@ import { SIZE_MASTER } from '../constants/size-master'
 export class SizeService {
 
   getSizes(category: string, subCategory?: string): string[] {
-    category = category.toLowerCase();
+    category = category?.toLowerCase();
 
     if (SIZE_MASTER[category]) {
       if (subCategory && SIZE_MASTER[category][subCategory]) {

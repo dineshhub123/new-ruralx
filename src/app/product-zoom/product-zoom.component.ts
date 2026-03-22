@@ -103,15 +103,10 @@ export class ProductZoomComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private sizeService: SizeService,
     private scrollService: ScrollService,
-    private loginService:LoginService,
-    private toast:ToastrService
+    private loginService: LoginService,
+    private toast: ToastrService
   ) {
 
-    let itemZoom: any;
-    itemZoom = localStorage.getItem('selected-item')
-    this.cartItems = JSON.parse(itemZoom)
-    this.getProductReview(this.cartItems?.product_id)
-    this.colorCodes = [...new Set(this.cartItems?.variants.map((v: any) => v.colorCode))];
   }
 
   swiperVal: any
@@ -126,6 +121,24 @@ export class ProductZoomComponent implements OnInit {
 
     }
   }
+
+  loadProduct(productId: string) {
+    let payload = {
+      product_id: productId
+    }
+    this.apiService.getProductById(payload).subscribe((res: any) => {
+      this.cartItems = res?.data;
+      this.getProductReview(this.cartItems?.product_id)
+      this.colorCodes = [...new Set(this.cartItems?.variants?.map((v: any) => v.colorCode))];
+      this.sizes = this.sizeService.getSizes(this.cartItems.category, this.cartItems.sub_category);
+      this.selectedColor = this.colorCodes[0];
+      this.selectedSize = this.sizes[1]
+      this.updateImage();
+
+
+    });
+  }
+
   ngAfterViewInit() {
     this.cd.detectChanges(); // tell Angular to re-check after ViewChild is set
   }
@@ -150,64 +163,69 @@ export class ProductZoomComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-     
+
     });
   }
-  getCart: any = []
+
   ngOnInit() {
-    this.sizes = this.sizeService.getSizes(this.cartItems.category, this.cartItems.sub_category);
-    this.selectedColor = this.colorCodes[0];
-    this.selectedSize = this.sizes[1]
-    this.updateImage();
+    this.route.queryParams.subscribe(params => {
+      const productId = params['product_id'];
+      if (productId) {
+        this.loadProduct(productId);
+      }
+    });
+
   }
 
   addCartItem: any = []
   addCart(cartData: any) {
-    let user: any
-    user = localStorage.getItem("login_user")
-    let userId = JSON.parse(user);
-    cartData.userId = userId?.userId
-    cartData.quantity = this.counter
-    cartData.isGuest = userId?.isGuest
-    cartData.image_url = this.selectedImage[0].images
-    cartData.size = this.selectedSize
-    cartData.color = this.selectedImage[0].color
-    //cartData.variants = []
-    this.addCartService.addToCart(cartData)
-  }
-  buyNow(buyNowData:any) {
-    this.loginService.user$.subscribe(user => {
-      if (!user || user.user_first_name === 'Guest') {
-    this.router.navigate(['/login']);
-    return;
-  }
-    })
-  if (!this.selectedColor) {
-    this.toast.error('Please select color');
-    return;
+    const addCartPayload = {
+      product_id: cartData.product_id,
+      product_name: cartData.product_name,
+      price: cartData.product_price,
+      mrp: cartData.product_mrp_price,
+      discount: cartData.product_discount,
+      quantity: this.counter,
+      size: this.selectedSize ? this.selectedSize : "",
+      color: this.selectedImage[0].color,
+      image: this.selectedImage[0].images[0]
+    };
+    this.addCartService.addToCart(addCartPayload).subscribe((res: any) => {
+      this.addCartService.loadCartFromAPI();
+    });
   }
 
-  // if (!this.selectedSize) {
-  //   this.toast.error('Please select size');
-  //   return;
-  // }
+  buyNow(product: any) {
+    //get current user synchronously (better)
+    const user = JSON.parse(localStorage.getItem('login_user') || '{}');
+    if (!user || user.user_first_name === 'Guest') {
+      this.router.navigate(['/login']);
+      return;
+    }
+    //validation
+    if (!this.selectedImage?.length) {
+      this.toast.error('Please select color');
+      return;
+    }
+    //create NEW object (do not mutate original)
+    const payload = {
+      product_id: product.product_id,
+      product_name: product.product_name,
+      price: product.product_price,
+      mrp: product.product_mrp_price,
+      discount: product.product_discount,
+      quantity: this.counter || 1,
+      size: this.selectedSize || '',
+      color: this.selectedImage[0].color,
+      image: this.selectedImage[0].images[0]
+    };
+    // store in localStorage
+    this.addCartService.setBuyNowItem(payload);
+    // navigate
+    this.router.navigate(['/useraddress']);
+  }
 
-    let user: any
-    user = localStorage.getItem("login_user")
-    let userId = JSON.parse(user);
-    buyNowData.userId = userId?.userId
-    buyNowData.quantity = this.counter
-    buyNowData.isGuest = userId?.isGuest
-    buyNowData.image_url = this.selectedImage[0].images
-    buyNowData.size = this.selectedSize
-    buyNowData.color = this.selectedImage[0].color
-    this.addCartService.setBuyNowItem(buyNowData);
-    console.log("payload",buyNowData)
-    this.router.navigate(['./useraddress'])
 
-}
-
-  
   onColorSelect(code: any) {
     this.selectedColor = code;
     setTimeout(() => {
@@ -320,7 +338,6 @@ export class ProductZoomComponent implements OnInit {
   selectedSort = 'top';
 
   sortChanged() {
-    console.log('Sort:', this.selectedSort);
     // Call API based on sort
   }
 
@@ -349,7 +366,7 @@ export class ProductZoomComponent implements OnInit {
     try {
       this.apiService.getProductReview(productId).subscribe((res) => {
         this.productReview = res?.data;
-         this.visibleRatings = this.productReview.slice(0, 5);
+        this.visibleRatings = this.productReview.slice(0, 5);
       })
       this.apiService.getReviewSummary(productId).subscribe((res) => {
         this.summary = res?.data
@@ -366,21 +383,21 @@ export class ProductZoomComponent implements OnInit {
       console.log(err)
     }
   }
-toggleRatings() {
-  this.showAll = !this.showAll;
-  this.updateVisibleRatings();
-}
+  toggleRatings() {
+    this.showAll = !this.showAll;
+    this.updateVisibleRatings();
+  }
 
-updateVisibleRatings() {
-  this.visibleRatings = this.showAll
-    ? this.productReview
-    : this.productReview.slice(0, 5);
-}
+  updateVisibleRatings() {
+    this.visibleRatings = this.showAll
+      ? this.productReview
+      : this.productReview.slice(0, 5);
+  }
 
-getFullStars() {
-  const rating = Number(this.summary?.avg_rating) || 0;
-  return Array(Math.floor(rating)).fill(0);
-}
+  getFullStars() {
+    const rating = Number(this.summary?.avg_rating) || 0;
+    return Array(Math.floor(rating)).fill(0);
+  }
 
   hasHalfStar() {
     return this.summary?.avg_rating % 1 >= 0.2;

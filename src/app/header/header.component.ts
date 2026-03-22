@@ -143,19 +143,12 @@ export class HeaderComponent implements OnInit {
   searchDataFn(searchData: any) {
     let searchValue = this.options.find(value => value === searchData)
     if (searchValue) {
-      let userData = {
-        searchData: searchValue
-      };
-      this.apiService.searchData(userData).subscribe((res: any) => {
-        let displaySearchData = res;
-        localStorage.setItem('displaySearchData', JSON.stringify(displaySearchData))
-        this.router.navigate(['./display-item'])
-        setTimeout(() => {
-          this.reloadCurrentRoute();
-        }, 5)
-        this.input.nativeElement.value = '';
-
-      })
+    this.router.navigate(['/display-item'], {
+      queryParams: {
+        category: searchValue
+      }
+    });
+     this.input.nativeElement.value = '';
     }
   }
   reloadCurrentRoute() {

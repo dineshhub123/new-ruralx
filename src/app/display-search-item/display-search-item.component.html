@@ -1,15 +1,17 @@
+<app-loader [isLoading]="isLoading"></app-loader>
+<div *ngIf="!isLoading">
 <div class="mb-5 pt-4">
   <br>
   <div class="product-grid-container">
     <div *ngFor="let searchData of searchItem" class="product-card">
-      <img #productImage class="product-image" [src]="imageBaseUrl + searchData?.variants[0]?.images[0]"
+      <img #productImage class="product-image" [src]="imageBaseUrl + searchData?.image"
         (click)="imgClick(searchData)" />
 
       <!-- Product Details -->
       <div class="product-details mb-2" (click)="imgClick(searchData)">
         <div class="product-name">{{ searchData?.product_name }}</div>
-        <div class="product-mrp">MRP: ₹{{ searchData?.product_mrp_price }}</div>
-        <div class="product-price">Price: ₹{{ searchData?.product_price }}</div>
+        <div class="product-mrp">MRP: ₹{{ searchData?.mrp }}</div>
+        <div class="product-price">Price: ₹{{ searchData?.price }}</div>
       </div>
 
       <!-- Quantity Buttons -->
@@ -39,4 +41,5 @@
     </div>
   </div>
 
+</div>
 </div>

@@ -18,12 +18,11 @@ export class FooterComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.loginService.user$.subscribe(user => {
-      if (user) {
-        this.calculateUserCartQuantity(user);
-      }
-    });
+  this.addCartService.cart$.subscribe(cart => {
+   // this.itemQuantity = cart.length;
+     this.itemQuantity = cart.reduce((total: number, item: any) => total + (item?.quantity || 0), 0);
 
+  });
   }
 
   calculateUserCartQuantity(loginUser: any) {

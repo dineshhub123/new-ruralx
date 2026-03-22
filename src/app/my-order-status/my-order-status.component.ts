@@ -141,7 +141,7 @@ statusClass(status: string) {
   // ✅ helper for image (first image)
   getProductImage(item: any): string {
     if (item?.image && item.image.length > 0) {
-      return `https://ruralx.in/api/${item.image[0]}`; // change base url if needed
+      return `https://ruralx.in/api/${item.image}`; // change base url if needed
     }
     return 'assets/no-image.png';
   }

@@ -45,6 +45,7 @@ orderdList() {
   this.isLoading = true;
   this.apiService.getOrderList().subscribe({
     next: (res: any) => {
+      console.log("res",res)
       this.noDataFound = res;
       const userOrderList: any[] = [];
       res?.orders?.forEach((order: any) => {

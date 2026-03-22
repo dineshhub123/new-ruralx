@@ -151,15 +151,34 @@ export class UseraddressComponent implements OnInit {
     });
   }
   loadCheckoutData() {
-    let userAddress: any;
-    userAddress = localStorage.getItem("login_user")
-    let address = JSON.parse(userAddress)
-    this.addCartService.buyItems$.subscribe((res: any) => {
-      if (res) {
-        let filerCartItem = res.filter((item: any) => item?.userId === address?.userId)
-        this.userCheckOutData = filerCartItem;
-      }
-    })
+    // let userAddress: any;
+    // userAddress = localStorage.getItem("login_user")
+    // let address = JSON.parse(userAddress)
+    // this.addCartService.buyItems$.subscribe((res: any) => {
+    //   if (res) {
+    //     let filerCartItem = res.filter((item: any) => item?.userId === address?.userId)
+    //     this.userCheckOutData = filerCartItem;
+    //   }
+    // })
+    // const totals = this.calculateTotals(this.userCheckOutData);
+    // this.totalMrp = totals.totalMrp;
+    // this.totalAmount = totals.totalPrice;
+    // this.totalDiscount = totals.totalDiscount;
+  const stored = localStorage.getItem('checkout_data');
+
+  if (stored) {
+    // ✅ BUY NOW FLOW
+    this.userCheckOutData = JSON.parse(stored);
+    console.log('Buy Now Data',this.userCheckOutData);
+
+  } else {
+    // ✅ CART FLOW
+    this.addCartService.cart$.subscribe(cart => {
+      this.userCheckOutData = cart;
+      console.log('Cart Data',this.userCheckOutData);
+    });
+  }
+
     const totals = this.calculateTotals(this.userCheckOutData);
     this.totalMrp = totals.totalMrp;
     this.totalAmount = totals.totalPrice;
@@ -167,18 +186,22 @@ export class UseraddressComponent implements OnInit {
 
   }
 
+ngOnDestroy() {
+  localStorage.removeItem('checkout_data');
+}
+
   buildOrderItems(items: any[]) {
     return items.map((item: any) => ({
       product_id: item.product_id,
       product_name: item.product_name,
-      price: item.product_price,
-      mrp: item.product_mrp_price,
+      price: item.price,
+      mrp: item.mrp,
       quantity: item.quantity,
       sub_category: item.sub_category,
       category: item.category,
       color: item.color,
-      user_id: item.userId,
-      image: item.image_url,
+     // user_id: item.userId,
+      image: item.image,
       size: item.size || "",
       gst_rate: item.gst_rate,
       hsn_code: item.hsn_code
@@ -189,8 +212,8 @@ export class UseraddressComponent implements OnInit {
     const totals = cart.reduce(
       (acc: any, item: any) => {
         const qty = Number(item.quantity || 1);
-        const mrp = Number(item.product_mrp_price || 0);
-        const price = Number(item.product_price || 0);
+        const mrp = Number(item.mrp || 0);
+        const price = Number(item.price || 0);
         acc.totalMrp += mrp * qty;
         acc.totalPrice += price * qty;
         acc.totalDiscount += (mrp - price) * qty;
@@ -310,14 +333,21 @@ export class UseraddressComponent implements OnInit {
   addShippingAddress() {
     this.addShipTextForm = !this.addShipTextForm;
   }
-  calculateOrderAmount(): number {
-    return this.userCheckOutData.reduce((total: number, item: any) => {
-      const price = Number(item.product_price);
-      const qty = Number(item.quantity);
-      return total + price * qty;
-    }, 0);
+  
+calculateOrderAmount(): number {
+  if (!this.userCheckOutData || this.userCheckOutData.length === 0) {
+    throw new Error('Cart data is empty');
   }
-
+  return this.userCheckOutData.reduce((total: number, item: any, index: number) => {
+    const price = Number(item.price);
+    const qty = Number(item.quantity);
+    // validation
+    if (isNaN(price) || isNaN(qty)) {
+      throw new Error(`Invalid price or quantity at index ${index}`);
+    }
+    return total + price * qty;
+  }, 0);
+}
   onAddressSelect(user: any) {
     this.radioForm.patchValue({ radioOption: user });
     const selectedAddress = this.radioForm.value.radioOption;
@@ -373,7 +403,7 @@ export class UseraddressComponent implements OnInit {
         },
         items: orderItems,
       };
-
+console.log(orderPayload)
       this.apiService.placeAnOrder(orderPayload).subscribe({
         next: (res) => {
           this.isPaymentLoading = false;

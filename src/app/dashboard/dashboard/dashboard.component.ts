@@ -123,17 +123,15 @@ export class DashboardComponent {
     let payload = { searchData: subCategory };
     this.apiService.searchData(payload).subscribe(itemList => {
       const productNames = itemList.flatMap((p: any) => p.product_name);
-      const images = itemList.flatMap((p: any) =>
-        p.variants.flatMap((v: any) => v.images[0])
-      );
-      // Store per subcategory
       this.categoryData[subCategory] = {
-        name: productNames[0], // show first name or customize
-        images: images.slice(0, 4), // first 4 images
-        mrp:itemList.flatMap((p: any) => p.product_mrp_price),
-        price:itemList.flatMap((p: any) => p.product_price),
-        discount:itemList.flatMap((p: any) => p.product_discount)
-
+        name: productNames[0],
+        products: itemList.slice(0, 4).map((p: any) => ({
+          // get first image of first variant
+          image: p.variants?.[0]?.images?.[0] || '',
+          price: p.product_price,
+          mrp: p.product_mrp_price,
+          discount: p.product_discount
+        }))
       };
       this.loading = false;
     });
@@ -185,18 +183,12 @@ export class DashboardComponent {
     });
   }
 
-
-
   onClickImage(category: any) {
-    let selectedImage = {
-      searchData: category
-    };
-    this.apiService.searchData(selectedImage).subscribe((res: any) => {
-      let displaySearchData = res;
-      localStorage.setItem('displaySearchData', JSON.stringify(displaySearchData))
-      this.router.navigate(['./display-item'])
-    })
-
+    this.router.navigate(['/display-item'], {
+      queryParams: {
+        category: category
+      }
+    });
   }
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
@@ -211,13 +203,13 @@ export class DashboardComponent {
       this.onClickImage(selectedCategory);
     }
   }
-groupedCategories: any[] = [];
-groupCards() {
-  const chunkSize = 4;
-  for (let i = 0; i < this.cardSubCategoryList.length; i += chunkSize) {
-    this.groupedCategories.push(
-      this.cardSubCategoryList.slice(i, i + chunkSize)
-    );
+  groupedCategories: any[] = [];
+  groupCards() {
+    const chunkSize = 4;
+    for (let i = 0; i < this.cardSubCategoryList.length; i += chunkSize) {
+      this.groupedCategories.push(
+        this.cardSubCategoryList.slice(i, i + chunkSize)
+      );
+    }
   }
-}
 }

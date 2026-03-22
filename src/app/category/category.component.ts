@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment.prod';
 })
 export class CategoryComponent {
   imageBaseUrl = environment.imageBaseUrl;
-  public isLoading:boolean = false;
+  public isLoading: boolean = false;
   constructor(public apiService: ApiService, public router: Router) { }
   selectedCategory: string | null = null;
   uniqueCategories: any[] = [];
@@ -67,15 +67,10 @@ export class CategoryComponent {
     })
   }
   onSelectMainCategory(subCate: any) {
-    this.isLoading = true
-    let gotTocatDetailPayload = {
-      searchData: subCate
-    }
-    this.apiService.searchData(gotTocatDetailPayload).subscribe(catDetailList => {
-      this.isLoading = false
-      let displaySelectedData = catDetailList
-      localStorage.setItem('displaySearchData', JSON.stringify(displaySelectedData))
-      this.router.navigate(['./display-item'])
-    })
+    this.router.navigate(['/display-item'], {
+      queryParams: {
+        category: subCate
+      }
+    });
   }
 }

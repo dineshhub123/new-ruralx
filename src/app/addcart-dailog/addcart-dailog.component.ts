@@ -117,15 +117,23 @@ if (clothSizes.includes(first.toUpperCase())) {
   }
 
 addCart(event:any,addItam:any){
-      addItam.cartData.quantity = 1;
-      addItam.cartData.userId = addItam?.user?.userId;
-      addItam.cartData.isGuest = addItam?.user?.isGuest;
-      addItam.cartData.image_url = addItam?.cartData?.variants[0].images;
-      addItam.cartData.size = this.selectedSize
-      addItam.cartData.color = addItam?.cartData?.variants[0].color
-      addItam = addItam?.cartData
-      this.addCartService.addToCart(addItam)
+    const addCartPayload = {
+    id:addItam.cartData.id,
+    product_id: addItam.cartData.product_id,
+    product_name: addItam.cartData.product_name,
+    price: addItam.cartData.price,
+    mrp: addItam.cartData.mrp,
+    discount: addItam.cartData.product_discount,
+    quantity: 1,
+    size: this.selectedSize? this.selectedSize : "",
+    color: addItam?.cartData.color,
+    image:  addItam?.cartData?.image
+  };
+  this.addCartService.addToCart(addCartPayload).subscribe((res: any) => {
+    this.addCartService.loadCartFromAPI();
+      this.dialogRef.close(res);
+  });
       this.flyToCartFromEvent(event);
-      this.dialogRef.close();
+
 }
 }
