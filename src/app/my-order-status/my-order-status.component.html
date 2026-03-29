@@ -8,27 +8,35 @@
                 <p class="sub">Order Placed on
                     <span class="text1"> {{ orderStatusData?.created_at | date:'dd MMM yyyy, hh:mm a' }}</span>
                 </p>
-                <p class="sub" *ngIf="orderStatusData?.status==='delivered';else notDeliveredBlock">Delivered on
+                <p class="sub" *ngIf="orderStatusData?.status==='delivered'">Delivered on
                     <span class="text2">{{ orderStatusData?.updated_at | date:'dd MMM yyyy, hh:mm a'}}</span>
                 </p>
-                <ng-template #notDeliveredBlock>
-                    <!-- Cancelled -->
-                    <p class="cancel-order-text" *ngIf="orderStatusData?.status === 'cancelled'; else onTheWay">
-                        ❌ Your order has been cancelled
-                    </p>
-                    <!-- On the way -->
-                    <ng-template #onTheWay>
-                        <p class="expected-delevery-text">
-                            <span>👉</span>
-                            {{ getExpectedDeliveryMessage(orderStatusData?.created_at) }}
-                        </p>
-                    </ng-template>
-                </ng-template>
+                 <!-- <p class="sub" *ngIf="orderStatusData?.status==='Return_requested'">Return Request on
+                    <span class="text2">{{ orderStatusData?.requested_at | date:'dd MMM yyyy, hh:mm a'}}</span>
+                </p> -->
+ 
+                <!--Return message-->
+                <p class="expected-delevery-text"
+                    *ngIf="orderStatusData?.status!=='delivered' && orderStatusData?.status !== 'cancelled' && orderStatusData?.status !== 'Return_requested'">
+                    <span>👉</span>
+                    {{ getExpectedDeliveryMessage(orderStatusData?.created_at) }}
+                </p>
+
+                <!-- Cancelled -->
+                <p class="cancel-order-text" *ngIf="orderStatusData?.status === 'cancelled'">
+                    ❌ Your order has been cancelled
+                </p>
+                <p class="cancel-order-text" *ngIf="orderStatusData?.status === 'Return_requested'">
+                    Return request submitted. Waiting for admin approval
+                </p>
+
             </div>
 
             <div class="status-badge" [ngClass]="statusClass(orderStatusData?.status)">
                 <span class="dot"></span>
-                {{ orderStatusData?.status==='out_for_delivery'?'Out for Delivery' : orderStatusData?.status | titlecase
+                {{ orderStatusData?.status==='out_for_delivery'?'Out for
+                Delivery':orderStatusData?.status==='Return_requested' ? 'Return requested' : orderStatusData?.status |
+                titlecase
                 }}
             </div>
         </div>
@@ -80,7 +88,8 @@
                         </div>
                         <div class="mt-2">
                             <button mat-stroked-button class="small-btn btn primary"
-                                *ngIf="orderStatusData?.status === 'delivered'" (click)="openReturnDialog(item,orderStatusData)"
+                                *ngIf="orderStatusData?.status === 'delivered'"
+                                (click)="openReturnDialog(item,orderStatusData)"
                                 [disabled]="!canReturn()">Return/Replace</button>
                         </div>
 
@@ -124,7 +133,7 @@
 
                 <div class="btn-row">
                     <button mat-raised-button class="btn outline"
-                        *ngIf="orderStatusData?.status !== 'delivered' && orderStatusData?.status !== 'cancelled' && orderStatusData?.status !== 'out_for_delivery'"
+                        *ngIf="orderStatusData?.status !== 'delivered' && orderStatusData?.status !== 'cancelled' && orderStatusData?.status !== 'out_for_delivery' && orderStatusData?.status!=='Return_requested'"
                         (click)="cancelOrder()">
                         Cancel Order
                     </button>
@@ -175,7 +184,8 @@
                     </div>
 
                     <div class="delivery-text">
-                        Status: <b>{{ orderStatusData?.status==='out_for_delivery'?'Out for Delivery' :
+                        Status: <b>{{ orderStatusData?.status==='out_for_delivery'?'Out for
+                            Delivery':orderStatusData?.status==='Return_requested'?'Return requested' :
                             orderStatusData?.status | titlecase }}</b>
                     </div>
 

@@ -57,6 +57,8 @@
 .badge-out_for_delivery{ background: #16a34a; }
 .badge-delivered{ background: #15803d; }
 .badge-cancelled{ background: #842029; }
+.badge-return{ background: #842029; }
+
 
 
 /* CARD */

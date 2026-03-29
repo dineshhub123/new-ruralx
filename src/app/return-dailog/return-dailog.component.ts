@@ -3,6 +3,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 import { ApiService } from '../services/api.service';
+import { MatDialogRef } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-return-dailog',
   templateUrl: './return-dailog.component.html',
@@ -16,8 +18,8 @@ export class ReturnDailogComponent {
   previewImages: string[] = [];
   selectedFiles: File[] = [];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public apiService:ApiService) {
-
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public apiService:ApiService,private dialogRef: MatDialogRef<ReturnDailogComponent>) {
+console.log(this.data)
   }
 
   onFileSelect(event: any) {
@@ -44,7 +46,7 @@ export class ReturnDailogComponent {
   submitReturn() {
     try {
       const returnPayload = {
-        user_id: "1",
+        user_id: this.data.orderId.user_id,
         order_id: this.data.orderId.order_id,
         product_id: this.data.item.product_id,
         reason: this.selectedReason,
@@ -53,7 +55,9 @@ export class ReturnDailogComponent {
 
       //console.log("returnPayload",returnPayload);
       this.apiService.returnOrder(returnPayload).subscribe(res=>{
-        console.log(res)
+        if(res){
+          this.dialogRef.close(res);
+        }
       })
 
     } catch (err) {

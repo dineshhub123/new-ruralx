@@ -114,6 +114,7 @@ orderdList() {
       const bBottom = (bStatus === 'delivered' || bStatus === 'cancelled');
       return Number(aBottom) - Number(bBottom);
     });
+    console.log("groupedOrders",this.groupedOrders)
   }
   getOrderId(orderId: string) {
     this.router.navigate(['/my-order/order-status', orderId]);

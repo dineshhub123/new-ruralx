@@ -2,7 +2,7 @@
 <mat-dialog-content class="dialog-content">
   <!-- Product Info -->
   <div class="product-summary">
-     <img [src]="imageBaseUrl + data?.item?.image[0]" /> 
+     <img [src]="imageBaseUrl + data?.item?.image" /> 
     <div>
       <h4 class="price">{{ data?.item?.product_name | titlecase }}</h4>
       <div class="price">Qty: {{ data?.item?.quantity }}</div>

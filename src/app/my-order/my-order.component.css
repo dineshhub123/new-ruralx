@@ -92,6 +92,13 @@
   color: #664D03;
   border-color: #FFECB5;
 }
+/* Return */
+.status-return{
+  background: #F8D7DA;
+  color: #842029;
+  border-color: #F1AEB5;
+  font-size: 9px;
+}
 
 /* Cancelled */
 .status-cancelled{

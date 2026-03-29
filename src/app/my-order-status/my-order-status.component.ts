@@ -117,7 +117,7 @@ checkMobile() {
   // ✅ stepper status set
   setStepperStatus(status: string) {
      // ✅ if cancelled -> disable all steps
-  if (status === 'cancelled') {
+  if (status === 'cancelled'|| status === 'Return_requested') {
     this.currentIndex = -1;
     return;
   }
@@ -134,6 +134,8 @@ statusClass(status: string) {
     'badge-out_for_delivery': status === 'out_for_delivery',
     'badge-delivered': status === 'delivered',
     'badge-cancelled': status === 'cancelled',
+    'badge-return': status === 'Return_requested',
+
 
   };
 }
@@ -175,19 +177,7 @@ cancelOrder(): void {
   });
 
 }
-requestReturn(order:any){
-  console.log("order",order)
-   const payload = {
-      order_id: order.id,
-      user_id: "this.userId",
-      reason: "this.reason",
-      comment: "this.commen"
-   };
 
-  //  this.apiService.requestReturn(payload).subscribe(res=>{
-  //     alert("Return Request Submitted");
-  //  });
-}
 canReturn(): boolean {
   const order = this.orderStatusData;
   if (!order) return false;
@@ -199,12 +189,18 @@ canReturn(): boolean {
 }
 
 openReturnDialog(item: any,orderId:any) {
-  this.dialog.open(ReturnDailogComponent, {
+ const dialogRef =  this.dialog.open(ReturnDailogComponent, {
     width: '500px',
     maxWidth: '90vw',
     data: { 
       item :item,
       orderId: orderId
+    }
+  });
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      console.log(result);
+      this.checkOrderStatus(result.data.order_id)
     }
   });
 }

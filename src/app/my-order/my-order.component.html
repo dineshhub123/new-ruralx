@@ -15,13 +15,14 @@
                  'status-delivered': order?.status === 'delivered',
                  'status-pending': order?.status === 'pending',
                  'status-cancelled': order?.status === 'cancelled',
+                  'status-return': order?.status === 'Return_requested',
                  'status-processing': order?.status === 'processing',
                  'status-shipped': order?.status === 'shipped',
                  'status-out-for-delivery': order?.status === 'out_for_delivery',
                  'status-confirmed': order?.status === 'confirmed'
                }">
             <span class="tick" *ngIf="order?.status === 'delivered'">✔</span>
-            {{ order?.status === 'out_for_delivery' ? 'Out for Delivery' : (order?.status | titlecase) }}
+            {{ order?.status === 'out_for_delivery' ? 'Out for Delivery' : order?.status === 'Return_requested' ? 'Return requested' : (order?.status | titlecase) }}
           </div>
           <div *ngIf="item?.size" class="size">{{ getVariantLabel(item?.size) }}: {{item?.size}}</div>
         </div>
