@@ -36,7 +36,6 @@ export class AddcartComponent implements OnInit {
   ngOnInit() {
     this.addCartService.cart$.subscribe((cart) => {
       let cartItems = cart;
-      console.log('Cart Data:', cart);
       if (cartItems) {
         this.addCartData = cartItems;
         let totalAmount = this.addCartData.map((total: any) => total.price * total.quantity)

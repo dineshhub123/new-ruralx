@@ -169,13 +169,11 @@ export class UseraddressComponent implements OnInit {
   if (stored) {
     // ✅ BUY NOW FLOW
     this.userCheckOutData = JSON.parse(stored);
-    console.log('Buy Now Data',this.userCheckOutData);
 
   } else {
     // ✅ CART FLOW
     this.addCartService.cart$.subscribe(cart => {
       this.userCheckOutData = cart;
-      console.log('Cart Data',this.userCheckOutData);
     });
   }
 
@@ -502,7 +500,6 @@ console.log(orderPayload)
     rzp.open();
   }
   verifyPayment(response: any, orderPayload: any) {
-    console.log("orderPayload", orderPayload)
     this.ngZone.run(() => {
       this.isPaymentLoading = true;
     });

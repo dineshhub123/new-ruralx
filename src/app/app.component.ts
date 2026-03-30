@@ -196,7 +196,8 @@ export class AppComponent {
 
   userLogout() {
     const user = this.loginService.getUser();
-    this.loginService.logout()
+    this.loginService.logout();
+    this.addCartService.loadCartFromAPI();
     this.toastr.success(`Thanks, ${user?.user_first_name}! You've been logged out. Visit again soon!`, 'Logged Out');
     const loginUser = this.loginService.getUser();
     this.addCartService.cart$.subscribe(items => {
@@ -206,6 +207,7 @@ export class AppComponent {
     this.menuTrigger.closeMenu();
     this.router.navigate(['login']);
   }
+
   notification() {
     this.router.navigate(["sell-notification"]);
 
