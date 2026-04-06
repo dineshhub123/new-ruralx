@@ -63,6 +63,7 @@ import { ReturnDailogComponent } from './return-dailog/return-dailog.component';
 import { CodConfirmDialogComponent } from './cod-confirm-dialog/cod-confirm-dialog.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 export function HttpLoaderFactory(http:HttpClient){
   return new TranslateHttpLoader(http, './assets/i18n/', '.json')
@@ -100,6 +101,7 @@ SwiperCore.use([Zoom, Thumbs, Pagination]);
     PrivacyPolicyComponent,
     ReturnDailogComponent,
     CodConfirmDialogComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,

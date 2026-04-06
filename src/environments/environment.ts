@@ -28,6 +28,10 @@ export const environment = {
   getCartApiUrl: 'https://ruralx.in/api/getCart.php',
   updateCartQtyApiUrl: 'https://ruralx.in/api/updateCartQuantity.php',
   getProductByIdApiUrl: 'https://ruralx.in/api/getProductById.php',
+  forgotPasswordSendOtpApiUrl: 'https://ruralx.in/api/forgot-password-send-otp.php',
+  verifyForgotOtpApiUrl: 'https://ruralx.in/api/verify-forgot-otp.php',
+  resetPasswordApiUrl: 'https://ruralx.in/api/reset-password.php',
+
 
 
 

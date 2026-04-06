@@ -37,6 +37,10 @@ export class ApiService {
   apiGetCartApiUrl = environment.getCartApiUrl;
   apiUpdateCartQtyApiUrl = environment.updateCartQtyApiUrl;
   apiGetProductByIdApiUrl = environment.getProductByIdApiUrl;
+  apiForgotPassSendOtpApiUrl = environment.forgotPasswordSendOtpApiUrl;
+  apiVerifyForgotOtpApiUrl = environment.verifyForgotOtpApiUrl;
+  apiResetPasswordApiUrl = environment.resetPasswordApiUrl;
+
 
 
 
@@ -138,6 +142,15 @@ export class ApiService {
   }
   getProductById(object: any): Observable<any> {
     return this.http.post(this.apiGetProductByIdApiUrl, object).pipe(map((res: any) => res));
+  }
+  forgotPassSendOtp(object: any): Observable<any> {
+    return this.http.post(this.apiForgotPassSendOtpApiUrl, object).pipe(map((res: any) => res));
+  }
+  verifyForgotOtp(object: any): Observable<any> {
+    return this.http.post(this.apiVerifyForgotOtpApiUrl, object).pipe(map((res: any) => res));
+  }
+  resetPassword(object: any): Observable<any> {
+    return this.http.post(this.apiResetPasswordApiUrl, object).pipe(map((res: any) => res));
   }
 
 }

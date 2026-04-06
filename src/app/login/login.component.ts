@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AddcartService } from '../services/addcart.service';
 import { AuthService } from '../auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -26,16 +28,28 @@ export class LoginComponent implements OnInit {
     private toastr: ToastrService,
     public addcartService: AddcartService,
     public authService:AuthService,
+    private dialog: MatDialog,
     private ngZone: NgZone) { }
   pass: any
   mobile: any
   ngOnInit() {
   }
+
+openForgotPassword() {
+  this.dialog.open(ForgotPasswordComponent, {
+    width: '400px',
+    maxHeight: '90vh',
+    panelClass: 'custom-dialog'
+  });
+}
+
   signup() {
     this.router.navigate(['signup'])
   }
 
+forgotPasswordPopup(){
 
+}
 userLogin(loginData: any): void {
 
   if (!this.loginForm.valid) return;

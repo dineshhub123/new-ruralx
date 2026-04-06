@@ -31,9 +31,11 @@ button.mdc-button.mdc-button--raised.mat-mdc-raised-button.mat-primary.mat-mdc-b
     margin: 0 auto;
 }
 
-.admin-login {
-    color: #424242c7;
+.admin-login span{
+    color: #007bff;
     font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
 }
 .mat-headline{
   font-weight: 700;
