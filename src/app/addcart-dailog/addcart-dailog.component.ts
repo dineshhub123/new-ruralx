@@ -51,9 +51,23 @@ if (clothSizes.includes(first.toUpperCase())) {
 }
   return 'Variant';
 }
+
+  imgClick(item: any) {
+    this.router.navigate(['/pzoom'], {
+      queryParams: {
+        product_id: item.product_id
+      }
+    });
+
+  }
+
   showDetails(item: any) {
-    localStorage.setItem('selected-item', JSON.stringify(item))
-    this.router.navigate(['pzoom'])
+    this.router.navigate(['/pzoom'], {
+      queryParams: {
+        product_id: item.product_id
+      }
+    });
+
     this.dialogRef.close();
  }
 

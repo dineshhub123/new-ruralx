@@ -37,6 +37,22 @@ button.mdc-button.mdc-button--raised.mat-mdc-raised-button.mat-primary.mat-mdc-b
     font-weight: 500;
     cursor: pointer;
 }
+.terms{
+    color: #007bff;
+    font-size: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.login-forgot span{
+    color: #f44336;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+
+}
 .mat-headline{
   font-weight: 700;
 }

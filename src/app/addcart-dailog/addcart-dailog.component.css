@@ -126,8 +126,8 @@ hr {
 }
 
 .price {
-  font-size: 26px;
-  font-weight: bold;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .mrp {
@@ -152,10 +152,6 @@ hr {
   background-color: #ff9f00;
 }
 
-::ng-deep .cdk-overlay-pane{
-    max-width: 100% !important;
-    margin: 5px !important;
-}
 .variants-container {
   display: flex;
   flex-wrap: wrap;  /* Allows wrapping on smaller screens */

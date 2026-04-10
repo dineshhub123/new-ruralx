@@ -1,5 +1,5 @@
 <app-loader [isLoading]="isLoading"></app-loader>
-<div *ngIf="!isLoading">
+<div *ngIf="!isLoading" style="background-color: #fff !important;height: 100%;">
 
   <div>
     <div class="col-sm-12 pt-5">
@@ -8,7 +8,7 @@
         <div class="empty-cart-content"> Your Shoping Cart is Empty Now </div>
         <div class="addcart-btn">
           <button class="btn btn-info btn-md btn-align-addcart" [routerLink]="['/dashboard']">
-            Continue Shoping...
+            Continue Shopping...
           </button>
         </div>
       </div>

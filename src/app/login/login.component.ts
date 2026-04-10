@@ -8,6 +8,8 @@ import { AddcartService } from '../services/addcart.service';
 import { AuthService } from '../auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
+import { TermsAndConditionComponent } from '../terms-and-condition/terms-and-condition.component';
+import { PrivacyPolicyComponent } from '../privacy-policy/privacy-policy.component';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -100,4 +102,23 @@ userLogin(loginData: any): void {
   });
 
 }
+
+  openTermsAndConditionDialog() {
+    const dialogRef = this.dialog.open(TermsAndConditionComponent, {
+      data: {}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+
+  }
+  openPrivacyPolicyDialog() {
+    const dialogRef = this.dialog.open(PrivacyPolicyComponent, {
+      data: {}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+  }
+
 }

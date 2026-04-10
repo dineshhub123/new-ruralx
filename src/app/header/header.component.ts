@@ -225,21 +225,24 @@ export class BottomSheetOverviewExampleSheet {
     });
 
   }
-  loadAddresses() {
-    try {
-      this.isLoading = true;
-      this.apiService.getShippingAddressByUserId(this.user.userId).subscribe((res: any) => {
+loadAddresses() {
+  this.isLoading = true;
+  this.apiService.getShippingAddressByUserId(this.user.userId)
+    .pipe(
+      finalize(() => this.isLoading = false) // always runs (success or error)
+    )
+    .subscribe({
+      next: (res: any) => {
         if (res?.status) {
-          this.isLoading = false;
           this.exiestShipment = res.data;
-          this.setDefaultRadio()
+          this.setDefaultRadio();
         }
-      });
-    } catch (err) {
-      this.isLoading = false;
-      console.error(err)
-    }
-  }
+      },
+      error: (err) => {
+        console.error('API Error:', err);
+      }
+    });
+}
 
   openLink(event: MouseEvent): void {
     this._bottomSheetRef.dismiss();
