@@ -7,11 +7,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
-
-
 @NgModule({
   declarations: [
-    SignupComponent
+    SignupComponent,
   ],
   imports: [
     CommonModule,
@@ -21,6 +19,7 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     FormsModule,
     MatCardModule 
-  ]
+  ],
+
 })
 export class SignupModule { }

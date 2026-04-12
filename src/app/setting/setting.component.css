@@ -8,112 +8,71 @@
 .settings-header {
     background: #0d4c92;
     color: white;
-    padding: 15px;
+    padding: 5px;
     border-radius: 15px 15px 0px 0px;
     gap: 10px;
     text-align: center;
 }
 
-.back-btn {
-    font-size: 22px;
-    cursor: pointer;
-}
 
 .settings-header h2 {
     margin: 0;
     font-size: 20px;
 }
 
-/* List */
-.settings-list {
-    background: white;
-    margin-top: 15px;
-    border-radius: 15px;
-    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+.settings-card {
+  background: #fff;
+  border-radius: 0px 0px 12px 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
 }
 
 .setting-item {
-    display: flex;
-    align-items: center;
-    padding: 15px 18px;
-    border-bottom: 1px solid #eee;
-    font-size: 16px;
-    position: relative;
-}
-
-.setting-item mat-icon {
-    margin-right: 12px;
-    font-size: 22px;
-    color: #444;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .setting-item:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
-/* Arrows */
+.setting-item:hover {
+  background: #f9f9f9;
+}
+
+/* Left section */
+.left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon {
+  font-size: 18px;
+}
+
+/* Title */
+.title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Arrow */
 .arrow {
-    margin-left: auto;
-    font-size: 20px;
-    color: #666;
+  font-size: 20px;
+  color: #999;
 }
 
-/* Switch Toggle */
-.switch {
-    margin-left: auto;
-    position: relative;
-    display: inline-block;
-    width: 42px;
-    height: 22px;
+/* Delete style */
+.delete {
+  color: #e53935;
 }
 
-.switch input {
-    display: none;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0; left: 0;
-    right: 0; bottom: 0;
-    background: #ccc;
-    border-radius: 22px;
-    transition: .3s;
-}
-
-.slider:before {
-    content: "";
-    position: absolute;
-    height: 18px;
-    width: 18px;
-    left: 2px;
-    bottom: 2px;
-    background: white;
-    border-radius: 50%;
-    transition: .3s;
-}
-
-input:checked + .slider {
-    background: #1a73e8;
-}
-
-input:checked + .slider:before {
-    transform: translateX(20px);
-}
-
-/* Add New Payment Button */
-.add-btn {
-    width: 100%;
-    background: #1a73e8;
-    color: white;
-    border: none;
-    padding: 15px;
-    margin-top: 20px;
-    border-radius: 15px;
-    font-size: 17px;
-    cursor: pointer;
-}
-
-.add-btn:hover {
-    background: #165bb8;
+.delete .icon {
+  color: #e53935;
 }

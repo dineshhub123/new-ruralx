@@ -40,6 +40,7 @@ export class ApiService {
   apiForgotPassSendOtpApiUrl = environment.forgotPasswordSendOtpApiUrl;
   apiVerifyForgotOtpApiUrl = environment.verifyForgotOtpApiUrl;
   apiResetPasswordApiUrl = environment.resetPasswordApiUrl;
+  apiDeleteAccountApiUrl = environment.deleteAccountApiUrl;
 
 
 
@@ -151,6 +152,9 @@ export class ApiService {
   }
   resetPassword(object: any): Observable<any> {
     return this.http.post(this.apiResetPasswordApiUrl, object).pipe(map((res: any) => res));
+  }
+  deleteAccount(object: any): Observable<any> {
+    return this.http.post(this.apiDeleteAccountApiUrl, object).pipe(map((res: any) => res));
   }
 
 }

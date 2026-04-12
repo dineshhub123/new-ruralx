@@ -91,11 +91,9 @@ userLogin(loginData: any): void {
     error: err => {
 
       console.error(err);
-
-      this.toastr.error(
-        'User not found. Please register first or might be wrong credential.',
-        'Login Failed'
-      );
+ // ✅ Show backend error message if available
+      const msg = err?.error?.message || `'User not found. Please register first or might be wrong credential.',  'Login Failed'`;
+      this.toastr.error(msg, 'Login Failed');
 
     }
 

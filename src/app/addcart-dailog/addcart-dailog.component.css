@@ -192,3 +192,23 @@ hr {
   font-size: 31px;
   font-weight: 600;
 }
+.mrp-content{
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'Poppins' !important;
+  line-height: 22px;
+}
+.in-stock {
+  color: #2e7d32; /* green */
+  font-weight: 600;
+}
+
+.limited-stock {
+  color: #f57c00; /* orange */
+  font-weight: 600;
+}
+
+.out-stock {
+  color: #d32f2f; /* red */
+  font-weight: 600;
+}

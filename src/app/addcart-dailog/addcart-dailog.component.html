@@ -31,6 +31,13 @@
         </div>
         <p class="delivery">FREE of delivery By <b>Ruralx</b></p>
     </div>
+        <div class="mrp-content mb-2">In Stocks :
+          <span
+            [ngClass]="{'in-stock': addItam?.cartData?.stock >=5,'limited-stock': addItam?.cartData?.stock > 0 && addItam?.cartData?.stock < 5,'out-stock': addItam?.cartData?.stock === 0}">
+            {{addItam?.cartData?.stock >=5? 'In Stock': addItam?.cartData?.stock > 0 && addItam?.cartData?.stock <
+              5? 'Limited Stock' : 'Out of Stock' }} </span>
+        </div>
+
     <div class="text-center">
     <button class="btn btn-warning btn-md mb-2 mr-2 btn-align-buy btn-design"
         [disabled]="addItam?.cartData?.stock === 0" (click)="addCart($event,addItam)" mat-dialog-close><i class="fa fa-shopping-cart"> </i>

@@ -113,7 +113,8 @@ itemInitilize(category: string) {
       quantity: item.quantity > 0 ? item.quantity : 0,
       size: item.selectedSize || item.size || '',
       color: selectedVariant?.color || item.color || '',
-      image: selectedVariant?.images?.[0] || '',
+      image: selectedVariant?.images?.[0] || '0',
+      stock:selectedVariant?.stock > 0 ? selectedVariant?.stock: 0,
       hsn_code: item.hsn_code,
       gst_rate: item.gst_rate,
       created_at: item.created_at || null,
@@ -232,11 +233,15 @@ itemInitilize(category: string) {
 
   }
   addCartQuntity(event: any, addItam: any) {
+    console.log("addItam",addItam)
     let user: any;
     user = localStorage.getItem("login_user");
     let findUser = JSON.parse(user)
     if (this.sizes?.length > 0) {
       const dialogRef = this.dialog.open(AddcartDailogComponent, {
+       width: '400px',
+       maxWidth: '90vw',   // responsive
+       height: 'auto',
         data: {
           cartData: addItam,
           user: findUser,

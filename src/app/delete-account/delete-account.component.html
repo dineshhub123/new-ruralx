@@ -1,0 +1,35 @@
+<app-loader [isLoading]="isLoading"></app-loader>
+<div *ngIf="!isLoading" style="background-color: #fff !important;height: 100%;">
+
+<div class="dialog-container">
+
+  <h2>Delete Account</h2>
+
+  <span class="warning">
+    "Once you delete your account, all your order history, personal data, and shipping addresses will be permanently removed. You won’t be able to place any future orders with this account."
+  </span>
+
+  <p>Are you sure you want to delete your account?</p>
+
+  <!-- Password Input -->
+  <div class="input-group">
+    <input
+      type="password"
+      placeholder="Enter Password to Confirm"
+      [(ngModel)]="password"
+    />
+
+    <!--  Helper text -->
+    <span class="hint">
+      Forgot password? Please go to login and reset your password first.
+    </span>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <button class="cancel" mat-dialog-close>Cancel</button>
+    <button class="delete" (click)="deleteAccount()">Delete</button>
+  </div>
+
+</div>
+</div>

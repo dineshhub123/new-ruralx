@@ -1,0 +1,101 @@
+.dialog-container {
+  padding: 20px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+/* Title */
+.dialog-container h2 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Warning text */
+.warning {
+  color: #1e4f8a;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+
+/* Description */
+.dialog-container p {
+  color: #555;
+  font-size: 12px;
+  margin: 6px 0;
+
+}
+
+/* Input field */
+.input-group {
+  margin-top: 15px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.input-group input:focus {
+  border-color: #1e4f8a;
+  box-shadow: 0 0 0 2px rgba(30, 79, 138, 0.1);
+  outline: none;
+}
+
+/* Hint text */
+.hint {
+  font-size: 10px;
+  color: #e53935;
+  margin-top: 7px;
+  line-height: 14px;
+}
+
+/* Buttons container */
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Common button style */
+.actions button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Cancel button */
+.cancel {
+  background: #f1f1f1;
+  color: #333;
+}
+
+.cancel:hover {
+  background: #e0e0e0;
+}
+
+/* Delete button */
+.delete {
+  background: #e53935;
+  color: #fff;
+  font-weight: 500;
+}
+
+.delete:hover {
+  background: #d32f2f;
+}
+
+/* Optional: disabled state */
+.delete:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}

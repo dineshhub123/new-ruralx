@@ -62,17 +62,15 @@ export class AppComponent {
     // this.translate.addLangs(['en', 'hi']);
     // this.translate.setDefaultLang('hi');
     // this.translate.use('en'); // default language
-
+    
     this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: 'smooth'  // or 'smooth' for animation
-        });
-        this.setExpandedPanel(event.urlAfterRedirects);
-      }
-    });
+  if (event instanceof NavigationEnd) {
+    setTimeout(() => {
+      this.smoothScrollToTop(500);
+    },200);
+   //this.setExpandedPanel(event.urlAfterRedirects);
+  }
+});
     this.apiService.getProductListDetailsData().subscribe((data: any) => {
       let searchList = data.map((item: any) => item.category);
       let removeDuplicateArr = new Set(searchList)
@@ -84,6 +82,29 @@ export class AppComponent {
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
+
+smoothScrollToTop(duration = 500) {
+  const el = document.querySelector('.main-content') as HTMLElement | null;
+  const container = el ? el : window;
+  const start = container === window
+    ? window.scrollY
+    : (container as HTMLElement).scrollTop;
+  const startTime = performance.now();
+  const animate = (currentTime: number) => {
+    const time = Math.min(1, (currentTime - startTime) / duration);
+    const scrollTo = start * (1 - time);
+    if (container === window) {
+      window.scrollTo(0, scrollTo);
+    } else {
+      (container as HTMLElement).scrollTop = scrollTo;
+    }
+    if (time < 1) {
+      requestAnimationFrame(animate);
+    }
+  };
+  requestAnimationFrame(animate);
+}
+  
   ngOnInit(): void {
     this.loginService.user$.subscribe(user => {
       if (user) {

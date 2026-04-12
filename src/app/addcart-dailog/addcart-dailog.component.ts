@@ -16,6 +16,7 @@ export class AddcartDailogComponent {
   imageBaseUrl = environment.imageBaseUrl;
 constructor(@Inject(MAT_DIALOG_DATA) public data: any,public router : Router, public addCartService:AddcartService,private dialogRef: MatDialogRef<AddcartDailogComponent>){
 this.addItam = data;
+console.log("addItam",this.addItam)
 }
 
 ngOnInit(){

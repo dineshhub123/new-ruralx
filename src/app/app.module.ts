@@ -64,6 +64,7 @@ import { CodConfirmDialogComponent } from './cod-confirm-dialog/cod-confirm-dial
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { DeleteAccountComponent } from './delete-account/delete-account.component';
 
 export function HttpLoaderFactory(http:HttpClient){
   return new TranslateHttpLoader(http, './assets/i18n/', '.json')
@@ -102,6 +103,7 @@ SwiperCore.use([Zoom, Thumbs, Pagination]);
     ReturnDailogComponent,
     CodConfirmDialogComponent,
     ForgotPasswordComponent,
+    DeleteAccountComponent,
   ],
   imports: [
     BrowserModule,
