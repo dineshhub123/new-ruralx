@@ -39,8 +39,8 @@ export class LoginComponent implements OnInit {
 
 openForgotPassword() {
   this.dialog.open(ForgotPasswordComponent, {
-    width: '400px',
-    maxHeight: '90vh',
+    width: '300px',
+    maxWidth: '90vw',
     panelClass: 'custom-dialog'
   });
 }

@@ -239,8 +239,8 @@ itemInitilize(category: string) {
     let findUser = JSON.parse(user)
     if (this.sizes?.length > 0) {
       const dialogRef = this.dialog.open(AddcartDailogComponent, {
-       width: '400px',
-       maxWidth: '90vw',   // responsive
+       width: '350px',
+       maxWidth: '95vw',   // responsive
        height: 'auto',
         data: {
           cartData: addItam,
