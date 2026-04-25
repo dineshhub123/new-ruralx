@@ -132,7 +132,7 @@
 
   <!-- Reviews List -->
   <div *ngFor="let review of visibleRatings">
-    <mat-card class="review-card" *ngIf="review.verified_purchase == 0">
+    <mat-card class="review-card" *ngIf="review.verified_purchase == 1">
       <div class="review-header">
         <div class="stars">
           <mat-icon *ngFor="let s of [].constructor(review.rating)">star</mat-icon>
@@ -147,8 +147,8 @@
       </div>
       <div class="review-footer">
         <div>
-          <strong>{{review.user_name}}</strong>
-          <span *ngIf="review.verified_purchase == 0" class="verified">
+          <strong>{{review.user_name | titlecase}}</strong>
+          <span *ngIf="review.verified_purchase == 1" class="verified">
             ✔ Verified Purchase
           </span>
           <span class="date">

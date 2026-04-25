@@ -92,10 +92,12 @@ resetSelectedImage(){
           this.reviewForm.reset();
           this.selectedFiles = [];
           this.previewImages = [];
-        setTimeout(() => {
-        this.router.navigate(['/pzoom']);
-      }, 3000);
-      })
+        this.router.navigate(['/pzoom'],{
+        queryParams: {
+        product_id: this.productId
+      }
+    })
+   })
     } catch (err) {
       console.log(err)
       this.isLoading = false;
@@ -103,7 +105,11 @@ resetSelectedImage(){
   }
 
   goBack() {
-    this.router.navigate(['/pzoom']);
+    this.router.navigate(['/pzoom'],{
+        queryParams: {
+        product_id: this.productId
+      }
+    });
   }
 
 }

@@ -366,7 +366,7 @@ export class ProductZoomComponent implements OnInit {
     try {
       this.apiService.getProductReview(productId).subscribe((res) => {
         this.productReview = res?.data;
-        this.visibleRatings = this.productReview.slice(0, 5);
+        this.visibleRatings = this.productReview.slice(0, 6);
       })
       this.apiService.getReviewSummary(productId).subscribe((res) => {
         this.summary = res?.data
