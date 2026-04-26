@@ -401,12 +401,12 @@ calculateOrderAmount(): number {
         },
         items: orderItems,
       };
-console.log(orderPayload)
       this.apiService.placeAnOrder(orderPayload).subscribe({
         next: (res) => {
           this.isPaymentLoading = false;
 
           if (res) {
+            this.addCartService.loadCartFromAPI();
             this.addCartService.clearBuyNowItem();
             this.loadCheckoutData();
             this.router.navigate(['/order-confirmed']);
@@ -507,6 +507,7 @@ console.log(orderPayload)
       this.ngZone.run(() => {
         this.isPaymentLoading = false;
         if (res) {
+          this.addCartService.loadCartFromAPI();
           this.addCartService.clearBuyNowItem();
           this.loadCheckoutData();
           this.router.navigate(['/order-confirmed']);
