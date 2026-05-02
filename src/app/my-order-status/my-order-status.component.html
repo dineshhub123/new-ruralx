@@ -11,10 +11,10 @@
                 <p class="sub" *ngIf="orderStatusData?.status==='delivered'">Delivered on
                     <span class="text2">{{ orderStatusData?.updated_at | date:'dd MMM yyyy, hh:mm a'}}</span>
                 </p>
-                 <!-- <p class="sub" *ngIf="orderStatusData?.status==='Return_requested'">Return Request on
+                <!-- <p class="sub" *ngIf="orderStatusData?.status==='Return_requested'">Return Request on
                     <span class="text2">{{ orderStatusData?.requested_at | date:'dd MMM yyyy, hh:mm a'}}</span>
                 </p> -->
- 
+
                 <!--Return message-->
                 <p class="expected-delevery-text"
                     *ngIf="orderStatusData?.status!=='delivered' && orderStatusData?.status !== 'cancelled' && orderStatusData?.status !== 'Return_requested'">
@@ -34,9 +34,12 @@
 
             <div class="status-badge" [ngClass]="statusClass(orderStatusData?.status)">
                 <span class="dot"></span>
-                {{ orderStatusData?.status==='out_for_delivery'?'Out for
-                Delivery':orderStatusData?.status==='Return_requested' ? 'Return requested' : orderStatusData?.status |
-                titlecase
+                {{
+                orderStatusData?.status === 'out_for_delivery' ? 'Out for Delivery' :
+                orderStatusData?.status === 'Return_requested' ? 'Return Requested' :
+                orderStatusData?.status === 'Partially_Returned' ? 'Partially Returned' :
+                orderStatusData?.status === 'Fully_Returned' ? 'Fully Returned' :
+                (orderStatusData?.status | titlecase)
                 }}
             </div>
         </div>

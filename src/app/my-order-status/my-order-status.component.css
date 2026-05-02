@@ -58,6 +58,9 @@
 .badge-delivered{ background: #15803d; }
 .badge-cancelled{ background: #842029; }
 .badge-return{ background: #842029; }
+.badge-partial{background: #067845;}
+.badge-fully{background: #067845;}
+
 
 
 

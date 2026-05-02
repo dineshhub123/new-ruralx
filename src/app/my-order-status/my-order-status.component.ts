@@ -135,6 +135,8 @@ statusClass(status: string) {
     'badge-delivered': status === 'delivered',
     'badge-cancelled': status === 'cancelled',
     'badge-return': status === 'Return_requested',
+    'badge-partial': status === 'Partially_Returned',
+    'badge-fully': status === 'Fully_Returned',
 
 
   };
