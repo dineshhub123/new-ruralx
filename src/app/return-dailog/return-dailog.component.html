@@ -1,18 +1,27 @@
-<h2 mat-dialog-title>Return Item</h2>
+<label mat-dialog-title>Return Item</label>
 <mat-dialog-content class="dialog-content">
   <!-- Product Info -->
-  <div class="product-summary">
-     <img [src]="imageBaseUrl + data?.item?.image" /> 
-    <div>
-      <h4 class="price">{{ data?.item?.product_name | titlecase }}</h4>
-      <div class="price">Qty: {{ data?.item?.quantity }}</div>
-      <div class="price">Size: {{ data?.item?.size }}</div>
-      <div class="price">₹{{ data?.item?.price }}</div>
-    </div>
+  <div class="product-table">
+  <div class="product-row header">
+    <div>Product</div>
+    <div>Qty</div>
+    <div>Size</div>
+    <div>Price</div>
   </div>
+  <div class="product-row" *ngFor="let data of data?.item">
+    <div class="product-info">
+      <img [src]="imageBaseUrl + data?.image" />
+      <span>{{ data?.product_name | titlecase }}</span>
+    </div>
+    <div class="d-flex justify-content-center" >{{ data?.quantity }}</div>
+    <div class="d-flex justify-content-center">{{ data?.size }}</div>
+    <div class="d-flex justify-content-center">₹{{ data?.price }}</div>
+  </div>
+</div>
+
   <mat-divider></mat-divider>
   <!-- Reason Selection -->
-  <h4 class="section-title">Select Reason</h4>
+  <label class="section-title">Select Reason</label>
   <mat-radio-group [(ngModel)]="selectedReason" class="price">
     <mat-radio-button value="Damaged product">Damaged product</mat-radio-button>
     <mat-radio-button value="Wrong item">Wrong item received</mat-radio-button>
@@ -34,12 +43,17 @@
     <img *ngFor="let img of previewImages" [src]="img" class="preview-img">
     </div>
   </div>
-  <!-- Refund Summary -->
-  <div class="refund-summary">
-    <p>Product Price: ₹{{ data?.item?.price }}</p>
-    <p>Return Charges: ₹0</p>
-    <p class="final-amount">Refund Amount: ₹{{ data?.item?.price }}</p>
+  <div class="refund-summary" *ngIf="data?.item?.length >= 1">
+  <div class="summary-row">
+    <span>Total Items:</span>
+    <span>{{ data?.item?.length }}</span>
   </div>
+  <div class="summary-row"  *ngIf="returnType === 'Refund'">
+    <span>Total Refund:</span>
+    <span class="amount">₹{{ getTotalRefund() }}</span>
+  </div>
+
+</div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-raised-button mat-dialog-close color="secondary">Cancel</button>

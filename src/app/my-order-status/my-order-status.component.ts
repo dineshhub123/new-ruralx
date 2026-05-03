@@ -13,6 +13,7 @@ export class MyOrderStatusComponent {
 
   public orderId: any;
   isMobile: boolean = false;
+  selectedItems: any[] = [];
 
   // ✅ API response is object (not array)
   public orderStatusData: any = null;
@@ -99,11 +100,8 @@ checkMobile() {
       next: (res: any) => {
         if (res) {
           this.orderStatusData = res?.data;
-
           // ✅ update stepper
           this.setStepperStatus(res?.data?.status);
-
-          console.log("Order Data:", this.orderStatusData);
         }
         this.isLoading = false;
       },
@@ -117,13 +115,12 @@ checkMobile() {
   // ✅ stepper status set
   setStepperStatus(status: string) {
      // ✅ if cancelled -> disable all steps
-  if (status === 'cancelled'|| status === 'Return_requested') {
+  if (status === 'cancelled'|| status === 'Return_Requested') {
     this.currentIndex = -1;
     return;
   }
     const idx = this.steps.findIndex(s => s.key === status);
     this.currentIndex = idx === -1 ? 0 : idx;
-    console.log("currentIndex",this.currentIndex)
   }
 statusClass(status: string) {
   return {
@@ -134,7 +131,7 @@ statusClass(status: string) {
     'badge-out_for_delivery': status === 'out_for_delivery',
     'badge-delivered': status === 'delivered',
     'badge-cancelled': status === 'cancelled',
-    'badge-return': status === 'Return_requested',
+    'badge-return': status === 'Return_Requested',
     'badge-partial': status === 'Partially_Returned',
     'badge-fully': status === 'Fully_Returned',
 
@@ -190,13 +187,25 @@ canReturn(): boolean {
   return diffTime <= (24 * 60 * 60 * 1000); // 24 hours
 }
 
-openReturnDialog(item: any,orderId:any) {
+toggleItem(item: any) {
+  const index = this.selectedItems.findIndex(i => i.product_id === item.product_id);
+  if (index > -1) {
+    this.selectedItems.splice(index, 1);
+  } else {
+    this.selectedItems.push(item);
+  }
+}
+isSelected(item: any) {
+  return this.selectedItems.some(i => i.product_id === item.product_id);
+}
+
+openReturnDialog() {
  const dialogRef =  this.dialog.open(ReturnDailogComponent, {
     width: '500px',
     maxWidth: '90vw',
     data: { 
-      item :item,
-      orderId: orderId
+      item :this.selectedItems,
+      orderId: this.orderStatusData
     }
   });
   dialogRef.afterClosed().subscribe(result => {

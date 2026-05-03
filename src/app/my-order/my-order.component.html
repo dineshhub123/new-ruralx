@@ -17,7 +17,7 @@
                  'status-fully': order?.status === 'Fully_Returned',
                  'status-pending': order?.status === 'pending',
                  'status-cancelled': order?.status === 'cancelled',
-                  'status-return': order?.status === 'Return_requested',
+                  'status-return': order?.status === 'Return_Requested',
                  'status-processing': order?.status === 'processing',
                  'status-shipped': order?.status === 'shipped',
                  'status-out-for-delivery': order?.status === 'out_for_delivery',
@@ -26,7 +26,7 @@
               <span class="tick" *ngIf="order?.status === 'delivered'">✔</span>
               {{
               order?.status === 'out_for_delivery' ? 'Out for Delivery' :
-              order?.status === 'Return_requested' ? 'Return Requested' :
+              order?.status === 'Return_Requested' ? 'Return Requested' :
               order?.status === 'Partially_Returned' ? 'Partially Returned' :
               order?.status === 'Fully_Returned' ? 'Fully Returned' :
               (order?.status | titlecase)

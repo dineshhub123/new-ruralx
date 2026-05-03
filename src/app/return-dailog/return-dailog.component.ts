@@ -48,12 +48,13 @@ console.log(this.data)
       const returnPayload = {
         user_id: this.data.orderId.user_id,
         order_id: this.data.orderId.order_id,
-        product_id: this.data.item.product_id,
+        product_ids: this.data?.item.map((item:any) => item.product_id),
         reason: this.selectedReason,
-        return_type: this.returnType   // REFUND or REPLACE
+        return_type: this.returnType,   // REFUND or REPLACE
+        total_refund: this.returnType === 'Refund' ? this.getTotalRefund() : 0
       };
 
-     // console.log("returnPayload",returnPayload);
+      console.log("returnPayload",returnPayload);
       this.apiService.returnOrder(returnPayload).subscribe(res=>{
         if(res){
           this.dialogRef.close(res);
@@ -64,4 +65,11 @@ console.log(this.data)
       console.log(err)
     }
   }
+
+  getTotalRefund(): number {
+  return this.data?.item?.reduce((total:any, item:any) => {
+    return total + (item.price * (item.quantity || 1));
+  }, 0);
+}
+
 }

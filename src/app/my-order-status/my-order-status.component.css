@@ -96,7 +96,7 @@
   padding: 12px;
   border: 1px solid #eef0f6;
   border-radius: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
 .item-img{
@@ -121,10 +121,10 @@ font-size: 18px !important;
 }
 
 .item-meta{
-  font-size: 11px;
-  color: #6b7280;
-  margin-top: 3px;
-  font-weight: 500;
+    font-size: 11px;
+    color: #374151;
+    margin-top: 3px;
+    font-weight: 600;
 }
 
 .seller{
@@ -432,16 +432,26 @@ font-size: 10px;
 
 }
 .small-btn {
-  height: 22px;
-  line-height: 22px;
-  font-size: 9px;
-  padding: 0 9px;
-  border-radius: 15px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 11px !important;
+    padding: 0 9px;
+    border-radius: 24px;
+    margin-bottom: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 .danger-return{
   font-size: 10px;
     font-weight: 500;
     color: #e31729;
     font-style: italic;
+
+}
+.return-checkbox-title{
+    font-size: 11px;
+    font-weight: 600;
+    color: #f59e0b;
 
 }

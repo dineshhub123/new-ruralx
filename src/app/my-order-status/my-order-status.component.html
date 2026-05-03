@@ -17,7 +17,7 @@
 
                 <!--Return message-->
                 <p class="expected-delevery-text"
-                    *ngIf="orderStatusData?.status!=='delivered' && orderStatusData?.status !== 'cancelled' && orderStatusData?.status !== 'Return_requested'">
+                    *ngIf="orderStatusData?.status!=='delivered' && orderStatusData?.status !== 'cancelled' && orderStatusData?.status !== 'Return_Requested'">
                     <span>👉</span>
                     {{ getExpectedDeliveryMessage(orderStatusData?.created_at) }}
                 </p>
@@ -26,7 +26,7 @@
                 <p class="cancel-order-text" *ngIf="orderStatusData?.status === 'cancelled'">
                     ❌ Your order has been cancelled
                 </p>
-                <p class="cancel-order-text" *ngIf="orderStatusData?.status === 'Return_requested'">
+                <p class="cancel-order-text" *ngIf="orderStatusData?.status === 'Return_Requested'">
                     Return request submitted. Waiting for admin approval
                 </p>
 
@@ -36,7 +36,7 @@
                 <span class="dot"></span>
                 {{
                 orderStatusData?.status === 'out_for_delivery' ? 'Out for Delivery' :
-                orderStatusData?.status === 'Return_requested' ? 'Return Requested' :
+                orderStatusData?.status === 'Return_Requested' ? 'Return Requested' :
                 orderStatusData?.status === 'Partially_Returned' ? 'Partially Returned' :
                 orderStatusData?.status === 'Fully_Returned' ? 'Fully Returned' :
                 (orderStatusData?.status | titlecase)
@@ -76,7 +76,7 @@
         <div class="grid">
             <!-- ITEMS -->
             <div class="card">
-                <h3 class="section-title">Items Ordered</h3>
+                <h3 class="section-title">Item Ordered</h3>
                 <div class="item" *ngFor="let item of orderStatusData?.items">
                     <!-- product image -->
                     <img class="item-img" [src]="getProductImage(item)" alt="product" />
@@ -89,17 +89,22 @@
                         <div class="item-meta">
                             Category: <span class="seller">{{ item?.sub_category | titlecase }}</span>
                         </div>
-                        <div class="mt-2">
-                            <button mat-stroked-button class="small-btn btn primary"
-                                *ngIf="orderStatusData?.status === 'delivered'"
-                                (click)="openReturnDialog(item,orderStatusData)"
-                                [disabled]="!canReturn()">Return/Replace</button>
+                        <div class="mt-2" *ngIf="orderStatusData?.status === 'delivered'">
+                            <mat-checkbox [checked]="isSelected(item)" (change)="toggleItem(item)"
+                                [disabled]="orderStatusData?.status !== 'delivered'">
+                            </mat-checkbox>
+                            <span class="return-checkbox-title">Return/Replace</span>
                         </div>
-
                     </div>
                     <div class="item-price">
                         ₹{{ item?.price }}
                     </div>
+
+                </div>
+                <div class="mt-2">
+                    <button mat-stroked-button class="small-btn btn primary"
+                        *ngIf="orderStatusData?.status === 'delivered'" (click)="openReturnDialog()"
+                        [disabled]="!canReturn() || selectedItems.length === 0">Return Now</button>
                 </div>
                 <small class="danger-return" *ngIf="canReturn() && orderStatusData?.status === 'delivered'">
                     Returns and replacements are accepted within 24 hours after delivery only.
@@ -136,15 +141,15 @@
 
                 <div class="btn-row">
                     <button mat-raised-button class="btn outline"
-                        *ngIf="orderStatusData?.status !== 'delivered' && orderStatusData?.status !== 'cancelled' && orderStatusData?.status !== 'out_for_delivery' && orderStatusData?.status!=='Return_requested'"
+                        *ngIf="orderStatusData?.status !== 'delivered' && orderStatusData?.status !== 'cancelled' && orderStatusData?.status !== 'out_for_delivery' && orderStatusData?.status!=='Return_Requested'"
                         (click)="cancelOrder()">
                         Cancel Order
                     </button>
-                    <button mat-raised-button class="btn outline"
+                    <!-- <button mat-raised-button class="btn outline"
                         *ngIf="orderStatusData?.status === 'delivered' || orderStatusData?.status === 'cancelled'"
                         (click)="reOrder()">
                         Reorder
-                    </button>
+                    </button> -->
                 </div>
 
             </div>
