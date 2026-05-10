@@ -77,6 +77,15 @@
   border: 1px solid transparent;
 }
 
+.status-box{
+    height: auto;
+    width: 100%;
+    background-color: #b7afaf29;
+    padding: 5px;
+    border-radius: 24px;
+
+}
+
 /* ✅ Light BG + Strong Text */
 
 /* Delivered */
@@ -96,6 +105,16 @@
   color: #fff;
   border-color: #A3CFBB;
 }
+.status-partially-replaced{
+  background: #a0135d;
+  color: #fff;
+  border-color: #c79cb2;
+}
+.status-fully-replaced{
+  background: #a0135d;
+  color: #fff;
+  border-color: #c79cb2;
+}
 
 /* Pending */
 .status-pending{
@@ -105,6 +124,11 @@
 }
 /* Return */
 .status-return{
+  background: #F8D7DA;
+  color: #842029;
+  border-color: #F1AEB5;
+}
+.status-replace{
   background: #F8D7DA;
   color: #842029;
   border-color: #F1AEB5;

@@ -115,7 +115,14 @@ checkMobile() {
   // ✅ stepper status set
   setStepperStatus(status: string) {
      // ✅ if cancelled -> disable all steps
-  if (status === 'cancelled'|| status === 'Return_Requested') {
+  if (status === 'cancelled'
+    || status === 'Return_Requested' 
+    || status === 'Replace_Requested'
+    || status === 'Partially_Returned'
+    || status === 'Fully_Returned'
+    || status === 'Partially_Replaced'
+    || status === 'Fully_Replaced'
+  ) {
     this.currentIndex = -1;
     return;
   }
@@ -132,8 +139,11 @@ statusClass(status: string) {
     'badge-delivered': status === 'delivered',
     'badge-cancelled': status === 'cancelled',
     'badge-return': status === 'Return_Requested',
+    'badge-replace': status === 'Replace_Requested',
     'badge-partial': status === 'Partially_Returned',
     'badge-fully': status === 'Fully_Returned',
+    'badge-partial-replace': status === 'Partially_Replaced',
+    'badge-fully-replace': status === 'Fully_Replaced',
 
 
   };
@@ -214,5 +224,49 @@ openReturnDialog() {
       this.checkOrderStatus(result.data.order_id)
     }
   });
+}
+getStatusMessage(status: string): string {
+
+  switch ((status || '').toLowerCase()) {
+
+    case 'return_requested':
+      return 'Your return request has been submitted successfully.Waiting for admin approval.';
+
+    case 'partially_returned':
+      return 'Some items from your order have been returned and refund successfully.';
+
+    case 'fully_returned':
+      return 'Your returned refund has been completed successfully.';;
+
+    case 'replace_requested':
+      return 'Replacement request submitted successfully.Waiting for admin approval';
+
+    case 'partially_replaced':
+      return 'Some replacement items delivered successfully.';
+
+    case 'fully_replaced':
+      return 'Replacement items delivered successfully.';
+
+    default:
+      return '';
+  }
+}
+getStatusClass(status: string): string {
+
+  switch ((status || '').toLowerCase()) {
+
+    case 'return_requested':
+    case 'partially_returned':
+    case 'fully_returned':
+      return 'return-msg';
+
+    case 'replace_requested':
+    case 'partially_replaced':
+    case 'fully_replaced':
+      return 'replace-msg';
+
+    default:
+      return '';
+  }
 }
 }

@@ -16,8 +16,11 @@
                 </p> -->
 
                 <!--Return message-->
-                <p class="expected-delevery-text"
-                    *ngIf="orderStatusData?.status!=='delivered' && orderStatusData?.status !== 'cancelled' && orderStatusData?.status !== 'Return_Requested'">
+                <p class="expected-delevery-text" *ngIf="orderStatusData?.status!=='delivered' && orderStatusData?.status !== 'cancelled' 
+                    && orderStatusData?.status !== 'Return_Requested' && orderStatusData?.status !== 'Partially_Returned'
+                    && orderStatusData?.status !== 'Fully_Returned' && orderStatusData?.status !== 'Replace_Requested'
+                    && orderStatusData?.status !== 'Partially_Replaced'&& orderStatusData?.status !== 'Fully_Replaced'
+                    ">
                     <span>👉</span>
                     {{ getExpectedDeliveryMessage(orderStatusData?.created_at) }}
                 </p>
@@ -26,10 +29,12 @@
                 <p class="cancel-order-text" *ngIf="orderStatusData?.status === 'cancelled'">
                     ❌ Your order has been cancelled
                 </p>
-                <p class="cancel-order-text" *ngIf="orderStatusData?.status === 'Return_Requested'">
+                <!-- <p class="cancel-order-text" *ngIf="orderStatusData?.status === 'Return_Requested'">
                     Return request submitted. Waiting for admin approval
-                </p>
-
+                </p> -->
+                <div class="order-status-message" [ngClass]="getStatusClass(orderStatusData.status)">
+                    {{ getStatusMessage(orderStatusData.status) }}
+                </div>
             </div>
 
             <div class="status-badge" [ngClass]="statusClass(orderStatusData?.status)">
@@ -37,8 +42,12 @@
                 {{
                 orderStatusData?.status === 'out_for_delivery' ? 'Out for Delivery' :
                 orderStatusData?.status === 'Return_Requested' ? 'Return Requested' :
+                orderStatusData?.status === 'Replace_Requested' ? 'Replace Requested' :
                 orderStatusData?.status === 'Partially_Returned' ? 'Partially Returned' :
                 orderStatusData?.status === 'Fully_Returned' ? 'Fully Returned' :
+                orderStatusData?.status === 'Partially_Replaced' ? 'Partially Replaced' :
+                orderStatusData?.status === 'Fully_Replaced' ? 'Fully Replaced' :
+
                 (orderStatusData?.status | titlecase)
                 }}
             </div>
@@ -140,9 +149,10 @@
                 </div>
 
                 <div class="btn-row">
-                    <button mat-raised-button class="btn outline"
-                        *ngIf="orderStatusData?.status !== 'delivered' && orderStatusData?.status !== 'cancelled' && orderStatusData?.status !== 'out_for_delivery' && orderStatusData?.status!=='Return_Requested'"
-                        (click)="cancelOrder()">
+                    <button mat-raised-button class="btn outline" *ngIf="orderStatusData?.status !== 'delivered' && orderStatusData?.status !== 'cancelled' && orderStatusData?.status !== 'out_for_delivery' 
+                        && orderStatusData?.status!=='Return_Requested' && orderStatusData?.status!=='Partially_Returned' && orderStatusData?.status!=='Fully_Returned'
+                        && orderStatusData?.status!=='Replace_Requested'  && orderStatusData?.status!=='Partially_Replaced'  && orderStatusData?.status!=='Fully_Replaced' 
+                        " (click)="cancelOrder()">
                         Cancel Order
                     </button>
                     <!-- <button mat-raised-button class="btn outline"
