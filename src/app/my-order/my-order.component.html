@@ -18,7 +18,13 @@
                  'status-processing': order?.status === 'processing',
                  'status-shipped': order?.status === 'shipped',
                  'status-out-for-delivery': order?.status === 'out_for_delivery',
-                 'status-confirmed': order?.status === 'confirmed'
+                 'status-confirmed': order?.status === 'confirmed',
+                 'status-replace-ship': order?.status === 'Replacement_Shipped',
+                 'status-return-approve': order?.status === 'Return_Approved',
+                 'status-replace-approve': order?.status === 'Replace_Approved',
+                 'status-refund-processing': order?.status === 'Refund_Processing',
+                 'status-replace-picked': order?.status === 'Picked_Up'
+
                }">
               <span class="tick" *ngIf="order?.status === 'delivered'">✔</span>
               {{
@@ -29,6 +35,12 @@
               order?.status === 'Fully_Returned' ? 'Fully Returned' :
               order?.status === 'Partially_Replaced' ? 'Partially Replaced' :
               order?.status === 'Fully_Replaced' ? 'Fully Replaced ' :
+              order?.status === 'Replacement_Shipped' ? 'Replacement Shipped ' :
+              order?.status === 'Return_Approved' ? 'Return Approved' :
+              order?.status === 'Replace_Approved' ? 'Replace Approved' :
+              order?.status === 'Refund_Processing' ? 'Refund Processing' :
+              order?.status === 'Picked_Up' ? 'Picked Up' :
+
               (order?.status | titlecase)
               }}
             </div>

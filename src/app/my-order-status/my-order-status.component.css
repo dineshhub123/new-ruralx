@@ -63,6 +63,11 @@
 .badge-partial-replace{background: #a0135d;}
 .badge-fully-replace{background: #a0135d;}
 .badge-replace{ background: #842029; }
+.badge-replace-ship{ background-color: #1565C0;border: 1px solid #90CAF9}
+.badge-return-approve{background-color: #2E7D32; border: 1px solid #81C784;}
+.badge-replace-approve{background-color: #2E7D32; border: 1px solid #81C784;}
+.badge-refund-processing{background-color: #EF6C00;border: 1px solid #FFB74D;}
+.badge-replace-picked{background-color: #7B1FA2;border: 1px solid #CE93D8;}
 
 
 
@@ -461,7 +466,6 @@ font-size: 10px;
 }
 .order-status-message{
     margin-top: 5px;
-    padding: 10px;
     border-radius: 8px;
     font-size: 12px;
     font-weight: 600;
@@ -469,11 +473,11 @@ font-size: 10px;
 }
 
 .return-msg{
-  background: #ffebee;
+  /* background: #ffebee; */
   color: #d32f2f;
 }
 
 .replace-msg{
-  background: #e3f2fd;
+  /* background: #e3f2fd; */
   color: #1976d2;
 }

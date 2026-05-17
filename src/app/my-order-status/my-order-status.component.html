@@ -20,6 +20,9 @@
                     && orderStatusData?.status !== 'Return_Requested' && orderStatusData?.status !== 'Partially_Returned'
                     && orderStatusData?.status !== 'Fully_Returned' && orderStatusData?.status !== 'Replace_Requested'
                     && orderStatusData?.status !== 'Partially_Replaced'&& orderStatusData?.status !== 'Fully_Replaced'
+                    && orderStatusData?.status !== 'Replacement_Shipped' && orderStatusData?.status !== 'Return_Approved'
+                    && orderStatusData?.status !== 'Refund_Processing' && orderStatusData?.status !== 'Replace_Approved'
+                     && orderStatusData?.status !== 'Picked_Up'
                     ">
                     <span>👉</span>
                     {{ getExpectedDeliveryMessage(orderStatusData?.created_at) }}
@@ -47,6 +50,12 @@
                 orderStatusData?.status === 'Fully_Returned' ? 'Fully Returned' :
                 orderStatusData?.status === 'Partially_Replaced' ? 'Partially Replaced' :
                 orderStatusData?.status === 'Fully_Replaced' ? 'Fully Replaced' :
+                orderStatusData?.status === 'Replacement_Shipped' ? 'Replacement Shipped ' :
+                orderStatusData?.status === 'Return_Approved' ? 'Return Approved' :
+                orderStatusData?.status === 'Replace_Approved' ? 'Replace Approved' :
+                orderStatusData?.status === 'Refund_Processing' ? 'Refund Processing' :
+                orderStatusData?.status === 'Picked_Up' ? 'Picked Up' :
+
 
                 (orderStatusData?.status | titlecase)
                 }}
@@ -98,7 +107,7 @@
                         <div class="item-meta">
                             Category: <span class="seller">{{ item?.sub_category | titlecase }}</span>
                         </div>
-                        <div class="mt-2" *ngIf="orderStatusData?.status === 'delivered'">
+                        <div class="mt-2" *ngIf="canReturn() && orderStatusData?.status === 'delivered'">
                             <mat-checkbox [checked]="isSelected(item)" (change)="toggleItem(item)"
                                 [disabled]="orderStatusData?.status !== 'delivered'">
                             </mat-checkbox>
@@ -152,6 +161,8 @@
                     <button mat-raised-button class="btn outline" *ngIf="orderStatusData?.status !== 'delivered' && orderStatusData?.status !== 'cancelled' && orderStatusData?.status !== 'out_for_delivery' 
                         && orderStatusData?.status!=='Return_Requested' && orderStatusData?.status!=='Partially_Returned' && orderStatusData?.status!=='Fully_Returned'
                         && orderStatusData?.status!=='Replace_Requested'  && orderStatusData?.status!=='Partially_Replaced'  && orderStatusData?.status!=='Fully_Replaced' 
+                        && orderStatusData?.status!=='Return_Approved' && orderStatusData?.status!=='Replace_Approved' && orderStatusData?.status!=='Refund_Processing'
+                        && orderStatusData?.status!=='Replacement_Shipped' && orderStatusData?.status!=='Picked_Up'
                         " (click)="cancelOrder()">
                         Cancel Order
                     </button>
