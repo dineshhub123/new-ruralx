@@ -12,21 +12,35 @@
   <div></div>
   <span class="toolbar-item-spacer"></span>
   <ul class="icon-list">
-    <span  class="cart-invisible">
-     <li (click)="cartFun()">
-      <div class="cart-container shopping-cart">
-        <mat-icon class="shopping-cart" [attr.id]="isDesktop ? 'cartIconTarget' : ''">shopping_cart</mat-icon>
-        <span class="cart-badge">{{itemQuantity}}</span>
-      </div>
-      <span class="icon-menu-cart">Cart</span>
-      <span class="icon-menu-cart">Items</span>
-    </li> 
+    <span class="cart-invisible">
+
+      <li (click)="cartFun()">
+        <div class="cart-container shopping-cart">
+          <mat-icon class="shopping-cart" [attr.id]="isDesktop ? 'cartIconTarget' : ''">shopping_cart</mat-icon>
+          <span class="cart-badge">{{itemQuantity}}</span>
+        </div>
+        <span class="icon-menu-cart">Cart</span>
+        <span class="icon-menu-cart">Items</span>
+      </li>
     </span>
+<li class="lang-align">
+<div class="lang-box" (click)="toggleLanguage()">
+        <mat-icon class="lanuage-icon">language</mat-icon>
+    <span class="selected-lang">
+        {{ selectedLanguage === 'hi' ? 'Hindi' : 'English' }}
+    </span>
+    <span class="lang-label">
+        Language
+    </span>
+</div>
+
+</li>
     <li (click)="openDialogD()">
       <mat-icon class="shopping-map">location_on</mat-icon>
       <span class="icon-menu">Check</span>
-      <span class="icon-menu"><strong>Availability</strong></span> 
+      <span class="icon-menu"><strong>Availability</strong></span>
     </li>
+
 
     <!-- <li (click)="isGuest ? goToLogin() : userMenuTrigger.openMenu()">
       <mat-icon id="signMake" mat-icon-button matTooltip="" class="shopping-user">account_circle</mat-icon>
@@ -34,12 +48,12 @@
        <span class="icon-menu"><strong>{{(username)|titlecase }}</strong></span> 
     </li> -->
     <li (click)="isGuest && goToLogin()" mat-icon-button [matMenuTriggerFor]="!isGuest ? userAccountMenu : null">
-    <mat-icon id="signMake" mat-icon-button matTooltip="" class="shopping-user">account_circle</mat-icon>
-  <span class="icon-menu">Hello</span>
-  <span class="icon-menu">
-    <strong>{{ username | titlecase }}</strong>
-  </span>
-</li>
+      <mat-icon id="signMake" mat-icon-button matTooltip="" class="shopping-user">account_circle</mat-icon>
+      <span class="icon-menu">Hello</span>
+      <span class="icon-menu">
+        <strong>{{ username | titlecase }}</strong>
+      </span>
+    </li>
 
     <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
       <button mat-menu-item routerLink="/my-account"><mat-icon>person</mat-icon><span>My Account</span></button>
@@ -79,7 +93,7 @@
         </mat-expansion-panel-header>
         <mat-action-list>
           <a mat-list-item routerLink="dashboard" routerLinkActive="active-link" (click)="sidenav.toggle()">
-            <mat-icon matListIcon>dashboard</mat-icon><span class="ml-2">Home</span> 
+            <mat-icon matListIcon>dashboard</mat-icon><span class="ml-2">Home</span>
           </a>
         </mat-action-list>
       </mat-expansion-panel>
@@ -92,42 +106,42 @@
         </mat-expansion-panel-header>
         <mat-action-list>
           <a mat-list-item routerLink="category" routerLinkActive="active-link" (click)="sidenav.toggle()">
-            <mat-icon matListIcon>category</mat-icon> <span class="ml-2">Category</span> 
+            <mat-icon matListIcon>category</mat-icon> <span class="ml-2">Category</span>
           </a>
         </mat-action-list>
       </mat-expansion-panel>
-<div class="info-list">
-  <div class="info-item">
-     <mat-icon matListIcon>description</mat-icon> 
-    <span class="text" (click)="openTermsAndConditionDialog()">Terms & Condition</span>
-     <mat-icon matListIcon>chevron_right</mat-icon> 
-  </div>
+      <div class="info-list">
+        <div class="info-item">
+          <mat-icon matListIcon>description</mat-icon>
+          <span class="text" (click)="openTermsAndConditionDialog()">Terms & Condition</span>
+          <mat-icon matListIcon>chevron_right</mat-icon>
+        </div>
 
-  <div class="info-item">
-    <mat-icon matListIcon>lock</mat-icon> 
-    <span class="text" (click)="openPrivacyPolicyDialog()">Privacy Policy</span>
-    <mat-icon matListIcon>chevron_right</mat-icon> 
-  </div>
+        <div class="info-item">
+          <mat-icon matListIcon>lock</mat-icon>
+          <span class="text" (click)="openPrivacyPolicyDialog()">Privacy Policy</span>
+          <mat-icon matListIcon>chevron_right</mat-icon>
+        </div>
 
-  <div class="info-item">
-    <mat-icon matListIcon>language</mat-icon> 
-    <span class="text" (click)="ruralxRedirection()"(click)="sidenav.toggle()">Go to Website</span>
-    <mat-icon matListIcon>chevron_right</mat-icon> 
-  </div>
+        <div class="info-item">
+          <mat-icon matListIcon>language</mat-icon>
+          <span class="text" (click)="ruralxRedirection()" (click)="sidenav.toggle()">Go to Website</span>
+          <mat-icon matListIcon>chevron_right</mat-icon>
+        </div>
 
-  <div class="info-item">
-    <mat-icon matListIcon>email</mat-icon> 
-    <span class="text" (click)="contactEmail()">Support : info@ruralx.in</span>
-    <mat-icon matListIcon>chevron_right</mat-icon> 
-  </div>
-</div>
-<div class="drawer-version">
-  App Version <span>1.0.0</span>
-</div>
+        <div class="info-item">
+          <mat-icon matListIcon>email</mat-icon>
+          <span class="text" (click)="contactEmail()">Support : info@ruralx.in</span>
+          <mat-icon matListIcon>chevron_right</mat-icon>
+        </div>
+      </div>
+      <div class="drawer-version">
+        App Version <span>1.0.0</span>
+      </div>
     </mat-accordion>
   </mat-sidenav>
   <mat-sidenav-content>
-     <app-header class="header"></app-header>
+    <app-header class="header"></app-header>
     <div class="main-content pt-5" #scrollContainer (scroll)="onContentScroll($event)">
       <router-outlet></router-outlet>
     </div>

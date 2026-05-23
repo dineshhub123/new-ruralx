@@ -50,6 +50,12 @@ export class AppComponent {
   public lastScrollTop = 0;
   public isDesktop: boolean = false;
   public isGuest = true;
+  selectedLanguage:string='en';
+  languages = [
+  { value: 'en', label: 'English' },
+  { value: 'hi', label: 'Hindi' }
+];
+
   constructor(private renderer: Renderer2, private zone: NgZone, public dialog: MatDialog, public location: Location, public addCartService: AddcartService, private toastr: ToastrService, private translate: TranslateService,
     public loginService: LoginService,
     public router: Router,
@@ -62,15 +68,15 @@ export class AppComponent {
     // this.translate.addLangs(['en', 'hi']);
     // this.translate.setDefaultLang('hi');
     // this.translate.use('en'); // default language
-    
+
     this.router.events.subscribe(event => {
-  if (event instanceof NavigationEnd) {
-    setTimeout(() => {
-      this.smoothScrollToTop(500);
-    },200);
-   //this.setExpandedPanel(event.urlAfterRedirects);
-  }
-});
+      if (event instanceof NavigationEnd) {
+        setTimeout(() => {
+          this.smoothScrollToTop(500);
+        }, 200);
+        //this.setExpandedPanel(event.urlAfterRedirects);
+      }
+    });
     this.apiService.getProductListDetailsData().subscribe((data: any) => {
       let searchList = data.map((item: any) => item.category);
       let removeDuplicateArr = new Set(searchList)
@@ -83,29 +89,33 @@ export class AppComponent {
     this.sub.unsubscribe();
   }
 
-smoothScrollToTop(duration = 500) {
-  const el = document.querySelector('.main-content') as HTMLElement | null;
-  const container = el ? el : window;
-  const start = container === window
-    ? window.scrollY
-    : (container as HTMLElement).scrollTop;
-  const startTime = performance.now();
-  const animate = (currentTime: number) => {
-    const time = Math.min(1, (currentTime - startTime) / duration);
-    const scrollTo = start * (1 - time);
-    if (container === window) {
-      window.scrollTo(0, scrollTo);
-    } else {
-      (container as HTMLElement).scrollTop = scrollTo;
-    }
-    if (time < 1) {
-      requestAnimationFrame(animate);
-    }
-  };
-  requestAnimationFrame(animate);
-}
-  
+  smoothScrollToTop(duration = 500) {
+    const el = document.querySelector('.main-content') as HTMLElement | null;
+    const container = el ? el : window;
+    const start = container === window
+      ? window.scrollY
+      : (container as HTMLElement).scrollTop;
+    const startTime = performance.now();
+    const animate = (currentTime: number) => {
+      const time = Math.min(1, (currentTime - startTime) / duration);
+      const scrollTo = start * (1 - time);
+      if (container === window) {
+        window.scrollTo(0, scrollTo);
+      } else {
+        (container as HTMLElement).scrollTop = scrollTo;
+      }
+      if (time < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+    requestAnimationFrame(animate);
+  }
+
   ngOnInit(): void {
+const saved = localStorage.getItem('language');
+  this.selectedLanguage =
+      saved === 'hi' ? 'hi' : 'en';
+
     this.loginService.user$.subscribe(user => {
       if (user) {
         this.calculateUserCartQuantity(user);
@@ -292,6 +302,67 @@ smoothScrollToTop(duration = 500) {
   goToLogin() {
     this.router.navigate(['/login']);
   }
+changeLanguage(lang: string) {
 
+  this.selectedLanguage = lang;
+
+  localStorage.setItem('language', lang);
+
+  const select: any =
+    document.querySelector('.goog-te-combo');
+
+  if (select) {
+
+    select.value = '';
+
+    setTimeout(() => {
+
+      select.value = lang;
+
+      select.dispatchEvent(
+        new Event('change', {
+          bubbles: true
+        })
+      );
+
+    }, 200);
+  }
+}
+
+
+
+toggleLanguage(){
+
+   // Toggle language
+   this.selectedLanguage =
+   this.selectedLanguage === 'en'
+   ? 'hi'
+   : 'en';
+
+   localStorage.setItem(
+      'language',
+      this.selectedLanguage
+   );
+
+   const interval=setInterval(()=>{
+
+      const select:any=
+      document.querySelector('.goog-te-combo');
+
+      if(select){
+
+         select.value=this.selectedLanguage;
+
+         select.dispatchEvent(
+           new Event('change',{
+             bubbles:true
+           })
+         );
+
+         clearInterval(interval);
+      }
+
+   },500);
+}
 }
 

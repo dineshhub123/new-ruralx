@@ -361,6 +361,11 @@ export class ProductZoomComponent implements OnInit {
   writeReview() {
     this.router.navigate(['/write-review', this.cartItems.product_id])
   }
+getSavedAmount(item: any): number {
+  const mrp = parseFloat(item?.product_mrp_price) || 0;
+  const price = parseFloat(item?.product_price) || 0;
+  return mrp > price ? (mrp - price) : 0;
+}
 
   getProductReview(productId: any) {
     try {

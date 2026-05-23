@@ -67,6 +67,7 @@ export class HeaderComponent implements OnInit {
         this.deliverText = 'Choose your location';
       }
     })
+
     // 1) On refresh set from localStorage
     const saved = this.addressService.getSelectedAddress();
 
@@ -114,6 +115,8 @@ export class HeaderComponent implements OnInit {
       this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     });
   }
+
+
 
   updateHeader(addr: any) {
     this.deliverText = `Deliver to ${addr.full_name ? addr.full_name : addr.user_first_name + ' ' + addr.user_last_name}, ${addr.street_area} - ${addr.user_pincode}`;

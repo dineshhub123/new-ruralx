@@ -464,18 +464,20 @@ box-shadow: none !important;
   flex-direction: column;
   align-items: center;
   font-size: 9px;
-  padding: 5px 0px 5px 5px;
+  padding: 5px 5px 5px 5px;
   cursor: pointer;
   line-height: 1.2;
   letter-spacing: 0.2px;
 }
 
 .icon-list mat-icon {
-  font-size: 22px;
   margin-bottom: 2px;
   line-height: 1;
+  margin-right: -5px;
 }
-
+.lanuage-icon{
+   color: yellow;
+}
 #locationMake {
   font-size: 24px;
   color: yellow;
@@ -629,3 +631,80 @@ padding-left: 13px !important;
 .menu-logout{
   position: relative;
 }
+
+.lang-box{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    margin-top:0px; /* move whole section slightly up */
+}
+
+.lang-icon{
+    color:#fff;
+    font-size:24px;
+    margin-bottom:-8px;
+}
+
+.lang-dropdown{
+    width:40px;
+    margin-top:-10px;   /* move English up */
+    margin-bottom:7px;
+}
+
+.lang-label{
+    font-size:10px;
+    font-weight:600;
+    color:#fff;
+}
+
+/* Angular Material remove extra height */
+::ng-deep .lang-dropdown .mat-mdc-form-field-infix{
+    min-height:auto !important;
+    padding-top:0 !important;
+    padding-bottom:0 !important;
+}
+
+::ng-deep .lang-dropdown .mat-mdc-text-field-wrapper{
+    background:transparent !important;
+    height:20px !important;
+    padding:0 !important;
+}
+
+::ng-deep .lang-dropdown .mat-mdc-select-value{
+    color:#fff !important;
+    font-size:10px;
+    font-weight:500;
+}
+
+::ng-deep .lang-dropdown .mat-mdc-select-arrow{
+    color:#fff !important;
+}
+
+::ng-deep .lang-dropdown .mat-mdc-form-field-subscript-wrapper{
+    display:none;
+}
+::ng-deep .lang-panel{
+    min-width:158px !important;
+    width:158px !important;
+    margin-left:-7px; /* optional center align under icon */
+    margin-top: 16px
+}
+
+::ng-deep .lang-panel .mat-mdc-option{
+    font-size:10px;
+    min-height:30px;
+    padding:0 16px;
+}
+
+
+.selected-lang{
+    color:#fff;
+    font-size:10px;
+    font-weight:600;
+    margin-top:-4px;
+}
+
+
+

@@ -5,18 +5,14 @@
     <div class="sidebar pt-4 mt-1 ">
       <!-- <h3>Categories</h3> -->
       <ul>
-        <li *ngFor="let cat of uniqueCategories" class="cat-name" (click)="onSelectCategory(cat?.category)"
+        <li #catText *ngFor="let cat of uniqueCategories" class="cat-name"
+          (click)="onSelectCategory(cat?.category,catText.innerText)"
           [class.selected]="selectedCategory === cat?.category">
           <label class="category-title" [class.selected]="selectedCategory === cat?.category"> {{ cat?.category |
             titlecase}} </label>
           <ul>
             <li class="sub-card" [class.selected]="selectedCategory === cat?.category">
-<img 
-  [src]="'assets/img/' + cat?.category + '-menu.png'"
-  [alt]="cat?.category"
-  class="category-thumb">              
-  <!-- <label class="subcategory-title" [class.selected]="selectedCategory === cat?.category">{{ cat?.sub_category
-                | titlecase }}</label> -->
+              <img [src]="'assets/img/' + cat?.category + '-menu.png'" [alt]="cat?.category" class="category-thumb">
             </li>
           </ul>
         </li>
@@ -24,7 +20,7 @@
     </div>
     <!-- Main Content -->
     <div class="content pt-4">
-      <div class="category-heading">{{selectedCategory | titlecase}}</div>
+      <div class="category-heading notranslate">{{selectedCategoryDisplay | titlecase}}</div>
       <div class="sub-grid">
         <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories"
           (click)="onSelectMainCategory(sub?.name)">

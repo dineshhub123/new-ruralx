@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
@@ -10,19 +10,31 @@ import { environment } from 'src/environments/environment.prod';
 export class CategoryComponent {
   imageBaseUrl = environment.imageBaseUrl;
   public isLoading: boolean = false;
-  constructor(public apiService: ApiService, public router: Router) { }
-  selectedCategory: string | null = null;
+  constructor(public apiService: ApiService, public router: Router, private cdr: ChangeDetectorRef) { }
+  selectedCategory = '';
   uniqueCategories: any[] = [];
   products: any[] = []
+  selectedCategoryDisplay = '';
 
-  onSelectCategory(category: string) {
+  onSelectCategory(category: string, displayText: string) {
     this.selectedCategory = category;
+ const currentLang =
+    localStorage.getItem('language') || 'en';
+
+  this.selectedCategoryDisplay =
+    currentLang === 'en'
+    ? category
+    : displayText;
+
     let categoryPayload = {
       searchData: category
-    }
-    this.apiService.getOnSelctCategoryList(categoryPayload).subscribe(catList => {
-      this.products = catList
-    })
+    };
+
+    this.apiService
+      .getOnSelctCategoryList(categoryPayload)
+      .subscribe(catList => {
+        this.products = catList;
+      });
   }
   // Get unique subcategories with one representative image
   get uniqueSubcategories() {
@@ -62,7 +74,20 @@ export class CategoryComponent {
       this.apiService.getOnSelctCategoryList(defaultCategry).subscribe(catList => {
         this.isLoading = false;
         this.selectedCategory = this.uniqueCategories[0].category;
+        this.selectedCategoryDisplay = this.uniqueCategories[0].category;
         this.products = catList
+        this.cdr.detectChanges();
+        setTimeout(() => {
+          const firstCat: any =
+            document.querySelector('.cat-name');
+          if (firstCat) {
+            this.selectedCategoryDisplay =
+              firstCat.innerText.trim();
+          } else {
+            this.selectedCategoryDisplay =
+              this.uniqueCategories[0].category;
+          }
+        },900);
       })
     })
   }

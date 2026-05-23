@@ -41,10 +41,9 @@
         <div class="">
           <div class="card-title_1"><strong>{{cartItems.product_name | titlecase}}</strong></div>
           <div class="mrp-content"><span class="rates">₹ {{cartItems.product_price}} </span>
-            <span> </span> M.R.P : ₹ <del>
-              {{cartItems.product_mrp_price}}</del>
-            <span> </span>
-            Save ₹ {{cartItems.product_mrp_price-cartItems.product_price}}
+            <span> </span> M.R.P : ₹ <del> 
+              {{cartItems.product_mrp_price}} </del>
+              Save ₹ {{ getSavedAmount(cartItems) }}
           </div>
           <span class="mrp-content">Get it by
             <span class="delevery_date">Today </span>

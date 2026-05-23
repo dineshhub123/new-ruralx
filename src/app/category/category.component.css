@@ -161,3 +161,6 @@ label {
     justify-content: center;
     text-align: center;
 }
+.notranslate{
+   unicode-bidi:isolate;
+}
