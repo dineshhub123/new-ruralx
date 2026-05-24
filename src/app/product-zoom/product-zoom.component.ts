@@ -73,6 +73,7 @@ export class ProductZoomComponent implements OnInit {
   public ratingSummary: any[] = [];
   public visibleRatings: any[] = [];
   public showAll = false;
+  showCartItems:boolean = true;
   selectedColor: string | null = null;
   selectedSize: string | null = null;
   selectedImage: any[] = [];
@@ -81,13 +82,22 @@ export class ProductZoomComponent implements OnInit {
   increment() {
     if (this.counter < this.MAX_QTY) {
       this.counter += 1;
-    }
+        }
+    this.showCartItems = false;
+      setTimeout(() => {
+        this.showCartItems = true;
+      },0);
   }
 
   decrement() {
     if (this.counter > 1) {
       this.counter--;
     }
+   this.showCartItems = false;
+      setTimeout(() => {
+        this.showCartItems = true;
+      },0);
+
   }
 
   enableZoom: Boolean = true;
@@ -128,6 +138,11 @@ export class ProductZoomComponent implements OnInit {
     }
     this.apiService.getProductById(payload).subscribe((res: any) => {
       this.cartItems = res?.data;
+      this.showCartItems = false;
+      setTimeout(() => {
+        this.showCartItems = true;
+      }, 50);
+
       this.getProductReview(this.cartItems?.product_id)
       this.colorCodes = [...new Set(this.cartItems?.variants?.map((v: any) => v.colorCode))];
       this.sizes = this.sizeService.getSizes(this.cartItems.category, this.cartItems.sub_category);
@@ -233,7 +248,11 @@ export class ProductZoomComponent implements OnInit {
       this.thumbsSwiperRef?.swiperRef?.update();
       this.mainSwiper?.swiperRef?.slideTo(0); // reset to first image
       this.updateImage();
-      this.cd.detectChanges();
+      this.showCartItems = false;
+      setTimeout(() => {
+        this.showCartItems = true;
+      },0);
+        this.cd.detectChanges();
     }, 0);
     this.mainSwiper?.swiperRef?.slideTo(0);
   }
@@ -245,6 +264,10 @@ export class ProductZoomComponent implements OnInit {
       this.thumbsSwiperRef?.swiperRef.update();
       this.mainSwiper?.swiperRef.slideTo(0); // reset to first image
       this.updateImage();
+      this.showCartItems = false;
+      setTimeout(() => {
+        this.showCartItems = true;
+      },0);
       this.cd.detectChanges();
     }, 0);
 
@@ -350,6 +373,11 @@ export class ProductZoomComponent implements OnInit {
       this.apiService.submitReviewHelpful(formData).subscribe((res) => {
         if (res.status) {
           review.helpful_count++;
+      this.showCartItems = false;
+      setTimeout(() => {
+        this.showCartItems = true;
+      },0);
+
         }
       })
     } catch (err) {

@@ -16,6 +16,7 @@ export class AddcartComponent implements OnInit {
   addCartData: any;
   totalAmount: any
   unsubscribe: any;
+  showCartItems:boolean = true;
   public counter: number = 1;
   checkUserExiest: boolean = false;
   public isLoading: boolean = false;
@@ -40,6 +41,11 @@ export class AddcartComponent implements OnInit {
         this.addCartData = cartItems;
         let totalAmount = this.addCartData.map((total: any) => total.price * total.quantity)
         this.totalAmount = totalAmount.reduce((a: any, b: any) => a + b, 0)
+      this.showCartItems = false;
+      setTimeout(() => {
+        this.showCartItems = true;
+      },0);
+
       }
     });
   }
@@ -83,10 +89,12 @@ decrement(item: any) {
 
 increment(item: any) {
   console.log(item)
+  if (item.quantity < this.MAX_QTY) {
   const newQty = item.quantity + 1;
   this.addCartService.updateQuantity(item, newQty).subscribe(() => {
     this.addCartService.loadCartFromAPI();
   });
+}
 }
 
   updatedQuantity: any;

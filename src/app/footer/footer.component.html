@@ -25,7 +25,7 @@
         <span class="mobi-foot-image orders-lst-image">
           <mat-icon id="cartIconTarget">shopping_cart</mat-icon>
         </span>
-        <label class="cart-badge">{{itemQuantity}}</label>
+        <label class="cart-badge" *ngIf="showQuantity">{{itemQuantity}}</label>
 
         <span class="mobi-foot-name mr-3">Cart </span>
       </a>

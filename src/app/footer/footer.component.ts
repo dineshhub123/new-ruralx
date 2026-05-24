@@ -12,7 +12,7 @@ import { LoginService } from '../services/login.service';
 export class FooterComponent implements OnInit {
   public itemQuantity: number = 0;
   public cartItems: Product[] = [];
-
+ showQuantity:boolean = true;
   constructor(public router: Router, public location: Location,
      public addCartService: AddcartService, public loginService: LoginService,
     ) { }
@@ -21,7 +21,10 @@ export class FooterComponent implements OnInit {
   this.addCartService.cart$.subscribe(cart => {
    // this.itemQuantity = cart.length;
      this.itemQuantity = cart.reduce((total: number, item: any) => total + (item?.quantity || 0), 0);
-
+      this.showQuantity = false;
+      setTimeout(() => {
+        this.showQuantity = true;
+      }, 50);
   });
   }
 

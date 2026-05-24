@@ -45,6 +45,7 @@ export class HeaderComponent implements OnInit {
   public isMenuOpen: boolean = false
   public itemQuantity: number = 0;
   username: string | null = null;
+  showUsername:boolean = true;
   constructor(@Inject(DOCUMENT) private document: Document, private addressService: AddressService, public addCartService: AddcartService, public loginService: LoginService, private cdRef: ChangeDetectorRef, private zone: NgZone,
     public dialog: MatDialog, private http: HttpClient, public router: Router, private fb: FormBuilder, private apiService: ApiService, private _bottomSheet: MatBottomSheet, private scrollService: ScrollService
   ) {
@@ -80,6 +81,12 @@ export class HeaderComponent implements OnInit {
     this.addressService.selectedAddress$.subscribe((addr: any) => {
       if (addr) {
         this.updateHeader(addr);
+      this.showUsername = false;
+      setTimeout(() => {
+        this.showUsername = true;
+      }, 50);
+
+
       }
     });
     this.addCartService.cart$.subscribe(items => {

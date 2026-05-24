@@ -50,11 +50,8 @@ export class AppComponent {
   public lastScrollTop = 0;
   public isDesktop: boolean = false;
   public isGuest = true;
-  selectedLanguage:string='en';
-  languages = [
-  { value: 'en', label: 'English' },
-  { value: 'hi', label: 'Hindi' }
-];
+  selectedLanguage: string = 'en';
+  showUsername: boolean = true;
 
   constructor(private renderer: Renderer2, private zone: NgZone, public dialog: MatDialog, public location: Location, public addCartService: AddcartService, private toastr: ToastrService, private translate: TranslateService,
     public loginService: LoginService,
@@ -110,10 +107,9 @@ export class AppComponent {
     };
     requestAnimationFrame(animate);
   }
-
   ngOnInit(): void {
-const saved = localStorage.getItem('language');
-  this.selectedLanguage =
+    const saved = localStorage.getItem('language');
+    this.selectedLanguage =
       saved === 'hi' ? 'hi' : 'en';
 
     this.loginService.user$.subscribe(user => {
@@ -140,7 +136,14 @@ const saved = localStorage.getItem('language');
         this.username = user.user_first_name;
         this.isGuest = false;
       }
-    });    // Fix for Android Chrome not applying theme color immediately
+      // allow Google Translate DOM update
+      this.showUsername = false;
+      setTimeout(() => {
+        this.showUsername = true;
+      }, 50);
+    });
+
+    // Fix for Android Chrome not applying theme color immediately
     const metaThemeColor = document.querySelector("meta[name=theme-color]");
     if (metaThemeColor) {
       // Reset once, then set again to force reapply
@@ -302,67 +305,72 @@ const saved = localStorage.getItem('language');
   goToLogin() {
     this.router.navigate(['/login']);
   }
-changeLanguage(lang: string) {
+  changeLanguage(lang: string) {
 
-  this.selectedLanguage = lang;
+    this.selectedLanguage = lang;
 
-  localStorage.setItem('language', lang);
+    localStorage.setItem('language', lang);
 
-  const select: any =
-    document.querySelector('.goog-te-combo');
-
-  if (select) {
-
-    select.value = '';
-
-    setTimeout(() => {
-
-      select.value = lang;
-
-      select.dispatchEvent(
-        new Event('change', {
-          bubbles: true
-        })
-      );
-
-    }, 200);
-  }
-}
-
-
-
-toggleLanguage(){
-
-   // Toggle language
-   this.selectedLanguage =
-   this.selectedLanguage === 'en'
-   ? 'hi'
-   : 'en';
-
-   localStorage.setItem(
-      'language',
-      this.selectedLanguage
-   );
-
-   const interval=setInterval(()=>{
-
-      const select:any=
+    const select: any =
       document.querySelector('.goog-te-combo');
 
-      if(select){
+    if (select) {
 
-         select.value=this.selectedLanguage;
+      select.value = '';
 
-         select.dispatchEvent(
-           new Event('change',{
-             bubbles:true
-           })
-         );
+      setTimeout(() => {
 
-         clearInterval(interval);
+        select.value = lang;
+
+        select.dispatchEvent(
+          new Event('change', {
+            bubbles: true
+          })
+        );
+
+      }, 200);
+    }
+  }
+
+
+
+  toggleLanguage() {
+
+    // Toggle language
+    this.selectedLanguage =
+      this.selectedLanguage === 'en'
+        ? 'hi'
+        : 'en';
+
+    localStorage.setItem(
+      'language',
+      this.selectedLanguage
+    );
+
+    const interval = setInterval(() => {
+
+      const select: any =
+        document.querySelector('.goog-te-combo');
+
+      if (select) {
+
+        select.value = this.selectedLanguage;
+
+        select.dispatchEvent(
+          new Event('change', {
+            bubbles: true
+          })
+        );
+
+        clearInterval(interval);
       }
 
-   },500);
-}
+    }, 500);
+    this.showUsername = false;
+      setTimeout(() => {
+        this.showUsername = true;
+      });
+
+  }
 }
 

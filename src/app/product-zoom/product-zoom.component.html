@@ -28,7 +28,7 @@
               <div>{{item}}</div>
             </div>
           </div>
-          <label class="recommend" *ngIf="sizes.length > 0">
+          <label class="recommend" *ngIf="sizes.length > 0 && showCartItems">
             <b>{{selectedSize}}</b> is your Selected {{ getVariantLabel(sizes) }} <mat-icon
               class="green-icon">check</mat-icon>
           </label>
@@ -40,7 +40,7 @@
       <div class="zoom_right_panel">
         <div class="">
           <div class="card-title_1"><strong>{{cartItems.product_name | titlecase}}</strong></div>
-          <div class="mrp-content"><span class="rates">₹ {{cartItems.product_price}} </span>
+          <div class="mrp-content" *ngIf="showCartItems"><span class="rates">₹ {{cartItems.product_price}} </span>
             <span> </span> M.R.P : ₹ <del> 
               {{cartItems.product_mrp_price}} </del>
               Save ₹ {{ getSavedAmount(cartItems) }}
@@ -52,7 +52,7 @@
         </div>
         <div class="description-title">Product Description : </div>
         <div [innerHTML]="cartItems.product_description"></div>
-        <div class="mrp-content">In Stocks :
+        <div class="mrp-content" *ngIf="showCartItems">In Stocks :
           <span
             [ngClass]="{'in-stock': selectedImage[0]?.stock >=5,'limited-stock': selectedImage[0]?.stock > 0 && selectedImage[0]?.stock < 5,'out-stock': selectedImage[0]?.stock === 0}">
             {{selectedImage[0]?.stock >=5? 'In Stock': selectedImage[0]?.stock > 0 && selectedImage[0]?.stock <
@@ -62,10 +62,10 @@
           <nav aria-label="quantity-navigation">
             <h5><strong>Quantity:</strong></h5>
             <ul class="pagination">
-              <li class="page-item"><a class="page-link" (click)="decrement()">
+              <li class="page-item"><a class="page-link" (click)="decrement()" >
                   <strong style="cursor: pointer;">-</strong></a>
               </li>
-              <li class="page-item item-font"><a class="page-link qunt-back">{{counter}}</a></li>
+              <li class="page-item item-font"><a class="page-link qunt-back" *ngIf="showCartItems">{{counter}}</a></li>
               <li class="page-item"><a class="page-link" (click)="increment()">
                   <strong style="cursor: pointer;">+</strong></a>
               </li>
@@ -155,7 +155,7 @@
           </span>
         </div>
       </div>
-      <div class="helpfull-text"> <a (click)="markHelpful(review)"> 👍 Helpful ({{review.helpful_count}})</a></div>
+      <div class="helpfull-text" *ngIf="showCartItems"> <a (click)="markHelpful(review)"> 👍 Helpful ({{review.helpful_count}})</a></div>
     </mat-card>
   </div>
   <!-- Show More Button -->

@@ -11,47 +11,53 @@ import { Router } from '@angular/router';
   styleUrls: ['./addcart-dailog.component.css']
 })
 export class AddcartDailogComponent {
-  public addItam:any;
-  public selectedSize:any;
+  public addItam: any;
+  public selectedSize: any;
+  showItemSize: boolean = true;
   imageBaseUrl = environment.imageBaseUrl;
-constructor(@Inject(MAT_DIALOG_DATA) public data: any,public router : Router, public addCartService:AddcartService,private dialogRef: MatDialogRef<AddcartDailogComponent>){
-this.addItam = data;
-console.log("addItam",this.addItam)
-}
-
-ngOnInit(){
-  this.selectedSize = this.addItam?.sizes[1]
-}
-
-onSizeSelect(size:any){
-  this.selectedSize = size;
-}
-
-getVariantLabel(item: any): string {
-
-  if (!item?.sizes || item.sizes.length === 0) return 'Variant';
-
-  const first = item.sizes[0];
-
-  if (first.includes('GB') || first.includes('TB')) {
-    return 'Storage';
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public addCartService: AddcartService, private dialogRef: MatDialogRef<AddcartDailogComponent>) {
+    this.addItam = data;
+    console.log("addItam", this.addItam)
   }
 
-if (!isNaN(first)) {
-    return 'Size';
-  }
-   // Kids Size (5C, 6C, 1Y, 2Y)
-  if (first.match(/^\d+(C|Y)$/)) {
-    return 'Size';
+  ngOnInit() {
+    this.selectedSize = this.addItam?.sizes[1]
   }
 
-const clothSizes = ['XS','S','M','L','XL','XXL','XXXL'];
+  onSizeSelect(size: any) {
+    this.selectedSize = size;
+    this.showItemSize = false;
+    setTimeout(() => {
+      this.showItemSize = true;
+    });
 
-if (clothSizes.includes(first.toUpperCase())) {
-  return 'Size';
-}
-  return 'Variant';
-}
+  }
+
+  getVariantLabel(item: any): string {
+
+    if (!item?.sizes || item.sizes.length === 0) return 'Variant';
+
+    const first = item.sizes[0];
+
+    if (first.includes('GB') || first.includes('TB')) {
+      return 'Storage';
+    }
+
+    if (!isNaN(first)) {
+      return 'Size';
+    }
+    // Kids Size (5C, 6C, 1Y, 2Y)
+    if (first.match(/^\d+(C|Y)$/)) {
+      return 'Size';
+    }
+
+    const clothSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+
+    if (clothSizes.includes(first.toUpperCase())) {
+      return 'Size';
+    }
+    return 'Variant';
+  }
 
   imgClick(item: any) {
     this.router.navigate(['/pzoom'], {
@@ -70,7 +76,7 @@ if (clothSizes.includes(first.toUpperCase())) {
     });
 
     this.dialogRef.close();
- }
+  }
 
   flyToCart(productImg: HTMLElement) {
     const cartIcon = document.getElementById('cartIconTarget');
@@ -126,29 +132,29 @@ if (clothSizes.includes(first.toUpperCase())) {
 
   }
 
-    get currentQty(): number {
+  get currentQty(): number {
     const item = this.addItam?.cartData.find((i: any) => i.id);
     return item?.quantity || 0;
   }
 
-addCart(event:any,addItam:any){
+  addCart(event: any, addItam: any) {
     const addCartPayload = {
-    id:addItam.cartData.id,
-    product_id: addItam.cartData.product_id,
-    product_name: addItam.cartData.product_name,
-    price: addItam.cartData.price,
-    mrp: addItam.cartData.mrp,
-    discount: addItam.cartData.product_discount,
-    quantity: 1,
-    size: this.selectedSize? this.selectedSize : "",
-    color: addItam?.cartData.color,
-    image:  addItam?.cartData?.image
-  };
-  this.addCartService.addToCart(addCartPayload).subscribe((res: any) => {
-    this.addCartService.loadCartFromAPI();
+      id: addItam.cartData.id,
+      product_id: addItam.cartData.product_id,
+      product_name: addItam.cartData.product_name,
+      price: addItam.cartData.price,
+      mrp: addItam.cartData.mrp,
+      discount: addItam.cartData.product_discount,
+      quantity: 1,
+      size: this.selectedSize ? this.selectedSize : "",
+      color: addItam?.cartData.color,
+      image: addItam?.cartData?.image
+    };
+    this.addCartService.addToCart(addCartPayload).subscribe((res: any) => {
+      this.addCartService.loadCartFromAPI();
       this.dialogRef.close(res);
-  });
-      this.flyToCartFromEvent(event);
+    });
+    this.flyToCartFromEvent(event);
 
-}
+  }
 }

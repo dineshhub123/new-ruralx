@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <p class="recommend">
+    <p class="recommend" *ngIf="showItemSize">
         <b>{{selectedSize}}</b> is your Selected {{ getVariantLabel(addItam) }} <mat-icon class="green-icon">check</mat-icon>
     </p>
     <div class="price-section">
