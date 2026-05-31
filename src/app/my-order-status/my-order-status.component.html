@@ -42,23 +42,7 @@
 
             <div class="status-badge" [ngClass]="statusClass(orderStatusData?.status)">
                 <span class="dot"></span>
-                {{
-                orderStatusData?.status === 'out_for_delivery' ? 'Out for Delivery' :
-                orderStatusData?.status === 'Return_Requested' ? 'Return Requested' :
-                orderStatusData?.status === 'Replace_Requested' ? 'Replace Requested' :
-                orderStatusData?.status === 'Partially_Returned' ? 'Partially Returned' :
-                orderStatusData?.status === 'Fully_Returned' ? 'Fully Returned' :
-                orderStatusData?.status === 'Partially_Replaced' ? 'Partially Replaced' :
-                orderStatusData?.status === 'Fully_Replaced' ? 'Fully Replaced' :
-                orderStatusData?.status === 'Replacement_Shipped' ? 'Replacement Shipped ' :
-                orderStatusData?.status === 'Return_Approved' ? 'Return Approved' :
-                orderStatusData?.status === 'Replace_Approved' ? 'Replace Approved' :
-                orderStatusData?.status === 'Refund_Processing' ? 'Refund Processing' :
-                orderStatusData?.status === 'Picked_Up' ? 'Picked Up' :
-
-
-                (orderStatusData?.status | titlecase)
-                }}
+                {{ getOrderStatusText(orderStatusData) }}
             </div>
         </div>
 

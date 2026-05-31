@@ -61,6 +61,8 @@ orderdList() {
             total_item_price: item.price * item.quantity,
             total_amount: order.total_amount,
             status: order.status,
+            refund_status:order.refund_status,
+            payment_method:order.payment_method,
             order_date: order.created_at,
             userId: item.user_id,
             size: item.size,
@@ -94,7 +96,9 @@ orderdList() {
         map.set(id, {
           order_id: id,
           order_date: item.order_date,   // keep first date
-          status: item.status,           // keep status (or latest)
+          status: item.status,
+          refund_status:item.refund_status,
+          payment_method:item.payment_method,
           items: [],
           totalAmount: 0
         });
@@ -122,5 +126,69 @@ orderdList() {
     goToLogin() {
     this.router.navigate(['/login']);
   }
+getDisplayStatus(order: any): string {
+  console.log("orfdr",order)
+  // Cancelled Orders
+  if (order?.status === 'cancelled') {
+    if (order?.payment_method === 'ONLINE') {
+      switch (order?.refund_status) {
+        case 'pending':
+          return 'Refund Pending';
+        case 'processing':
+          return 'Refund In Progress';
+        case 'completed':
+          return 'Refund Completed';
+        default:
+          return 'Cancelled';
+      }
+    }
 
+    return 'Cancelled';
+  }
+
+  // Other Statuses
+  switch (order?.status) {
+
+    case 'out_for_delivery':
+      return 'Out for Delivery';
+
+    case 'Return_Requested':
+      return 'Return Requested';
+
+    case 'Replace_Requested':
+      return 'Replace Requested';
+
+    case 'Partially_Returned':
+      return 'Partially Returned';
+
+    case 'Fully_Returned':
+      return 'Fully Returned';
+
+    case 'Partially_Replaced':
+      return 'Partially Replaced';
+
+    case 'Fully_Replaced':
+      return 'Fully Replaced';
+
+    case 'Replacement_Shipped':
+      return 'Replacement Shipped';
+
+    case 'Return_Approved':
+      return 'Return Approved';
+
+    case 'Replace_Approved':
+      return 'Replace Approved';
+
+    case 'Refund_Processing':
+      return 'Refund Processing';
+
+    case 'Picked_Up':
+      return 'Picked Up';
+
+    default:
+      return order?.status
+        ?.replace(/_/g, ' ')
+        ?.replace(/\b\w/g, (c: string) => c.toUpperCase()) || '';
+  }
+}
 }

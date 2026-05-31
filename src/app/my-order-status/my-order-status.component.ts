@@ -307,6 +307,79 @@ getStatusMessage(status: string): string {
       return '';
   }
 }
+
+
+getOrderStatusText(orderStatusData: any): string {
+
+  // Cancelled Orders
+  if (orderStatusData?.status === 'cancelled') {
+
+    if (orderStatusData?.payment_method === 'ONLINE') {
+
+      switch (orderStatusData?.refund_status) {
+
+        case 'pending':
+          return 'Refund Pending';
+
+        case 'processing':
+          return 'Refund In Progress';
+
+        case 'completed':
+          return 'Refund Completed';
+
+        default:
+          return 'Cancelled';
+      }
+    }
+
+    return 'Cancelled';
+  }
+
+  // Other Statuses
+  switch (orderStatusData?.status) {
+
+    case 'out_for_delivery':
+      return 'Out for Delivery';
+
+    case 'Return_Requested':
+      return 'Return Requested';
+
+    case 'Replace_Requested':
+      return 'Replace Requested';
+
+    case 'Partially_Returned':
+      return 'Partially Returned';
+
+    case 'Fully_Returned':
+      return 'Fully Returned';
+
+    case 'Partially_Replaced':
+      return 'Partially Replaced';
+
+    case 'Fully_Replaced':
+      return 'Fully Replaced';
+
+    case 'Replacement_Shipped':
+      return 'Replacement Shipped';
+
+    case 'Return_Approved':
+      return 'Return Approved';
+
+    case 'Replace_Approved':
+      return 'Replace Approved';
+
+    case 'Refund_Processing':
+      return 'Refund Processing';
+
+    case 'Picked_Up':
+      return 'Picked Up';
+
+    default:
+      return orderStatusData?.status
+        ?.replace(/_/g, ' ')
+        ?.replace(/\b\w/g, (c: string) => c.toUpperCase()) || '';
+  }
+}
   getStatusClass(status: string): string {
     switch ((status || '').toLowerCase()) {
       case 'return_requested':
