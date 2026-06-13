@@ -137,7 +137,7 @@ mat-chip:focus, mat-chip.mat-mdc-chip-selected {
 .carousel-item img {
   width: 100%;
   max-height: auto !important;
-  object-fit: contain;
+  object-fit: cover;
 }
 }
 @media (min-width: 768px) {
@@ -280,4 +280,113 @@ margin-right: -6px;
   opacity: 0.5;  
   font-size: 12px;
 }
+
+
+
+
+
+.banner-card{
+  display:flex;
+  align-items:center;
+  height:190px;
+  border-radius:12px;
+  overflow:hidden;
+  background:#ffffff;
+  margin:0 10px;
+  cursor:pointer;
+}
+
+/* .banner-left{
+  width:45%;
+  height:100%;
+  background:#0b2a62;
+  color:#fff;
+  padding:18px 15px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+} */
+.banner-left{
+  width:60%;
+  color:#fff;
+  padding:20px 10px 20px 10px; /* left padding 30px */
+
+  background: linear-gradient(
+    135deg,
+    #001f4d 0%,
+    #003b8e 50%,
+    #0b5ed7 100%
+  );
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.banner-left h2{
+  font-size:18px;
+  font-weight:700;
+  line-height:1.1;
+  margin-bottom:10px;
+  color:#fff;
+}
+
+.banner-left p{
+  font-size:13px;
+  margin-bottom:15px;
+  color:#fff;
+}
+
+.shop-btn{
+  width:110px;
+  height:30px;
+  border:none;
+  border-radius:8px;
+  background:#f4c542;
+  color:#000;
+  font-weight:600;
+}
+
+.banner-right{
+  width:40%;
+  height:100%;
+}
+
+.banner-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.carousel-control-prev,
+.carousel-control-next{
+  width:8%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon{
+  background-size:70%;
+}
+
+@media (max-width:576px){
+
+  .banner-card{
+    height:135px;
+  }
+
+  .banner-left h2{
+    font-size:16px;
+  }
+
+  .banner-left p{
+    font-size:12px;
+  }
+
+  .shop-btn{
+    width:100px;
+    height:30px;
+    font-size:13px;
+  }
+}
+
 

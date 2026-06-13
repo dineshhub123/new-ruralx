@@ -9,30 +9,44 @@
 
   <div class="container-fluid pt-5">
     <div>
-       <div *ngFor="let data of carouselData; let i = index" class="mb-1">
-        <div id="{{data.category}}Carousel" class="carousel slide" data-ride="carousel">
-          <div class="carousel-inner" (click)="onClickImage(data.category)">
-            <div class="carousel-item" *ngFor="let image of data.images; let j = index" [class.active]="j === 0">
-              <img class="d-block w-100 carousel-img" [src]="imageBaseUrl + image"
-                alt="{{ data.category }} Slide {{ j + 1 }}" />
+      <div id="homeBannerCarousel" class="carousel slide mb-1" data-ride="carousel" data-interval="3000">
+        <div class="carousel-inner">
+          <div class="carousel-item" *ngFor="let banner of bannerImages; let i=index" [class.active]="i===0">
+            <div class="banner-card">
+              <!-- Left Content -->
+              <div class="banner-left">
+                <h2>
+                  New Collections<br>
+                  For You
+                </h2>
+                <p>
+                  Top Quality • Great Prices
+                </p>
+                <button class="shop-btn" (click)="onClickImage(banner.category)">
+                  Shop Now
+                </button>
+              </div>
+              <!-- Right Image -->
+              <div class="banner-right">
+                <img [src]="imageBaseUrl + banner.image" [alt]="banner.category" class="banner-img">
+              </div>
             </div>
           </div>
-          <a class="carousel-control-prev" href="#{{data.category}}Carousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          </a>
-          <a class="carousel-control-next" href="#{{data.category}}Carousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          </a>
         </div>
-      </div> 
-
+        <a class="carousel-control-prev" href="#homeBannerCarousel" role="button" data-slide="prev">
+          <!-- <span class="carousel-control-prev-icon"></span> -->
+        </a>
+        <a class="carousel-control-next" href="#homeBannerCarousel" role="button" data-slide="next">
+          <!-- <span class="carousel-control-next-icon"></span> -->
+        </a>
+      </div>      
       <!-- Dynamic Card Sub Category Wise  -->
       <div class="product-grid-container">
         <div class="row justify-content-flex-start">
           <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2"
             *ngFor="let subcategory of cardSubCategoryList">
             <div class="card shadow-sm h-100">
-               <div class="product-name-content">
+              <div class="product-name-content">
                 {{ categoryData[subcategory]?.name }}
               </div>
               <div class="row g-3 px-3">
@@ -46,11 +60,13 @@
                         <del class="mrp">{{p.mrp}}</del>
                         <span class="discount">{{p.discount }} off</span>
                       </div>
-                      <div class="delivery"><mat-icon class="material-symbols-outlined delivery-icon">local_shipping</mat-icon><span> Free Delivery</span></div>
+                      <div class="delivery"><mat-icon
+                          class="material-symbols-outlined delivery-icon">local_shipping</mat-icon><span> Free
+                          Delivery</span></div>
                     </div>
                   </div>
                 </div>
-              </div> 
+              </div>
             </div>
           </div>
         </div>

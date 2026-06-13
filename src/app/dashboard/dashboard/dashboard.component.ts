@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { ScrollService } from 'src/app/scroll.service';
 import { environment } from 'src/environments/environment.prod';
+declare var $: any;
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -139,11 +140,12 @@ export class DashboardComponent {
 
   // for carousel
   carouselData: any[] = []; // to store category + images + names
+  bannerImages: any[] = [];
   fetchCategoriesTypeItems() {
     // 🔄 Reset data on refresh
     this.carouselData = [];
 
-    const categories = ['sandals', 'tshirts', 'shoes', 'saree', 'salwar_suit'];
+    const categories = ['shirt','sandals', 'shoes', 'saree', 'salwar suits'];
     //const categories = ['saree'];
 
     // Create API calls array
@@ -155,21 +157,29 @@ export class DashboardComponent {
     // 🔥 WAIT FOR ALL APIS
     forkJoin(requests).subscribe({
       next: (responses: any[]) => {
-
-        responses.forEach((itemList, index) => {
+        responses.forEach((products, index) => {
           const category = categories[index];
-
-          const names = itemList.map((p: any) => p.product_name);
-          const images = itemList.flatMap((p: any) =>
-            p.variants?.flatMap((v: any) => v.images?.[0] || []) || []
+          const images = products.flatMap((p: any) =>
+            p.variants?.flatMap((v: any) => v.images || []) || []
           );
+
+          setTimeout(() => {
+            ($('#homeBannerCarousel') as any).carousel();
+          }, 100);
+          // Banner carousel ke liye first image
+          if (images.length > 0) {
+            this.bannerImages.push({
+              category,
+              image: images[0]
+            });
+          }
 
           this.carouselData.push({
             category,
-            productNames: names,
             images
           });
         });
+
 
         // ✅ STOP ANDROID SPINNER (ONLY ONCE)
         (window as any).Android?.stopSwipeRefresh();
