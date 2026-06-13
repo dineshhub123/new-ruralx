@@ -38,7 +38,7 @@
               <div class="row g-3 px-3">
                 <div class="col-6 col-md-6" *ngFor="let p of categoryData[subcategory]?.products">
                   <div class="product-card">
-                    <img class="img-fluid product-img" [src]="imageBaseUrl + p.image" alt="Image"
+                    <img class="product-img" [src]="imageBaseUrl + p.image" alt="Image"
                       (click)="onClickImage(subcategory)" />
                     <div class="product-info">
                       <div class="price">
@@ -46,7 +46,7 @@
                         <del class="mrp">{{p.mrp}}</del>
                         <span class="discount">{{p.discount }} off</span>
                       </div>
-                      <div class="delivery">Free Delivery</div>
+                      <div class="delivery"><mat-icon class="material-symbols-outlined delivery-icon">local_shipping</mat-icon><span> Free Delivery</span></div>
                     </div>
                   </div>
                 </div>
