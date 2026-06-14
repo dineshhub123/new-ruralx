@@ -375,8 +375,8 @@ margin-right: -6px;
 
 
 .offer-strip{
-    background: rgb(6, 45, 81);
-    color: #ffc107;
+    background: #0a4984;
+    color: #fff;
     padding: 5px 12px;
     margin: 18px 0px 5px 0px;
     border-radius: 6px;
@@ -389,20 +389,13 @@ margin-right: -6px;
     align-items: center;
 }
 .offer-strip span{
-color: #007bff;
-font-size: 15px;
+color: #ffc107;
+font-size: 13px;
 font-weight: 600;
 }
 marquee{
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   border-radius: 12px;
    width: 100%;
-}
-.delivery-free-text{
-    color: #ffc107;
-    font-size: 20px;
-    margin-right: 3px;
-    margin-left: 8px;
-
 }
