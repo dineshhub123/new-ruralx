@@ -41,6 +41,7 @@ export class DashboardComponent {
   }
 
   ngOnInit() {
+    this.rotateBySession();
     this.fetchCategoriesTypeItems();
     window.addEventListener('pullToRefresh', () => {
       // 🔥 ENTER ANGULAR ZONE
@@ -65,8 +66,6 @@ export class DashboardComponent {
 
       this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     });
-
-
   }
 
   ngAfterViewInit() {
@@ -121,6 +120,7 @@ export class DashboardComponent {
   }
 
   dynamicCardCategory(subCategory: any) {
+    this.loading = true;
     let payload = { searchData: subCategory };
     this.apiService.searchData(payload).subscribe(itemList => {
       const productNames = itemList.flatMap((p: any) => p.product_name);
@@ -138,6 +138,17 @@ export class DashboardComponent {
     });
   }
 
+
+  rotateBySession() {
+    const rotateBy = Math.floor(
+      Math.random() * this.cardSubCategoryList.length
+    );
+    this.cardSubCategoryList = [
+      ...this.cardSubCategoryList.slice(rotateBy),
+      ...this.cardSubCategoryList.slice(0, rotateBy)
+    ];
+  }
+
   // for carousel
   carouselData: any[] = []; // to store category + images + names
   bannerImages: any[] = [];
@@ -145,7 +156,7 @@ export class DashboardComponent {
     // 🔄 Reset data on refresh
     this.carouselData = [];
 
-    const categories = ['shirt','sandals', 'shoes', 'saree', 'salwar suits'];
+    const categories = ['shirt', 'sandals', 'shoes', 'saree', 'salwar suits'];
     //const categories = ['saree'];
 
     // Create API calls array
@@ -221,5 +232,6 @@ export class DashboardComponent {
         this.cardSubCategoryList.slice(i, i + chunkSize)
       );
     }
+    this.rotateBySession();
   }
 }
