@@ -3,8 +3,8 @@
   <div class="category-scroll" [class.at-top]="showHeaderAtTop">
     <div class="category-item" *ngFor="let chip of chipsList" (click)="onClickImage(chip.category)">
       <img class="chips-img" [src]="imageBaseUrl + chip.image[0]" [alt]="chip.category" />
-      <span>{{ chip.category | titlecase }}</span>
-    </div>
+    <span>{{ formatCategory(chip.category) | titlecase }}</span>    
+  </div>
   </div>
   <div class="container-fluid pt-4">
     <div class="offer-strip">
@@ -61,8 +61,8 @@
                       (click)="onClickImage(subcategory)" />
                     <div class="product-info">
                       <div class="price">
-                        ₹ {{p.price}}
-                        <del class="mrp">{{p.mrp}}</del>
+                        ₹{{p.price}}
+                        <del class="mrp">&nbsp;{{p.mrp}}</del>
                         <span class="discount">{{p.discount }} off</span>
                       </div>
                       <div class="delivery"><mat-icon
@@ -77,7 +77,6 @@
         </div>
       </div>
     </div>
-    <br>
     <small class="web-link pt-1">
       Discover more on RuralX : <a href="https://www.ruralx.in" target="_blank" class="ml-1">www.ruralx.in</a>
     </small>

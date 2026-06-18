@@ -25,7 +25,7 @@
         <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories"
           (click)="onSelectMainCategory(sub?.name)">
           <img [src]="imageBaseUrl + sub?.image" alt="{{ sub?.name }}" />
-          <span class="main-subcategory-title">{{ sub.name | titlecase }}</span>
+          <span class="main-subcategory-title">{{ formatCategory(sub.name) | titlecase }}</span>
         </div>
       </div>
     </div>

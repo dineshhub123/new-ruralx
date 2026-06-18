@@ -98,4 +98,8 @@ export class CategoryComponent {
       }
     });
   }
+  formatCategory(category: string): string {
+  return (category || '').replaceAll('_', ' ');
+}
+
 }

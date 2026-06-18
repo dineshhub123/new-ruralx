@@ -67,7 +67,9 @@ export class DashboardComponent {
       this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     });
   }
-
+formatCategory(category: string): string {
+  return (category || '').replaceAll('_', ' ');
+}
   ngAfterViewInit() {
     const header = this.tabHeader?.nativeElement
       .querySelector('.mat-mdc-tab-header');
