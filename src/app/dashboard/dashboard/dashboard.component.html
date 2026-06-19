@@ -3,15 +3,16 @@
   <div class="category-scroll" [class.at-top]="showHeaderAtTop">
     <div class="category-item" *ngFor="let chip of chipsList" (click)="onClickImage(chip.category)">
       <img class="chips-img" [src]="imageBaseUrl + chip.image[0]" [alt]="chip.category" />
-    <span>{{ formatCategory(chip.category) | titlecase }}</span>    
-  </div>
+      <span>{{ formatCategory(chip.category) | titlecase }}</span>
+    </div>
   </div>
   <div class="container-fluid pt-4">
     <div class="offer-strip">
- <marquee scrollamount="4">
-    🚚 FREE Delivery on Orders <span>₹299</span>   &  Above ✨  &nbsp;&nbsp;|&nbsp;&nbsp;  🚀 1-Day Delivery Available*  &nbsp;&nbsp;|&nbsp;&nbsp;  🛍️ Best Deals Every Day  &nbsp;&nbsp;|&nbsp;&nbsp; ⚡ Fast & Reliable Delivery
-  </marquee>
-</div>
+      <marquee scrollamount="4">
+        🚚 FREE Delivery on Orders <span>₹299</span> & Above ✨ &nbsp;&nbsp;|&nbsp;&nbsp; 🚀 1-Day Delivery Available*
+        &nbsp;&nbsp;|&nbsp;&nbsp; 🛍️ Best Deals Every Day &nbsp;&nbsp;|&nbsp;&nbsp; ⚡ Fast & Reliable Delivery
+      </marquee>
+    </div>
 
     <div>
       <div id="homeBannerCarousel" class="carousel slide mb-1" data-ride="carousel" data-interval="3000">
@@ -36,15 +37,31 @@
                 <img [src]="imageBaseUrl + banner.image" [alt]="banner.category" class="banner-img">
               </div>
             </div>
+
+          </div>
+          <div class="carousel-item">
+            <div class="offer-slide">
+              <div class="offer-content">
+                <span class="offer-tag"> FAST DELIVERY</span>
+                <h2>GET YOUR ORDER IN JUST</h2>
+                <h1>1 DAY</h1>
+                <p>Fast • Reliable • Near You</p>
+                <div class="offer-btn">
+                  Order Today, Get It Today*
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
+
         <a class="carousel-control-prev" href="#homeBannerCarousel" role="button" data-slide="prev">
           <!-- <span class="carousel-control-prev-icon"></span> -->
         </a>
         <a class="carousel-control-next" href="#homeBannerCarousel" role="button" data-slide="next">
           <!-- <span class="carousel-control-next-icon"></span> -->
         </a>
-      </div>      
+      </div>
       <!-- Dynamic Card Sub Category Wise  -->
       <div class="product-grid-container">
         <div class="row justify-content-flex-start">
