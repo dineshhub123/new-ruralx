@@ -115,7 +115,7 @@ export class AppComponent {
         setTimeout(() => {
           splash?.remove();
         }, 500);
-      }, 2000); // 2 sec
+      }, 3000); // 3 sec
     });
 
     // const alreadyShown = sessionStorage.getItem('splashShown');
