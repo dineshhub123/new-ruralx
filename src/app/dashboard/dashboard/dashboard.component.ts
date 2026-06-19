@@ -22,6 +22,7 @@ export class DashboardComponent {
   tabHeader!: ElementRef;
   public showHeaderAtTop: boolean = false;
   public lastScrollTop = 0;
+  currentBannerIndex = 0;
   loading = true;
   cardSubCategoryList: any[] = [];
   categoryData: any = {}; // store data per category
@@ -67,9 +68,9 @@ export class DashboardComponent {
       this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     });
   }
-formatCategory(category: string): string {
-  return (category || '').replaceAll('_', ' ');
-}
+  formatCategory(category: string): string {
+    return (category || '').replaceAll('_', ' ');
+  }
   ngAfterViewInit() {
     const header = this.tabHeader?.nativeElement
       .querySelector('.mat-mdc-tab-header');
@@ -181,18 +182,14 @@ formatCategory(category: string): string {
           }, 100);
           // Banner carousel ke liye first image
           if (images.length > 0) {
-            this.bannerImages.push({
+            const bannerObj = {
               category,
               image: images[0]
-            });
+            };
+            this.bannerImages.push(bannerObj);
+            this.startBannerRotation(images, bannerObj);
           }
-
-          this.carouselData.push({
-            category,
-            images
-          });
         });
-
 
         // ✅ STOP ANDROID SPINNER (ONLY ONCE)
         (window as any).Android?.stopSwipeRefresh();
@@ -206,6 +203,13 @@ formatCategory(category: string): string {
     });
   }
 
+startBannerRotation(images: string[], bannerObj: any) {
+  let index = 0; // local index for this banner
+  setInterval(() => {
+    index = (index + 1) % images.length;
+    bannerObj.image = images[index];
+  }, 15000); // 30 sec
+}  
   onClickImage(category: any) {
     this.router.navigate(['/display-item'], {
       queryParams: {
