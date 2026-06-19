@@ -208,7 +208,7 @@ startBannerRotation(images: string[], bannerObj: any) {
   setInterval(() => {
     index = (index + 1) % images.length;
     bannerObj.image = images[index];
-  }, 15000); // 30 sec
+  }, 15000); // 15 sec
 }  
   onClickImage(category: any) {
     this.router.navigate(['/display-item'], {
