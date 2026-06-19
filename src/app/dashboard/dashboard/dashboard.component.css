@@ -320,15 +320,15 @@ mat-chip.mat-mdc-chip-selected {
 }
 .banner-card,
 .offer-slide {
-  height: 200px; /* same height */
-  min-height: 200px;
+  height: 180px; /* same height */
+  min-height: 180px;
   border-radius: 20px;
   overflow: hidden;
 }
 .banner-card{
   display: flex;
   align-items: center;
-  height: 200px;
+  height: 180px;
   border-radius: 12px;
   overflow: hidden;
   background: #ffffff;
@@ -344,7 +344,7 @@ mat-chip.mat-mdc-chip-selected {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 200px;
+  height: 180px;
 }
 
 .banner-left h2 {
@@ -474,14 +474,14 @@ marquee {
 }
 
 .offer-content p {
-  margin-bottom: 15px;
+  margin-bottom: 4px;
 }
 
 .offer-btn {
   display: inline-block;
   background: #fff;
   color: #ff6b00;
-  padding: 10px 18px;
+  padding: 8px 16px;
   border-radius: 30px;
   font-weight: 600;
 }

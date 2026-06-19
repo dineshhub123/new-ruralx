@@ -196,3 +196,24 @@ body {
     display: none !important;
 }
 
+#app-splash {
+  position: fixed;
+  inset: 0;
+  background: #0B3A6E;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+#app-splash img {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+}
+
+#app-splash.hide {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}

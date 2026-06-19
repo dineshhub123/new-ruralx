@@ -108,6 +108,30 @@ export class AppComponent {
     requestAnimationFrame(animate);
   }
   ngOnInit(): void {
+    window.addEventListener('load', () => {
+      const splash = document.getElementById('app-splash');
+      setTimeout(() => {
+        splash?.classList.add('hide');
+        setTimeout(() => {
+          splash?.remove();
+        }, 500);
+      }, 2000); // 2 sec
+    });
+
+    // const alreadyShown = sessionStorage.getItem('splashShown');
+    // const splash = document.getElementById('app-splash');
+    // if (alreadyShown) {
+    //   splash?.remove();
+    //   return;
+    // }
+    // sessionStorage.setItem('splashShown', 'true');
+    // setTimeout(() => {
+    //   splash?.classList.add('hide');
+    //   setTimeout(() => {
+    //     splash?.remove();
+    //   }, 500);
+    // }, 2000);
+
     const saved = localStorage.getItem('language');
     this.selectedLanguage =
       saved === 'hi' ? 'hi' : 'en';
@@ -367,9 +391,9 @@ export class AppComponent {
 
     }, 500);
     this.showUsername = false;
-      setTimeout(() => {
-        this.showUsername = true;
-      });
+    setTimeout(() => {
+      this.showUsername = true;
+    });
 
   }
 }
