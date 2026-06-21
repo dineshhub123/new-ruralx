@@ -17,7 +17,7 @@ import { PrivacyPolicyComponent } from '../privacy-policy/privacy-policy.compone
 
 })
 export class LoginComponent implements OnInit {
-
+hidePassword:boolean = true;
   loginForm: FormGroup = new FormGroup({
     mobile: new FormControl('', [Validators.required, Validators.pattern(/^([0-9]{10}|[^\s@]+@[^\s@]+\.[^\s@]+)$/)]),
     password: new FormControl('', [Validators.required])

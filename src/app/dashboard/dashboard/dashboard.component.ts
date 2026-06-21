@@ -47,6 +47,7 @@ export class DashboardComponent {
     window.addEventListener('pullToRefresh', () => {
       // 🔥 ENTER ANGULAR ZONE
       this.ngZone.run(() => {
+        //this.rotateBySession();
         this.fetchCategoriesTypeItems();
       });
     }); this.scrollService.scroll$.subscribe(scrollTop => {

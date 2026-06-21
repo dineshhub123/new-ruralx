@@ -12,6 +12,7 @@ export class SignupComponent implements OnInit {
 
   signupForm!: FormGroup;
   isLoading: boolean = false;
+  hidePassword = true
   constructor(
     public router: Router,
     private apiService: ApiService,
