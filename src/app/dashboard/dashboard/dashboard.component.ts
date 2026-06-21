@@ -42,15 +42,14 @@ export class DashboardComponent {
   }
 
   ngOnInit() {
-    this.rotateBySession();
     this.fetchCategoriesTypeItems();
     window.addEventListener('pullToRefresh', () => {
-      // 🔥 ENTER ANGULAR ZONE
       this.ngZone.run(() => {
-        //this.rotateBySession();
         this.fetchCategoriesTypeItems();
       });
-    }); this.scrollService.scroll$.subscribe(scrollTop => {
+    }); 
+    
+    this.scrollService.scroll$.subscribe(scrollTop => {
       // Always show header at top
       if (scrollTop <= 0) {
         this.showHeaderAtTop = false;
@@ -160,9 +159,7 @@ export class DashboardComponent {
     // 🔄 Reset data on refresh
     this.carouselData = [];
 
-    const categories = ['shirt', 'sandals', 'shoes', 'saree', 'salwar suits'];
-    //const categories = ['saree'];
-
+    const categories = ['sweatshirts','shirt', 'sandals', 'shoes', 'saree', 'salwar suits','earbuds','irons'];
     // Create API calls array
     const requests = categories.map(category => {
       const payload = { searchData: category };
@@ -180,8 +177,7 @@ export class DashboardComponent {
 
           setTimeout(() => {
             ($('#homeBannerCarousel') as any).carousel();
-          }, 100);
-          // Banner carousel ke liye first image
+          }, 1000);
           if (images.length > 0) {
             const bannerObj = {
               category,
