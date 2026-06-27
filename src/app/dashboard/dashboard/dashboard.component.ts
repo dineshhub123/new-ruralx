@@ -199,7 +199,12 @@ export class DashboardComponent {
       }
     });
   }
-
+getDiscountPercent(mrp: number, discount: number): number {
+  if (!mrp || mrp <= 0) {
+    return 0;
+  }
+  return Math.floor((discount / mrp) * 100);
+}
 startBannerRotation(images: string[], bannerObj: any) {
   let index = 0; // local index for this banner
   setInterval(() => {

@@ -263,7 +263,6 @@ mat-chip.mat-mdc-chip-selected {
 
 .discount {
   color: green;
-  margin-left: 5px;
   font-size: clamp(0.7rem, 0.7vw, 0.7rem);
   opacity: 0.9;
 
@@ -278,8 +277,8 @@ mat-chip.mat-mdc-chip-selected {
 .delivery-icon {
   color: green;
   margin-top: 3px;
-  margin-right: -3px;
-  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  margin-right: 0px;
+  font-size: clamp(1.2rem, 1.2vw, 1.2rem);
 
 }
 
@@ -294,8 +293,8 @@ mat-chip.mat-mdc-chip-selected {
 
 .mrp {
   color: #ff0000;
-  opacity: 0.5;
   font-size: clamp(0.8rem, 0.8vw, 0.8rem);
+  font-weight: 600;
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -484,4 +483,13 @@ marquee {
   padding: 8px 16px;
   border-radius: 30px;
   font-weight: 600;
+}
+.force-outline {
+  font-family: 'Material Icons Outlined' !important;
+}
+.mrp-text{
+  font-size:clamp(0.8rem, 0.8vw, 0.8rem);
+  font-weight: 600;
+  opacity: 0.7;
+  margin-top: -5px;
 }

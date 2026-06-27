@@ -17,6 +17,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { TranslateService } from '@ngx-translate/core';
 import { TermsAndConditionComponent } from './terms-and-condition/terms-and-condition.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+declare var Android: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -396,5 +397,16 @@ export class AppComponent {
     });
 
   }
+testVoice() {
+const message =
+  'Welcome to Ruralx. Limited stock. Limited stock. Limited stock.';
+    if ((window as any).Android) {
+    (window as any).Android.speak(message);
+  } else {
+    console.log('Android bridge not available');
+  }
+
+}
+  
 }
 

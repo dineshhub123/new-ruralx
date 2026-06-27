@@ -79,11 +79,11 @@
                     <div class="product-info">
                       <div class="price">
                         ₹{{p.price}}
-                        <del class="mrp">&nbsp;{{p.mrp}}</del>
-                        <span class="discount">{{p.discount }} off</span>
+                        <span class="discount">{{getDiscountPercent(p.mrp, p.discount)}}% OFF</span>
                       </div>
+                        <div class="mrp-text">MRP : <del class="mrp">₹{{p.mrp}}</del></div> 
                       <div class="delivery"><mat-icon
-                          class="material-symbols-outlined delivery-icon">local_shipping</mat-icon><span> Free
+                          class="delivery-icon force-outline">local_shipping</mat-icon><span> Free
                           Delivery</span></div>
                     </div>
                   </div>
