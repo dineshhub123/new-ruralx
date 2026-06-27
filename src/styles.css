@@ -29,8 +29,10 @@
 .swiper-slide-thumb-active{
   border: 2px solid #ff5b00;
 }
-
-html, body { height: 100%; background-color:#FAFAFA; }
+.mat-drawer-container{
+background-color: #f5f5f5 !important;
+}
+html, body { height: 100%; background-color: #f5f5f5; }
 body, h1, h2, h3, h4, h5, h6, p, span, div, a, button, input, textarea {
   font-family: 'Poppins', sans-serif !important;
 }

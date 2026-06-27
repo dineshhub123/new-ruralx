@@ -699,7 +699,9 @@ input.mat-input-element {
 .headerPositionFixed.at-top {
   top: 0px;
 }
-
+.location-content.at-top{
+  margin-top: -30px;
+}
   /* .navbar-menu{
       position: fixed;
 
@@ -763,6 +765,8 @@ input.mat-input-element {
   .setwidth {
     display: flex;
     width: 100%;
+    justify-content: center;
+    align-items: center;
   }
 
   .navbar-input_btn {
@@ -1246,6 +1250,7 @@ hr.new1 {
 
 .mat-mdc-unelevated-button:not(:disabled) {
   background-color: burlywood !important;
+  height: 37px;
 
 }
 

@@ -189,13 +189,13 @@ mat-chip.mat-mdc-chip-selected {
 .category-scroll {
   display: flex;
   gap: 5px;
-  padding: 5px 7px 5px 7px;
+  padding: 5px 7px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  background: #fff;
+  background: #f5f5f5;
   position: sticky;
-  top: 37px;
+  top: 38px;
   z-index: 9999;
 }
 
@@ -213,7 +213,6 @@ mat-chip.mat-mdc-chip-selected {
   padding: 5px 5px 0px 5px;
   /* background: antiquewhite; */
   /* box-shadow: 0px 1px 5px 1px gray; */
-  background-color: #fff;
 }
 
 .category-item img {
@@ -231,7 +230,7 @@ mat-chip.mat-mdc-chip-selected {
 }
 
 .category-scroll.at-top {
-  top: -18px;
+  top: -46px;
 }
 
 .product-img {
@@ -308,12 +307,12 @@ mat-chip.mat-mdc-chip-selected {
   }
 
   .price {
-    font-size: 1rem;
+    font-size: 0.8rem;
 
   }
 
   .mrp {
-    font-size: 1rem;
+    font-size: 0.8rem;
 
   }
 }
@@ -467,8 +466,7 @@ marquee {
 }
 
 .offer-content h1 {
-  margin: 8px 0;
-  font-size: 42px;
+  font-size: 35px;
   font-weight: 800;
 }
 
@@ -480,7 +478,7 @@ marquee {
   display: inline-block;
   background: #fff;
   color: #ff6b00;
-  padding: 8px 16px;
+  padding: 3px 16px;
   border-radius: 30px;
   font-weight: 600;
 }

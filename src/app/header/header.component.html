@@ -20,6 +20,6 @@
       </form>  
     </div>
   </nav>
- <div (click)="openBottomSheet()" class="location-content" *ngIf="showUsername"><mat-icon class="locatin-icon-align mr-1 ml-2">location_on</mat-icon> {{deliverText | titlecase}}
+ <div (click)="openBottomSheet()" class="location-content" [class.at-top]="showHeaderAtTop" *ngIf="showUsername"><mat-icon class="locatin-icon-align mr-1 ml-2">location_on</mat-icon> {{deliverText | titlecase}}
 </div>
 </div>
