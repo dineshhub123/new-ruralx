@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
@@ -14,12 +14,15 @@ import { PaymentApiService } from '../payment-api.service';
 import { NgZone } from '@angular/core';
 import { CodConfirmDialogComponent } from '../cod-confirm-dialog/cod-confirm-dialog.component';
 import { PincodeService } from '../pincode.service';
+import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-useraddress',
   templateUrl: './useraddress.component.html',
   styleUrls: ['./useraddress.component.css']
 })
 export class UseraddressComponent implements OnInit {
+  @ViewChild('fullNameInput')
+  fullNameInput!: ElementRef<HTMLInputElement>;
   public addShipTextForm: boolean = false
   public userCheckOutData: any;
   public isLoading: boolean = false;
@@ -151,31 +154,18 @@ export class UseraddressComponent implements OnInit {
     });
   }
   loadCheckoutData() {
-    // let userAddress: any;
-    // userAddress = localStorage.getItem("login_user")
-    // let address = JSON.parse(userAddress)
-    // this.addCartService.buyItems$.subscribe((res: any) => {
-    //   if (res) {
-    //     let filerCartItem = res.filter((item: any) => item?.userId === address?.userId)
-    //     this.userCheckOutData = filerCartItem;
-    //   }
-    // })
-    // const totals = this.calculateTotals(this.userCheckOutData);
-    // this.totalMrp = totals.totalMrp;
-    // this.totalAmount = totals.totalPrice;
-    // this.totalDiscount = totals.totalDiscount;
-  const stored = localStorage.getItem('checkout_data');
+    const stored = localStorage.getItem('checkout_data');
 
-  if (stored) {
-    // ✅ BUY NOW FLOW
-    this.userCheckOutData = JSON.parse(stored);
+    if (stored) {
+      // ✅ BUY NOW FLOW
+      this.userCheckOutData = JSON.parse(stored);
 
-  } else {
-    // ✅ CART FLOW
-    this.addCartService.cart$.subscribe(cart => {
-      this.userCheckOutData = cart;
-    });
-  }
+    } else {
+      // ✅ CART FLOW
+      this.addCartService.cart$.subscribe(cart => {
+        this.userCheckOutData = cart;
+      });
+    }
 
     const totals = this.calculateTotals(this.userCheckOutData);
     this.totalMrp = totals.totalMrp;
@@ -184,9 +174,9 @@ export class UseraddressComponent implements OnInit {
 
   }
 
-ngOnDestroy() {
-  localStorage.removeItem('checkout_data');
-}
+  ngOnDestroy() {
+    localStorage.removeItem('checkout_data');
+  }
 
   buildOrderItems(items: any[]) {
     return items.map((item: any) => ({
@@ -198,7 +188,7 @@ ngOnDestroy() {
       sub_category: item.sub_category,
       category: item.category,
       color: item.color,
-     // user_id: item.userId,
+      // user_id: item.userId,
       image: item.image,
       size: item.size || "",
       gst_rate: item.gst_rate,
@@ -282,6 +272,15 @@ ngOnDestroy() {
   }
 
   editShipAddress(ship: any) {
+    window.scroll({
+      top: 0,
+      behavior: 'smooth'
+    });
+    // Focus first field after scroll
+    setTimeout(() => {
+      this.fullNameInput.nativeElement.focus();
+    }, 500);
+
     this.editId = ship?.id
     this.addShipTextForm = true;
     this.editbtn = true;
@@ -331,21 +330,21 @@ ngOnDestroy() {
   addShippingAddress() {
     this.addShipTextForm = !this.addShipTextForm;
   }
-  
-calculateOrderAmount(): number {
-  if (!this.userCheckOutData || this.userCheckOutData.length === 0) {
-    throw new Error('Cart data is empty');
-  }
-  return this.userCheckOutData.reduce((total: number, item: any, index: number) => {
-    const price = Number(item.price);
-    const qty = Number(item.quantity);
-    // validation
-    if (isNaN(price) || isNaN(qty)) {
-      throw new Error(`Invalid price or quantity at index ${index}`);
+
+  calculateOrderAmount(): number {
+    if (!this.userCheckOutData || this.userCheckOutData.length === 0) {
+      throw new Error('Cart data is empty');
     }
-    return total + price * qty;
-  }, 0);
-}
+    return this.userCheckOutData.reduce((total: number, item: any, index: number) => {
+      const price = Number(item.price);
+      const qty = Number(item.quantity);
+      // validation
+      if (isNaN(price) || isNaN(qty)) {
+        throw new Error(`Invalid price or quantity at index ${index}`);
+      }
+      return total + price * qty;
+    }, 0);
+  }
   onAddressSelect(user: any) {
     this.radioForm.patchValue({ radioOption: user });
     const selectedAddress = this.radioForm.value.radioOption;
@@ -380,10 +379,14 @@ calculateOrderAmount(): number {
       let orderItems = this.buildOrderItems(this.userCheckOutData);
       const user = this.radioForm.get('radioOption')?.value;
       const pin = Number(user?.user_pincode);
-      if (!this.pincodeService.isServiceable(pin)) {
-        this.router.navigate(["coming-soon"])
+      const pincodeResponse = await firstValueFrom(
+        this.pincodeService.checkPincode(pin)
+      );
+      if (!pincodeResponse.serviceable) {
+        this.router.navigate(["coming-soon"]);
         return;
       }
+
       const orderPayload = {
         order_amount: this.calculateOrderAmount(),
         payment_method: 'COD',
@@ -434,8 +437,11 @@ calculateOrderAmount(): number {
       orderItems = this.buildOrderItems(this.userCheckOutData);
       const user = this.radioForm.get('radioOption')?.value;
       const pin = Number(user?.user_pincode);
-      if (!this.pincodeService.isServiceable(pin)) {
-        this.router.navigate(["coming-soon"])
+      const pincodeResponse = await firstValueFrom(
+        this.pincodeService.checkPincode(pin)
+      );
+      if (!pincodeResponse.serviceable) {
+        this.router.navigate(["coming-soon"]);
         return;
       }
       const orderPayload = {

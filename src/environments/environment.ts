@@ -32,6 +32,7 @@ export const environment = {
   verifyForgotOtpApiUrl: 'https://ruralx.in/api/verify-forgot-otp.php',
   resetPasswordApiUrl: 'https://ruralx.in/api/reset-password.php',
   deleteAccountApiUrl: 'https://ruralx.in/api/delete-account.php',
+  checkPincodeApiUrl: 'https://ruralx.in/api/check-pincode.php',
 
 
 

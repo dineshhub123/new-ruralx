@@ -21,7 +21,7 @@
       <div class="mb-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Full Name</mat-label>
-          <input matInput type="text" formControlName="fullName" placeholder="John Doe" />
+          <input #fullNameInput matInput type="text" formControlName="fullName" placeholder="John Doe" />
           <mat-error class="matError" *ngIf="f['fullName'].touched && f['fullName'].invalid">
             Full Name is required
           </mat-error>

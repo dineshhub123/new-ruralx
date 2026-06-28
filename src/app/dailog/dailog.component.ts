@@ -18,33 +18,44 @@ export class DailogComponent implements OnInit {
   public pinNotAvail: any;
   submitted: boolean = false;
   public formdata: any;
-  constructor(private fb: FormBuilder,public router:Router,public pincodeService:PincodeService, public dialogRef: MatDialogRef<any>,private toastr: ToastrService,
+  constructor(private fb: FormBuilder, public router: Router, public pincodeService: PincodeService, public dialogRef: MatDialogRef<any>, private toastr: ToastrService,
 
-) { }
+  ) { }
 
   ngOnInit() {
     this.formdata = this.fb.group({
-      userPincode: ['', [Validators.required, Validators.minLength(6),Validators.maxLength(6),Validators.pattern(/^[0-9]+$/)]],
+      userPincode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6), Validators.pattern(/^[0-9]+$/)]],
     });
 
   }
   get f() { return this.formdata.controls; }
 
-PincodeApply() {
-  this.submitted = true;
-  if (!this.formdata.valid) {
-    return;
+  PincodeApply() {
+    this.submitted = true;
+    if (!this.formdata.valid) {
+      return;
+    }
+    const pin = this.formdata.get('userPincode')?.value;
+    const userPin = Number(pin);
+    console.log("userPin", userPin)
+    this.pincodeService.checkPincode(userPin).subscribe({
+      next: (res: any) => {
+        if (res.serviceable) {
+          this.toastr.success(
+            "Awesome! You're in a service zone! We're happy to deliver."
+          );
+          this.dialogRef.close();
+        } else {
+          this.dialogRef.close();
+          this.router.navigate(["coming-soon"]);
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("Unable to check pincode. Please try again.");
+      }
+    });
   }
-  const pin = this.formdata.get('userPincode')?.value;
-  const userPin = Number(pin);
-  if (!this.pincodeService.isServiceable(userPin)) {
-    this.dialogRef.close();
-    this.router.navigate(["coming-soon"]);
-  } else {
-    this.toastr.success(
-      "Awesome! You're in a service zone! We're happy to deliver."
-    );
-    this.dialogRef.close();
-  }
-}  }
+
+}
 

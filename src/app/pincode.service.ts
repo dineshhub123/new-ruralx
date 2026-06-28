@@ -1,26 +1,19 @@
 import { Injectable } from '@angular/core';
-
+import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class PincodeService {
+  private apiCheckPincodeApiUrl = environment.checkPincodeApiUrl;
 
-   private serviceablePins: number[] = [
-    481001, // Balaghat
-    481331, // Waraseoni
-    481441, // Lalburra
-    481222, // Lanji
-    481337, // Khairlanji
-    481556, // Paraswada
-    481445, // Katangi
-    481115  // Kirnapur
-  ];
+  constructor(private http: HttpClient) { }
 
-  constructor() { }
-
-  isServiceable(pin: number): boolean {
-    return this.serviceablePins.includes(pin);
+  checkPincode(pincode: number): Observable<any> {
+    return this.http.post(this.apiCheckPincodeApiUrl, {
+      pincode: pincode
+    });
   }
-
 
 }
