@@ -460,14 +460,15 @@ marquee {
   font-weight: 600;
 }
 
-.offer-content h2 {
+.offer-content h3 {
   margin: 0;
   font-size: 18px;
 }
 
-.offer-content h1 {
-  font-size: 35px;
-  font-weight: 800;
+.offer-content h2 {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: -4px;
 }
 
 .offer-content p {
