@@ -109,29 +109,37 @@ export class AppComponent {
     requestAnimationFrame(animate);
   }
   ngOnInit(): void {
-    window.addEventListener('load', () => {
-      const splash = document.getElementById('app-splash');
-      setTimeout(() => {
-        splash?.classList.add('hide');
-        setTimeout(() => {
-          splash?.remove();
-        }, 500);
-      }, 2000); // 2 sec
-    });
-
-    // const alreadyShown = sessionStorage.getItem('splashShown');
-    // const splash = document.getElementById('app-splash');
-    // if (alreadyShown) {
-    //   splash?.remove();
-    //   return;
-    // }
-    // sessionStorage.setItem('splashShown', 'true');
-    // setTimeout(() => {
-    //   splash?.classList.add('hide');
+    // window.addEventListener('load', () => {
+    //   const splash = document.getElementById('app-splash');
     //   setTimeout(() => {
-    //     splash?.remove();
-    //   }, 500);
-    // }, 2000);
+    //     splash?.classList.add('hide');
+    //     setTimeout(() => {
+    //       splash?.remove();
+    //     }, 500);
+    //   }, 2000); // 2 sec
+    // });
+window.addEventListener('load', () => {
+  const splash = document.getElementById('app-splash');
+  // Browser me hamesha splash dikhao
+  if (!(window as any).Android) {
+    setTimeout(() => {
+      splash?.classList.add('hide');
+      setTimeout(() => splash?.remove(), 500);
+    }, 2000);
+    return;
+  }
+  // Android App
+  if (sessionStorage.getItem('splashShown')) {
+    splash?.remove();
+    return;
+  }
+  sessionStorage.setItem('splashShown', 'true');
+  setTimeout(() => {
+    splash?.classList.add('hide');
+    setTimeout(() => splash?.remove(), 500);
+  }, 2000);
+});
+
 
     const saved = localStorage.getItem('language');
     this.selectedLanguage =
@@ -200,7 +208,7 @@ export class AppComponent {
 
     const scrollTop = (event.target as HTMLElement).scrollTop;
 
-    // ⭐ Android Pull-to-Refresh
+      // ⭐ Android Pull-to-Refresh
     (window as any).Android?.setPullToRefreshEnabled?.(scrollTop <= 0);
 
     this.scrollService.emit(scrollTop);
@@ -223,9 +231,9 @@ export class AppComponent {
 
     this.lastScrollTop = scrollTop;
   }
-  ngAfterViewInit() {
-    (window as any).Android?.setPullToRefreshEnabled?.(true);
-  }
+ngAfterViewInit() {
+  (window as any).Android?.setPullToRefreshEnabled?.(true);
+}
   calculateUserCartQuantity(loginUser: any) {
     this.addCartService.cart$.subscribe(items => {
       const userCartItems = items.filter((item: any) => item?.userId === loginUser?.userId);
@@ -325,22 +333,22 @@ export class AppComponent {
 
     });
   }
-  ruralxRedirection() {
-    if ((window as any).Android) {
-      (window as any).Android.openWebsite();
-    } else {
-      window.open('https://www.ruralx.in', '_blank');
-    }
+ruralxRedirection() {
+  if ((window as any).Android) {
+    (window as any).Android.openWebsite();
+  } else {
+    window.open('https://www.ruralx.in', '_blank');
   }
-  contactEmail() {
-    if ((window as any).Android) {
-      (window as any).Android.openEmail();
-    } else {
-      window.location.href =
-        'mailto:info@ruralx.in?subject=Support Request';
-    }
+}
+contactEmail() {
+  if ((window as any).Android) {
+    (window as any).Android.openEmail();
+  } else {
+    window.location.href =
+      'mailto:info@ruralx.in?subject=Support Request';
   }
-  goToLogin() {
+}
+goToLogin() {
     this.router.navigate(['/login']);
   }
   changeLanguage(lang: string) {
@@ -410,16 +418,16 @@ export class AppComponent {
     });
 
   }
-  testVoice() {
-    const message =
-      'Welcome to Ruralx. Limited stock. Limited stock. Limited stock.';
+testVoice() {
+const message =
+  'Welcome to Ruralx. Limited stock. Limited stock. Limited stock.';
     if ((window as any).Android) {
-      (window as any).Android.speak(message);
-    } else {
-      console.log('Android bridge not available');
-    }
-
+    (window as any).Android.speak(message);
+  } else {
+    console.log('Android bridge not available');
   }
 
+}
+  
 }
 
