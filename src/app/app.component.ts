@@ -17,6 +17,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { TranslateService } from '@ngx-translate/core';
 import { TermsAndConditionComponent } from './terms-and-condition/terms-and-condition.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { VersionUpdateComponent } from './version-update/version-update.component';
 declare var Android: any;
 @Component({
   selector: 'app-root',
@@ -53,7 +54,8 @@ export class AppComponent {
   public isGuest = true;
   selectedLanguage: string = 'en';
   showUsername: boolean = true;
-
+  currentVersion = '1.0.0';
+  latestVersion = '1.1.0';
   constructor(private renderer: Renderer2, private zone: NgZone, public dialog: MatDialog, public location: Location, public addCartService: AddcartService, private toastr: ToastrService, private translate: TranslateService,
     public loginService: LoginService,
     public router: Router,
@@ -108,37 +110,48 @@ export class AppComponent {
     };
     requestAnimationFrame(animate);
   }
+  compareVersions(v1: string, v2: string): number {
+    const a = v1.split('.').map(Number);
+    const b = v2.split('.').map(Number);
+
+    const max = Math.max(a.length, b.length);
+
+    for (let i = 0; i < max; i++) {
+      const x = a[i] || 0;
+      const y = b[i] || 0;
+
+      if (x > y) return 1;
+      if (x < y) return -1;
+    }
+
+    return 0;
+  }
   ngOnInit(): void {
-    // window.addEventListener('load', () => {
-    //   const splash = document.getElementById('app-splash');
-    //   setTimeout(() => {
-    //     splash?.classList.add('hide');
-    //     setTimeout(() => {
-    //       splash?.remove();
-    //     }, 500);
-    //   }, 2000); // 2 sec
-    // });
-window.addEventListener('load', () => {
-  const splash = document.getElementById('app-splash');
-  // Browser me hamesha splash dikhao
-  if (!(window as any).Android) {
-    setTimeout(() => {
-      splash?.classList.add('hide');
-      setTimeout(() => splash?.remove(), 500);
-    }, 2000);
-    return;
-  }
-  // Android App
-  if (sessionStorage.getItem('splashShown')) {
-    splash?.remove();
-    return;
-  }
-  sessionStorage.setItem('splashShown', 'true');
-  setTimeout(() => {
-    splash?.classList.add('hide');
-    setTimeout(() => splash?.remove(), 500);
-  }, 2000);
-});
+    if (this.compareVersions(this.latestVersion, this.currentVersion) > 0) {
+      this.openVersionDailog();
+    } 
+    
+    window.addEventListener('load', () => {
+      const splash = document.getElementById('app-splash');
+      // Browser me hamesha splash dikhao
+      if (!(window as any).Android) {
+        setTimeout(() => {
+          splash?.classList.add('hide');
+          setTimeout(() => splash?.remove(), 500);
+        }, 1500);
+        return;
+      }
+      // Android App
+      if (sessionStorage.getItem('splashShown')) {
+        splash?.remove();
+        return;
+      }
+      sessionStorage.setItem('splashShown', 'true');
+      setTimeout(() => {
+        splash?.classList.add('hide');
+        setTimeout(() => splash?.remove(), 500);
+      }, 1500);
+    });
 
 
     const saved = localStorage.getItem('language');
@@ -189,6 +202,16 @@ window.addEventListener('load', () => {
     }
 
   }
+  openVersionDailog() {
+    this.dialog.open(VersionUpdateComponent, {
+      width: '520px',
+      maxWidth: '90vw',
+      maxHeight: '95vh',
+      disableClose: true,
+      backdropClass: 'update-backdrop',
+      panelClass: 'update-dialog'
+    });
+  }
 
   changeLang(lang: string) {
     console.log(lang)
@@ -208,7 +231,7 @@ window.addEventListener('load', () => {
 
     const scrollTop = (event.target as HTMLElement).scrollTop;
 
-      // ⭐ Android Pull-to-Refresh
+    // ⭐ Android Pull-to-Refresh
     (window as any).Android?.setPullToRefreshEnabled?.(scrollTop <= 0);
 
     this.scrollService.emit(scrollTop);
@@ -231,9 +254,9 @@ window.addEventListener('load', () => {
 
     this.lastScrollTop = scrollTop;
   }
-ngAfterViewInit() {
-  (window as any).Android?.setPullToRefreshEnabled?.(true);
-}
+  ngAfterViewInit() {
+    (window as any).Android?.setPullToRefreshEnabled?.(true);
+  }
   calculateUserCartQuantity(loginUser: any) {
     this.addCartService.cart$.subscribe(items => {
       const userCartItems = items.filter((item: any) => item?.userId === loginUser?.userId);
@@ -333,22 +356,22 @@ ngAfterViewInit() {
 
     });
   }
-ruralxRedirection() {
-  if ((window as any).Android) {
-    (window as any).Android.openWebsite();
-  } else {
-    window.open('https://www.ruralx.in', '_blank');
+  ruralxRedirection() {
+    if ((window as any).Android) {
+      (window as any).Android.openWebsite();
+    } else {
+      window.open('https://www.ruralx.in', '_blank');
+    }
   }
-}
-contactEmail() {
-  if ((window as any).Android) {
-    (window as any).Android.openEmail();
-  } else {
-    window.location.href =
-      'mailto:info@ruralx.in?subject=Support Request';
+  contactEmail() {
+    if ((window as any).Android) {
+      (window as any).Android.openEmail();
+    } else {
+      window.location.href =
+        'mailto:info@ruralx.in?subject=Support Request';
+    }
   }
-}
-goToLogin() {
+  goToLogin() {
     this.router.navigate(['/login']);
   }
   changeLanguage(lang: string) {
@@ -418,16 +441,16 @@ goToLogin() {
     });
 
   }
-testVoice() {
-const message =
-  'Welcome to Ruralx. Limited stock. Limited stock. Limited stock.';
+  testVoice() {
+    const message =
+      'Welcome to Ruralx. Limited stock. Limited stock. Limited stock.';
     if ((window as any).Android) {
-    (window as any).Android.speak(message);
-  } else {
-    console.log('Android bridge not available');
+      (window as any).Android.speak(message);
+    } else {
+      console.log('Android bridge not available');
+    }
+
   }
 
-}
-  
 }
 

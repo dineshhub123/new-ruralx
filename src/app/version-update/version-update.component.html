@@ -1,0 +1,55 @@
+<div class="update-popup">
+
+  <button mat-icon-button class="close-btn" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <div class="image-section">
+    <img src="assets/img/version-img.png" alt="Update">
+  </div>
+
+  <h2>New Update Available!</h2>
+
+  <p class="subtitle">
+    A new version of RuralX is here with exciting new features and improvements.
+  </p>
+
+  <div class="version-box">
+    <div class="version-item">
+      <mat-icon color="primary">sell</mat-icon>
+      <div>
+        <span>New Version</span>
+        <h3>{{ latestVersion }}</h3>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="version-item">
+      <mat-icon color="primary">smartphone</mat-icon>
+      <div>
+        <span>Current Version</span>
+        <h3>{{ currentVersion }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="whats-new">
+    <h4> <mat-icon class="green-star">star</mat-icon> What's New</h4>
+
+    <div class="item" *ngFor="let item of features">
+      <mat-icon>check</mat-icon>
+      <span>{{ item }}</span>
+    </div>
+  </div>
+
+  <button class="update-btn" (click)="close()">
+    <mat-icon>download</mat-icon>
+    UPDATE NOW
+  </button>
+
+  <button class="later-btn" (click)="close()">
+    LATER
+  </button>
+
+</div>

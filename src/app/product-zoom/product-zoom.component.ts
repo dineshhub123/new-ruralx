@@ -35,6 +35,7 @@ export class ProductZoomComponent implements OnInit {
   public showModal: boolean = false;
   show() {
     this.showModal = true;
+    (window as any).Android?.setPullToRefreshEnabled?.(false);
     this.scrollService.openPopup();
     setTimeout(() => {
       this.resetThumbsSwiper();
@@ -166,6 +167,7 @@ export class ProductZoomComponent implements OnInit {
 
   hide() {
     this.showModal = false;
+    (window as any).Android?.setPullToRefreshEnabled?.(true);
     this.scrollService.closePopup();
     this.document.body.classList.remove('no-scroll');
 

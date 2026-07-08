@@ -141,6 +141,14 @@ padding: 0px !important;
   background: #fff;
   transition: transform 0.3s ease-in-out;
 }
+.update-backdrop {
+  background: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(3px);
+}
+.update-dialog{
+    border-radius:24px;
+    padding:0;
+}
 
 /* Hidden state */
 .main-header.hide {

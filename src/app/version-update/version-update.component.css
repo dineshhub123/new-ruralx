@@ -1,0 +1,160 @@
+
+.update-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6); /* 60% opacity */
+  backdrop-filter: blur(3px);     /* Optional */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.update-popup {
+  position: relative;
+  padding: 30px;
+  text-align: center;
+  border-radius: 20px;
+  max-width: 500px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.image-section img {
+  width: 180px;
+  margin-bottom: 10px;
+}
+
+h2 {
+  margin: 10px 0;
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.version-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f4fbf5;
+  border-radius: 15px;
+  padding: 10px;
+  margin-bottom: 25px;
+}
+
+.version-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.version-item span {
+  color: #666;
+  font-size: 14px;
+}
+
+.version-item h3 {
+  margin: 3px 0 0;
+  color: #22a84a;
+  font-size: 24px;
+}
+
+.divider {
+  width: 1px;
+  height: 50px;
+  background: #ddd;
+}
+
+.whats-new {
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.whats-new h4 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.item mat-icon {
+  color: #22a84a;
+}
+
+.update-btn {
+  width: 100%;
+  background: #20b14b;
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.later-btn {
+  margin-top: 15px;
+  background: none;
+  border: none;
+  color: #20b14b;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width:600px){
+
+  .update-popup{
+    padding:20px;
+  }
+
+  h2{
+    font-size:24px;
+  }
+
+  .subtitle{
+    font-size:13px;
+  }
+
+  .version-box{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .divider{
+    width:100%;
+    height:1px;
+  }
+
+  .image-section img{
+    width:150px;
+  }
+  
+}
+.green-star {
+  color: #22c55e;
+  font-size: 22px;
+  width: 27px;
+  height: 22px;
+  margin-bottom: -5px;
+}
