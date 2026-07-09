@@ -38,7 +38,7 @@ h2 {
 .subtitle {
   color: #666;
   font-size: 18px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .version-box {
@@ -48,7 +48,7 @@ h2 {
   background: #f4fbf5;
   border-radius: 15px;
   padding: 10px;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
 }
 
 .version-item {
@@ -125,7 +125,7 @@ h2 {
 @media (max-width:600px){
 
   .update-popup{
-    padding:20px;
+    padding:10px 20px;
   }
 
   h2{
@@ -147,7 +147,7 @@ h2 {
   }
 
   .image-section img{
-    width:150px;
+    width:175px;
   }
   
 }

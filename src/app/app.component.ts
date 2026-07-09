@@ -54,8 +54,8 @@ export class AppComponent {
   public isGuest = true;
   selectedLanguage: string = 'en';
   showUsername: boolean = true;
-  currentVersion = '1.0.0';
-  latestVersion = '1.1.0';
+  currentVersion = '';
+  latestVersion = '1.2.0';
   constructor(private renderer: Renderer2, private zone: NgZone, public dialog: MatDialog, public location: Location, public addCartService: AddcartService, private toastr: ToastrService, private translate: TranslateService,
     public loginService: LoginService,
     public router: Router,
@@ -65,10 +65,6 @@ export class AppComponent {
     private viewportScroller: ViewportScroller,
     private scrollService: ScrollService,
   ) {
-    // this.translate.addLangs(['en', 'hi']);
-    // this.translate.setDefaultLang('hi');
-    // this.translate.use('en'); // default language
-
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         setTimeout(() => {
@@ -123,14 +119,24 @@ export class AppComponent {
       if (x > y) return 1;
       if (x < y) return -1;
     }
-
     return 0;
   }
-  ngOnInit(): void {
+  checkForUpdate() {
+  if (this.currentVersion && this.latestVersion) {
     if (this.compareVersions(this.latestVersion, this.currentVersion) > 0) {
       this.openVersionDailog();
-    } 
-    
+    }
+  }
+}
+  ngOnInit(): void {
+    window.addEventListener('androidAppInfo', () => {
+      const appInfo = (window as any).AndroidAppInfo;
+      if (appInfo) {
+        this.currentVersion = appInfo.versionName;
+        this.checkForUpdate();
+      }
+    });
+
     window.addEventListener('load', () => {
       const splash = document.getElementById('app-splash');
       // Browser me hamesha splash dikhao
@@ -209,8 +215,15 @@ export class AppComponent {
       maxHeight: '95vh',
       disableClose: true,
       backdropClass: 'update-backdrop',
-      panelClass: 'update-dialog'
+      panelClass: 'update-dialog',
+      data: {
+      currentVersion: this.currentVersion,
+      latestVersion: this.latestVersion
+    }
     });
+    setTimeout(() => {
+      (window as any).Android?.setPullToRefreshEnabled?.(false);
+    }, 100);
   }
 
   changeLang(lang: string) {

@@ -1,8 +1,8 @@
 <div class="update-popup">
 
-  <button mat-icon-button class="close-btn" (click)="close()">
-    <mat-icon>close</mat-icon>
-  </button>
+  <!-- <button mat-icon-button class="close-btn" (click)="close()"> -->
+    <mat-icon class="close-btn" (click)="close()">close</mat-icon>
+  <!-- </button> -->
 
   <div class="image-section">
     <img src="assets/img/version-img.png" alt="Update">
@@ -18,8 +18,8 @@
     <div class="version-item">
       <mat-icon color="primary">sell</mat-icon>
       <div>
-        <span>New Version</span>
-        <h3>{{ latestVersion }}</h3>
+        <span>Latest Version</span>
+        <h3>{{ data.latestVersion }}</h3>
       </div>
     </div>
 
@@ -29,7 +29,7 @@
       <mat-icon color="primary">smartphone</mat-icon>
       <div>
         <span>Current Version</span>
-        <h3>{{ currentVersion }}</h3>
+        <h3>{{ data.currentVersion }}</h3>
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  <button class="update-btn" (click)="close()">
+  <button class="update-btn" (click)="updateApp()">
     <mat-icon>download</mat-icon>
     UPDATE NOW
   </button>

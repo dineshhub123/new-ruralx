@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-version-update',
@@ -8,27 +8,26 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class VersionUpdateComponent {
 
-  currentVersion = '1.0.0';
-  latestVersion = '1.1.0';
-
   features = [
     'Better performance and speed',
     'Bug fixes and stability improvements',
     'Enhanced user experience'
   ];
-
-  constructor(
-    private dialogRef: MatDialogRef<VersionUpdateComponent>
-  ) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: {
+    currentVersion: string;
+    latestVersion: string;
+  }, private dialogRef: MatDialogRef<VersionUpdateComponent>
+  ) { }
 
   close() {
     this.dialogRef.close();
+    (window as any).Android?.setPullToRefreshEnabled?.(true);
   }
 
   updateApp() {
     // Redirect to Play Store or APK URL
     window.open(
-      'https://play.google.com/store/apps/details?id=com.ruralx.app',
+      'https://www.ruralx.in/download-app/Ruralx.apk',
       '_blank'
     );
   }
