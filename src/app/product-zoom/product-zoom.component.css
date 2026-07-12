@@ -161,7 +161,7 @@
 
 
 .page-link {
-  padding: 5px 10px;
+  padding: 5px 11px;
   border: 1px solid #ddd;
   color: #333;
   cursor: pointer;
@@ -497,20 +497,19 @@ width: 521px;
   color: #ffffff;
 
 }
-.swiper-zoom-container-main {
-  /* width: 100%;
-  height: 380px; */
+/* .swiper-zoom-container-main {
    display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 600px;   /* optional */
+  max-width: 600px; 
   margin: auto;
   cursor: pointer;
+   overflow: hidden;
+    border-radius: 8px;
+    background: #fff;
 }
 .swiper-zoom-container-main img{
-/* height: 350px;
-width: 100%; */
     width: 100%;
     height: 300px;
     max-width: 500px;
@@ -518,6 +517,23 @@ width: 100%; */
     margin: 0 auto;
     object-fit: contain;
     border-radius: 8px;
+
+    
+} */
+ .swiper-zoom-container-main{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: transparent;
+}
+
+.swiper-zoom-container-main img{
+    max-width:100%;
+    max-height:400px;
+    width:auto;
+    height:auto;
+    border-radius:10px;
+    display:block;
 }
 .expend-content{
   font-size: 14px;
@@ -543,7 +559,6 @@ width: 100%; */
   gap: 10px;         /* Space between items */
   width: 100%;
   justify-content: flex-start;
-  margin-bottom: 10px;
 }
 .variants-container-image {
   display: flex;
@@ -556,7 +571,7 @@ width: 100%; */
 
 .variant-inline-size{
   display: inline-block;
-  padding: 1px 6px 0px 6px ;
+  padding: 3px 6px 0px 6px ;
   border: 1px solid #000000;
   border-radius: 4px;
   /* width: 62px; */
@@ -696,6 +711,7 @@ width: 100%; */
 .star-text{
   width: 110px;
   padding: 5px;
+  font-size: 13px;
 }
 .customer-review-title{
   font-size: 18px;
@@ -734,4 +750,8 @@ width: 100%; */
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
+}
+.rating-percent{
+font-size: 13px;
+font-weight: 500;
 }

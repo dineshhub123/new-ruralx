@@ -23,12 +23,9 @@ export class VersionUpdateComponent {
     this.dialogRef.close();
     (window as any).Android?.setPullToRefreshEnabled?.(true);
   }
-
-  updateApp() {
-    // Redirect to Play Store or APK URL
-    window.open(
-      'https://www.ruralx.in/download-app/Ruralx.apk',
-      '_blank'
-    );
-  }
+updateApp() {
+  (window as any).Android.openApk(
+    'https://www.ruralx.in/download-app/app-debug.apk'
+  );
+}
 }

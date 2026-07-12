@@ -17,9 +17,9 @@ mat-toolbar {
 
 .imgSet {
     width: 120px;
-    height: 100px;
+    height: 92px;
     position: relative;
-    top: 20px;
+    top: 16px;
     left: 0px;
     cursor: pointer;
 }
@@ -170,7 +170,8 @@ font-size:21px !important;
   background: #062d51;
   margin: 0;
   padding: 0px;
-  border-top: 16px solid #062d51;
+  /* border-top: 16px solid #062d51; */
+  padding-top: 8px;
 }
 
 .mat-toolbar.mat-mdc-button-base.mat-mdc-button-base.mat-unthemed {

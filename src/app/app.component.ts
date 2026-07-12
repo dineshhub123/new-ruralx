@@ -55,7 +55,7 @@ export class AppComponent {
   selectedLanguage: string = 'en';
   showUsername: boolean = true;
   currentVersion = '';
-  latestVersion = '1.2.0';
+  latestVersion = '1.3.0';
   constructor(private renderer: Renderer2, private zone: NgZone, public dialog: MatDialog, public location: Location, public addCartService: AddcartService, private toastr: ToastrService, private translate: TranslateService,
     public loginService: LoginService,
     public router: Router,
