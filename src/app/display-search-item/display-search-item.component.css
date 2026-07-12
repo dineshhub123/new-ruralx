@@ -80,11 +80,22 @@ h6 {
     top: -34px;
 
 }
+/* Desktop */
 .product-grid-container {
   display: grid;
-  gap: 5px;
-  padding: 0px 10px 10px 10px;
-  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 0 10px 10px;
+  grid-template-columns: repeat(4, 1fr); /* Example */
+}
+
+/* Mobile (<768px) */
+@media (max-width: 767.98px) {
+  .product-grid-container {
+    display: grid;
+    gap: 5px;
+    padding: 0 10px 10px;
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .product-card {
@@ -99,7 +110,7 @@ h6 {
 .btn-align-buy{
 font-weight: 600;
 background-color: #ff9f00;
-font-size: 14px;
+font-size: 13px;
 }
 
 
