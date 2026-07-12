@@ -25,7 +25,6 @@
     font-weight: 900;
     color: teal;
     text-transform: uppercase;
-    margin: 10px 0px 5px 0px;
 }
 
 .product-mrp {
@@ -83,16 +82,16 @@ h6 {
 }
 .product-grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 20px;
-  padding: 0px 20px 20px 20px;
+  gap: 5px;
+  padding: 0px 10px 10px 10px;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .product-card {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 10px;
+  padding: 8px;
   text-align: center;
   transition: transform 0.2s ease;
   cursor: pointer;
@@ -100,6 +99,7 @@ h6 {
 .btn-align-buy{
 font-weight: 600;
 background-color: #ff9f00;
+font-size: 14px;
 }
 
 
@@ -108,16 +108,16 @@ background-color: #ff9f00;
 }
 
 .product-name {
-  font-weight: 600;
-  font-size: 16px;
-  margin-bottom: 5px;
-  color: #333;
+    font-weight: 600;
+    font-size: 11px;
+    color: teal;
 }
 
 .product-mrp {
-  font-size: 13px;
-  color: #888;
+  font-size: 11px;
+  color: red;
   text-decoration: line-through;
+  opacity: 0.7;
 }
 .quantity-btn-align{
     display: flex;
@@ -127,8 +127,8 @@ background-color: #ff9f00;
 }
 
 .product-price {
-  font-size: 15px;
-  font-weight: bold;
+  font-size: 13px;
+  font-weight: 600;
   color: #28a745;
 }
 .pagination{
