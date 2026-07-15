@@ -343,12 +343,13 @@ export class AppComponent {
   }
 
   openDialogD(): void {
+    (window as any).Android?.setPullToRefreshEnabled?.(false);
     const dialogRef = this.dialog.open(DailogComponent, {
       width: '250px',
       data: {}
     });
     dialogRef.afterClosed().subscribe(result => {
-
+    (window as any).Android?.setPullToRefreshEnabled?.(true);
     });
   }
 

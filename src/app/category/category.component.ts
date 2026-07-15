@@ -101,5 +101,10 @@ export class CategoryComponent {
   formatCategory(category: string): string {
   return (category || '').replaceAll('_', ' ');
 }
+  onContentScroll(event: Event) {
+    const scrollTop = (event.target as HTMLElement).scrollTop;
+    // ⭐ Android Pull-to-Refresh
+    (window as any).Android?.setPullToRefreshEnabled?.(scrollTop <= 0);
+  }
 
 }

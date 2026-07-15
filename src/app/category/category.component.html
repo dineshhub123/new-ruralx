@@ -2,7 +2,7 @@
 <div *ngIf="!isLoading">
   <div class="categories-page pt-3">
     <!-- Sidebar -->
-    <div class="sidebar pt-4 mt-1 ">
+    <div class="sidebar pt-4 mt-1 " (scroll)="onContentScroll($event)">
       <!-- <h3>Categories</h3> -->
       <ul>
         <li #catText *ngFor="let cat of uniqueCategories" class="cat-name"
@@ -19,7 +19,7 @@
       </ul>
     </div>
     <!-- Main Content -->
-    <div class="content pt-4">
+    <div class="content pt-4"(scroll)="onContentScroll($event)">
       <div class="category-heading notranslate">{{selectedCategoryDisplay | titlecase}}</div>
       <div class="sub-grid">
         <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories"
