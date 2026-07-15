@@ -40,7 +40,7 @@
       <div class="zoom_right_panel">
         <div class="">
           <div class="card-title_1"><strong>{{cartItems.product_name | titlecase}}</strong></div>
-          <div class="mrp-content" *ngIf="showCartItems"><span class="rates">₹ {{cartItems.product_price}} </span>
+          <div class="mrp-content" *ngIf="showCartItems"><span class="rates">₹{{cartItems.product_price}} </span>
             <span> </span> M.R.P : ₹ <del> 
               {{ cartItems.product_mrp_price }} </del>
               Save ₹ {{ getSavedAmount(cartItems) }}

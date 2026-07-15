@@ -129,9 +129,10 @@ export class HeaderComponent implements OnInit {
     this.deliverText = `Deliver to ${addr.full_name ? addr.full_name : addr.user_first_name + ' ' + addr.user_last_name}, ${addr.street_area} - ${addr.user_pincode}`;
   }
   openBottomSheet(): void {
-    // this._bottomSheet.open(BottomSheetOverviewExampleSheet);
+    (window as any).Android?.setPullToRefreshEnabled?.(false);
     const bottomSheetRef = this._bottomSheet.open(BottomSheetOverviewExampleSheet);
     bottomSheetRef.afterDismissed().subscribe((selectedAddress) => {
+    (window as any).Android?.setPullToRefreshEnabled?.(true);
     });
   }
 

@@ -113,33 +113,33 @@
       <div class="info-list">
         <div class="info-item">
           <mat-icon matListIcon>description</mat-icon>
-          <span class="text" (click)="openTermsAndConditionDialog()">Terms & Condition</span>
+          <span class="text" (click)="openTermsAndConditionDialog();sidenav.toggle()">Terms & Condition</span>
           <mat-icon matListIcon>chevron_right</mat-icon>
         </div>
 
         <div class="info-item">
           <mat-icon matListIcon>lock</mat-icon>
-          <span class="text" (click)="openPrivacyPolicyDialog()">Privacy Policy</span>
+          <span class="text" (click)="openPrivacyPolicyDialog();sidenav.toggle()">Privacy Policy</span>
           <mat-icon matListIcon>chevron_right</mat-icon>
         </div>
 
         <div class="info-item">
           <mat-icon matListIcon>language</mat-icon>
-          <span class="text" (click)="ruralxRedirection()" (click)="sidenav.toggle()">Go to Website</span>
+          <span class="text" (click)="ruralxRedirection();sidenav.toggle()">Go to Website</span>
           <mat-icon matListIcon>chevron_right</mat-icon>
         </div>
 
         <div class="info-item">
           <mat-icon matListIcon>email</mat-icon>
-          <span class="text" (click)="contactEmail()">Support : info@ruralx.in</span>
+          <span class="text" (click)="contactEmail();sidenav.toggle()">Support : info@ruralx.in</span>
           <mat-icon matListIcon>chevron_right</mat-icon>
         </div>
         
-        <div class="info-item">
+        <!-- <div class="info-item">
           <mat-icon matListIcon>language</mat-icon>
           <span class="text" (click)="testVoice()">Test Voice</span>
           <mat-icon matListIcon>chevron_right</mat-icon>
-        </div>
+        </div> -->
 
       </div>
       <div class="drawer-version" *ngIf="currentVersion!==''">

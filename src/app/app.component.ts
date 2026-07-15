@@ -353,20 +353,22 @@ export class AppComponent {
   }
 
   openTermsAndConditionDialog() {
+    (window as any).Android?.setPullToRefreshEnabled?.(false);
     const dialogRef = this.dialog.open(TermsAndConditionComponent, {
       data: {}
     });
     dialogRef.afterClosed().subscribe(result => {
-
+    (window as any).Android?.setPullToRefreshEnabled?.(true);
     });
 
   }
   openPrivacyPolicyDialog() {
+    (window as any).Android?.setPullToRefreshEnabled?.(false);
     const dialogRef = this.dialog.open(PrivacyPolicyComponent, {
       data: {}
     });
     dialogRef.afterClosed().subscribe(result => {
-
+    (window as any).Android?.setPullToRefreshEnabled?.(true);
     });
   }
   ruralxRedirection() {
