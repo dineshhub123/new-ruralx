@@ -6,7 +6,7 @@
     </button>
   </div>
   <div class="img_position">
-    <img class="imgSet" routerLink="/dashboard" src="assets/img/ruralxLogo.png" />
+    <img class="imgSet" routerLink="/dashboard" src="assets/img/ruralxLogo.png" (click)="sidenav.toggle()"/>
   </div>
   <span class="xxxx-menu-spacer"></span>
   <div></div>
@@ -14,7 +14,7 @@
   <ul class="icon-list">
     <span class="cart-invisible">
 
-      <li (click)="cartFun()">
+      <li (click)="cartFun();sidenav.toggle()">
         <div class="cart-container shopping-cart">
           <mat-icon class="shopping-cart" [attr.id]="isDesktop ? 'cartIconTarget' : ''">shopping_cart</mat-icon>
           <span class="cart-badge">{{itemQuantity}}</span>
@@ -24,7 +24,7 @@
       </li>
     </span>
 <li class="lang-align">
-<div class="lang-box" (click)="toggleLanguage()">
+<div class="lang-box" (click)="toggleLanguage();sidenav.toggle()">
         <mat-icon class="lanuage-icon">language</mat-icon>
     <span class="selected-lang" *ngIf="showUsername">
         {{ selectedLanguage === 'hi' ? 'Hindi' : 'English' }}
@@ -35,7 +35,7 @@
 </div>
 
 </li>
-    <li (click)="openDialogD()">
+    <li (click)="openDialogD();sidenav.toggle()">
       <mat-icon class="shopping-map">location_on</mat-icon>
       <span class="icon-menu">Check</span>
       <span class="icon-menu"><strong>Availability</strong></span>
@@ -47,7 +47,7 @@
       <span class="icon-menu">Hello</span>
        <span class="icon-menu"><strong>{{(username)|titlecase }}</strong></span> 
     </li> -->
-    <li (click)="isGuest && goToLogin()" mat-icon-button [matMenuTriggerFor]="!isGuest ? userAccountMenu : null">
+    <li (click)="isGuest && goToLogin();sidenav.toggle()" mat-icon-button [matMenuTriggerFor]="!isGuest ? userAccountMenu : null">
       <mat-icon id="signMake" mat-icon-button matTooltip="" class="shopping-user">account_circle</mat-icon>
       <span class="icon-menu">Hello</span>
       <span class="icon-menu">
@@ -152,6 +152,6 @@
     <div class="main-content pt-5" #scrollContainer (scroll)="onContentScroll($event)">
       <router-outlet></router-outlet>
     </div>
-    <app-footer class="footer"></app-footer>
+    <app-footer class="footer" [sidenav]="sidenav"></app-footer>
   </mat-sidenav-content>
 </mat-sidenav-container>
