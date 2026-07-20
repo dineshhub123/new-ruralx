@@ -18,13 +18,13 @@ export class CategoryComponent {
 
   onSelectCategory(category: string, displayText: string) {
     this.selectedCategory = category;
- const currentLang =
-    localStorage.getItem('language') || 'en';
+    const currentLang =
+      localStorage.getItem('language') || 'en';
 
-  this.selectedCategoryDisplay =
-    currentLang === 'en'
-    ? category
-    : displayText;
+    this.selectedCategoryDisplay =
+      currentLang === 'en'
+        ? category
+        : displayText;
 
     let categoryPayload = {
       searchData: category
@@ -87,7 +87,7 @@ export class CategoryComponent {
             this.selectedCategoryDisplay =
               this.uniqueCategories[0].category;
           }
-        },900);
+        }, 900);
       })
     })
   }
@@ -99,12 +99,84 @@ export class CategoryComponent {
     });
   }
   formatCategory(category: string): string {
-  return (category || '').replaceAll('_', ' ');
-}
+    return (category || '').replaceAll('_', ' ');
+  }
   onContentScroll(event: Event) {
     const scrollTop = (event.target as HTMLElement).scrollTop;
     // ⭐ Android Pull-to-Refresh
     (window as any).Android?.setPullToRefreshEnabled?.(scrollTop <= 0);
   }
+  selectedAge = 'all';
 
+  ageChips = [
+    { label: 'All', value: 'all' },
+    { label: '4-6 Y', value: '4-6' },
+    { label: '6-8 Y', value: '6-8' },
+    { label: '8-10 Y', value: '8-10' },
+    { label: '10-12 Y', value: '10-12' },
+    { label: '12-14 Y', value: '12-14' },
+    { label: '14-16 Y', value: '14-16' }
+  ];
+ selectedKidsAge = 'all'
+
+  kidsAgeChips = [
+  { label: 'All', value: 'all' },
+  { label: '0-6 M', value: '0-6-months' },
+  { label: '6-12 M', value: '6-12-months' },
+  { label: '12-18 M', value: '12-18-months' },
+  { label: '18-24 M', value: '18-24-months' }
+];
+
+selectedPrice = 'all';
+
+  priceRanges = [
+  {
+    label: 'All',
+    value: 'all',
+    minPrice: null,
+    maxPrice: null
+  },
+  {
+    label: 'Under-₹299',
+    value: '0-299',
+    minPrice: 0,
+    maxPrice: 299
+  },
+  {
+    label: '₹300-₹499',
+    value: '300-499',
+    minPrice: 300,
+    maxPrice: 499
+  },
+  {
+    label: '₹500-₹999',
+    value: '500-999',
+    minPrice: 500,
+    maxPrice: 999
+  },
+  {
+    label: '₹1000-₹1999',
+    value: '1000-1999',
+    minPrice: 1000,
+    maxPrice: 1999
+  },
+  {
+    label: '₹2000+',
+    value: '2000-plus',
+    minPrice: 2000,
+    maxPrice: null
+  }
+];
+
+onPriceChange(price: any, event: any) {
+  if (!event.selected) {
+    return;
+  }
+
+  this.selectedPrice = price.value;
+  // this.minPrice = price.minPrice;
+  // this.maxPrice = price.maxPrice;
+
+  // this.searchProducts();
+}
 }

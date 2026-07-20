@@ -129,11 +129,9 @@ font-weight: 500;
 
 }
 .category-heading{
-  font-size: 16px;
+  font-size: 15px;
   color: teal;
   font-weight: 600;
-  padding-bottom: 5px;
-  margin: 4px 0px 0px 0px;
    
 }
  /* Highlight when clicked (active) */
@@ -164,4 +162,53 @@ label {
 }
 .notranslate{
    unicode-bidi:isolate;
+}
+.age-section{
+  border-bottom: 1px solid #d1d1d1;
+  margin-bottom: 3px;
+  padding-bottom: 5px;
+}
+.cat-title{
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.7;
+   margin-bottom: 3px;
+}
+.age-section span{
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.7;
+}
+mat-chip-listbox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+mat-chip-option {
+    min-width: 50px;
+    height: 25px;
+    border-radius: 25px !important;
+    border: 1.5px solid #0d8c87 !important;
+    color: #0d8c87 !important;
+    background: #fff !important;
+    justify-content: center;
+}
+
+.mat-mdc-chip-selected,
+mat-chip-option.mdc-evolution-chip--selected {
+  background: #0d8c87 !important;
+  color: #fff !important;
+}
+
+.mat-mdc-chip-action-label {
+  color: inherit !important;
+}
+:host ::ng-deep .mat-mdc-chip .mdc-evolution-chip__text-label {
+  font-size: 10px !important;
+
+}
+:host ::ng-deep .mat-mdc-standard-chip.mdc-evolution-chip--with-primary-graphic .mdc-evolution-chip__action--primary {
+    padding-left: 0;
+    padding-right: 8px;
 }
