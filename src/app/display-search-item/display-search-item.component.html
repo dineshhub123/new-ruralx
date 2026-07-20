@@ -1,45 +1,54 @@
 <app-loader [isLoading]="isLoading"></app-loader>
 <div *ngIf="!isLoading">
-<div class="mb-5 pt-4">
-  <br>
-  <div class="product-grid-container">
-    <div *ngFor="let searchData of searchItem" class="product-card">
-      <img #productImage class="product-image" [src]="imageBaseUrl + searchData?.image"
-        (click)="imgClick(searchData)" />
-
-      <!-- Product Details -->
-      <div class="product-details mb-1" (click)="imgClick(searchData)">
-        <div class="product-name">{{ searchData?.product_name }}</div>
-        <div class="product-mrp">MRP: ₹{{ searchData?.mrp }}</div>
-        <div class="product-price">Price: ₹{{ searchData?.price }}</div>
-      </div>
-
-      <!-- Quantity Buttons -->
-      <div class="quantity-btn-align" *ngIf="searchData.quantity > 0">
-        <nav aria-label="quantity-navigation">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link" (click)="$event.stopPropagation();decrement(searchData)">−</a>
-            </li>
-            <li class="page-item item-font">
-              <a class="page-link qunt-back">{{ searchData.quantity }}</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" [class.disabled]="searchData.quantity >= MAX_QTY"
-                (click)="$event.stopPropagation();flyToCartFromEvent($event);increment(searchData)">+</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      <!-- ADD TO CART BUTTON -->
-      <button class="btn btn-warning btn-md btn-align-buy" *ngIf="searchData.quantity == 0"
-        (click)="addCartQuntity($event,searchData);">
-        ADD TO CART
-      </button>
-
+  <div class="mb-5 pt-4">
+    <div class="container age-section mb-1">
+      <span> <mat-icon>sell</mat-icon> Price Range</span>
+      <mat-chip-listbox [(ngModel)]="selectedPrice" aria-label="Price Range">
+        <mat-chip-option *ngFor="let price of priceRanges" [value]="price.value"
+          (selectionChange)="onPriceChange(price, $event)">
+          {{ price.label }}
+        </mat-chip-option>
+      </mat-chip-listbox>
     </div>
-  </div>
 
-</div>
+    <div class="product-grid-container">
+      <div *ngFor="let searchData of searchItem" class="product-card">
+        <img #productImage class="product-image" [src]="imageBaseUrl + searchData?.image"
+          (click)="imgClick(searchData)" />
+
+        <!-- Product Details -->
+        <div class="product-details mb-1" (click)="imgClick(searchData)">
+          <div class="product-name">{{ searchData?.product_name }}</div>
+          <div class="product-mrp">MRP: ₹{{ searchData?.mrp }}</div>
+          <div class="product-price">Price: ₹{{ searchData?.price }}</div>
+        </div>
+
+        <!-- Quantity Buttons -->
+        <div class="quantity-btn-align" *ngIf="searchData.quantity > 0">
+          <nav aria-label="quantity-navigation">
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link" (click)="$event.stopPropagation();decrement(searchData)">−</a>
+              </li>
+              <li class="page-item item-font">
+                <a class="page-link qunt-back">{{ searchData.quantity }}</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" [class.disabled]="searchData.quantity >= MAX_QTY"
+                  (click)="$event.stopPropagation();flyToCartFromEvent($event);increment(searchData)">+</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <!-- ADD TO CART BUTTON -->
+        <button class="btn btn-warning btn-md btn-align-buy" *ngIf="searchData.quantity == 0"
+          (click)="addCartQuntity($event,searchData);">
+          ADD TO CART
+        </button>
+
+      </div>
+    </div>
+
+  </div>
 </div>

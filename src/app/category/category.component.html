@@ -23,7 +23,7 @@
       <div class="category-heading notranslate">{{selectedCategoryDisplay | titlecase}}</div>
 
       <div class="age-section" *ngIf="selectedCategoryDisplay=='boys' || selectedCategoryDisplay=='girls'">
-        <span>Age</span>
+        <span><mat-icon>man</mat-icon>Age (Years)</span>
         <mat-chip-listbox [(ngModel)]="selectedAge" aria-label="Age Selection">
           <mat-chip-option *ngFor="let age of ageChips" [value]="age.value">
             {{ age.label }}
@@ -31,7 +31,7 @@
         </mat-chip-listbox>
       </div>
       <div class="age-section" *ngIf="selectedCategoryDisplay=='toddler'">
-        <span>Age</span>
+        <span><mat-icon>child_care</mat-icon> Age (Months)</span>
         <mat-chip-listbox [(ngModel)]="selectedKidsAge" aria-label="KidsAge Selection">
           <mat-chip-option *ngFor="let kids of kidsAgeChips" [value]="kids.value">
             {{ kids.label }}
@@ -39,17 +39,7 @@
         </mat-chip-listbox>
       </div>
 
-      <div class="age-section">
-        <span>Price Range</span>
-        <mat-chip-listbox [(ngModel)]="selectedPrice" aria-label="Price Range">
-          <mat-chip-option *ngFor="let price of priceRanges" [value]="price.value"
-            (selectionChange)="onPriceChange(price, $event)">
-            {{ price.label }}
-          </mat-chip-option>
-        </mat-chip-listbox>
-      </div>
-
-      <div class="cat-title">Category</div>
+      <div class="cat-title"><mat-icon>grid_view</mat-icon> Category</div>
       <div class="sub-grid">
         <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories"
           (click)="onSelectMainCategory(sub?.name)">
