@@ -100,7 +100,7 @@ label {
   /* Hide extra corners */
   margin: 0 auto 0px;
   /* Center and spacing */
-  border: 2px solid #ccc;
+  border: 2px solid #d1d1d1;
   /* Optional border */
   display: flex;
   align-items: center;
@@ -142,7 +142,16 @@ label {
   font-weight: 600;
 
 }
+.category-heading p{
+    padding-bottom: 3px;
+    font-size: 10px;
+    color: #000;
+    font-weight: 400;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #d1d1d1;
+    opacity: 0.8;
 
+}
 /* Highlight when clicked (active) */
 
 .sub-card.selected {
@@ -186,15 +195,20 @@ label {
   margin-bottom: 3px;
   padding-bottom: 5px;
 }
+.age-section-kid {
+  border-bottom: 1px solid #d1d1d1;
+  margin-bottom: 3px;
+  padding-bottom: 5px;
+}
 
 .cat-title {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   opacity: 0.7;
   margin-bottom: 3px;
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 5px;
 
   mat-icon {
     font-size: 15px;
@@ -205,17 +219,33 @@ label {
 }
 
 .age-section span {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   opacity: 0.7;
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 0px;
 
   mat-icon {
-    font-size: 24px;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: #666;
+  }
+
+}
+.age-section-kid span {
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  gap: 0px;
+
+  mat-icon {
+    font-size: 20px;
     width: 24px;
-    height: 24px;
+    height: 20px;
     color: #666;
   }
 

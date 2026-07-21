@@ -20,7 +20,9 @@
     </div>
     <!-- Main Content -->
     <div class="content pt-4" (scroll)="onContentScroll($event)">
-      <div class="category-heading notranslate">{{selectedCategoryDisplay | titlecase}}</div>
+      <div class="category-heading notranslate">{{selectedCategoryDisplay | titlecase}}
+        <p>{{getCategorySubtitle(selectedCategoryDisplay)}}</p>
+      </div>
 
       <div class="age-section" *ngIf="selectedCategoryDisplay=='boys' || selectedCategoryDisplay=='girls'">
         <span><mat-icon>man</mat-icon>Age (Years)</span>
@@ -30,8 +32,8 @@
           </mat-chip-option>
         </mat-chip-listbox>
       </div>
-      <div class="age-section" *ngIf="selectedCategoryDisplay=='toddler'">
-        <span><mat-icon>child_care</mat-icon> Age (Months)</span>
+      <div class="age-section-kid" *ngIf="selectedCategoryDisplay=='toddler'">
+        <span><mat-icon>child_care</mat-icon>Age (Months)</span>
         <mat-chip-listbox [(ngModel)]="selectedKidsAge" aria-label="KidsAge Selection">
           <mat-chip-option *ngFor="let kids of kidsAgeChips" [value]="kids.value">
             {{ kids.label }}

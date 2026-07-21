@@ -110,6 +110,7 @@ export class CategoryComponent {
 
   ageChips = [
     { label: 'All', value: 'all' },
+    { label: '2-4 Y', value: '2-4' },
     { label: '4-6 Y', value: '4-6' },
     { label: '6-8 Y', value: '6-8' },
     { label: '8-10 Y', value: '8-10' },
@@ -127,4 +128,34 @@ export class CategoryComponent {
   { label: '18-24 M', value: '18-24-months' }
 ];
 
+getCategorySubtitle(category: string): string {
+  switch (category?.toLowerCase()) {
+    case 'boys':
+      return 'Find the best for your little champ';
+
+    case 'girls':
+      return "Discover styles she'll love every day";
+
+    case 'kids':
+      return 'Everything your little ones need';
+
+    case 'mens':
+      return 'Upgrade your everyday style';
+
+    case 'womens':
+      return 'Discover elegance for every occasion';
+
+    case 'electronics':
+      return 'Smart gadgets for everyday life';
+
+    case 'electricals':
+      return 'Reliable essentials for your home';
+
+    case 'technology':
+      return 'Power your world with the latest tech';
+
+    default:
+      return 'Discover amazing products for everyone';
+  }
+}
 }
