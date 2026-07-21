@@ -146,10 +146,10 @@ label {
     padding-bottom: 3px;
     font-size: 10px;
     color: #000;
-    font-weight: 400;
+    font-weight: 500;
     margin-bottom: 4px;
     border-bottom: 1px solid #d1d1d1;
-    opacity: 0.8;
+    opacity: 0.7;
 
 }
 /* Highlight when clicked (active) */

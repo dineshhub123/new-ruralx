@@ -136,7 +136,7 @@ getCategorySubtitle(category: string): string {
     case 'girls':
       return "Discover styles she'll love every day";
 
-    case 'kids':
+    case 'toddler':
       return 'Everything your little ones need';
 
     case 'mens':
