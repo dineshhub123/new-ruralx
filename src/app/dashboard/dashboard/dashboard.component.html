@@ -9,11 +9,11 @@
   <div class="container-fluid pt-4">
     <div class="offer-strip">
       <marquee scrollamount="4">
-        🚚 FREE Delivery on Orders <span>₹299</span> & Above ✨ &nbsp;&nbsp;|&nbsp;&nbsp; 🚀 Delivery Within 24 Hours*
+        🚚 FREE Delivery on Orders <span>₹299</span> & Above ✨ &nbsp;&nbsp;|&nbsp;&nbsp; 🚀 Delivery Within 24 Hours / 1
+        day*
         &nbsp;&nbsp;|&nbsp;&nbsp; 🛍️ Best Deals Every Day &nbsp;&nbsp;|&nbsp;&nbsp; ⚡ Fast & Reliable Delivery
       </marquee>
     </div>
-
     <div>
       <div id="homeBannerCarousel" class="carousel slide mb-1" data-ride="carousel" data-interval="3000">
         <div class="carousel-inner">
@@ -37,9 +37,7 @@
                 <img [src]="imageBaseUrl + banner.image" [alt]="banner.category" class="banner-img">
               </div>
             </div>
-
           </div>
-          
           <div class="carousel-item">
             <div class="offer-slide">
               <div class="offer-content">
@@ -54,48 +52,15 @@
             </div>
           </div>
         </div>
-
         <a class="carousel-control-prev" href="#homeBannerCarousel" role="button" data-slide="prev">
-          <!-- <span class="carousel-control-prev-icon"></span> -->
         </a>
         <a class="carousel-control-next" href="#homeBannerCarousel" role="button" data-slide="next">
-          <!-- <span class="carousel-control-next-icon"></span> -->
         </a>
       </div>
-      <!-- Dynamic Card Sub Category Wise  -->
-      <div class="product-grid-container">
-        <div class="row justify-content-flex-start">
-          <div class="product-card col-lg-3 col-md-4 col-sm-6 col-12 mb-2"
-            *ngFor="let subcategory of cardSubCategoryList">
-            <div class="card shadow-sm h-100">
-              <div class="product-name-content">
-                {{ categoryData[subcategory]?.name }}
-              </div>
-              <div class="row g-3 px-3">
-                <div class="col-6 col-md-6" *ngFor="let p of categoryData[subcategory]?.products">
-                  <div class="product-card">
-                    <img class="product-img" [src]="imageBaseUrl + p.image" alt="Image"
-                      (click)="onClickImage(subcategory)" />
-                    <div class="product-info">
-                      <div class="price">
-                        ₹{{p.price}}
-                        <span class="discount">{{getDiscountPercent(p.mrp, p.discount)}}% OFF</span>
-                      </div>
-                      <div class="mrp-text">MRP : <del class="mrp">₹{{p.mrp}}</del></div>
-                      <div class="delivery"><mat-icon
-                          class="delivery-icon force-outline">local_shipping</mat-icon><span> Free
-                          Delivery</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-    <!-- <small class="web-link pt-1">
-      Discover more on RuralX : <a href="https://www.ruralx.in" target="_blank" class="ml-1">www.ruralx.in</a>
-    </small> -->
+    <div *ngFor="let category of categoryList">
+      <app-product-slider [title]="category" [products]="dashboardProducts[category]">
+      </app-product-slider>
+    </div>
   </div>
 </div>

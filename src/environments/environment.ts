@@ -33,6 +33,7 @@ export const environment = {
   resetPasswordApiUrl: 'https://ruralx.in/api/reset-password.php',
   deleteAccountApiUrl: 'https://ruralx.in/api/delete-account.php',
   checkPincodeApiUrl: 'https://ruralx.in/api/check-pincode.php',
+  dashboardProductApiUrl: 'https://ruralx.in/api/dashboard_products.php',
 
 
 

@@ -1,0 +1,25 @@
+<div class="category-section" [style.background]="getCategoryColor(title)" *ngIf="products?.length">
+    <div class="header">
+        <h6>{{title | titlecase}}</h6>
+        <h6> View All </h6>
+    </div>
+    <div class="product-list">
+        <div class="product-card" *ngFor="let product of products">
+            <img class="product-img" [src]="imageBaseUrl + product.variants[0]?.images[0]" alt="">
+            <div class="product-info">
+                <div class="name">
+                    {{product.product_name | titlecase}}
+                </div>
+
+                <div class="price">
+                    ₹{{product.product_price}}
+                    <span class="discount">{{getDiscountPercent(product.product_mrp_price, product.product_discount)}}% OFF</span>
+                </div>
+                <div class="mrp-text">MRP : <del class="mrp">₹{{product.product_mrp_price}}</del></div>
+                <div class="delivery"><mat-icon class="delivery-icon force-outline">local_shipping</mat-icon><span> Free
+                        Delivery</span></div>
+            </div>
+
+        </div>
+    </div>
+</div>

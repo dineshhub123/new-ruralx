@@ -41,6 +41,7 @@ export class ApiService {
   apiVerifyForgotOtpApiUrl = environment.verifyForgotOtpApiUrl;
   apiResetPasswordApiUrl = environment.resetPasswordApiUrl;
   apiDeleteAccountApiUrl = environment.deleteAccountApiUrl;
+  apiGetDashboardProductsApiUrl = environment.dashboardProductApiUrl;
 
 
 
@@ -66,6 +67,11 @@ export class ApiService {
   //   //this.commonHeaderFunction(); 
   //   return this.http.post(this.apiURL + "user-info", object).pipe(map((res: any) => res));
   // }
+  
+
+  getDashboardProductData(): Observable<any> {
+    return this.http.get(this.apiGetDashboardProductsApiUrl).pipe(map((res: any) => res));
+  }
   getProductListDetailsData(): Observable<any> {
     return this.http.get(this.apiProductListURL).pipe(map((res: any) => res));
   }

@@ -300,14 +300,14 @@ mat-chip.mat-mdc-chip-selected {
 .offer-slide {
   height: 180px; /* same height */
   min-height: 180px;
-  border-radius: 20px;
+  border-radius: 8px;
   overflow: hidden;
 }
 .banner-card{
   display: flex;
   align-items: center;
   height: 180px;
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
   background: #ffffff;
   cursor: pointer;
@@ -398,7 +398,7 @@ mat-chip.mat-mdc-chip-selected {
   color: #fff;
   padding: 5px 12px;
   margin: 18px 0px 5px 0px;
-  border-radius: 6px;
+  border-radius: 4px;
   text-align: center;
   font-size: 12px;
   font-weight: 600;
