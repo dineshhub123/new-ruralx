@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { environment } from 'src/environments/environment';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-product-slider',
   templateUrl: './product-slider.component.html',
@@ -8,12 +8,9 @@ import { environment } from 'src/environments/environment';
 })
 export class ProductSliderComponent {
     imageBaseUrl = environment.imageBaseUrl;
-  
-
   @Input() title: string = '';
-
   @Input() products: any[] = [];
-
+constructor(public router:Router){}
 getCategoryColor(category: string): string {
   const colors: any = {
     'boys': '#D97706',
@@ -39,4 +36,20 @@ getDiscountPercent(mrp: number, discount: number): number {
   }
   return Math.floor((discount / mrp) * 100);
 }
+  onClickImage(category: any) {
+    this.router.navigate(['/display-item'], {
+      queryParams: {
+        category: category
+      }
+    });
+  }
+  viewAllCategory(category: any) {
+    this.router.navigate(['/display-item'], {
+      queryParams: {
+        category: category,
+        source: 'dashboard'
+      }
+    });
+  }
+
 }

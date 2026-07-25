@@ -70,6 +70,7 @@ export class DashboardComponent {
           if (!products?.length) {
             return;
           }
+
           // Banner Images (first image of every product)
           const bannerImages = products
             .map((product: any) => product.variants?.[0]?.images?.[0])
@@ -170,7 +171,16 @@ rotateCategories(): void {
   onClickImage(category: any) {
     this.router.navigate(['/display-item'], {
       queryParams: {
-        category: category
+        category: category,
+        source:'dashboard'
+      }
+    });
+  }
+
+  onClickChips(category: any) {
+    this.router.navigate(['/display-item'], {
+      queryParams: {
+        category: category,
       }
     });
   }

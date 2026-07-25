@@ -1,7 +1,7 @@
 <app-loader [isLoading]="loading"></app-loader>
 <div *ngIf="!loading">
   <div class="category-scroll" [class.at-top]="showHeaderAtTop">
-    <div class="category-item" *ngFor="let chip of chipsList" (click)="onClickImage(chip.category)">
+    <div class="category-item" *ngFor="let chip of chipsList" (click)="onClickChips(chip.category)">
       <img class="chips-img" [src]="imageBaseUrl + chip.image[0]" [alt]="chip.category" />
       <span>{{ formatCategory(chip.category) | titlecase }}</span>
     </div>

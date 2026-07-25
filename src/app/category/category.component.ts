@@ -94,7 +94,8 @@ export class CategoryComponent {
   onSelectMainCategory(subCate: any) {
     this.router.navigate(['/display-item'], {
       queryParams: {
-        category: subCate
+        category: subCate,
+        source: 'category'
       }
     });
   }

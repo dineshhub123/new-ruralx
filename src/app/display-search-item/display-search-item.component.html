@@ -1,14 +1,32 @@
 <app-loader [isLoading]="isLoading"></app-loader>
 <div *ngIf="!isLoading">
   <div class="mb-5 pt-4">
-    <div class="container age-section mb-1">
-      <span> <mat-icon>sell</mat-icon> Price Range</span>
-      <mat-chip-listbox [(ngModel)]="selectedPrice" aria-label="Price Range">
-        <mat-chip-option *ngFor="let price of priceRanges" [value]="price.value"
-          (selectionChange)="onPriceChange(price, $event)">
-          {{ price.label }}
-        </mat-chip-option>
-      </mat-chip-listbox>
+    <div class="container-fluid age-section mb-1 pt-4">
+      <!-- Header -->
+<div class="page-header">
+  <div class="header-top">
+    <h6>{{ formatCategory(mainCategory) | titlecase }}</h6>
+    <button mat-stroked-button color="primary" (click)="openFilter()">
+      <mat-icon>sell</mat-icon>
+      Price
+    </button>
+  </div>
+  <p>{{ getCategoryInfo(mainCategory).description }}</p>
+</div>      
+<div class="category-scroll" *ngIf="showAllChip">
+        <mat-chip-listbox>
+          <mat-chip-option *ngFor="let chip of chipsList" [selected]="selectedCategory==chip.name"
+            (click)="selectCategory(chip.name)">
+            <img *ngIf="chip.image; else defaultIcon" [src]="chip.image" alt="{{ chip.name }}">
+            <ng-template #defaultIcon>
+              <div class="all-category">
+                <mat-icon>grid_view</mat-icon>
+              </div>
+            </ng-template>
+            <div class="chip-name">{{chip.name | titlecase}}</div>
+          </mat-chip-option>
+        </mat-chip-listbox>
+      </div>
     </div>
 
     <div class="product-grid-container">

@@ -191,6 +191,107 @@ h6 {
 
 }
 
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-top h6 {
+    font-size: 13px;
+    font-weight: 500;
+    color: #00695c;
+    border: 1px solid teal;
+    padding: 6px 14px;
+    border-radius: 24px;
+}
+
+.page-header p {
+  margin: 0px 0 0;
+  font-size: 12px;
+  color: #000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.7;
+}
+
+.header-top button {
+  height: 30px;
+  padding: 0 14px;
+  border-radius: 24px;
+  border: 1px solid teal;
+  margin-bottom: 7px;
+  font-size: 13px;
+
+}
+ :host ::ng-deep .mat-mdc-outlined-button:not(:disabled) {
+    color: teal !important;
+}
+  .category-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    margin-bottom: 8px;
+    padding: 0 8px 5px;
+    border-bottom: 1px solid #d1d1d1;
+    /* Smooth scrolling */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    /* Hide scrollbar */
+    scrollbar-width: none;        /* Firefox */
+    -ms-overflow-style: none;     /* IE/Edge */
+}
+
+.category-scroll::-webkit-scrollbar {
+    display: none;                /* Chrome/Safari */
+}
+
+.category-scroll mat-chip-listbox{
+     display: inline-flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    min-width: max-content;
+}
+.category-scroll mat-chip-option{
+    min-width:45px;
+    height:55px;
+    border-radius:5px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+.category-scroll img{
+    width: 100%;
+    height: 30px;
+    object-fit: contain;
+    aspect-ratio: 3 / 4;
+
+}
+
+.chip-name{
+    font-size: 9px;
+    font-weight: 500;
+}
+.all-category{
+    width:30px;
+    height:30px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:auto;
+}
+
+.all-category mat-icon{
+    font-size:25px;
+    width:25px;
+    height:25px;
+    line-height:25px;
+    color:#ff6b00;
+}
+
 mat-chip-listbox {
   display: flex;
   flex-wrap: wrap;
@@ -200,8 +301,7 @@ mat-chip-listbox {
 mat-chip-option {
   min-width: 50px;
   height: 25px;
-  border-radius: 25px !important;
-  border: 1.5px solid #0d8c87 !important;
+  border: 1px solid #d1d1d1 !important;
   color: #0d8c87 !important;
   background: #fff !important;
   justify-content: center;
@@ -209,20 +309,40 @@ mat-chip-option {
 
 .mat-mdc-chip-selected,
 mat-chip-option.mdc-evolution-chip--selected {
-  background: #0d8c87 !important;
-  color: #fff !important;
+   background: transparent !important;
+  border: 1px solid #ff6b00 !important;
+  .chip-name{
+  color: #ff6b00!important;
+  }
 }
 
-.mat-mdc-chip-action-label {
-  color: inherit !important;
+.category-scroll .mat-mdc-chip-action-label{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
-
 :host ::ng-deep .mat-mdc-chip .mdc-evolution-chip__text-label {
   font-size: 9px !important;
 
 }
 
-:host ::ng-deep .mat-mdc-standard-chip.mdc-evolution-chip--with-primary-graphic .mdc-evolution-chip__graphic {
-  padding-left: 2px !important;
-  padding-right: 6px !important;
+:host ::ng-deep .mat-mdc-standard-chip.mdc-evolution-chip--with-primary-graphic .mdc-evolution-chip__action--primary{
+  padding: 4px !important;
+
+}
+:host ::ng-deep .mat-mdc-chip .mdc-evolution-chip__graphic {
+    display: none !important;
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex: 0 0 0 !important;
+}
+
+:host ::ng-deep .mat-mdc-chip .mdc-evolution-chip__checkmark {
+    display: none !important;
+}
+:host ::ng-deep .mdc-evolution-chip-set .mdc-evolution-chip {
+    margin-left: 4px !important;
+    margin-right: 0;
 }

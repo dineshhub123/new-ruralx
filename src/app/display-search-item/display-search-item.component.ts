@@ -20,6 +20,10 @@ export class DisplaySearchItemComponent implements OnInit {
   public addCartData: any;
   public hideHeader: boolean = false;
   public sizes: any[] = [];
+  public mainCategory :any;
+  public selectedCategory = 'All Category';
+  public chipsList:any
+  showAllChip = true;
   lastScrollTop = 0;
   MAX_QTY = 4;
   flyCartIncreament: any
@@ -28,11 +32,13 @@ export class DisplaySearchItemComponent implements OnInit {
 
   }
   ngOnInit() {
-
     this.activatedRoute.queryParams.subscribe(params => {
       const category = params['category'];
+       const source = params['source'];
+      this.showAllChip = source === 'dashboard';
+      this.mainCategory = category
       if (category) {
-        this.itemInitilize(category);
+        this.itemInitilize();
       }
     });
 
@@ -43,35 +49,23 @@ export class DisplaySearchItemComponent implements OnInit {
     });
 
   }
-itemInitilize(category: string) {
-
+itemInitilize() {
   this.isLoading = true;
-
   const payload = {
-    searchData: category
+    searchData: this.mainCategory
   };
-
   this.apiService.searchData(payload).subscribe((res: any) => {
-
     this.isLoading = false;
-
     const user = JSON.parse(localStorage.getItem('login_user') || '{}');
-
     this.searchItem = (res || []).map((item: any) => {
-
       const firstVariant = item.variants?.[0];
-
       // ✅ set default selections
       item.selectedColor = firstVariant?.colorCode || '';
       item.selectedSize = item.size || '';
-
-      // ✅ convert to cart format
       const cartData = this.convertToCartDBFormat(item, user.userId);
-
-      // ✅ merge (IMPORTANT FIX)
       return {
-        ...item,        // keep original product (variants etc.)
-        ...cartData     // add cart fields (id, quantity, color, image)
+        ...item,        
+        ...cartData   
       };
 
     });
@@ -83,8 +77,25 @@ itemInitilize(category: string) {
         this.searchItem[0].sub_category
       );
     }
+      const map = new Map();
+      this.searchItem.forEach((product:any) => {
+        if (!map.has(product.sub_category)) {
+          map.set(product.sub_category, {
+            name: product.sub_category,
+            image: product.variants?.[0]?.images?.[0]
+              ? this.imageBaseUrl + '/' + product.variants[0].images[0]
+              : 'assets/category/default.png'
+          });
+        }
+      });
 
-    console.log("Final searchItem:", this.searchItem);
+      this.chipsList = [
+        {
+          name: 'All Category',
+          image: ''
+        },
+        ...Array.from(map.values())
+      ];
 
     // ✅ sync with cart
     this.updateSearchWithCart(this.addCartService.getCart());
@@ -358,18 +369,102 @@ selectedPrice = 'all';
     maxPrice: null
   }
 ];
-
-onPriceChange(price: any, event: any) {
-  if (!event.selected) {
-    return;
+openFilter(){
+  
+}
+  selectCategory(category: string) {
+    this.selectedCategory = category;
+    this.onselectCategory(category)
+    console.log("selectedCategory", this.selectedCategory)
   }
 
-  this.selectedPrice = price.value;
-  // this.minPrice = price.minPrice;
-  // this.maxPrice = price.maxPrice;
+onselectCategory(category: any) {
+  if (category === 'All Category') {
+    this.itemInitilize();   // Your all products API
+    return;
+  }
+  const payload = {
+    searchData: category
+  };
+  this.isLoading = true;
+  this.apiService.searchData(payload).subscribe((res: any) => {
+    this.isLoading = false;
+    this.searchItem = res;
+    const user = JSON.parse(localStorage.getItem('login_user') || '{}');
+    this.searchItem = (res || []).map((item: any) => {
+      const firstVariant = item.variants?.[0];
+      // ✅ set default selections
+      item.selectedColor = firstVariant?.colorCode || '';
+      item.selectedSize = item.size || '';
+      const cartData = this.convertToCartDBFormat(item, user.userId);
+      return {
+        ...item,        
+        ...cartData   
+      };
 
-  // this.searchProducts();
-}
+    });
+  });
+} 
+
+categoryInfo: any = {
+    mens: {
+      title: 'Mens',
+      description: "Explore our wide range of men's fashion and accessories."
+    },
+    womens: {
+      title: 'Womens',
+      description: "Explore our wide range of women's fashion and accessories."
+    },
+    boys: {
+      title: 'Boys',
+      description: "Find stylish and comfortable clothing for growing boys."
+    },
+    girls: {
+      title: 'Girls',
+      description: "Discover trendy outfits and accessories for girls."
+    },
+    toddler: {
+      title: 'Kids',
+      description: "Everything your little ones need, from clothing to footwear."
+    },
+    electronics: {
+      title: 'Electronics',
+      description: "Shop the latest gadgets, accessories, and electronic essentials."
+    },
+    electricals: {
+      title: 'Electricals',
+      description: "Quality electrical products for your home and workplace."
+    },
+
+    footwear: {
+      title: 'Footwear',
+      description: "Step into comfort with our collection of shoes, sandals, and slippers."
+    },
+    clothing: {
+      title: 'Clothing',
+      description: "Browse fashionable clothing for every occasion."
+    },
+    beauty: {
+      title: 'Beauty',
+      description: "Enhance your style with beauty and personal care products."
+    },
+    home: {
+      title: 'Home & Kitchen',
+      description: "Make your home better with quality home and kitchen essentials."
+    }
+  };
+
+  getCategoryInfo(category: string) {
+    return (
+      this.categoryInfo[category?.toLowerCase()] || {
+        title: category,
+        description: 'Explore our latest collection of quality products.'
+      }
+    );
+  }
+  formatCategory(category: string): string {
+    return (category || '').replaceAll('_', ' ');
+  }
 
 }
 
