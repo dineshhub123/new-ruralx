@@ -23,7 +23,7 @@
                 <mat-icon>grid_view</mat-icon>
               </div>
             </ng-template>
-            <div class="chip-name">{{chip.name | titlecase}}</div>
+            <div class="chip-name">{{ formatCategory(chip.name) | titlecase}}</div>
           </mat-chip-option>
         </mat-chip-listbox>
       </div>

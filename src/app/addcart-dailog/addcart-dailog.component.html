@@ -6,8 +6,9 @@
         <img [src]="imageBaseUrl + addItam?.cartData?.image" class="product-img">
         <div class="product-info">
             <h3>{{addItam?.cartData?.product_name | titlecase}}</h3>
-            <p class="color">Colour: <b>{{addItam?.cartData?.color}}</b></p>
-            <a  (click)="showDetails(addItam?.cartData)">See all item details</a>
+            <p class="color">Colour: <b>{{addItam?.cartData?.color | titlecase}}</b>           
+            </p>
+            <div class="link-details"> <a  (click)="showDetails(addItam?.cartData)">See all item details</a></div>
         </div>
     </div>
     <hr>
