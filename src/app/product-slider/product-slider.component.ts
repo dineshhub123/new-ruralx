@@ -13,23 +13,41 @@ export class ProductSliderComponent {
 constructor(public router:Router){}
 getCategoryColor(category: string): string {
   const colors: any = {
-    'boys': '#D97706',
-    'girls': '#EC4899',
-    'mens': '#2563EB',
-    'womens': '#8B5CF6',
-    'toddler': '#10B981',
-    'electricals': '#E11D48',
-    'electronics': '#0EA5E9',
-    'technology': '#14B8A6',
-    'beauty': '#EF4444',
-    'sports': '#22C55E',
-    'footwear': '#7C3AED',
-    'fashion': '#E11D48' 
+    boys: '#FFF3E0',         // Light Orange
+    girls: '#FCE7F3',        // Light Pink
+    mens: '#EFF6FF',         // Light Blue
+    womens: '#F3E8FF',       // Light Purple
+    toddler: '#ECFDF5',      // Light Green
+    electricals: '#FEE2E2',  // Light Red
+    electronics: '#E0F2FE',  // Sky Blue
+    technology: '#F0FDFA',   // Light Teal
+    beauty: '#FEF2F2',       // Rose
+    sports: '#F0FDF4',       // Mint Green
+    footwear: '#F5F3FF',     // Lavender
+    fashion: '#FFF7ED'       // Cream Orange
   };
 
-  return colors[category] || '#4B5563';   // Default color
+  return colors[category] || '#F9FAFB';
 }
 
+getCategoryTitleColor(category: string): string {
+  const colors: any = {
+    boys: '#D97706',
+    girls: '#DB2777',
+    mens: '#2563EB',
+    womens: '#7C3AED',
+    toddler: '#10B981',
+    electricals: '#DC2626',
+    electronics: '#0284C7',
+    technology: '#0F766E',
+    beauty: '#E11D48',
+    sports: '#16A34A',
+    footwear: '#6D28D9',
+    fashion: '#C2410C'
+  };
+
+  return colors[category] || '#374151';
+}
 getDiscountPercent(mrp: number, discount: number): number {
   if (!mrp || mrp <= 0) {
     return 0;

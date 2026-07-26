@@ -1,12 +1,36 @@
 <app-loader [isLoading]="loading"></app-loader>
 <div *ngIf="!loading">
+      <!-- AI Assistence -->
+    <div class="ai-card" (click)="openAiAssistant()">
+      <div class="ai-left">
+        <div class="ai-icon">
+          <mat-icon>smart_toy</mat-icon>
+        </div>
+        <div class="ai-content">
+          <div class="ai-title">
+            Ruralx Mitra
+            <span class="ai-badge">AI</span>
+          </div>
+          <div class="ai-text">
+            What are you looking for today?
+          </div>
+          <div class="ai-example">
+            Eg : "Shoes under ₹500", "Dress for an 4-year-old boy", "Mixer grinder"
+          </div>
+        </div>
+      </div>
+      <button mat-fab color="primary" class="voice-btn" (click)="startVoice($event)">
+        <mat-icon>mic</mat-icon>
+      </button>
+    </div>
+
   <div class="category-scroll" [class.at-top]="showHeaderAtTop">
     <div class="category-item" *ngFor="let chip of chipsList" (click)="onClickChips(chip.category)">
       <img class="chips-img" [src]="imageBaseUrl + chip.image[0]" [alt]="chip.category" />
       <span>{{ formatCategory(chip.category) | titlecase }}</span>
     </div>
   </div>
-  <div class="container-fluid pt-4">
+  <div class="container-fluid">
     <div class="offer-strip">
       <marquee scrollamount="4">
         🚚 FREE Delivery on Orders <span>₹299</span> & Above ✨ &nbsp;&nbsp;|&nbsp;&nbsp; 🚀 Delivery Within 24 Hours / 1

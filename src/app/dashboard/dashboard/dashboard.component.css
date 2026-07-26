@@ -397,7 +397,7 @@ mat-chip.mat-mdc-chip-selected {
   background: #0a4984;
   color: #fff;
   padding: 5px 12px;
-  margin: 18px 0px 5px 0px;
+  margin: 0px 0px 5px 0px;
   border-radius: 4px;
   text-align: center;
   font-size: 12px;
@@ -471,4 +471,78 @@ marquee {
   font-weight: 600;
   opacity: 0.7;
   margin-top: -5px;
+}
+
+.ai-card{
+    margin:5px 10px;;
+    padding:5px 8px;
+    background:linear-gradient(135deg,#eef4ff,#ffffff);
+    border-radius:10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+    border:2px dashed rgb(6, 45, 81);
+    margin-top: 44px;
+}
+
+.ai-left{
+    display:flex;
+    align-items:center;
+    flex:1;
+}
+
+.ai-icon{
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    background:#eef2ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-right:12px;
+}
+
+.ai-icon mat-icon{
+    font-size:30px;
+    width:30px;
+    height:30px;
+    color:#3f51b5;
+}
+
+.ai-title{
+    font-size:14px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+}
+
+.ai-badge{
+    margin-left:8px;
+    background:#3f51b5;
+    color:#fff;
+    padding:2px 8px;
+    border-radius:20px;
+    font-size:11px;
+}
+
+.ai-text{
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.ai-example{
+    margin-top: 3px;
+    font-size: 10px;
+    color: #666;
+    line-height: 14px;
+}
+
+.voice-btn{
+    flex-shrink:0;
+}
+
+.voice-btn mat-icon{
+    font-size:28px;
 }

@@ -198,4 +198,22 @@ rotateCategories(): void {
       this.onClickImage(selectedCategory);
     }
   }
+
+  openAiAssistant() {
+  console.log('Open AI Assistant');
+  // Future:
+  // this.dialog.open(AiAssistantComponent);
+}
+
+startVoice(event: Event) {
+  event.stopPropagation();
+
+  console.log('Voice Started');
+
+  // Android Speech Recognition
+  // Speech -> Text
+
+  // Then
+  // this.openAiAssistant();
+}
 }
