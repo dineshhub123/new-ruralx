@@ -465,6 +465,28 @@ categoryInfo: any = {
   formatCategory(category: string): string {
     return (category || '').replaceAll('_', ' ');
   }
+formatCategoryName(category: string): string {
+  if (!category) return '';
+  category = category.trim().toLowerCase();
+  const names: { [key: string]: string } = {
+    home_kitchen: 'Home & Kitchen',
+    beauty_personal_care: 'Beauty & Personal Care',
+    electronics: 'Electronics',
+    electricals: 'Electricals',
+    mens: "Men's Fashion",
+    womens: "Women's Fashion",
+    boys: "Boys' Fashion",
+    girls: "Girls' Fashion",
+    kids: "Kids & Toys"
+  };
+
+  return (
+    names[category] ||
+    category
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, c => c.toUpperCase())
+  );
+}
 
 }
 

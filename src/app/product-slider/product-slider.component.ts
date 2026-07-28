@@ -17,12 +17,12 @@ getCategoryColor(category: string): string {
     girls: '#FCE7F3',        // Light Pink
     mens: '#EFF6FF',         // Light Blue
     womens: '#F3E8FF',       // Light Purple
-    toddler: '#ECFDF5',      // Light Green
+    kids: '#ECFDF5',      // Light Green
     electricals: '#FEE2E2',  // Light Red
     electronics: '#E0F2FE',  // Sky Blue
     technology: '#F0FDFA',   // Light Teal
-    beauty: '#FEF2F2',       // Rose
-    sports: '#F0FDF4',       // Mint Green
+    beauty_personal_care: '#FEF2F2',       // Rose
+    home_kitchen: '#FFF7ED',       // Mint Green
     footwear: '#F5F3FF',     // Lavender
     fashion: '#FFF7ED'       // Cream Orange
   };
@@ -36,17 +36,35 @@ getCategoryTitleColor(category: string): string {
     girls: '#DB2777',
     mens: '#2563EB',
     womens: '#7C3AED',
-    toddler: '#10B981',
+    kids: '#10B981',
     electricals: '#DC2626',
     electronics: '#0284C7',
     technology: '#0F766E',
     beauty: '#E11D48',
     sports: '#16A34A',
     footwear: '#6D28D9',
-    fashion: '#C2410C'
+    fashion: '#C2410C',
+    beauty_personal_care: '#9F1239', // Rose Pink
+    home_kitchen:  '#9A3412'
   };
 
   return colors[category] || '#374151';
+}
+
+formatCategory(category: string): string {
+  const names: { [key: string]: string } = {
+    home_kitchen: 'Home & Kitchen',
+    beauty_personal_care: 'Beauty & Personal Care',
+    electronics: 'Electronics',
+    electricals: 'Electricals',
+    mens: "Men's Fashion",
+    womens: "Women's Fashion",
+    boys: "Boys' Fashion",
+    girls: "Girls' Fashion",
+    kids: "Kids & Toys"
+  };
+
+  return names[category] || category.replace(/_/g, ' ');
 }
 getDiscountPercent(mrp: number, discount: number): number {
   if (!mrp || mrp <= 0) {

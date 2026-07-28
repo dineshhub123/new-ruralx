@@ -43,10 +43,12 @@ mat-chip:hover {
 
 /* Avatar image styling */
 .chips-img {
-  width: 40px !important;
-  height: 40px !important;
+  width: 45px !important;
+  height: 45px !important;
   object-fit: cover;
   border-radius: 50%;
+  border: 1px solid grey;
+  padding: 2px;
 }
 
 /* Selected/focused state */
@@ -169,7 +171,7 @@ mat-chip.mat-mdc-chip-selected {
 .category-scroll {
   display: flex;
   gap: 5px;
-  padding: 5px 7px;
+  padding: 3px 10px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
@@ -190,7 +192,7 @@ mat-chip.mat-mdc-chip-selected {
   cursor: pointer;
   /* border: 1px solid gray; */
   border-radius: 4px;
-  padding: 5px 5px 0px 5px;
+  padding: 0px 5px 0px 5px;
   /* background: antiquewhite; */
   /* box-shadow: 0px 1px 5px 1px gray; */
 }
@@ -397,7 +399,7 @@ mat-chip.mat-mdc-chip-selected {
   background: #0a4984;
   color: #fff;
   padding: 5px 12px;
-  margin: 0px 0px 5px 0px;
+  margin: 0px 0px 1px 0px;
   border-radius: 4px;
   text-align: center;
   font-size: 12px;
@@ -474,15 +476,15 @@ marquee {
 }
 
 .ai-card{
-    margin:5px 10px;;
-    padding:5px 8px;
+    margin:3px 10px;;
+    padding:2px 10px;
     background:linear-gradient(135deg,#eef4ff,#ffffff);
     border-radius:10px;
     display:flex;
     justify-content:space-between;
     align-items:center;
     box-shadow:0 4px 14px rgba(0,0,0,.08);
-    border:2px dashed rgb(6, 45, 81);
+    border:2px dashed rgb(183 187 190);
     margin-top: 44px;
 }
 
@@ -493,8 +495,8 @@ marquee {
 }
 
 .ai-icon{
-    width:56px;
-    height:56px;
+    width:40px !important;
+    height:40px !important;
     border-radius:50%;
     background:#eef2ff;
     display:flex;
@@ -511,7 +513,7 @@ marquee {
 }
 
 .ai-title{
-    font-size:14px;
+    font-size:13px;
     font-weight:600;
     display:flex;
     align-items:center;
@@ -541,8 +543,12 @@ marquee {
 
 .voice-btn{
     flex-shrink:0;
+    width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
 }
 
 .voice-btn mat-icon{
-    font-size:28px;
+    font-size:25px;
 }

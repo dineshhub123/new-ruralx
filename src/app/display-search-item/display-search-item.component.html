@@ -5,11 +5,10 @@
       <!-- Header -->
 <div class="page-header">
   <div class="header-top">
-    <h6>{{ formatCategory(mainCategory) | titlecase }}</h6>
+    <h6>{{ formatCategoryName(mainCategory) }}</h6>
     <button mat-stroked-button color="primary" (click)="openFilter()">
-      <mat-icon>sell</mat-icon>
-      Price
-      <mat-icon>expand_more</mat-icon>
+      Filter
+      <mat-icon>filter_alt</mat-icon>
     </button>
   </div>
   <p>{{ getCategoryInfo(mainCategory).description }}</p>

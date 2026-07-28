@@ -1,6 +1,6 @@
 .category-section {
-    margin-bottom: 5px;
-    padding: 10px;
+    /* margin-bottom: 5px; */
+    padding: 5px;
     border-radius: 8px;
 }
 
@@ -8,6 +8,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: -5px;
 }
 .header h6{
     font-size: 13px;
@@ -29,15 +30,15 @@
 .product-list {
     display: flex;
     overflow-x: auto;
-    gap: 10px;
+    gap: 3px;
 }
 
 .product-card {
     width: 170px;
     min-width: 170px;
     background: #fff;
-    border-radius: 10px;
-    padding: 10px;
+    border-radius: 8px;
+    padding: 1px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, .12);
 }
 

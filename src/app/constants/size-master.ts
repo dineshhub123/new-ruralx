@@ -300,7 +300,7 @@ girls: {
   sports_sets: ["5Y", "6Y", "7Y", "8Y", "10Y", "12Y", "14Y"]
 
 },
-toddler: {
+kids: {
   // 👕 Top Wear
   tshirts: ["2Y", "3Y", "4Y"],
   tops: ["2Y", "3Y", "4Y"],
@@ -517,7 +517,7 @@ electronics: {
   soundbars: ["2.1 Channel", "3.1 Channel", "5.1 Channel"],
 
   // 🔌 Charging & Power
-  mobile_chargers: ["18W", "25W", "33W", "65W"],
+  chargers_cables: ["18W", "25W", "33W", "65W"],
   power_banks: ["10000mAh", "20000mAh", "30000mAh"],
   charging_cables: ["Type-C", "Micro USB", "Lightning"],
   wireless_chargers: ["10W", "15W"],

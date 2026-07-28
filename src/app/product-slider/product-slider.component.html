@@ -1,6 +1,6 @@
 <div class="category-section" [style.background]="getCategoryColor(title)" *ngIf="products?.length">
     <div class="header">
-        <h6 [style.color]="getCategoryTitleColor(title)">{{title | titlecase}}</h6>
+        <h6 [style.color]="getCategoryTitleColor(title)">{{formatCategory(title)}}</h6>
         <label (click)="viewAllCategory(title)" [style.color]="getCategoryTitleColor(title)"[style.border-color]="getCategoryTitleColor(title)"> View All </label>
     </div>
     <div class="product-list">

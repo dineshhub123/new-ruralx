@@ -129,6 +129,23 @@ export class CategoryComponent {
   { label: '18-24 M', value: '18-24-months' }
 ];
 
+formatCategoryName(category: string): string {
+  if (!category) return '';
+  category = category.trim().toLowerCase();
+  const names: { [key: string]: string } = {
+    home_kitchen: 'Home & Kitchen',
+    beauty_personal_care: 'Beauty & Personal Care',
+    electronics: 'Electronics',
+    electricals: 'Electricals',
+    mens: "Men's Fashion",
+    womens: "Women's Fashion",
+    boys: "Boys' Fashion",
+    girls: "Girls' Fashion",
+    kids: "Kids & Toys"
+  };
+
+  return names[category] || category.replace(/_/g, ' ');
+}
 getCategorySubtitle(category: string): string {
   switch (category?.toLowerCase()) {
     case 'boys':
@@ -159,4 +176,5 @@ getCategorySubtitle(category: string): string {
       return 'Discover amazing products for everyone';
   }
 }
+
 }

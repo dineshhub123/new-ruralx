@@ -34,7 +34,7 @@ label {
 
 .sidebar ul {
   list-style: none;
-  padding: 0;
+  padding: 2px;
 }
 
 .sidebar li {
@@ -48,7 +48,7 @@ label {
   flex: 1;
   position: absolute;
   left: 90px;
-  top: 63px;
+  top: 70px;
   height: calc(100vh - 183px);
   overflow-y: auto;
   right: 0;
