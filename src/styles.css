@@ -106,6 +106,19 @@ border-top-right-radius: 18px;
 padding: 0px !important;
 }
 
+.product-filter-dialog .mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: 20px 20px 0 0 !important;
+}
+
+.product-filter-dialog .mat-mdc-dialog-container .mat-mdc-dialog-surface {
+  border-radius: 20px 20px 0 0 !important;
+}
+
+.location-bottom-dialog .mat-mdc-dialog-container .mdc-dialog__surface,
+.location-bottom-dialog .mat-mdc-dialog-container .mat-mdc-dialog-surface {
+  border-radius: 18px 18px 0 0 !important;
+}
+
 /* flying animation cart */
 .fly-img {
   position: fixed;

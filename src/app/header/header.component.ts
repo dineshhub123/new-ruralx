@@ -16,7 +16,6 @@ import { DOCUMENT } from '@angular/common';
 import { AddcartService } from '../services/addcart.service';
 import { Product } from '../product-zoom/product-zoom.component';
 import { LoginService } from '../services/login.service';
-import { MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { ScrollService } from '../scroll.service';
 import { AddressService } from '../address.service';
 
@@ -47,7 +46,7 @@ export class HeaderComponent implements OnInit {
   username: string | null = null;
   showUsername:boolean = true;
   constructor(@Inject(DOCUMENT) private document: Document, private addressService: AddressService, public addCartService: AddcartService, public loginService: LoginService, private cdRef: ChangeDetectorRef, private zone: NgZone,
-    public dialog: MatDialog, private http: HttpClient, public router: Router, private fb: FormBuilder, private apiService: ApiService, private _bottomSheet: MatBottomSheet, private scrollService: ScrollService
+    public dialog: MatDialog, private http: HttpClient, public router: Router, private fb: FormBuilder, private apiService: ApiService, private scrollService: ScrollService
   ) {
     this.apiService.getProductListDetailsData().subscribe((data: any) => {
       // Collect product names + categories
@@ -130,8 +129,15 @@ export class HeaderComponent implements OnInit {
   }
   openBottomSheet(): void {
     (window as any).Android?.setPullToRefreshEnabled?.(false);
-    const bottomSheetRef = this._bottomSheet.open(BottomSheetOverviewExampleSheet);
-    bottomSheetRef.afterDismissed().subscribe((selectedAddress) => {
+    const bottomSheetRef = this.dialog.open(BottomSheetOverviewExampleSheet, {
+      panelClass: 'location-bottom-dialog',
+      position: { bottom: '0' },
+      width: '100vw',
+      maxWidth: '100vw',
+      enterAnimationDuration: '850ms',
+      exitAnimationDuration: '350ms'
+    });
+    bottomSheetRef.afterClosed().subscribe((selectedAddress) => {
     (window as any).Android?.setPullToRefreshEnabled?.(true);
     });
   }
@@ -224,8 +230,8 @@ export class BottomSheetOverviewExampleSheet {
   public exiestShipment: any = [];
   public isLoading: boolean = false;
   public user: any;
-  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: any, public router: Router, public loginService: LoginService, private apiService: ApiService, private addressService: AddressService,
-    private _bottomSheetRef: MatBottomSheetRef<BottomSheetOverviewExampleSheet>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public loginService: LoginService, private apiService: ApiService, private addressService: AddressService,
+    private dialogRef: MatDialogRef<BottomSheetOverviewExampleSheet>) {
     let loginUserStr = localStorage.getItem('login_user');
     if (loginUserStr) {
       this.user = JSON.parse(loginUserStr);
@@ -256,7 +262,7 @@ loadAddresses() {
 }
 
   openLink(event: MouseEvent): void {
-    this._bottomSheetRef.dismiss();
+    this.dialogRef.close();
     event.preventDefault();
   }
   get f() { return this.radioForm.controls; }
@@ -287,11 +293,11 @@ loadAddresses() {
     this.radioForm.patchValue({ radioOption: user });
     const selectedAddress = this.radioForm.value.radioOption;
     this.addressService.setSelectedAddress(selectedAddress);
-    this._bottomSheetRef.dismiss();
+    this.dialogRef.close();
   }
   goToLogin() {
     this.router.navigate(['/login']);
-    this._bottomSheetRef.dismiss();
+    this.dialogRef.close();
   }
 
 }

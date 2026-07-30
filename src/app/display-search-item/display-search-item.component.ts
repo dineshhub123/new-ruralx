@@ -4,9 +4,8 @@ import { AddcartService } from '../services/addcart.service';
 import { environment } from 'src/environments/environment.prod';
 import { SizeService } from '../services/size.service';
 import { AddcartDailogComponent } from '../addcart-dailog/addcart-dailog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApiService } from '../services/api.service';
-import { MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 @Component({
   selector: 'app-display-search-item',
   templateUrl: './display-search-item.component.html',
@@ -29,7 +28,7 @@ export class DisplaySearchItemComponent implements OnInit {
   lastScrollTop = 0;
   MAX_QTY = 4;
   flyCartIncreament: any
-  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public addCartService: AddcartService, private sizeService: SizeService, public dialog: MatDialog, private bottomSheet: MatBottomSheet,
+  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public addCartService: AddcartService, private sizeService: SizeService, public dialog: MatDialog,
   ) {
 
   }
@@ -375,15 +374,20 @@ selectedPrice = 'all';
 ];
 openFilter(): void {
   const category = this.mainCategory || this.searchItem?.[0]?.category;
-  const sheet = this.bottomSheet.open(ProductFilterSheetComponent, {
+  const sheet = this.dialog.open(ProductFilterSheetComponent, {
+    panelClass: 'product-filter-dialog',
+    position: { bottom: '0' },
+    width: '100vw',
+    maxWidth: '100vw',
+    enterAnimationDuration: '850ms',
+    exitAnimationDuration: '350ms',
     data: {
       category,
       selectedPrice: this.selectedPrice,
       selectedAge: this.selectedAge
     }
   });
-
-  sheet.afterDismissed().subscribe((filter) => {
+  sheet.afterClosed().subscribe((filter) => {
     if (!filter) return;
     this.selectedPrice = filter.price;
     this.selectedAge = filter.age;
@@ -616,8 +620,8 @@ export class ProductFilterSheetComponent {
     { label: '18-24 M', value: '18-24-months' }
   ];
 
-  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
-    private readonly sheetRef: MatBottomSheetRef<ProductFilterSheetComponent>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+    private readonly dialogRef: MatDialogRef<ProductFilterSheetComponent>) {
     this.selectedPrice = data.selectedPrice || 'all';
     this.selectedAge = data.selectedAge || 'all';
   }
@@ -643,7 +647,7 @@ export class ProductFilterSheetComponent {
       ? 'Age (months)' : 'Age (years)';
   }
   clear(): void { this.selectedPrice = 'all'; this.selectedAge = 'all'; }
-  close(): void { this.sheetRef.dismiss(); }
-  apply(): void { this.sheetRef.dismiss({ price: this.selectedPrice, age: this.selectedAge }); }
+  close(): void { this.dialogRef.close(); }
+  apply(): void { this.dialogRef.close({ price: this.selectedPrice, age: this.selectedAge }); }
 }
 
