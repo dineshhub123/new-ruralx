@@ -32,7 +32,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { DailogComponent } from './dailog/dailog.component';
 import { ProductZoomComponent } from './product-zoom/product-zoom.component';
 import { ReplacePathPipe } from './custom-pipes/replace-path.pipe';
-import { DisplaySearchItemComponent } from './display-search-item/display-search-item.component';
+import { DisplaySearchItemComponent, ProductFilterSheetComponent } from './display-search-item/display-search-item.component';
 import { BottomSheetOverviewExampleSheet, HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { AddcartComponent } from './addcart/addcart.component';
@@ -81,6 +81,7 @@ SwiperCore.use([Zoom, Thumbs, Pagination]);
     DailogComponent,
     ProductZoomComponent,
     DisplaySearchItemComponent,
+    ProductFilterSheetComponent,
     HeaderComponent,
     FooterComponent,
     AddcartComponent,

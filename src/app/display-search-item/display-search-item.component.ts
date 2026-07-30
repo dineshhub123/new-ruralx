@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Renderer2, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2, ViewChild, HostListener, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AddcartService } from '../services/addcart.service';
 import { environment } from 'src/environments/environment.prod';
@@ -6,6 +6,7 @@ import { SizeService } from '../services/size.service';
 import { AddcartDailogComponent } from '../addcart-dailog/addcart-dailog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '../services/api.service';
+import { MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 @Component({
   selector: 'app-display-search-item',
   templateUrl: './display-search-item.component.html',
@@ -16,6 +17,7 @@ export class DisplaySearchItemComponent implements OnInit {
   imageBaseUrl = environment.imageBaseUrl;
   public isLoading: boolean = false;
   public searchItem: any;
+  private allSearchItems: any[] = [];
   public items: any;
   public addCartData: any;
   public hideHeader: boolean = false;
@@ -27,7 +29,7 @@ export class DisplaySearchItemComponent implements OnInit {
   lastScrollTop = 0;
   MAX_QTY = 4;
   flyCartIncreament: any
-  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public addCartService: AddcartService, private sizeService: SizeService, public dialog: MatDialog,
+  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public addCartService: AddcartService, private sizeService: SizeService, public dialog: MatDialog, private bottomSheet: MatBottomSheet,
   ) {
 
   }
@@ -69,6 +71,8 @@ itemInitilize() {
       };
 
     });
+    this.allSearchItems = [...this.searchItem];
+    this.applyFilters();
 
     // ✅ set sizes (only once)
     if (this.searchItem.length > 0) {
@@ -369,9 +373,47 @@ selectedPrice = 'all';
     maxPrice: null
   }
 ];
-openFilter(){
-  
+openFilter(): void {
+  const category = this.mainCategory || this.searchItem?.[0]?.category;
+  const sheet = this.bottomSheet.open(ProductFilterSheetComponent, {
+    data: {
+      category,
+      selectedPrice: this.selectedPrice,
+      selectedAge: this.selectedAge
+    }
+  });
+
+  sheet.afterDismissed().subscribe((filter) => {
+    if (!filter) return;
+    this.selectedPrice = filter.price;
+    this.selectedAge = filter.age;
+    this.applyFilters();
+  });
 }
+  selectedAge = 'all';
+
+  private applyFilters(): void {
+    this.searchItem = this.allSearchItems.filter(item => {
+      const price = Number(item.price ?? item.product_price ?? 0);
+      const priceMatch = this.selectedPrice === 'all' || this.isPriceInRange(price, this.selectedPrice);
+      const ageMatch = this.selectedAge === 'all' || this.matchesAge(item, this.selectedAge);
+      return priceMatch && ageMatch;
+    });
+  }
+
+  private isPriceInRange(price: number, range: string): boolean {
+    const selectedRange = this.priceRanges.find(item => item.value === range);
+    if (!selectedRange) return true;
+    return (selectedRange.minPrice === null || price >= selectedRange.minPrice) &&
+      (selectedRange.maxPrice === null || price <= selectedRange.maxPrice);
+  }
+
+  private matchesAge(item: any, age: string): boolean {
+    // Supports the common API fields and keeps products visible when no age data exists yet.
+    const productAge = String(item.age ?? item.age_group ?? item.ageGroup ?? item.size ?? '').toLowerCase();
+    const selectedAge = age.toLowerCase().replace('-months', '');
+    return !productAge || productAge.includes(age.toLowerCase()) || productAge.includes(selectedAge);
+  }
   selectCategory(category: string) {
     this.selectedCategory = category;
     this.onselectCategory(category)
@@ -403,6 +445,8 @@ onselectCategory(category: any) {
       };
 
     });
+    this.allSearchItems = [...this.searchItem];
+    this.applyFilters();
   });
 } 
 
@@ -488,5 +532,118 @@ formatCategoryName(category: string): string {
   );
 }
 
+}
+
+@Component({
+  selector: 'app-product-filter-sheet',
+  template: `
+    <section class="filter-sheet">
+      <div class="filter-sheet__handle" aria-hidden="true"></div>
+      <div class="filter-sheet__header">
+        <div>
+          <span class="filter-sheet__eyebrow">{{ categoryLabel }}</span>
+          <h3>Filter products</h3>
+        </div>
+        <button class="filter-sheet__close" mat-icon-button aria-label="Close filter" (click)="close()"><mat-icon>close</mat-icon></button>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-section__title"><mat-icon>account_balance_wallet</mat-icon><h4>Price range</h4></div>
+        <mat-chip-listbox [(ngModel)]="selectedPrice" aria-label="Price range">
+          <mat-chip-option *ngFor="let range of priceRanges" [value]="range.value">{{ range.label }}</mat-chip-option>
+        </mat-chip-listbox>
+      </div>
+
+      <div class="filter-section" *ngIf="ageRanges.length">
+        <div class="filter-section__title"><mat-icon>child_care</mat-icon><h4>{{ ageHeading }}</h4></div>
+        <mat-chip-listbox [(ngModel)]="selectedAge" aria-label="Age range">
+          <mat-chip-option *ngFor="let age of ageRanges" [value]="age.value">{{ age.label }}</mat-chip-option>
+        </mat-chip-listbox>
+      </div>
+
+      <div class="filter-sheet__actions">
+        <button class="filter-sheet__clear" mat-stroked-button (click)="clear()">Clear all</button>
+        <button class="filter-sheet__apply" mat-raised-button color="primary" (click)="apply()"><mat-icon>done</mat-icon>Apply filters</button>
+      </div>
+    </section>
+  `,
+  styles: [`
+    .filter-sheet { padding: 9px 16px calc(18px + env(safe-area-inset-bottom)); color: #172b3a; }
+    .filter-sheet__handle { width: 40px; height: 4px; margin: 0 auto 14px; border-radius: 10px; background: #d6dde2; }
+    .filter-sheet__header, .filter-sheet__actions { display: flex; align-items: center; justify-content: space-between; }
+    .filter-sheet__eyebrow { display: block; color: #2e7d32; font-size: 11px; font-weight: 700; letter-spacing: .7px; text-transform: uppercase; }
+    .filter-sheet__header h3 { margin: 2px 0 0; color: #102a43; font-size: 20px; font-weight: 700; }
+    .filter-sheet__close { color: #52616b; background: #f2f5f6; }
+    .filter-section { margin-top: 18px; padding: 14px; border: 1px solid #e6ece9; border-radius: 14px; background: #fbfdfc; }
+    .filter-section__title { display: flex; align-items: center; gap: 7px; margin-bottom: 11px; }
+    .filter-section__title mat-icon { width: 19px; height: 19px; font-size: 19px; color: #2e7d32; }
+    h4 { margin: 0; font-size: 14px; font-weight: 700; color: #1e3d2a; }
+    mat-chip-listbox { display: flex; flex-wrap: wrap; gap: 8px; }
+    :host ::ng-deep .mat-mdc-chip { border: 1px solid #d9e4dd !important; background: #fff !important; }
+    :host ::ng-deep .mat-mdc-chip.mdc-evolution-chip--selected { border-color: #2e7d32 !important; background: #e8f5e9 !important; }
+    :host ::ng-deep .mat-mdc-chip.mdc-evolution-chip--selected .mdc-evolution-chip__text-label { color: #1f6a2d !important; font-weight: 700; }
+    :host ::ng-deep .mat-mdc-chip.mdc-evolution-chip--selected .mdc-evolution-chip__checkmark { color: #2e7d32 !important; }
+    :host ::ng-deep .mat-mdc-chip.mdc-evolution-chip--selected .mdc-evolution-chip__checkmark-path { stroke: #2e7d32 !important; }
+    .filter-sheet__actions { gap: 10px; margin-top: 22px; padding-top: 14px; border-top: 1px solid #edf0ee; }
+    .filter-sheet__actions button { min-height: 44px; flex: 1; border-radius: 10px; font-weight: 700; }
+    .filter-sheet__clear { border-color: #9aa8a1; color: #355142; }
+    .filter-sheet__apply { display: flex; align-items: center; justify-content: center; gap: 4px; background: #2e7d32; }
+    .filter-sheet__apply mat-icon { font-size: 18px; width: 18px; height: 18px; }
+  `]
+})
+export class ProductFilterSheetComponent {
+  selectedPrice: string;
+  selectedAge: string;
+  readonly priceRanges = [
+    { label: 'All', value: 'all' }, { label: 'Under ₹299', value: '0-299' },
+    { label: '₹300–₹499', value: '300-499' }, { label: '₹500–₹999', value: '500-999' },
+    { label: '₹1000–₹1999', value: '1000-1999' }, { label: '₹2000+', value: '2000-plus' }
+  ];
+  readonly ageChips = [
+    { label: 'All', value: 'all' }, { label: '2–4 Y', value: '2-4' }, { label: '4–6 Y', value: '4-6' },
+    { label: '6–8 Y', value: '6-8' }, { label: '8–10 Y', value: '8-10' }, { label: '10–12 Y', value: '10-12' },
+    { label: '12–14 Y', value: '12-14' }, { label: '14–16 Y', value: '14-16' }
+  ];
+  readonly monthAges = [
+    { label: 'All', value: 'all' }, { label: '0–6 M', value: '0-6' }, { label: '6–12 M', value: '6-12' },
+    { label: '12–18 M', value: '12-18' }, { label: '18–24 M', value: '18-24' }
+  ];
+  readonly kidsAgeChips = [
+    { label: 'All', value: 'all' },
+    { label: '0-6 M', value: '0-6-months' },
+    { label: '6-12 M', value: '6-12-months' },
+    { label: '12-18 M', value: '12-18-months' },
+    { label: '18-24 M', value: '18-24-months' }
+  ];
+
+  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
+    private readonly sheetRef: MatBottomSheetRef<ProductFilterSheetComponent>) {
+    this.selectedPrice = data.selectedPrice || 'all';
+    this.selectedAge = data.selectedAge || 'all';
+  }
+
+  get ageRanges() {
+    const category = String(this.data.category || '').toLowerCase();
+    if (category.includes('kid') || category.includes('toddler') || category.includes('baby')) {
+      return this.kidsAgeChips;
+    }
+    if (category.includes('boy') || category.includes('girl')) {
+      return this.ageChips;
+    }
+    return [];
+  }
+
+  get categoryLabel(): string {
+    return String(this.data.category || 'All products').replace(/_/g, ' ');
+  }
+
+  get ageHeading(): string {
+    const category = String(this.data.category || '').toLowerCase();
+    return category.includes('kid') || category.includes('toddler') || category.includes('baby')
+      ? 'Age (months)' : 'Age (years)';
+  }
+  clear(): void { this.selectedPrice = 'all'; this.selectedAge = 'all'; }
+  close(): void { this.sheetRef.dismiss(); }
+  apply(): void { this.sheetRef.dismiss({ price: this.selectedPrice, age: this.selectedAge }); }
 }
 
