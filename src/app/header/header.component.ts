@@ -18,6 +18,7 @@ import { Product } from '../product-zoom/product-zoom.component';
 import { LoginService } from '../services/login.service';
 import { ScrollService } from '../scroll.service';
 import { AddressService } from '../address.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-header',
@@ -134,7 +135,7 @@ export class HeaderComponent implements OnInit {
       position: { bottom: '0' },
       width: '100vw',
       maxWidth: '100vw',
-      enterAnimationDuration: '850ms',
+      enterAnimationDuration: '1ms',
       exitAnimationDuration: '350ms'
     });
     bottomSheetRef.afterClosed().subscribe((selectedAddress) => {
@@ -223,6 +224,15 @@ export class HeaderComponent implements OnInit {
   selector: 'bottom-sheet-overview-example-sheet',
   templateUrl: './bottom-sheet-overview-example-sheet.html',
   styleUrls: ['./bottom-sheet-overview-example-sheet.css'],
+  animations: [
+    trigger('locationSlideUp', [
+      transition(':enter', [
+        style({ transform: 'translateY(100%)', opacity: 0 }),
+        animate('900ms cubic-bezier(0.22, 1, 0.36, 1)', style({ transform: 'translateY(0)', opacity: 1 }))
+      ])
+    ])
+  ],
+  host: { '[@locationSlideUp]': '' }
 })
 export class BottomSheetOverviewExampleSheet {
   public loginUserAddress: any[] = []
