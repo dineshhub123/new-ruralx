@@ -132,7 +132,8 @@ padding: 0px !important;
 
 /* The panel class is placed on the dialog overlay pane. This overrides the
    default Material dialog scale animation with a deliberately slow slide-up. */
-.location-bottom-dialog .mat-mdc-dialog-container {
+.location-bottom-dialog .mat-mdc-dialog-container,
+.product-filter-dialog .mat-mdc-dialog-container {
   animation: location-slow-slide-up 1200ms cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
