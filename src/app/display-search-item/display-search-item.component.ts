@@ -84,7 +84,8 @@ itemInitilize() {
       this.searchItem.forEach((product:any) => {
         if (!map.has(product.sub_category)) {
           map.set(product.sub_category, {
-            name: product.sub_category,
+            category: product.category,
+            subCategory: product.sub_category,
             image: product.variants?.[0]?.images?.[0]
               ? this.imageBaseUrl + '/' + product.variants[0].images[0]
               : 'assets/category/default.png'
@@ -94,7 +95,7 @@ itemInitilize() {
 
       this.chipsList = [
         {
-          name: 'All Category',
+          subCategory: 'All Category',
           image: ''
         },
         ...Array.from(map.values())
@@ -373,13 +374,15 @@ selectedPrice = 'all';
   }
 ];
 openFilter(): void {
-  const category = this.mainCategory || this.searchItem?.[0]?.category;
+  // A product listing can be opened from a subcategory (for example, "Tshirts").
+  // Use the product's parent category so boys', girls', and kids' age filters appear.
+  const category = this.searchItem?.[0]?.category || this.mainCategory;
   const sheet = this.dialog.open(ProductFilterSheetComponent, {
     panelClass: 'product-filter-dialog',
     position: { bottom: '0' },
     width: '100vw',
     maxWidth: '100vw',
-    enterAnimationDuration: '850ms',
+    enterAnimationDuration: '1ms',
     exitAnimationDuration: '350ms',
     data: {
       category,
@@ -418,19 +421,22 @@ openFilter(): void {
     const selectedAge = age.toLowerCase().replace('-months', '');
     return !productAge || productAge.includes(age.toLowerCase()) || productAge.includes(selectedAge);
   }
-  selectCategory(category: string) {
-    this.selectedCategory = category;
-    this.onselectCategory(category)
+  selectCategory(category: string,subCategory:string) {
+    this.selectedCategory = subCategory;
+    this.onselectCategory(category,subCategory)
     console.log("selectedCategory", this.selectedCategory)
   }
 
-onselectCategory(category: any) {
-  if (category === 'All Category') {
+onselectCategory(category: any,subCategory:any) {
+  if (subCategory === 'All Category') {
     this.itemInitilize();   // Your all products API
     return;
   }
   const payload = {
-    searchData: category
+    searchData: {
+  "category": category,
+  "sub_category": subCategory
+}
   };
   this.isLoading = true;
   this.apiService.searchData(payload).subscribe((res: any) => {
@@ -578,17 +584,18 @@ formatCategoryName(category: string): string {
     .filter-sheet__eyebrow { display: block; color: #2e7d32; font-size: 11px; font-weight: 700; letter-spacing: .7px; text-transform: uppercase; }
     .filter-sheet__header h3 { margin: 2px 0 0; color: #102a43; font-size: 20px; font-weight: 700; }
     .filter-sheet__close { color: #52616b; background: #f2f5f6; }
-    .filter-section { margin-top: 18px; padding: 14px; border: 1px solid #e6ece9; border-radius: 14px; background: #fbfdfc; }
-    .filter-section__title { display: flex; align-items: center; gap: 7px; margin-bottom: 11px; }
+    .filter-section { margin-top: 10px; padding: 8px; border: 1px solid #e6ece9; border-radius: 10px; background: #fbfdfc; }
+    .filter-section__title { display: flex; align-items: center; gap: 5px; margin-bottom: 4px; }
     .filter-section__title mat-icon { width: 19px; height: 19px; font-size: 19px; color: #2e7d32; }
     h4 { margin: 0; font-size: 14px; font-weight: 700; color: #1e3d2a; }
     mat-chip-listbox { display: flex; flex-wrap: wrap; gap: 8px; }
     :host ::ng-deep .mat-mdc-chip { border: 1px solid #d9e4dd !important; background: #fff !important; }
+    :host ::ng-deep .mat-mdc-chip .mdc-evolution-chip__text-label { font-size: 11px !important; }
     :host ::ng-deep .mat-mdc-chip.mdc-evolution-chip--selected { border-color: #2e7d32 !important; background: #e8f5e9 !important; }
     :host ::ng-deep .mat-mdc-chip.mdc-evolution-chip--selected .mdc-evolution-chip__text-label { color: #1f6a2d !important; font-weight: 700; }
     :host ::ng-deep .mat-mdc-chip.mdc-evolution-chip--selected .mdc-evolution-chip__checkmark { color: #2e7d32 !important; }
     :host ::ng-deep .mat-mdc-chip.mdc-evolution-chip--selected .mdc-evolution-chip__checkmark-path { stroke: #2e7d32 !important; }
-    .filter-sheet__actions { gap: 10px; margin-top: 22px; padding-top: 14px; border-top: 1px solid #edf0ee; }
+    .filter-sheet__actions { gap: 10px; margin-top: 10px; padding-top: 14px; border-top: 1px solid #edf0ee; }
     .filter-sheet__actions button { min-height: 44px; flex: 1; border-radius: 10px; font-weight: 700; }
     .filter-sheet__clear { border-color: #9aa8a1; color: #355142; }
     .filter-sheet__apply { display: flex; align-items: center; justify-content: center; gap: 4px; background: #2e7d32; }
@@ -612,14 +619,6 @@ export class ProductFilterSheetComponent {
     { label: 'All', value: 'all' }, { label: '0–6 M', value: '0-6' }, { label: '6–12 M', value: '6-12' },
     { label: '12–18 M', value: '12-18' }, { label: '18–24 M', value: '18-24' }
   ];
-  readonly kidsAgeChips = [
-    { label: 'All', value: 'all' },
-    { label: '0-6 M', value: '0-6-months' },
-    { label: '6-12 M', value: '6-12-months' },
-    { label: '12-18 M', value: '12-18-months' },
-    { label: '18-24 M', value: '18-24-months' }
-  ];
-
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private readonly dialogRef: MatDialogRef<ProductFilterSheetComponent>) {
     this.selectedPrice = data.selectedPrice || 'all';
@@ -629,7 +628,7 @@ export class ProductFilterSheetComponent {
   get ageRanges() {
     const category = String(this.data.category || '').toLowerCase();
     if (category.includes('kid') || category.includes('toddler') || category.includes('baby')) {
-      return this.kidsAgeChips;
+      return this.monthAges;
     }
     if (category.includes('boy') || category.includes('girl')) {
       return this.ageChips;
@@ -643,7 +642,8 @@ export class ProductFilterSheetComponent {
 
   get ageHeading(): string {
     const category = String(this.data.category || '').toLowerCase();
-    return category.includes('kid') || category.includes('toddler') || category.includes('baby')
+    console.log("category",category)
+    return category.includes('kids') || category.includes('toddler') || category.includes('baby')
       ? 'Age (months)' : 'Age (years)';
   }
   clear(): void { this.selectedPrice = 'all'; this.selectedAge = 'all'; }
