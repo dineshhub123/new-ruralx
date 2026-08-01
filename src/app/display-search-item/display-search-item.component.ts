@@ -22,6 +22,7 @@ export class DisplaySearchItemComponent implements OnInit {
   public hideHeader: boolean = false;
   public sizes: any[] = [];
   public mainCategory :any;
+  public subCategory: any;
   public selectedCategory = 'All Category';
   public chipsList:any
   showAllChip = true;
@@ -35,9 +36,11 @@ export class DisplaySearchItemComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
       const category = params['category'];
+      const subCategory = params['subCategory'];
        const source = params['source'];
       this.showAllChip = source === 'dashboard';
       this.mainCategory = category
+      this.subCategory = subCategory;
       if (category) {
         this.itemInitilize();
       }
@@ -53,7 +56,9 @@ export class DisplaySearchItemComponent implements OnInit {
 itemInitilize() {
   this.isLoading = true;
   const payload = {
-    searchData: this.mainCategory
+    searchData: this.subCategory
+      ? { category: this.mainCategory, sub_category: this.subCategory }
+      : this.mainCategory
   };
   this.apiService.searchData(payload).subscribe((res: any) => {
     this.isLoading = false;
@@ -579,11 +584,12 @@ formatCategoryName(category: string): string {
   `,
   styles: [`
     .filter-sheet { padding: 9px 16px calc(18px + env(safe-area-inset-bottom)); color: #172b3a; }
-    .filter-sheet__handle { width: 40px; height: 4px; margin: 0 auto 14px; border-radius: 10px; background: #d6dde2; }
+    .filter-sheet__handle { width: 40px; height: 4px; margin: 0 auto 0px; border-radius: 10px; background: #d6dde2; }
     .filter-sheet__header, .filter-sheet__actions { display: flex; align-items: center; justify-content: space-between; }
     .filter-sheet__eyebrow { display: block; color: #2e7d32; font-size: 11px; font-weight: 700; letter-spacing: .7px; text-transform: uppercase; }
-    .filter-sheet__header h3 { margin: 2px 0 0; color: #102a43; font-size: 20px; font-weight: 700; }
-    .filter-sheet__close { color: #52616b; background: #f2f5f6; }
+    .filter-sheet__header h3 { margin: 2px 0 0; color: #102a43; font-size: 16px; font-weight: 700; }
+    .filter-sheet__close { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; color: #52616b; background: #f2f5f6; --mdc-icon-button-state-layer-size: 34px; }
+    .filter-sheet__close mat-icon { width: 20px; height: 20px; font-size: 20px; line-height: 20px; }
     .filter-section { margin-top: 10px; padding: 8px; border: 1px solid #e6ece9; border-radius: 10px; background: #fbfdfc; }
     .filter-section__title { display: flex; align-items: center; gap: 5px; margin-bottom: 4px; }
     .filter-section__title mat-icon { width: 19px; height: 19px; font-size: 19px; color: #2e7d32; }
@@ -637,7 +643,27 @@ export class ProductFilterSheetComponent {
   }
 
   get categoryLabel(): string {
-    return String(this.data.category || 'All products').replace(/_/g, ' ');
+    return this.formatCategoryName(String(this.data.category || 'All products'));
+  }
+
+  formatCategoryName(category: string): string {
+    if (!category) return '';
+    category = category.trim().toLowerCase();
+    const names: { [key: string]: string } = {
+      home_kitchen: 'Home & Kitchen',
+      beauty_personal_care: 'Beauty & Personal Care',
+      electronics: 'Electronics',
+      electricals: 'Electricals',
+      mens: "Men's Fashion",
+      womens: "Women's Fashion",
+      boys: "Boys' Fashion",
+      girls: "Girls' Fashion",
+      kids: 'Kids & Toys'
+    };
+
+    return names[category] || category
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, c => c.toUpperCase());
   }
 
   get ageHeading(): string {

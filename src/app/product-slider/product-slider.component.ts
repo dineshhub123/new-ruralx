@@ -72,10 +72,11 @@ getDiscountPercent(mrp: number, discount: number): number {
   }
   return Math.floor((discount / mrp) * 100);
 }
-  onClickImage(category: any) {
+  onClickImage(category: any, subCategory: any) {
     this.router.navigate(['/display-item'], {
       queryParams: {
-        category: category
+        category,
+        subCategory
       }
     });
   }
