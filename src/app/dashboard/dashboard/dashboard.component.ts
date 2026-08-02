@@ -60,13 +60,14 @@ export class DashboardComponent {
   loadDashboardProducts(): void {
     this.apiService.getDashboardProductData().subscribe({
       next: (res: any) => {
-        this.dashboardProducts = res;
-        this.categoryList = Object.keys(res);
+        this.dashboardProducts = res?.data;
+        this.categoryList = Object.keys(this.dashboardProducts);
+        console.log("dashboard products:", this.categoryList);
         this.rotateCategories();
         this.bannerImages = [];
         this.chipsList = [];
         this.categoryList.forEach((category: string) => {
-          const products = res[category];
+          const products = this.dashboardProducts[category];
           if (!products?.length) {
             return;
           }

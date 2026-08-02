@@ -250,102 +250,149 @@ h6 {
     display: none;                /* Chrome/Safari */
 }
 
-.category-scroll mat-chip-listbox{
-     display: inline-flex;
-    flex-wrap: nowrap;
-    gap: 10px;
-    min-width: max-content;
-}
-.category-scroll mat-chip-option{
-    min-width:45px;
-    height:55px;
-    border-radius:5px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
+.category-scroll,
+.subcategory-scroll {
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-bottom: 2px;
+  padding: 0 8px 2px;
+  border-bottom: 1px solid #e4e7eb;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.category-scroll img{
-    width: 100%;
-    height: 30px;
-    object-fit: contain;
-    aspect-ratio: 3 / 4;
-
+.category-scroll::-webkit-scrollbar,
+.subcategory-scroll::-webkit-scrollbar {
+  display: none;
 }
 
-.chip-name{
-    font-size: 9px;
-    font-weight: 500;
-}
-.all-category{
-    width:30px;
-    height:30px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    margin:auto;
+.category-scroll mat-chip-listbox,
+.subcategory-scroll mat-chip-listbox {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  min-width: max-content;
+  align-items: center;
 }
 
-.all-category mat-icon{
-    font-size:25px;
-    width:25px;
-    height:25px;
-    line-height:25px;
-    color:#ff6b00;
-}
-
-mat-chip-listbox {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-mat-chip-option {
-  min-width: 50px;
-  height: 25px;
-  border: 1px solid #d1d1d1 !important;
-  color: #0d8c87 !important;
-  background: #fff !important;
-  justify-content: center;
-}
-
-.mat-mdc-chip-selected,
-mat-chip-option.mdc-evolution-chip--selected {
-   background: transparent !important;
-  border: 1px solid #ff6b00 !important;
-  .chip-name{
-  color: #ff6b00!important;
-  }
-}
-
-.category-scroll .mat-mdc-chip-action-label{
+.category-scroll mat-chip-option {
+  min-width: 57px;
+    max-width: 57px;
+    min-height: 57px;
+    border-radius: 4px;
+    border: 1px solid #e5e7eb !important;
+    background: #ffffff !important;
+    color: #1f2937 !important;
+    padding: 3px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
+    box-shadow: none;
 }
+
+.subcategory-scroll mat-chip-option {
+  min-width: 40px;
+    height: 20px;
+    padding: 0 8px;
+    flex-direction: row;
+    border-radius: 15px;
+    justify-content: center;
+}
+
+.category-scroll img {
+ width: 44px;
+    height: 30px;
+    object-fit: contain;
+    margin-bottom: 6px;
+    aspect-ratio: 3 / 4;
+}
+
+.chip-name {
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+  width: 100%;
+  white-space: normal;
+  margin: 0;
+}
+
+.all-category {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 4px;
+}
+
+.all-category mat-icon {
+  font-size: 26px;
+  /* color: #ff6b00; */
+  display: block;
+  margin: auto;
+}
+
+.category-scroll .mat-mdc-chip-action-label,
+.subcategory-scroll .mat-mdc-chip-action-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.category-scroll mat-chip-option.mat-mdc-chip-selected,
+.subcategory-scroll mat-chip-option.mat-mdc-chip-selected,
+.category-scroll mat-chip-option.mdc-evolution-chip--selected,
+.subcategory-scroll mat-chip-option.mdc-evolution-chip--selected {
+   background: #F57C00 !important; 
+  /* border-color: #ff6b00 !important;
+  color: #ff6b00 !important; */
+}
+
+.category-scroll .mat-mdc-chip-action-label,
+.subcategory-scroll .mat-mdc-chip-action-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 :host ::ng-deep .mat-mdc-chip .mdc-evolution-chip__text-label {
-  font-size: 9px !important;
-
+  font-size: 11px !important;
 }
 
-:host ::ng-deep .mat-mdc-standard-chip.mdc-evolution-chip--with-primary-graphic .mdc-evolution-chip__action--primary{
+:host ::ng-deep .mat-mdc-standard-chip.mdc-evolution-chip--with-primary-graphic .mdc-evolution-chip__action--primary {
   padding: 4px !important;
-
-}
-:host ::ng-deep .mat-mdc-chip .mdc-evolution-chip__graphic {
-    display: none !important;
-    width: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    flex: 0 0 0 !important;
 }
 
+:host ::ng-deep .mat-mdc-chip .mdc-evolution-chip__graphic,
 :host ::ng-deep .mat-mdc-chip .mdc-evolution-chip__checkmark {
-    display: none !important;
+  display: none !important;
 }
+
 :host ::ng-deep .mdc-evolution-chip-set .mdc-evolution-chip {
-    margin-left: 4px !important;
-    margin-right: 0;
+  margin-left: 4px !important;
+  margin-right: 0;
+}
+
+:host ::ng-deep .mat-mdc-chip .mdc-evolution-chip__text-label {
+  font-size: 11px !important;
+}
+
+:host ::ng-deep .mat-mdc-standard-chip.mdc-evolution-chip--with-primary-graphic .mdc-evolution-chip__action--primary {
+  padding: 4px !important;
+}
+
+:host ::ng-deep .mat-mdc-chip .mdc-evolution-chip__graphic,
+:host ::ng-deep .mat-mdc-chip .mdc-evolution-chip__checkmark {
+  display: none !important;
+}
+
+:host ::ng-deep .mdc-evolution-chip-set .mdc-evolution-chip {
+  margin-left: 4px !important;
+  margin-right: 0;
 }

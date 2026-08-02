@@ -60,6 +60,7 @@ export class CategoryComponent {
     this.apiService.getCategoryList().subscribe((response: any) => {
       this.isLoading = false;
       const products = response;
+      console.log('Fetched products:', products);
       const seen = new Set();
       this.uniqueCategories = products.filter((item: any) => {
         if (seen.has(item.category)) {

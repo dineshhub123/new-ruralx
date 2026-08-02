@@ -179,6 +179,10 @@ mat-chip.mat-mdc-chip-selected {
   position: sticky;
   top: 38px;
   z-index: 9999;
+    overflow-y: hidden;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .category-scroll::-webkit-scrollbar {
@@ -186,15 +190,14 @@ mat-chip.mat-mdc-chip-selected {
 }
 
 .category-item {
-  /* min-width: 70px; */
-  text-align: center;
-  flex-shrink: 0;
+  /* text-align: center;
+  flex-shrink: 0; */
   cursor: pointer;
-  /* border: 1px solid gray; */
-  border-radius: 4px;
-  padding: 0px 5px 0px 5px;
-  /* background: antiquewhite; */
-  /* box-shadow: 0px 1px 5px 1px gray; */
+  /* border-radius: 4px;
+  padding: 0px 5px 0px 5px; */
+  flex: 0 0 auto;
+  text-align: center;
+  padding: 0 5px;
 }
 
 .category-item img {

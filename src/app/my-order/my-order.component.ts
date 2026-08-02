@@ -118,7 +118,6 @@ orderdList() {
       const bBottom = (bStatus === 'delivered' || bStatus === 'cancelled');
       return Number(aBottom) - Number(bBottom);
     });
-    console.log("groupedOrders",this.groupedOrders)
   }
   getOrderId(orderId: string) {
     this.router.navigate(['/my-order/order-status', orderId]);
@@ -127,7 +126,6 @@ orderdList() {
     this.router.navigate(['/login']);
   }
 getDisplayStatus(order: any): string {
-  console.log("orfdr",order)
   // Cancelled Orders
   if (order?.status === 'cancelled') {
     if (order?.payment_method === 'ONLINE') {

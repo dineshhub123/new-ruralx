@@ -21,10 +21,14 @@ export class DisplaySearchItemComponent implements OnInit {
   public addCartData: any;
   public hideHeader: boolean = false;
   public sizes: any[] = [];
-  public mainCategory :any;
+  public mainCategory: any;
   public subCategory: any;
   public selectedCategory = 'All Category';
-  public chipsList:any
+  public selectedSubCategory = 'All';
+  public chipsList: any[] = [];
+  public subCategoryChips: any[] = [];
+  filteredProducts: any[] = [];
+  allProducts: any[] = [];
   showAllChip = true;
   lastScrollTop = 0;
   MAX_QTY = 4;
@@ -33,14 +37,18 @@ export class DisplaySearchItemComponent implements OnInit {
   ) {
 
   }
+  category:any
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
       const category = params['category'];
       const subCategory = params['subCategory'];
-       const source = params['source'];
-      this.showAllChip = source === 'dashboard';
-      this.mainCategory = category
+      const source = params['source'];
+      this.showAllChip = !!category;
+      this.category = category;
+      this.mainCategory = category;
       this.subCategory = subCategory;
+      this.selectedCategory = 'All Category';
+      this.selectedSubCategory = 'All';
       if (category) {
         this.itemInitilize();
       }
@@ -56,61 +64,39 @@ export class DisplaySearchItemComponent implements OnInit {
 itemInitilize() {
   this.isLoading = true;
   const payload = {
-    searchData: this.subCategory
-      ? { category: this.mainCategory, sub_category: this.subCategory }
-      : this.mainCategory
+    searchData: this.mainCategory
+      ? { category: this.mainCategory }
+      : ''
   };
   this.apiService.searchData(payload).subscribe((res: any) => {
     this.isLoading = false;
     const user = JSON.parse(localStorage.getItem('login_user') || '{}');
     this.searchItem = (res || []).map((item: any) => {
       const firstVariant = item.variants?.[0];
-      // ✅ set default selections
       item.selectedColor = firstVariant?.colorCode || '';
       item.selectedSize = item.size || '';
       const cartData = this.convertToCartDBFormat(item, user.userId);
       return {
-        ...item,        
-        ...cartData   
+        ...item,
+        ...cartData
       };
-
     });
     this.allSearchItems = [...this.searchItem];
+    this.selectedCategory = 'All Category';
+    this.selectedSubCategory = 'All';
+    this.buildCategoryChips();
+    this.updateSubCategoryChips();
     this.applyFilters();
 
-    // ✅ set sizes (only once)
     if (this.searchItem.length > 0) {
       this.sizes = this.sizeService.getSizes(
         this.searchItem[0].category,
         this.searchItem[0].sub_category
       );
     }
-      const map = new Map();
-      this.searchItem.forEach((product:any) => {
-        if (!map.has(product.sub_category)) {
-          map.set(product.sub_category, {
-            category: product.category,
-            subCategory: product.sub_category,
-            image: product.variants?.[0]?.images?.[0]
-              ? this.imageBaseUrl + '/' + product.variants[0].images[0]
-              : 'assets/category/default.png'
-          });
-        }
-      });
 
-      this.chipsList = [
-        {
-          subCategory: 'All Category',
-          image: ''
-        },
-        ...Array.from(map.values())
-      ];
-
-    // ✅ sync with cart
     this.updateSearchWithCart(this.addCartService.getCart());
-
   });
-
 }
 
 
@@ -143,17 +129,17 @@ itemInitilize() {
 
   }
   updateSearchWithCart(cart: any[]) {
-    this.searchItem = this.searchItem?.map((item: any) => {
-      const found = cart.find((c: any) =>
-        c.product_id === item.product_id
-      );
+    const updateItem = (item: any) => {
+      const found = cart.find((c: any) => c.product_id === item.product_id);
       return {
         ...item,
-        id: found?.id || null,      // 🔥 THIS IS THE FIX
+        id: found?.id || null,
         quantity: found ? found.quantity : 0
       };
-    });
+    };
 
+    this.allSearchItems = this.allSearchItems?.map(updateItem);
+    this.searchItem = this.searchItem?.map(updateItem);
   }
 
   onWindowScroll() {
@@ -406,11 +392,51 @@ openFilter(): void {
 
   private applyFilters(): void {
     this.searchItem = this.allSearchItems.filter(item => {
+      const categoryMatch = this.selectedCategory === 'All Category' || item.category === this.selectedCategory;
+      const subCategoryMatch = this.selectedSubCategory === 'All' || item.sub_category === this.selectedSubCategory;
       const price = Number(item.price ?? item.product_price ?? 0);
       const priceMatch = this.selectedPrice === 'all' || this.isPriceInRange(price, this.selectedPrice);
       const ageMatch = this.selectedAge === 'all' || this.matchesAge(item, this.selectedAge);
-      return priceMatch && ageMatch;
+      return categoryMatch && subCategoryMatch && priceMatch && ageMatch;
     });
+  }
+
+  private buildCategoryChips(): void {
+    const map = new Map<string, any>();
+    this.allSearchItems.forEach((product: any) => {
+      if (!map.has(product.category)) {
+        map.set(product.category, {
+          category: product.category,
+          image: product.variants?.[0]?.images?.[0]
+            ? this.imageBaseUrl + '/' + product.variants[0].images[0]
+            : 'assets/category/default.png'
+        });
+      }
+    });
+    this.chipsList = [
+      { category: 'All Category', image: '' },
+      ...Array.from(map.values())
+    ];
+  }
+
+  private updateSubCategoryChips(): void {
+    const products = this.selectedCategory === 'All Category'
+      ? this.allSearchItems
+      : this.allSearchItems.filter(item => item.category === this.selectedCategory);
+
+    const map = new Map<string, any>();
+    products.forEach((product: any) => {
+      if (!map.has(product.sub_category)) {
+        map.set(product.sub_category, {
+          subCategory: product.sub_category
+        });
+      }
+    });
+
+    this.subCategoryChips = [
+      { subCategory: 'All' },
+      ...Array.from(map.values())
+    ];
   }
 
   private isPriceInRange(price: number, range: string): boolean {
@@ -426,44 +452,50 @@ openFilter(): void {
     const selectedAge = age.toLowerCase().replace('-months', '');
     return !productAge || productAge.includes(age.toLowerCase()) || productAge.includes(selectedAge);
   }
-  selectCategory(category: string,subCategory:string) {
-    this.selectedCategory = subCategory;
-    this.onselectCategory(category,subCategory)
-    console.log("selectedCategory", this.selectedCategory)
-  }
-
-onselectCategory(category: any,subCategory:any) {
-  if (subCategory === 'All Category') {
-    this.itemInitilize();   // Your all products API
-    return;
-  }
-  const payload = {
-    searchData: {
-  "category": category,
-  "sub_category": subCategory
-}
-  };
-  this.isLoading = true;
-  this.apiService.searchData(payload).subscribe((res: any) => {
-    this.isLoading = false;
-    this.searchItem = res;
-    const user = JSON.parse(localStorage.getItem('login_user') || '{}');
-    this.searchItem = (res || []).map((item: any) => {
-      const firstVariant = item.variants?.[0];
-      // ✅ set default selections
-      item.selectedColor = firstVariant?.colorCode || '';
-      item.selectedSize = item.size || '';
-      const cartData = this.convertToCartDBFormat(item, user.userId);
-      return {
-        ...item,        
-        ...cartData   
-      };
-
-    });
-    this.allSearchItems = [...this.searchItem];
+  selectCategory(category: string) {
+    this.selectedCategory = category;
+    this.selectedSubCategory = 'All';
+    this.updateSubCategoryChips();
     this.applyFilters();
-  });
-} 
+  }
+
+  selectSubCategory(subCategory: string) {
+    this.selectedSubCategory = subCategory;
+    this.applyFilters();
+  }
+
+  onselectCategory(category: any, subCategory: any) {
+    if (category === 'All Category') {
+      this.itemInitilize();   // Your all products API
+      return;
+    }
+    const payload = {
+      searchData: {
+        "category": category,
+        "sub_category": subCategory
+      }
+    };
+    this.isLoading = true;
+    this.apiService.searchData(payload).subscribe((res: any) => {
+      this.isLoading = false;
+      this.searchItem = res;
+      const user = JSON.parse(localStorage.getItem('login_user') || '{}');
+      this.searchItem = (res || []).map((item: any) => {
+        const firstVariant = item.variants?.[0];
+        item.selectedColor = firstVariant?.colorCode || '';
+        item.selectedSize = item.size || '';
+        const cartData = this.convertToCartDBFormat(item, user.userId);
+        return {
+          ...item,
+          ...cartData
+        };
+      });
+      this.allSearchItems = [...this.searchItem];
+      this.buildCategoryChips();
+      this.updateSubCategoryChips();
+      this.applyFilters();
+    });
+  }
 
 categoryInfo: any = {
     mens: {

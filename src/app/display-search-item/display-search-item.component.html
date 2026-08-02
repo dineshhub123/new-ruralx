@@ -15,15 +15,24 @@
 </div>      
 <div class="category-scroll" *ngIf="showAllChip">
         <mat-chip-listbox>
-          <mat-chip-option *ngFor="let chip of chipsList" [selected]="selectedCategory==chip.subCategory"
-            (click)="selectCategory(chip.category,chip.subCategory)">
-            <img *ngIf="chip.image; else defaultIcon" [src]="chip.image" alt="{{ chip.subCategory }}">
+          <mat-chip-option *ngFor="let chip of chipsList" [selected]="selectedCategory===chip.category"
+            (click)="selectCategory(chip.category)">
+            <img *ngIf="chip.image; else defaultIcon" [src]="chip.image" alt="{{ chip.category }}">
             <ng-template #defaultIcon>
               <div class="all-category">
                 <mat-icon>grid_view</mat-icon>
               </div>
             </ng-template>
-            <div class="chip-name">{{ formatCategory(chip.subCategory) | titlecase}}</div>
+            <div class="chip-name">{{ formatCategory(chip.category) | titlecase }}</div>
+          </mat-chip-option>
+        </mat-chip-listbox>
+      </div>
+
+      <div class="subcategory-scroll" *ngIf="showAllChip && subCategoryChips.length">
+        <mat-chip-listbox>
+          <mat-chip-option *ngFor="let chip of subCategoryChips" [selected]="selectedSubCategory===chip.subCategory"
+            (click)="selectSubCategory(chip.subCategory)">
+            <div class="chip-name">{{ formatCategory(chip.subCategory) | titlecase }}</div>
           </mat-chip-option>
         </mat-chip-listbox>
       </div>
