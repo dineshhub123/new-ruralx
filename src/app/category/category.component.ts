@@ -10,46 +10,85 @@ import { environment } from 'src/environments/environment.prod';
 export class CategoryComponent {
   imageBaseUrl = environment.imageBaseUrl;
   public isLoading: boolean = false;
+  leftMenu = [
+    { key: 'mens', label: 'Men', category: 'mens' },
+    { key: 'womens', label: 'Women', category: 'womens' },
+    { key: 'boys', label: 'Boys', category: 'boys' },
+    { key: 'girls', label: 'Girls', category: 'girls' },
+    { key: 'kids', label: 'Kids', category: 'kids' },
+    { key: 'electronics', label: 'Electronics', category: 'electronics' },
+    { key: 'electricals', label: 'Electricals', category: 'electricals' },
+    { key: 'home_kitchen', label: 'Home & Kitchen', category: 'home_kitchen' },
+    { key: 'beauty_personal_care', label: 'Beauty & Personal Care', category: 'beauty_personal_care' }
+  ];
+
   constructor(public apiService: ApiService, public router: Router, private cdr: ChangeDetectorRef) { }
   selectedCategory = '';
   uniqueCategories: any[] = [];
   products: any[] = []
   selectedCategoryDisplay = '';
+  selectedSubCategory: any
+  categorySortData: any = []
+  uniqueSubcategories: any = []
 
-  onSelectCategory(category: string, displayText: string) {
-    this.selectedCategory = category;
-    const currentLang =
-      localStorage.getItem('language') || 'en';
 
-    this.selectedCategoryDisplay =
-      currentLang === 'en'
-        ? category
-        : displayText;
-
-    let categoryPayload = {
-      searchData: category
-    };
-
-    this.apiService
-      .getOnSelctCategoryList(categoryPayload)
-      .subscribe(catList => {
-        this.products = catList;
-      });
+  get sidebarCategories() {
+    return this.leftMenu;
   }
-  // Get unique subcategories with one representative image
-  get uniqueSubcategories() {
+onSelectCategory(category: string) {
+  this.selectedCategory = category;
+  this.selectedCategoryDisplay = this.formatCategoryName(category);
+  // Clear old data
+  this.products = [];
+  this.uniqueSubcategories = [];
+  this.categorySortData = [];
+  this.selectedSubCategory = '';
+  const categoryPayload = {
+    searchData: category
+  };
+  this.apiService.searchData(categoryPayload).subscribe({
+    next: (res: any) => {
+      if (res.status && res.data?.length) {
+        this.products = res.data;
+        this.uniqueSubcategories = this.getUniqueSubCategories(this.products);
+        // Auto select first chip
+        if (this.uniqueSubcategories.length > 0) {
+          this.selectedSubCategory = this.uniqueSubcategories[0].name;
+          this.onSelectMainCategory(
+            this.selectedCategory,
+            this.selectedSubCategory
+          );
+        }
+      } else {
+        this.products = [];
+        this.uniqueSubcategories = [];
+        this.categorySortData = [];
+        this.selectedSubCategory = '';
+      }
+    },
+    error: (err) => {
+      console.error(err);
+      this.products = [];
+      this.uniqueSubcategories = [];
+      this.categorySortData = [];
+      this.selectedSubCategory = '';
+    }
+  });
+}
+
+  getUniqueSubCategories(products: any[]) {
     const map = new Map();
-    this.products.forEach(p => {
-      if (!map.has(p.sub_category)) {
-        map.set(p.sub_category, {
-          name: p.sub_category,
-          image: p.variants[0].images[0] // first image of first variant
+    products.forEach(product => {
+      if (!map.has(product.category)) {
+        map.set(product.category, {
+          name: product.category,
+          image: product.variants?.[0]?.images?.[0] || ''
         });
       }
     });
+
     return Array.from(map.values());
   }
-
   // Get all products for a subcategory
   getProductsBySub(subCategory: string) {
     return this.products.filter(p => p.sub_category === subCategory);
@@ -69,30 +108,44 @@ export class CategoryComponent {
         seen.add(item.category);
         return true;
       });
-      let defaultCategry = {
-        searchData: this.uniqueCategories[0].category
-      }
-      this.apiService.getOnSelctCategoryList(defaultCategry).subscribe(catList => {
-        this.isLoading = false;
-        this.selectedCategory = this.uniqueCategories[0].category;
-        this.selectedCategoryDisplay = this.uniqueCategories[0].category;
-        this.products = catList
-        this.cdr.detectChanges();
-        setTimeout(() => {
-          const firstCat: any =
-            document.querySelector('.cat-name');
-          if (firstCat) {
-            this.selectedCategoryDisplay =
-              firstCat.innerText.trim();
-          } else {
-            this.selectedCategoryDisplay =
-              this.uniqueCategories[0].category;
-          }
-        }, 900);
-      })
-    })
+
+      const normalize = (value: string) => (value || '').trim().toLowerCase();
+
+      this.leftMenu = this.leftMenu.map(menuItem => {
+        const matchedCategory = this.uniqueCategories.find(cat => {
+          const catKey = normalize(cat.category);
+          return catKey === normalize(menuItem.category)
+            || catKey === normalize(menuItem.key)
+            || catKey === normalize(menuItem.key.replace(/s$/, ''));
+        });
+        return { ...menuItem, category: matchedCategory?.category || menuItem.category };
+      });
+      this.selectedCategory = "mens";
+      this.onSelectCategory(this.selectedCategory);
+
+    });
   }
-  onSelectMainCategory(category: any, subCategory: any) {
+onSelectMainCategory(mainCategory: any, category: any) {
+  this.selectedSubCategory = category;
+  this.categorySortData = [];
+  const payload = {
+    searchData: {
+      category: mainCategory,
+      sub_category: category
+    }
+  };
+  this.apiService.searchData(payload).subscribe(
+    (res: any) => {
+      this.categorySortData = res?.data || [];
+    },
+    (error) => {
+      console.error(error);
+      this.categorySortData = [];
+    }
+  );
+} 
+
+redirectToDisplayProductList(category: string, subCategory: string) {
     this.router.navigate(['/display-item'], {
       queryParams: {
         category,
@@ -101,6 +154,7 @@ export class CategoryComponent {
       }
     });
   }
+
   formatCategory(category: string): string {
     return (category || '').replaceAll('_', ' ');
   }
@@ -121,62 +175,62 @@ export class CategoryComponent {
     { label: '12-14 Y', value: '12-14' },
     { label: '14-16 Y', value: '14-16' }
   ];
- selectedKidsAge = 'all'
+  selectedKidsAge = 'all'
 
   kidsAgeChips = [
-  { label: 'All', value: 'all' },
-  { label: '0-6 M', value: '0-6-months' },
-  { label: '6-12 M', value: '6-12-months' },
-  { label: '12-18 M', value: '12-18-months' },
-  { label: '18-24 M', value: '18-24-months' }
-];
+    { label: 'All', value: 'all' },
+    { label: '0-6 M', value: '0-6-months' },
+    { label: '6-12 M', value: '6-12-months' },
+    { label: '12-18 M', value: '12-18-months' },
+    { label: '18-24 M', value: '18-24-months' }
+  ];
 
-formatCategoryName(category: string): string {
-  if (!category) return '';
-  category = category.trim().toLowerCase();
-  const names: { [key: string]: string } = {
-    home_kitchen: 'Home & Kitchen',
-    beauty_personal_care: 'Beauty & Personal Care',
-    electronics: 'Electronics',
-    electricals: 'Electricals',
-    mens: "Men's Fashion",
-    womens: "Women's Fashion",
-    boys: "Boys' Fashion",
-    girls: "Girls' Fashion",
-    kids: "Kids & Toys"
-  };
+  formatCategoryName(category: string): string {
+    if (!category) return '';
+    category = category.trim().toLowerCase();
+    const names: { [key: string]: string } = {
+      home_kitchen: 'Home & Kitchen',
+      beauty_personal_care: 'Beauty & Personal Care',
+      electronics: 'Electronics',
+      electricals: 'Electricals',
+      mens: "Men's Fashion",
+      womens: "Women's Fashion",
+      boys: "Boys' Fashion",
+      girls: "Girls' Fashion",
+      kids: "Kids & Toys"
+    };
 
-  return names[category] || category.replace(/_/g, ' ');
-}
-getCategorySubtitle(category: string): string {
-  switch (category?.toLowerCase()) {
-    case 'boys':
-      return 'Find the best for your little champ';
-
-    case 'girls':
-      return "Discover styles she'll love every day";
-
-    case 'toddler':
-      return 'Everything your little ones need';
-
-    case 'mens':
-      return 'Upgrade your everyday style';
-
-    case 'womens':
-      return 'Discover elegance for every occasion';
-
-    case 'electronics':
-      return 'Smart gadgets for everyday life';
-
-    case 'electricals':
-      return 'Reliable essentials for your home';
-
-    case 'technology':
-      return 'Power your world with the latest tech';
-
-    default:
-      return 'Discover amazing products for everyone';
+    return names[category] || category.replace(/_/g, ' ');
   }
-}
+  getCategorySubtitle(category: string): string {
+    switch (category?.toLowerCase()) {
+      case 'boys':
+        return 'Find the best for your little champ';
+
+      case 'girls':
+        return "Discover styles she'll love every day";
+
+      case 'toddler':
+        return 'Everything your little ones need';
+
+      case 'mens':
+        return 'Upgrade your everyday style';
+
+      case 'womens':
+        return 'Discover elegance for every occasion';
+
+      case 'electronics':
+        return 'Smart gadgets for everyday life';
+
+      case 'electricals':
+        return 'Reliable essentials for your home';
+
+      case 'technology':
+        return 'Power your world with the latest tech';
+
+      default:
+        return 'Discover amazing products for everyone';
+    }
+  }
 
 }

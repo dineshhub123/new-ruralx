@@ -5,13 +5,13 @@
     <div class="sidebar pt-4 mt-1 " (scroll)="onContentScroll($event)">
       <!-- <h3>Categories</h3> -->
       <ul>
-        <li #catText *ngFor="let cat of uniqueCategories" class="cat-name"
-          (click)="onSelectCategory(cat?.category,catText.innerText)"
-          [class.selected]="selectedCategory === cat?.category">
-          <label class="category-title" [class.selected]="selectedCategory === cat?.category"> {{ formatCategoryName(cat?.category)}} </label>
+        <li *ngFor="let cat of sidebarCategories" class="cat-name" (click)="onSelectCategory(cat.category)"
+          [class.selected]="selectedCategory === (cat.category)">
+          <label class="category-title" [class.selected]="selectedCategory === (cat.category)"> {{ cat.label }} </label>
           <ul>
-            <li class="sub-card" [class.selected]="selectedCategory === cat?.category">
-              <img [src]="'assets/img/' + cat?.category + '-menu.png'" [alt]="cat?.category" class="category-thumb">
+            <li class="sub-card" [class.selected]="selectedCategory === (cat.category || cat.key)">
+              <img [src]="'assets/img/' + (cat.category || cat.key) + '-menu.png'" [alt]="cat.category || cat.key"
+                class="category-thumb">
             </li>
           </ul>
         </li>
@@ -19,18 +19,36 @@
     </div>
     <!-- Main Content -->
     <div class="content pt-4" (scroll)="onContentScroll($event)">
-      <div class="category-heading notranslate">{{formatCategoryName(selectedCategoryDisplay)}}
-        <p>{{getCategorySubtitle(selectedCategoryDisplay)}}</p>
+      <div class="category-heading notranslate">{{formatCategoryName(selectedCategory)}}
+        <p>{{getCategorySubtitle(selectedCategory)}}</p>
       </div>
 
       <div class="cat-title"><mat-icon>grid_view</mat-icon> Category</div>
-      <div class="sub-grid">
-        <div class="sub-card all-card-grid" *ngFor="let sub of uniqueSubcategories"
-          (click)="onSelectMainCategory(selectedCategory, sub?.name)">
-          <img [src]="imageBaseUrl + sub?.image" alt="{{ sub?.name }}" />
-          <span class="main-subcategory-title">{{ formatCategory(sub.name) | titlecase }}</span>
+      <div class="chips-container">
+        <div class="category-chip" *ngFor="let sub of uniqueSubcategories"
+          [class.active]="selectedSubCategory === sub.name"
+          (click)="selectedSubCategory = sub.name; onSelectMainCategory(selectedCategory, sub.name)">
+          {{ formatCategory(sub.name) | titlecase }}
         </div>
       </div>
+      <div *ngIf="categorySortData?.length > 0; else noData" class="sub-grid-container">
+      <div class="sub-grid-all">
+        <div class="sub-card all-card-grid" *ngFor="let sub of categorySortData"
+          (click)="redirectToDisplayProductList(selectedCategory, sub?.sub_category)">
+          <img [src]="imageBaseUrl + sub?.variants[0]?.images[0]" alt="{{ sub?.name }}" />
+          <span class="main-subcategory-title">{{ formatCategory(sub.sub_category) | titlecase }}</span>
+        </div>
+      </div>
+      </div>
+      <ng-template #noData>
+        <div class="no-data empty-state">
+          <div class="empty-state-icon">
+            <mat-icon>category</mat-icon>
+          </div>
+          <h6>No Categories Available</h6>
+          <p>Products will appear here once they are added. Check back soon or add new items to populate this section.</p>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>

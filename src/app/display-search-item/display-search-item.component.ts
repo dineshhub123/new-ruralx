@@ -64,14 +64,19 @@ export class DisplaySearchItemComponent implements OnInit {
 itemInitilize() {
   this.isLoading = true;
   const payload = {
-    searchData: this.mainCategory
-      ? { category: this.mainCategory }
-      : ''
+          searchData: {
+        category: this.mainCategory,
+        sub_category: this.subCategory
+      }
+
+    // searchData: this.mainCategory
+    //   ? { category: this.mainCategory }
+    //   : ''
   };
   this.apiService.searchData(payload).subscribe((res: any) => {
     this.isLoading = false;
     const user = JSON.parse(localStorage.getItem('login_user') || '{}');
-    this.searchItem = (res || []).map((item: any) => {
+    this.searchItem = (res?.data || []).map((item: any) => {
       const firstVariant = item.variants?.[0];
       item.selectedColor = firstVariant?.colorCode || '';
       item.selectedSize = item.size || '';
