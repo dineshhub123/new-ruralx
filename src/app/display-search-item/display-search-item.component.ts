@@ -43,7 +43,7 @@ export class DisplaySearchItemComponent implements OnInit {
       const category = params['category'];
       const subCategory = params['subCategory'];
       const source = params['source'];
-      this.showAllChip = !!category;
+      this.showAllChip = !!category && source !== 'category';
       this.category = category;
       this.mainCategory = category;
       this.subCategory = subCategory;

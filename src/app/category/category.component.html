@@ -33,7 +33,7 @@
       </div>
       <div *ngIf="categorySortData?.length > 0; else noData" class="sub-grid-container">
       <div class="sub-grid-all">
-        <div class="sub-card all-card-grid" *ngFor="let sub of categorySortData"
+        <div class="sub-card-child all-card-grid" *ngFor="let sub of categorySortData"
           (click)="redirectToDisplayProductList(selectedCategory, sub?.sub_category)">
           <img [src]="imageBaseUrl + sub?.variants[0]?.images[0]" alt="{{ sub?.name }}" />
           <span class="main-subcategory-title">{{ formatCategory(sub.sub_category) | titlecase }}</span>
@@ -46,7 +46,7 @@
             <mat-icon>grid_view</mat-icon>
           </div>
           <h6>No Categories Available</h6>
-          <p>Products will appear here once they are added. Check back soon or add new items to populate this section.</p>
+          <p>Products will appear here once Admin are added. Check back soon.</p>
         </div>
       </ng-template>
     </div>
