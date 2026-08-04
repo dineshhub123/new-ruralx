@@ -37,6 +37,7 @@ export class CategoryComponent {
   }
 onSelectCategory(category: string) {
   this.selectedCategory = category;
+  this.isLoading = true;
   this.selectedCategoryDisplay = this.formatCategoryName(category);
   // Clear old data
   this.products = [];
@@ -50,6 +51,7 @@ onSelectCategory(category: string) {
     next: (res: any) => {
       if (res.status && res.data?.length) {
         this.products = res.data;
+        this.isLoading = false;
         this.uniqueSubcategories = this.getUniqueSubCategories(this.products);
         // Auto select first chip
         if (this.uniqueSubcategories.length > 0) {
@@ -64,11 +66,13 @@ onSelectCategory(category: string) {
         this.uniqueSubcategories = [];
         this.categorySortData = [];
         this.selectedSubCategory = '';
+        this.isLoading = false;
       }
     },
     error: (err) => {
       console.error(err);
       this.products = [];
+      this.isLoading = false;
       this.uniqueSubcategories = [];
       this.categorySortData = [];
       this.selectedSubCategory = '';
@@ -127,6 +131,7 @@ onSelectCategory(category: string) {
   }
 onSelectMainCategory(mainCategory: any, category: any) {
   this.selectedSubCategory = category;
+  this.isLoading = true;
   this.categorySortData = [];
   const payload = {
     searchData: {
@@ -137,10 +142,12 @@ onSelectMainCategory(mainCategory: any, category: any) {
   this.apiService.searchData(payload).subscribe(
     (res: any) => {
       this.categorySortData = res?.data || [];
+      this.isLoading = false;
     },
     (error) => {
       console.error(error);
       this.categorySortData = [];
+      this.isLoading = false;
     }
   );
 } 
