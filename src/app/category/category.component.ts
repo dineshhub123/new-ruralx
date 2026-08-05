@@ -129,6 +129,7 @@ onSelectCategory(category: string) {
 
     });
   }
+  
 onSelectMainCategory(mainCategory: any, category: any) {
   this.selectedSubCategory = category;
   this.isLoading = true;
@@ -139,9 +140,20 @@ onSelectMainCategory(mainCategory: any, category: any) {
       sub_category: category
     }
   };
+
   this.apiService.searchData(payload).subscribe(
     (res: any) => {
-      this.categorySortData = res?.data || [];
+     const data = res?.data || [];
+      // Remove duplicate sub_category
+      const uniqueMap = new Map();
+      data.forEach((item: any) => {
+        const key = item.sub_category?.trim().toLowerCase();
+        if (!uniqueMap.has(key)) {
+          uniqueMap.set(key, item);
+        }
+      });
+
+      this.categorySortData = Array.from(uniqueMap.values());
       this.isLoading = false;
     },
     (error) => {
@@ -150,7 +162,7 @@ onSelectMainCategory(mainCategory: any, category: any) {
       this.isLoading = false;
     }
   );
-} 
+}
 
 redirectToDisplayProductList(category: string, subCategory: string) {
     this.router.navigate(['/display-item'], {

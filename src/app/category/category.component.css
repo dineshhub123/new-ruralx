@@ -115,14 +115,14 @@ label {
   justify-content: center;
 }
 .sub-card-child img {
-  width: 65px;
-  height: 65px;
+  width: 55px;
+  height: 55px;
   object-fit: contain;
   border-radius: 50%;
   /* Makes it a circle */
   overflow: hidden;
   /* Hide extra corners */
-  margin: 0 auto 4px;
+  margin: 0 auto 3px;
   /* Center and spacing */
   border: 2px solid #d1d1d1;
   /* Optional border */
@@ -152,7 +152,7 @@ label {
 }
 
 .main-subcategory-title {
-  font-size: 12px;
+  font-size: 9px;
   text-align: left;
   color: teal;
   cursor: pointer;
