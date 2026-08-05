@@ -300,6 +300,8 @@ h6 {
     flex-direction: row;
     border-radius: 15px;
     justify-content: center;
+    border: 1px solid #d1d1d1;
+    background-color: #fff;
 }
 
 .category-scroll img {
@@ -347,9 +349,10 @@ h6 {
 .subcategory-scroll mat-chip-option.mat-mdc-chip-selected,
 .category-scroll mat-chip-option.mdc-evolution-chip--selected,
 .subcategory-scroll mat-chip-option.mdc-evolution-chip--selected {
-   background: #F57C00 !important; 
-  /* border-color: #ff6b00 !important;
-  color: #ff6b00 !important; */
+   /* background: #F57C00 !important;  */
+  border-color: #ff6b00 !important;
+  /* color: #ff6b00 !important; */ 
+
 }
 
 .category-scroll .mat-mdc-chip-action-label,
@@ -385,7 +388,12 @@ h6 {
 :host ::ng-deep .mat-mdc-standard-chip.mdc-evolution-chip--with-primary-graphic .mdc-evolution-chip__action--primary {
   padding: 4px !important;
 }
+:host ::ng-deep .mat-mdc-standard-chip.mat-mdc-chip-selected.mat-primary{
+  background-color: #fff !important;
+  color: #ff6b00 !important;
+  --mdc-chip-label-text-color: #ff6b00;
 
+}
 :host ::ng-deep .mat-mdc-chip .mdc-evolution-chip__graphic,
 :host ::ng-deep .mat-mdc-chip .mdc-evolution-chip__checkmark {
   display: none !important;
