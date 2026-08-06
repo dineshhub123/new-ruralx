@@ -25,9 +25,9 @@
     </div>
 
   <div class="category-scroll" [class.at-top]="showHeaderAtTop">
-    <div class="category-item" *ngFor="let chip of chipsList" (click)="onClickChips(chip.category)">
-      <img class="chips-img" [src]="imageBaseUrl + chip.image[0]" [alt]="chip.category" />
-      <span>{{ formatCategory(chip.category) | titlecase }}</span>
+    <div class="category-item" *ngFor="let chip of chipsList" (click)="onClickChips(chip.category,chip.subCategory)">
+      <img class="chips-img" [src]="imageBaseUrl + chip.image[0]" [alt]="chip.subCategory" />
+      <span>{{ formatCategory(chip.subCategory) | titlecase }}</span>
     </div>
   </div>
   <div class="container-fluid mb-3">
@@ -52,7 +52,7 @@
                 <p>
                   Top Quality • Great Prices
                 </p>
-                <button class="shop-btn" (click)="onClickImage(banner.category)">
+                <button class="shop-btn" (click)="onClickImage(banner.category,banner.subCategory)">
                   Shop Now
                 </button>
               </div>

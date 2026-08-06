@@ -22,8 +22,8 @@ export class DashboardComponent {
   cardSubCategoryList: any[] = [];
   dashboardProducts: any = {};
   categoryList: string[] = [];
-  categoryData: any = {}; 
-  carouselData: any[] = []; 
+  categoryData: any = {};
+  carouselData: any[] = [];
   bannerImages: any[] = [];
 
   constructor(private router: Router, private apiService: ApiService, private scrollService: ScrollService, private ngZone: NgZone) {
@@ -73,17 +73,21 @@ export class DashboardComponent {
           }
 
           // Banner Images (first image of every product)
-          const bannerImages = products
-            .map((product: any) => product.variants?.[0]?.images?.[0])
-            .filter(Boolean);
-          if (bannerImages.length) {
-            const bannerObj = {
-              category,
-              image: bannerImages[0]
-            };
+          const bannerItems = products
+            .filter((product: any) => product.variants?.[0]?.images?.[0])
+            .map((product: any) => ({
+              image: product.variants[0].images[0],
+              category: product.main_category,
+              subCategory: product.sub_category
+            }));
+
+          if (bannerItems.length) {
+            const bannerObj = { ...bannerItems[0] };
+
             this.bannerImages.push(bannerObj);
-            this.startBannerRotation(bannerImages, bannerObj);
-          }
+            this.startBannerRotation(bannerItems, bannerObj);
+          }   
+          
           // Chips List (unique sub categories)
           const uniqueSubCategories = [
             ...new Set(products.map((p: any) => p.sub_category))
@@ -93,7 +97,8 @@ export class DashboardComponent {
               (p: any) => p.sub_category === subCategory
             );
             this.chipsList.push({
-              category: subCategory,
+              category: firstProduct.main_category,
+              subCategory,
               image: firstProduct?.variants?.[0]?.images || '../assets/img/default.png'
             });
           });
@@ -138,21 +143,21 @@ export class DashboardComponent {
       header.scrollLeft = scrollLeft - walk;
     });
   }
-rotateCategories(): void {
-  if (!this.categoryList.length) {
-    return;
+  rotateCategories(): void {
+    if (!this.categoryList.length) {
+      return;
+    }
+    let index = Number(localStorage.getItem('categoryIndex') || '0');
+    index = index % this.categoryList.length;
+    this.categoryList = [
+      ...this.categoryList.slice(index),
+      ...this.categoryList.slice(0, index)
+    ];
+    localStorage.setItem(
+      'categoryIndex',
+      ((index + 1) % this.categoryList.length).toString()
+    );
   }
-  let index = Number(localStorage.getItem('categoryIndex') || '0');
-  index = index % this.categoryList.length;
-  this.categoryList = [
-    ...this.categoryList.slice(index),
-    ...this.categoryList.slice(0, index)
-  ];
-  localStorage.setItem(
-    'categoryIndex',
-    ((index + 1) % this.categoryList.length).toString()
-  );
-}
 
   getDiscountPercent(mrp: number, discount: number): number {
     if (!mrp || mrp <= 0) {
@@ -161,27 +166,32 @@ rotateCategories(): void {
     return Math.floor((discount / mrp) * 100);
   }
 
-  startBannerRotation(images: string[], bannerObj: any) {
-    let index = 0; // local index for this banner
-    setInterval(() => {
-      index = (index + 1) % images.length;
-      bannerObj.image = images[index];
-    }, 15000); // 15 sec
-  }
+startBannerRotation(bannerItems: any[], bannerObj: any) {
+  let index = 0;
+  setInterval(() => {
+    index = (index + 1) % bannerItems.length;
+    bannerObj.image = bannerItems[index].image;
+    bannerObj.category = bannerItems[index].category;
+    bannerObj.subCategory = bannerItems[index].subCategory;
+  }, 15000);
+}
 
-  onClickImage(category: any) {
+  onClickImage(category: any, subCategory: any) {
     this.router.navigate(['/display-item'], {
       queryParams: {
         category: category,
-        source:'dashboard'
+        subCategory,
+        source: 'category'
       }
     });
   }
 
-  onClickChips(category: any) {
+  onClickChips(category: any, subCategory: any) {
     this.router.navigate(['/display-item'], {
       queryParams: {
         category: category,
+        subCategory,
+        source: "category"
       }
     });
   }
@@ -196,25 +206,25 @@ rotateCategories(): void {
   onTabChange(event: any) {
     const selectedCategory = this.chipsList[event.index]?.category;
     if (event.index !== 0) {
-      this.onClickImage(selectedCategory);
+      //this.onClickImage(selectedCategory);
     }
   }
 
   openAiAssistant() {
-  console.log('Open AI Assistant');
-  // Future:
-  // this.dialog.open(AiAssistantComponent);
-}
+    console.log('Open AI Assistant');
+    // Future:
+    // this.dialog.open(AiAssistantComponent);
+  }
 
-startVoice(event: Event) {
-  event.stopPropagation();
+  startVoice(event: Event) {
+    event.stopPropagation();
 
-  console.log('Voice Started');
+    console.log('Voice Started');
 
-  // Android Speech Recognition
-  // Speech -> Text
+    // Android Speech Recognition
+    // Speech -> Text
 
-  // Then
-  // this.openAiAssistant();
-}
+    // Then
+    // this.openAiAssistant();
+  }
 }

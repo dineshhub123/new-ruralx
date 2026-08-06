@@ -5,7 +5,7 @@
     </div>
     <div class="product-list">
         <div class="product-card" *ngFor="let product of products">
-            <img class="product-img" [src]="imageBaseUrl + product.variants[0]?.images[0]" alt="" (click)="onClickImage(product.category, product.sub_category)">
+            <img class="product-img" [src]="imageBaseUrl + product.variants[0]?.images[0]" alt="" (click)="onClickImage(product.main_category, product.sub_category)">
             <div class="product-info">
                 <div class="name">
                     {{product.product_name | titlecase}}

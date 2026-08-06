@@ -370,9 +370,7 @@ selectedPrice = 'all';
   }
 ];
 openFilter(): void {
-  // A product listing can be opened from a subcategory (for example, "Tshirts").
-  // Use the product's parent category so boys', girls', and kids' age filters appear.
-  const category = this.searchItem?.[0]?.category || this.mainCategory;
+  const category = this.mainCategory;
   const sheet = this.dialog.open(ProductFilterSheetComponent, {
     panelClass: 'product-filter-dialog',
     position: { bottom: '0' },
@@ -705,7 +703,6 @@ export class ProductFilterSheetComponent {
 
   get ageHeading(): string {
     const category = String(this.data.category || '').toLowerCase();
-    console.log("category",category)
     return category.includes('kids') || category.includes('toddler') || category.includes('baby')
       ? 'Age (months)' : 'Age (years)';
   }

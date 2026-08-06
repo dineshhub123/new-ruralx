@@ -76,7 +76,8 @@ getDiscountPercent(mrp: number, discount: number): number {
     this.router.navigate(['/display-item'], {
       queryParams: {
         category,
-        subCategory
+        subCategory,
+        source: "category"
       }
     });
   }
