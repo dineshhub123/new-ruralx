@@ -618,7 +618,7 @@ formatCategoryName(category: string): string {
     </section>
   `,
   styles: [`
-    .filter-sheet { padding: 9px 16px calc(18px + env(safe-area-inset-bottom)); color: #172b3a; }
+    .filter-sheet { padding: 9px 16px; color: #172b3a; }
     .filter-sheet__handle { width: 40px; height: 4px; margin: 0 auto 0px; border-radius: 10px; background: #d6dde2; }
     .filter-sheet__header, .filter-sheet__actions { display: flex; align-items: center; justify-content: space-between; }
     .filter-sheet__eyebrow { display: block; color: #2e7d32; font-size: 11px; font-weight: 700; letter-spacing: .7px; text-transform: uppercase; }
@@ -636,7 +636,7 @@ formatCategoryName(category: string): string {
     :host ::ng-deep .mat-mdc-chip.mdc-evolution-chip--selected .mdc-evolution-chip__text-label { color: #1f6a2d !important; font-weight: 700; }
     :host ::ng-deep .mat-mdc-chip.mdc-evolution-chip--selected .mdc-evolution-chip__checkmark { color: #2e7d32 !important; }
     :host ::ng-deep .mat-mdc-chip.mdc-evolution-chip--selected .mdc-evolution-chip__checkmark-path { stroke: #2e7d32 !important; }
-    .filter-sheet__actions { gap: 10px; margin-top: 10px; padding-top: 14px; border-top: 1px solid #edf0ee; }
+    .filter-sheet__actions { gap: 10px; padding-top: 10px; }
     .filter-sheet__actions button { min-height: 44px; flex: 1; border-radius: 10px; font-weight: 700; }
     .filter-sheet__clear { border-color: #9aa8a1; color: #355142; }
     .filter-sheet__apply { display: flex; align-items: center; justify-content: center; gap: 4px; background: #2e7d32; }
