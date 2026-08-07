@@ -1,8 +1,10 @@
 import { Component, ElementRef, inject, NgZone, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ApiService } from 'src/app/services/api.service';
 import { ScrollService } from 'src/app/scroll.service';
 import { environment } from 'src/environments/environment.prod';
+import { AiAssistantComponent } from 'src/app/ai-assistant/ai-assistant.component';
 declare var $: any;
 @Component({
   selector: 'app-dashboard',
@@ -26,7 +28,7 @@ export class DashboardComponent {
   carouselData: any[] = [];
   bannerImages: any[] = [];
 
-  constructor(private router: Router, private apiService: ApiService, private scrollService: ScrollService, private ngZone: NgZone) {
+  constructor(private router: Router, private apiService: ApiService, private scrollService: ScrollService, private ngZone: NgZone, private bottomSheet: MatBottomSheet) {
   }
 
   ngOnInit() {
@@ -211,20 +213,9 @@ startBannerRotation(bannerItems: any[], bannerObj: any) {
   }
 
   openAiAssistant() {
-    console.log('Open AI Assistant');
-    // Future:
-    // this.dialog.open(AiAssistantComponent);
+    this.bottomSheet.open(AiAssistantComponent, {
+      panelClass: 'ai-assistant-bottom-sheet'
+    });
   }
 
-  startVoice(event: Event) {
-    event.stopPropagation();
-
-    console.log('Voice Started');
-
-    // Android Speech Recognition
-    // Speech -> Text
-
-    // Then
-    // this.openAiAssistant();
-  }
 }

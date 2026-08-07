@@ -67,6 +67,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { DeleteAccountComponent } from './delete-account/delete-account.component';
 import { VersionUpdateComponent } from './version-update/version-update.component';
 import { ProductSliderComponent } from './product-slider/product-slider.component';
+import { AiAssistantComponent } from './ai-assistant/ai-assistant.component';
 export function HttpLoaderFactory(http:HttpClient){
   return new TranslateHttpLoader(http, './assets/i18n/', '.json')
 }
@@ -108,6 +109,7 @@ SwiperCore.use([Zoom, Thumbs, Pagination]);
     DeleteAccountComponent,
     VersionUpdateComponent,
     ProductSliderComponent,
+    AiAssistantComponent,
   ],
   imports: [
     BrowserModule,

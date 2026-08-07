@@ -1,0 +1,132 @@
+.assistant-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 24px 24px 0 0;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.assistant-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.assistant-header .label {
+  margin: 0 0 4px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #0077c2;
+}
+
+.assistant-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2a44;
+}
+
+.close-btn {
+  border: none;
+  background: #f1f5fb;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.assistant-body {
+  flex: 1;
+  overflow: hidden;
+}
+
+.message-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+  padding: 16px;
+  background: #eef4ff;
+  border-radius: 10px;
+  color: #355176;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.ai-msg,
+.user-msg {
+  padding: 14px 18px;
+  border-radius: 8px;
+  max-width: 78%;
+  word-break: break-word;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06);
+}
+
+.ai-msg {
+  background: rgba(231, 244, 255, 0.95);
+  color: #1f2a44;
+  align-self: flex-start;
+}
+
+.user-msg {
+  background: #607D8B;;
+  color: #fff;
+  align-self: flex-end;
+}
+
+.assistant-footer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.user-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: #f3f8ff;
+  padding: 10px 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  width: 100%;
+}
+
+.user-input__field {
+  flex: 1;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  color: #64748b;
+  font-size: 0.95rem;
+  padding-left: 10px;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.start-btn {
+  padding: 12px 20px;
+  font-weight: 600;
+  min-width: 140px;
+}
+
+.status {
+  grid-column: 1 / -1;
+  font-size: 0.95rem;
+  color: #3f6d91;
+}
