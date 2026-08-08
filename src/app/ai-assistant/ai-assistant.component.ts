@@ -12,7 +12,15 @@ export class AiAssistantComponent {
   isListening = false;
   currentStep = 'product';
   conversationData: any = {};
-
+  private recognition: any = null;
+  private isRecognitionRunning = false;
+  private isRecognitionStarting = false;
+  private isSpeaking = false;
+  private isProcessingResult = false;
+  private hasSpeechResult = false;
+  private recognitionRetryCount = 0;
+  private recognitionRetryTimer: any = null;
+  private shouldAutoListen = true;
   constructor(private bottomSheetRef: MatBottomSheetRef<AiAssistantComponent>, public router: Router) { }
 
   close() {
@@ -36,112 +44,375 @@ export class AiAssistantComponent {
 
   speak(text: string) {
     if (!('speechSynthesis' in window)) {
-      this.startListening();
+      setTimeout(() => {
+        this.startListening();
+      }, 500);
       return;
     }
 
+    // Stop previous speech
     window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
+    this.isSpeaking = true;
+    const utterance =
+      new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-IN';
     utterance.rate = 1;
     utterance.pitch = 1;
+
+    // --------------------------------
+    // SPEECH END
+    // --------------------------------
     utterance.onend = () => {
+      this.isSpeaking = false;
+      // Give mobile Chrome some time
       setTimeout(() => {
-        this.startListening();
-      }, 300);
+        if (!this.shouldAutoListen) {
+          return;
+        }
+        if (!this.isSpeaking &&
+          !this.isRecognitionRunning &&
+          !this.isRecognitionStarting && !this.isProcessingResult) {
+          this.startListening();
+        }
+
+      }, 500);
     };
-    utterance.onerror = () => {
-      this.startListening();
+
+    // --------------------------------
+    // SPEECH ERROR
+    // --------------------------------
+
+    utterance.onerror = (event: any) => {
+      this.isSpeaking = false;
+      if (!this.shouldAutoListen) {
+        return;
+      }
+      setTimeout(() => {
+
+        if (!this.isRecognitionRunning &&
+          !this.isRecognitionStarting) {
+
+          this.startListening();
+        }
+
+      }, 500);
     };
+
+
+    // --------------------------------
+    // SPEAK
+    // --------------------------------
 
     window.speechSynthesis.speak(utterance);
   }
 
 
   startListening() {
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
+
     if (!SpeechRecognition) {
       return;
     }
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'en-IN';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-    this.isListening = true;
-    recognition.start();
 
-    recognition.onresult = (event: any) => {
-      const text = event.results[0][0].transcript;
+    // Already active
+    if (
+      this.isRecognitionRunning ||
+      this.isRecognitionStarting
+    ) {
+      return;
+    }
 
-      this.messages.push({
-        sender: 'user',
-        text
-      });
+    // AI is speaking
+    if (this.isSpeaking) {
+      return;
+    }
 
+    // Result is being processed
+    if (this.isProcessingResult) {
+      return;
+    }
+
+    // Create recognition only once
+    if (!this.recognition) {
+      this.recognition = new SpeechRecognition();
+      this.recognition.lang = 'en-IN';
+      this.recognition.interimResults = false;
+      this.recognition.maxAlternatives = 1;
+      // =====================================
+      // START
+      // =====================================
+
+      this.recognition.onstart = () => {
+        this.isRecognitionStarting = false;
+        this.isRecognitionRunning = true;
+        this.isListening = true;
+        // New session
+        this.hasSpeechResult = false;
+      };
+
+
+      // =====================================
+      // RESULT
+      // =====================================
+
+      this.recognition.onresult = (event: any) => {
+        if (this.isProcessingResult) {
+          return;
+        }
+        this.isProcessingResult = true;
+        this.hasSpeechResult = true;
+        // Successful speech received
+        this.recognitionRetryCount = 0;
+        const resultIndex =
+          event.resultIndex ?? 0;
+        const result =
+          event.results[resultIndex];
+        if (
+          !result ||
+          !result[0]
+        ) {
+          this.isProcessingResult = false;
+          return;
+        }
+        const text =
+          result[0].transcript
+            .trim();
+        this.isRecognitionRunning = false;
+        this.isRecognitionStarting = false;
+        this.isListening = false;
+
+
+        if (!text) {
+
+          this.isProcessingResult = false;
+
+          return;
+        }
+
+
+        this.messages.push({
+          sender: 'user',
+          text: text
+        });
+
+
+        this.processUserMessage(text);
+
+
+        // Unlock after processing
+        setTimeout(() => {
+
+          this.isProcessingResult = false;
+
+        }, 500);
+      };
+
+
+      // =====================================
+      // END
+      // =====================================
+
+      this.recognition.onend = () => {
+        this.isRecognitionRunning = false;
+        this.isRecognitionStarting = false;
+        this.isListening = false;
+
+
+        // -----------------------------------
+        // RESULT MILA THA
+        // -----------------------------------
+
+        if (this.hasSpeechResult) {
+          return;
+        }
+
+
+        // -----------------------------------
+        // NO RESULT
+        // -----------------------------------
+        // Don't retry forever
+        if (this.recognitionRetryCount >= 2) {
+          this.recognitionRetryCount = 0;
+          return;
+        }
+
+
+        // Don't retry while AI is speaking
+        if (this.isSpeaking) {
+          return;
+        }
+
+
+        // Don't retry while processing
+        if (this.isProcessingResult) {
+          return;
+        }
+        this.recognitionRetryCount++;
+        // Small delay for mobile Chrome
+        clearTimeout(
+          this.recognitionRetryTimer
+        );
+
+
+        this.recognitionRetryTimer =
+          setTimeout(() => {
+            if (
+              !this.isSpeaking &&
+              !this.isRecognitionRunning &&
+              !this.isRecognitionStarting &&
+              !this.isProcessingResult
+            ) {
+
+              this.startListening();
+            }
+
+          }, 700);
+      };
+
+
+      // =====================================
+      // ERROR
+      // =====================================
+
+      this.recognition.onerror = (event: any) => {
+        this.isRecognitionRunning = false;
+        this.isRecognitionStarting = false;
+        this.isListening = false;
+
+
+        if (event.error === 'no-speech') {
+          return;
+        }
+
+        if (event.error === 'aborted') {
+          return;
+        }
+
+
+        if (event.error === 'not-allowed') {
+          return;
+        }
+
+      };
+    }
+
+
+    // =====================================
+    // START RECOGNITION
+    // =====================================
+
+    try {
+      this.isRecognitionStarting = true;
+      this.recognition.start();
+    } catch (error) {
+
+      this.isRecognitionStarting = false;
+      this.isRecognitionRunning = false;
       this.isListening = false;
-      this.processUserMessage(text);
-    };
-
-    recognition.onend = () => {
-      this.isListening = false;
-    };
-
-    recognition.onerror = (event: any) => {
-      console.error('Speech recognition error:', event.error);
-      this.isListening = false;
-    };
+    }
   }
 
   processUserMessage(message: string) {
+
     const text = message.toLowerCase().trim();
+
     switch (this.currentStep) {
+
       case 'product':
-        // User: "I am looking sandal"
+
         this.conversationData.product = text;
+
         this.reply(
           'Sure! Who are you shopping for? (Men, Women, Boys, Girls, or Kids)'
         );
+
         this.currentStep = 'category';
+
         break;
+
+
       case 'category':
-        // User: "I am a boy"
+
         this.conversationData.category = text;
+
         this.reply(
           'What is the age?'
-          
         );
+
         this.currentStep = 'age';
+
         break;
+
+
       case 'age':
-        // User: "20 year"
+
         this.conversationData.age = text;
+
         this.reply(
           'What is your budget? (₹300, ₹500, ₹1000, ₹2000)'
         );
+
         this.currentStep = 'budget';
+
         break;
+
+
       case 'budget':
-        // User: "500"
+
         this.conversationData.budget = text;
+        // --------------------------------
+        // IMPORTANT:
+        // DO NOT START LISTENING AGAIN
+        // --------------------------------
+
+        this.shouldAutoListen = false;
+
+
+        // Stop current recognition
+        this.stopListening();
+
+
+        // --------------------------------
+        // AI FINAL MESSAGE
+        // --------------------------------
+
         this.reply(
           'Great! Searching products...'
-          
         );
-        console.log('Conversation Data:', this.conversationData);
-        // Product ko subCategory ke roop me use karenge
-        const subCategory = this.conversationData.product;
-        // Navigation
-        this.router.navigate(['/display-item'], {
-          queryParams: {
-            category: this.conversationData.category,
-            subCategory: subCategory,
-            age_group: this.conversationData.age,
-            product_price: this.conversationData.budget,
-            source: 'voice-search'
+
+        const subCategory =
+          this.conversationData.product;
+
+        this.router.navigate(
+          ['/display-item'],
+          {
+            queryParams: {
+
+              category:
+                this.conversationData.category,
+
+              subCategory:
+                subCategory,
+
+              age_group:
+                this.conversationData.age,
+
+              product_price:
+                this.conversationData.budget,
+
+              source:
+                'voice-search'
+            }
           }
-        }).then(() => {
+        ).then(() => {
+
           this.bottomSheetRef.dismiss();
-        });;
+
+        });
+
         break;
     }
   }
@@ -154,5 +425,32 @@ export class AiAssistantComponent {
 
     this.speak(text);
   }
+  stopListening() {
+    // Auto retry timer cancel
+    if (this.recognitionRetryTimer) {
+      clearTimeout(this.recognitionRetryTimer);
+      this.recognitionRetryTimer = null;
+    }
 
+    // Reset flags
+    this.isRecognitionRunning = false;
+    this.isRecognitionStarting = false;
+    this.isListening = false;
+    this.isProcessingResult = false;
+
+    this.hasSpeechResult = true;
+    this.recognitionRetryCount = 0;
+
+    // Stop microphone
+    if (this.recognition) {
+
+      try {
+        this.recognition.stop();
+      } catch (error) {
+        console.log(
+          'Recognition already stopped'
+        );
+      }
+    }
+  }
 }

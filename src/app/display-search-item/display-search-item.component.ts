@@ -46,7 +46,7 @@ export class DisplaySearchItemComponent implements OnInit {
       const productPrice = params['product_price'];
       const source = params['source'];
 
-      this.showAllChip = !!category && source !== 'category';
+      this.showAllChip = !!category && source !== 'category' && source !== 'voice-search';
       this.category = category;
       this.mainCategory = category;
       this.subCategory = subCategory;
