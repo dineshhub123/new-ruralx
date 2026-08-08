@@ -37,18 +37,28 @@ export class DisplaySearchItemComponent implements OnInit {
   ) {
 
   }
-  category:any
+  category: any
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
+      // const category = params['category'];
+      // const subCategory = params['subCategory'];
+      // const source = params['source'];
       const category = params['category'];
       const subCategory = params['subCategory'];
+      const ageGroup = params['age_group'];
+      const productPrice = params['product_price'];
       const source = params['source'];
+
       this.showAllChip = !!category && source !== 'category';
       this.category = category;
       this.mainCategory = category;
       this.subCategory = subCategory;
       this.selectedCategory = 'All Category';
       this.selectedSubCategory = 'All';
+      if (source === 'voice-search') {
+        this.voiceSearchProducts(category, subCategory, ageGroup, productPrice);
+        return;
+      }
       if (category) {
         this.itemInitilize();
       }
@@ -61,48 +71,88 @@ export class DisplaySearchItemComponent implements OnInit {
     });
 
   }
-itemInitilize() {
-  this.isLoading = true;
-  const payload = {
-          searchData: {
+  voiceSearchProducts(
+    category: string,
+    subCategory: string,
+    ageGroup: string,
+    productPrice: string
+  ) {
+
+    const payload = {
+      searchData: {
+        category: category,
+        sub_category: subCategory,
+        age_group: ageGroup || '',
+        product_price: productPrice || ''
+      }
+    };
+
+    console.log('Voice Search Payload:', payload);
+
+    this.apiService.voiceSearch(payload).subscribe(
+      (res: any) => {
+
+        console.log('Voice Search Response:', res);
+
+        this.searchItem = res?.data || [];
+
+        console.log(
+          'Voice Search Products:',
+          this.searchItem
+        );
+
+      },
+      (error) => {
+
+        console.error(
+          'Voice Search API Error:',
+          error
+        );
+
+        this.searchItem = [];
+      }
+    );
+  }
+
+
+  itemInitilize() {
+    this.isLoading = true;
+    const payload = {
+      searchData: {
         category: this.mainCategory,
         sub_category: this.subCategory
       }
+    };
+    this.apiService.searchData(payload).subscribe((res: any) => {
+      this.isLoading = false;
+      const user = JSON.parse(localStorage.getItem('login_user') || '{}');
+      this.searchItem = (res?.data || []).map((item: any) => {
+        const firstVariant = item.variants?.[0];
+        item.selectedColor = firstVariant?.colorCode || '';
+        item.selectedSize = item.size || '';
+        const cartData = this.convertToCartDBFormat(item, user.userId);
+        return {
+          ...item,
+          ...cartData
+        };
+      });
+      this.allSearchItems = [...this.searchItem];
+      this.selectedCategory = 'All Category';
+      this.selectedSubCategory = 'All';
+      this.buildCategoryChips();
+      this.updateSubCategoryChips();
+      this.applyFilters();
 
-    // searchData: this.mainCategory
-    //   ? { category: this.mainCategory }
-    //   : ''
-  };
-  this.apiService.searchData(payload).subscribe((res: any) => {
-    this.isLoading = false;
-    const user = JSON.parse(localStorage.getItem('login_user') || '{}');
-    this.searchItem = (res?.data || []).map((item: any) => {
-      const firstVariant = item.variants?.[0];
-      item.selectedColor = firstVariant?.colorCode || '';
-      item.selectedSize = item.size || '';
-      const cartData = this.convertToCartDBFormat(item, user.userId);
-      return {
-        ...item,
-        ...cartData
-      };
+      if (this.searchItem.length > 0) {
+        this.sizes = this.sizeService.getSizes(
+          this.searchItem[0].category,
+          this.searchItem[0].sub_category
+        );
+      }
+
+      this.updateSearchWithCart(this.addCartService.getCart());
     });
-    this.allSearchItems = [...this.searchItem];
-    this.selectedCategory = 'All Category';
-    this.selectedSubCategory = 'All';
-    this.buildCategoryChips();
-    this.updateSubCategoryChips();
-    this.applyFilters();
-
-    if (this.searchItem.length > 0) {
-      this.sizes = this.sizeService.getSizes(
-        this.searchItem[0].category,
-        this.searchItem[0].sub_category
-      );
-    }
-
-    this.updateSearchWithCart(this.addCartService.getCart());
-  });
-}
+  }
 
 
   convertToCartDBFormat(item: any, userId: string) {
@@ -125,7 +175,7 @@ itemInitilize() {
       size: item.selectedSize || item.size || '',
       color: selectedVariant?.color || item.color || '',
       image: selectedVariant?.images?.[0] || '0',
-      stock:selectedVariant?.stock > 0 ? selectedVariant?.stock: 0,
+      stock: selectedVariant?.stock > 0 ? selectedVariant?.stock : 0,
       hsn_code: item.hsn_code,
       gst_rate: item.gst_rate,
       created_at: item.created_at || null,
@@ -244,15 +294,15 @@ itemInitilize() {
 
   }
   addCartQuntity(event: any, addItam: any) {
-    console.log("addItam",addItam)
+    console.log("addItam", addItam)
     let user: any;
     user = localStorage.getItem("login_user");
     let findUser = JSON.parse(user)
     if (this.sizes?.length > 0) {
       const dialogRef = this.dialog.open(AddcartDailogComponent, {
-       width: '350px',
-       maxWidth: '95vw',   // responsive
-       height: 'auto',
+        width: '350px',
+        maxWidth: '95vw',   // responsive
+        height: 'auto',
         data: {
           cartData: addItam,
           user: findUser,
@@ -329,68 +379,68 @@ itemInitilize() {
       this.router.navigate([currentUrl]);
     });
   }
-selectedPrice = 'all';
+  selectedPrice = 'all';
 
   priceRanges = [
-  {
-    label: 'All',
-    value: 'all',
-    minPrice: null,
-    maxPrice: null
-  },
-  {
-    label: 'Under-₹299',
-    value: '0-299',
-    minPrice: 0,
-    maxPrice: 299
-  },
-  {
-    label: '₹300-₹499',
-    value: '300-499',
-    minPrice: 300,
-    maxPrice: 499
-  },
-  {
-    label: '₹500-₹999',
-    value: '500-999',
-    minPrice: 500,
-    maxPrice: 999
-  },
-  {
-    label: '₹1000-₹1999',
-    value: '1000-1999',
-    minPrice: 1000,
-    maxPrice: 1999
-  },
-  {
-    label: '₹2000+',
-    value: '2000-plus',
-    minPrice: 2000,
-    maxPrice: null
-  }
-];
-openFilter(): void {
-  const category = this.mainCategory;
-  const sheet = this.dialog.open(ProductFilterSheetComponent, {
-    panelClass: 'product-filter-dialog',
-    position: { bottom: '0' },
-    width: '100vw',
-    maxWidth: '100vw',
-    enterAnimationDuration: '1ms',
-    exitAnimationDuration: '350ms',
-    data: {
-      category,
-      selectedPrice: this.selectedPrice,
-      selectedAge: this.selectedAge
+    {
+      label: 'All',
+      value: 'all',
+      minPrice: null,
+      maxPrice: null
+    },
+    {
+      label: 'Under-₹299',
+      value: '0-299',
+      minPrice: 0,
+      maxPrice: 299
+    },
+    {
+      label: '₹300-₹499',
+      value: '300-499',
+      minPrice: 300,
+      maxPrice: 499
+    },
+    {
+      label: '₹500-₹999',
+      value: '500-999',
+      minPrice: 500,
+      maxPrice: 999
+    },
+    {
+      label: '₹1000-₹1999',
+      value: '1000-1999',
+      minPrice: 1000,
+      maxPrice: 1999
+    },
+    {
+      label: '₹2000+',
+      value: '2000-plus',
+      minPrice: 2000,
+      maxPrice: null
     }
-  });
-  sheet.afterClosed().subscribe((filter) => {
-    if (!filter) return;
-    this.selectedPrice = filter.price;
-    this.selectedAge = filter.age;
-    this.applyFilters();
-  });
-}
+  ];
+  openFilter(): void {
+    const category = this.mainCategory;
+    const sheet = this.dialog.open(ProductFilterSheetComponent, {
+      panelClass: 'product-filter-dialog',
+      position: { bottom: '0' },
+      width: '100vw',
+      maxWidth: '100vw',
+      enterAnimationDuration: '1ms',
+      exitAnimationDuration: '350ms',
+      data: {
+        category,
+        selectedPrice: this.selectedPrice,
+        selectedAge: this.selectedAge
+      }
+    });
+    sheet.afterClosed().subscribe((filter) => {
+      if (!filter) return;
+      this.selectedPrice = filter.price;
+      this.selectedAge = filter.age;
+      this.applyFilters();
+    });
+  }
   selectedAge = 'all';
 
   private applyFilters(): void {
@@ -500,7 +550,7 @@ openFilter(): void {
     });
   }
 
-categoryInfo: any = {
+  categoryInfo: any = {
     mens: {
       title: 'Mens',
       description: "Explore our wide range of men's fashion and accessories."
@@ -559,28 +609,28 @@ categoryInfo: any = {
   formatCategory(category: string): string {
     return (category || '').replaceAll('_', ' ');
   }
-formatCategoryName(category: string): string {
-  if (!category) return '';
-  category = category.trim().toLowerCase();
-  const names: { [key: string]: string } = {
-    home_kitchen: 'Home & Kitchen',
-    beauty_personal_care: 'Beauty & Personal Care',
-    electronics: 'Electronics',
-    electricals: 'Electricals',
-    mens: "Men's Fashion",
-    womens: "Women's Fashion",
-    boys: "Boys' Fashion",
-    girls: "Girls' Fashion",
-    kids: "Kids & Toys"
-  };
+  formatCategoryName(category: string): string {
+    if (!category) return '';
+    category = category.trim().toLowerCase();
+    const names: { [key: string]: string } = {
+      home_kitchen: 'Home & Kitchen',
+      beauty_personal_care: 'Beauty & Personal Care',
+      electronics: 'Electronics',
+      electricals: 'Electricals',
+      mens: "Men's Fashion",
+      womens: "Women's Fashion",
+      boys: "Boys' Fashion",
+      girls: "Girls' Fashion",
+      kids: "Kids & Toys"
+    };
 
-  return (
-    names[category] ||
-    category
-      .replace(/_/g, ' ')
-      .replace(/\b\w/g, c => c.toUpperCase())
-  );
-}
+    return (
+      names[category] ||
+      category
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, c => c.toUpperCase())
+    );
+  }
 
 }
 

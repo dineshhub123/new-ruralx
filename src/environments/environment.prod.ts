@@ -3,6 +3,7 @@ export const environment = {
   imageBaseUrl: 'https://ruralx.in/api/',
   getUserDetailsApiURL: 'https://ruralx.in/api/getUserLoginDetails.php',
   searchApiUrl: 'https://ruralx.in/api/search_product.php',
+  voiceSearchApiUrl: 'https://ruralx.in/api/voice_search_product.php',
   uploadDataApiUrl: 'https://ruralx.in/api/uploadAdminData.php',
   insertUserDetailsApiUrl: 'https://ruralx.in/api/insertUserDetailsData.php',
   getProductListDetailsApiUrl: 'https://ruralx.in/api/getProductDetails.php',

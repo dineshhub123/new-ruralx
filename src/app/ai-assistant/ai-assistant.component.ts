@@ -13,7 +13,7 @@ export class AiAssistantComponent {
   currentStep = 'product';
   conversationData: any = {};
 
-  constructor(private bottomSheetRef: MatBottomSheetRef<AiAssistantComponent>,public router:Router) {}
+  constructor(private bottomSheetRef: MatBottomSheetRef<AiAssistantComponent>, public router: Router) { }
 
   close() {
     this.bottomSheetRef.dismiss();
@@ -39,12 +39,12 @@ export class AiAssistantComponent {
     utterance.lang = 'en-IN';
     utterance.rate = 1;
     utterance.pitch = 1;
-   utterance.onend = () => {
-    setTimeout(() => {
+    utterance.onend = () => {
+      setTimeout(() => {
         this.startListening();
-    },300);
+      }, 300);
 
-};    window.speechSynthesis.speak(utterance);
+    }; window.speechSynthesis.speak(utterance);
   }
 
 
@@ -77,90 +77,91 @@ export class AiAssistantComponent {
     };
   }
 
-processUserMessage(message: string) {
-  const text = message.toLowerCase().trim();
+  processUserMessage(message: string) {
+    const text = message.toLowerCase().trim();
 
-  switch (this.currentStep) {
+    switch (this.currentStep) {
 
-    case 'product':
+      case 'product':
 
-      // User: "I am looking sandal"
-      this.conversationData.product = text;
+        // User: "I am looking sandal"
+        this.conversationData.product = text;
 
-      this.reply(
-        'Sure! Who are you shopping for?',
-        ['Men', 'Women', 'Boys', 'Girls']
-      );
+        this.reply(
+          'Sure! Who are you shopping for?',
+          ['Men', 'Women', 'Boys', 'Girls']
+        );
 
-      this.currentStep = 'category';
-      break;
-
-
-    case 'category':
-
-      // User: "I am a boy"
-      this.conversationData.category = text;
-
-      this.reply(
-        'What is the age?',
-        []
-      );
-
-      this.currentStep = 'age';
-      break;
+        this.currentStep = 'category';
+        break;
 
 
-    case 'age':
+      case 'category':
 
-      // User: "20 year"
-      this.conversationData.age = text;
+        // User: "I am a boy"
+        this.conversationData.category = text;
 
-      this.reply(
-        'What is your budget?',
-        ['₹299', '₹499', '₹999', '₹1999']
-      );
+        this.reply(
+          'What is the age?',
+          []
+        );
 
-      this.currentStep = 'budget';
-      break;
+        this.currentStep = 'age';
+        break;
 
 
-    case 'budget':
+      case 'age':
 
-      // User: "500"
-      this.conversationData.budget = text;
+        // User: "20 year"
+        this.conversationData.age = text;
 
-      this.reply(
-        'Great! Searching products...',
-        []
-      );
+        this.reply(
+          'What is your budget?',
+          ['₹299', '₹499', '₹999', '₹1999']
+        );
 
-      console.log('Conversation Data:', this.conversationData);
+        this.currentStep = 'budget';
+        break;
 
-      // Product ko subCategory ke roop me use karenge
-      const subCategory = this.conversationData.product;
 
-      // Navigation
-      this.router.navigate(['/display-item'], {
-        queryParams: {
-          category: this.conversationData.category,
-          subCategory: subCategory,
-          age: this.conversationData.age,
-          budget: this.conversationData.budget,
-          source: 'voice-search'
-        }
-      });
+      case 'budget':
 
-      break;
+        // User: "500"
+        this.conversationData.budget = text;
+
+        this.reply(
+          'Great! Searching products...',
+          []
+        );
+
+        console.log('Conversation Data:', this.conversationData);
+
+        // Product ko subCategory ke roop me use karenge
+        const subCategory = this.conversationData.product;
+
+        // Navigation
+        this.router.navigate(['/display-item'], {
+          queryParams: {
+            category: this.conversationData.category,
+            subCategory: subCategory,
+            age_group: this.conversationData.age,
+            product_price: this.conversationData.budget,
+            source: 'voice-search'
+          }
+        }).then(() => {
+          this.bottomSheetRef.dismiss();
+        });;
+        break;
+    }
   }
-}
-reply(text: string, chips: string[]) {
-  this.messages.push({
-    sender: 'ai',
-    text: text,
-    chips: chips
-  });
+  reply(text: string, chips: string[]) {
+    this.messages.push({
+      sender: 'ai',
+      text: text,
+      chips: chips
+    });
 
-  this.speak(text);
-}
+    this.speak(text);
+  }
 
 }

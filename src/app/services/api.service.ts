@@ -15,6 +15,7 @@ export class ApiService {
   apiProductListURL: string = environment.getProductListDetailsApiUrl;
   getUserInfoURL: string = environment.getUserDetailsApiURL;
   apiSearchURL: string = environment.searchApiUrl;
+  apiVoiceSearchURL: string = (environment as any).voiceSearchApiUrl;
   apiUploadDataURL: string = environment.uploadDataApiUrl;
   apiInsertUserInfoURL: string = environment.insertUserDetailsApiUrl;
   apiProductNotifyURL: string = environment.getProductNotifyApiUrl;
@@ -80,6 +81,9 @@ export class ApiService {
   }
   searchData(object: any): Observable<any> {
     return this.http.post(this.apiSearchURL, object).pipe(map((res: any) => res));
+  }
+  voiceSearch(object: any): Observable<any> {
+    return this.http.post(this.apiVoiceSearchURL, object).pipe(map((res: any) => res));
   }
   uploadData(object: any): Observable<any> {
     return this.http.post(this.apiUploadDataURL, object).pipe(map((res: any) => res));
