@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ai-assistant',
@@ -12,7 +13,7 @@ export class AiAssistantComponent {
   currentStep = 'product';
   conversationData: any = {};
 
-  constructor(private bottomSheetRef: MatBottomSheetRef<AiAssistantComponent>) {}
+  constructor(private bottomSheetRef: MatBottomSheetRef<AiAssistantComponent>,public router:Router) {}
 
   close() {
     this.bottomSheetRef.dismiss();
@@ -77,44 +78,80 @@ export class AiAssistantComponent {
   }
 
 processUserMessage(message: string) {
-  const text = message.toLowerCase();
+  const text = message.toLowerCase().trim();
+
   switch (this.currentStep) {
+
     case 'product':
+
+      // User: "I am looking sandal"
       this.conversationData.product = text;
+
       this.reply(
         'Sure! Who are you shopping for?',
         ['Men', 'Women', 'Boys', 'Girls']
       );
+
       this.currentStep = 'category';
       break;
+
+
     case 'category':
+
+      // User: "I am a boy"
       this.conversationData.category = text;
+
       this.reply(
         'What is the age?',
         []
       );
+
       this.currentStep = 'age';
       break;
+
+
     case 'age':
+
+      // User: "20 year"
       this.conversationData.age = text;
+
       this.reply(
         'What is your budget?',
         ['₹299', '₹499', '₹999', '₹1999']
       );
+
       this.currentStep = 'budget';
       break;
+
+
     case 'budget':
+
+      // User: "500"
       this.conversationData.budget = text;
+
       this.reply(
         'Great! Searching products...',
         []
       );
-      console.log(this.conversationData);
-      // API Call Here
+
+      console.log('Conversation Data:', this.conversationData);
+
+      // Product ko subCategory ke roop me use karenge
+      const subCategory = this.conversationData.product;
+
+      // Navigation
+      this.router.navigate(['/display-item'], {
+        queryParams: {
+          category: this.conversationData.category,
+          subCategory: subCategory,
+          age: this.conversationData.age,
+          budget: this.conversationData.budget,
+          source: 'voice-search'
+        }
+      });
+
       break;
-
   }
-
 }
 reply(text: string, chips: string[]) {
   this.messages.push({

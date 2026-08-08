@@ -64,7 +64,6 @@ export class DashboardComponent {
       next: (res: any) => {
         this.dashboardProducts = res?.data;
         this.categoryList = Object.keys(this.dashboardProducts);
-        console.log("dashboard products:", this.categoryList);
         this.rotateCategories();
         this.bannerImages = [];
         this.chipsList = [];
