@@ -40,9 +40,6 @@ export class DisplaySearchItemComponent implements OnInit {
   category: any
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
-      // const category = params['category'];
-      // const subCategory = params['subCategory'];
-      // const source = params['source'];
       const category = params['category'];
       const subCategory = params['subCategory'];
       const ageGroup = params['age_group'];
@@ -56,9 +53,11 @@ export class DisplaySearchItemComponent implements OnInit {
       this.selectedCategory = 'All Category';
       this.selectedSubCategory = 'All';
       if (source === 'voice-search') {
-        this.voiceSearchProducts(category, subCategory, ageGroup, productPrice);
+       this.voiceSearchProducts(category, subCategory, ageGroup, productPrice);
         return;
       }
+     // this.voiceSearchProducts( "I am a boy","I am looking sports_shoes", "3 year", "500");
+
       if (category) {
         this.itemInitilize();
       }
@@ -86,24 +85,39 @@ export class DisplaySearchItemComponent implements OnInit {
         product_price: productPrice || ''
       }
     };
-
-    console.log('Voice Search Payload:', payload);
-
+    this.isLoading = true;
+    const user = JSON.parse(localStorage.getItem('login_user') || '{}');
     this.apiService.voiceSearch(payload).subscribe(
       (res: any) => {
-
-        console.log('Voice Search Response:', res);
-
-        this.searchItem = res?.data || [];
-
-        console.log(
-          'Voice Search Products:',
-          this.searchItem
+      this.isLoading = false;
+      this.searchItem = (res?.data || []).map((item: any) => {
+        const firstVariant = item.variants?.[0];
+        item.selectedColor = firstVariant?.colorCode || '';
+        item.selectedSize = item.size || '';
+        const cartData = this.convertToCartDBFormat(item, user.userId);
+        return {
+          ...item,
+          ...cartData
+        };
+      });
+      this.allSearchItems = [...this.searchItem];
+      this.selectedCategory = 'All Category';
+      this.selectedSubCategory = 'All';
+      this.buildCategoryChips();
+      this.updateSubCategoryChips();
+      this.applyFilters();
+      if (this.searchItem.length > 0) {
+        this.sizes = this.sizeService.getSizes(
+          this.searchItem[0].category,
+          this.searchItem[0].sub_category
         );
+      }
 
+      this.updateSearchWithCart(this.addCartService.getCart());
       },
       (error) => {
 
+        this.isLoading = false;
         console.error(
           'Voice Search API Error:',
           error
