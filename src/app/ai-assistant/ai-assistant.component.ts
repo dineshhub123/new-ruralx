@@ -20,6 +20,10 @@ export class AiAssistantComponent {
   }
 
   startConversation() {
+    this.currentStep = 'product';
+    this.conversationData = {};
+    this.isListening = false;
+
     const welcomeMessage = "Hello! I'm Ruralx Mitra. What are you looking for today?";
 
     this.messages.push({
@@ -32,8 +36,10 @@ export class AiAssistantComponent {
 
   speak(text: string) {
     if (!('speechSynthesis' in window)) {
+      this.startListening();
       return;
     }
+
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-IN';
@@ -43,8 +49,12 @@ export class AiAssistantComponent {
       setTimeout(() => {
         this.startListening();
       }, 300);
+    };
+    utterance.onerror = () => {
+      this.startListening();
+    };
 
-    }; window.speechSynthesis.speak(utterance);
+    window.speechSynthesis.speak(utterance);
   }
 
 
@@ -72,73 +82,54 @@ export class AiAssistantComponent {
       this.processUserMessage(text);
     };
 
-    recognition.onerror = () => {
+    recognition.onend = () => {
+      this.isListening = false;
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error('Speech recognition error:', event.error);
       this.isListening = false;
     };
   }
 
   processUserMessage(message: string) {
     const text = message.toLowerCase().trim();
-
     switch (this.currentStep) {
-
       case 'product':
-
         // User: "I am looking sandal"
         this.conversationData.product = text;
-
         this.reply(
-          'Sure! Who are you shopping for?',
-          ['Men', 'Women', 'Boys', 'Girls']
+          'Sure! Who are you shopping for? (Men, Women, Boys, Girls, or Kids)'
         );
-
         this.currentStep = 'category';
         break;
-
-
       case 'category':
-
         // User: "I am a boy"
         this.conversationData.category = text;
-
         this.reply(
-          'What is the age?',
-          []
+          'What is the age?'
+          
         );
-
         this.currentStep = 'age';
         break;
-
-
       case 'age':
-
         // User: "20 year"
         this.conversationData.age = text;
-
         this.reply(
-          'What is your budget?',
-          ['₹299', '₹499', '₹999', '₹1999']
+          'What is your budget? (₹300, ₹500, ₹1000, ₹2000)'
         );
-
         this.currentStep = 'budget';
         break;
-
-
       case 'budget':
-
         // User: "500"
         this.conversationData.budget = text;
-
         this.reply(
-          'Great! Searching products...',
-          []
+          'Great! Searching products...'
+          
         );
-
         console.log('Conversation Data:', this.conversationData);
-
         // Product ko subCategory ke roop me use karenge
         const subCategory = this.conversationData.product;
-
         // Navigation
         this.router.navigate(['/display-item'], {
           queryParams: {
@@ -154,11 +145,11 @@ export class AiAssistantComponent {
         break;
     }
   }
-  reply(text: string, chips: string[]) {
+
+  reply(text: string) {
     this.messages.push({
       sender: 'ai',
       text: text,
-      chips: chips
     });
 
     this.speak(text);
