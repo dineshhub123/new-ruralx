@@ -1,7 +1,10 @@
 <div class="category-section" [style.background]="getCategoryColor(title)" *ngIf="products?.length">
     <div class="header">
         <h6 [style.color]="getCategoryTitleColor(title)">{{formatCategory(title)}}</h6>
-        <label (click)="viewAllCategory(title)" [style.color]="getCategoryTitleColor(title)"[style.border-color]="getCategoryTitleColor(title)"> View All </label>
+        <label (click)="viewAllCategory(title)" [style.color]="getCategoryTitleColor(title)"[style.border-color]="getCategoryTitleColor(title)"> <span class="view-all">
+  View All
+  <mat-icon>keyboard_arrow_down</mat-icon>
+</span> </label>
     </div>
     <div class="product-list">
         <div class="product-card" *ngFor="let product of products">
