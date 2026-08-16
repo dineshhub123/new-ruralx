@@ -25,6 +25,14 @@
     <button mat-flat-button color="primary" class="start-btn" (click)="startConversation()">
       Start conversation
     </button>
-    <div class="status" *ngIf="isListening">Listening…</div>
+
+    <div class="status" *ngIf="isListening" aria-live="polite">
+      <span class="listening-bubble" aria-label="Listening">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </span>
+      <span>Listening...</span>
+    </div>
   </div>
 </div>
