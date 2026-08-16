@@ -85,7 +85,7 @@ export class AiAssistantComponent
     private ngZone: NgZone,
 
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
 
   // =========================================================
@@ -150,10 +150,10 @@ export class AiAssistantComponent
         });
       };
 
-console.log(
-  '🔎 CALLBACK CHECK:',
-  typeof (window as any).onNativeSpeechResult
-);
+    console.log(
+      '🔎 CALLBACK CHECK:',
+      typeof (window as any).onNativeSpeechResult
+    );
     // =======================================================
     // NATIVE SPEECH EVENTS
     // =======================================================
@@ -326,7 +326,7 @@ console.log(
 
         this.recognition.stop();
 
-      } catch (e) {}
+      } catch (e) { }
     }
   }
 
@@ -624,7 +624,7 @@ console.log(
 
       window.speechSynthesis.cancel();
 
-    } catch (e) {}
+    } catch (e) { }
 
 
     const utterance =
@@ -1029,7 +1029,7 @@ console.log(
 
             const result =
               event.results[
-                resultIndex
+              resultIndex
               ];
 
 
@@ -1622,6 +1622,149 @@ console.log(
   }
 
 
+
+  // =========================================================
+  // BUDGET PARSER
+  // =========================================================
+
+  private parseBudget(text: string): number | null {
+
+    if (!text || !text.trim()) {
+      return null;
+    }
+
+    const value = text
+      .toLowerCase()
+      .trim()
+      .replace(/[₹,]/g, '')
+      .replace(/\brupees?\b/g, '')
+      .replace(/\brs\.?\b/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    const numericMatch = value.match(/\d+(?:\.\d+)?/);
+
+    if (numericMatch) {
+      const numberValue = Number(numericMatch[0]);
+
+      if (Number.isFinite(numberValue) && numberValue > 0) {
+        return Math.round(numberValue);
+      }
+    }
+
+    const smallNumbers: { [key: string]: number } = {
+      zero: 0, one: 1, two: 2, three: 3, four: 4,
+      five: 5, six: 6, seven: 7, eight: 8, nine: 9,
+      ten: 10, eleven: 11, twelve: 12, thirteen: 13,
+      fourteen: 14, fifteen: 15, sixteen: 16,
+      seventeen: 17, eighteen: 18, nineteen: 19
+    };
+
+    const tens: { [key: string]: number } = {
+      twenty: 20, thirty: 30, forty: 40, fifty: 50,
+      sixty: 60, seventy: 70, eighty: 80, ninety: 90
+    };
+
+    const ignoredWords = new Set([
+      'my', 'budget', 'is', 'around', 'about', 'under',
+      'upto', 'up', 'to', 'rupee', 'rupees', 'rs',
+      'please', 'maximum', 'max', 'of', 'for'
+    ]);
+
+    const words = value
+      .replace(/-/g, ' ')
+      .split(/\s+/)
+      .filter(Boolean)
+      .filter(word => !ignoredWords.has(word));
+
+    if (!words.length) {
+      return null;
+    }
+
+    const thousandIndex = words.indexOf('thousand');
+
+    if (thousandIndex >= 0) {
+      let multiplier = 0;
+
+      for (let i = 0; i < thousandIndex; i++) {
+        const word = words[i];
+
+        if (smallNumbers[word] !== undefined) {
+          multiplier += smallNumbers[word];
+        } else if (tens[word] !== undefined) {
+          multiplier += tens[word];
+        }
+      }
+
+      if (multiplier === 0) {
+        multiplier = 1;
+      }
+
+      let result = multiplier * 1000;
+
+      for (let i = thousandIndex + 1; i < words.length; i++) {
+        const word = words[i];
+
+        if (smallNumbers[word] !== undefined) {
+          result += smallNumbers[word];
+        } else if (tens[word] !== undefined) {
+          result += tens[word];
+        } else if (word === 'hundred') {
+          result += 100;
+        }
+      }
+
+      return result > 0 ? result : null;
+    }
+
+    const hundredIndex = words.indexOf('hundred');
+
+    if (hundredIndex >= 0) {
+      let multiplier = 0;
+
+      for (let i = 0; i < hundredIndex; i++) {
+        const word = words[i];
+
+        if (smallNumbers[word] !== undefined) {
+          multiplier += smallNumbers[word];
+        } else if (tens[word] !== undefined) {
+          multiplier += tens[word];
+        }
+      }
+
+      if (multiplier === 0) {
+        multiplier = 1;
+      }
+
+      let result = multiplier * 100;
+
+      for (let i = hundredIndex + 1; i < words.length; i++) {
+        const word = words[i];
+
+        if (smallNumbers[word] !== undefined) {
+          result += smallNumbers[word];
+        } else if (tens[word] !== undefined) {
+          result += tens[word];
+        }
+      }
+
+      return result > 0 ? result : null;
+    }
+
+    let normalValue = 0;
+
+    for (const word of words) {
+      if (smallNumbers[word] !== undefined) {
+        normalValue += smallNumbers[word];
+      } else if (tens[word] !== undefined) {
+        normalValue += tens[word];
+      }
+    }
+
+    return normalValue > 0 ? normalValue : null;
+  }
+
+
   // =========================================================
   // PROCESS USER MESSAGE
   // =========================================================
@@ -1645,7 +1788,7 @@ console.log(
 
 
     switch (
-      this.currentStep
+    this.currentStep
     ) {
 
 
@@ -1685,10 +1828,8 @@ console.log(
 
 
         this.reply(
-          'What is the age?'
-        );
-
-        break;
+          'What is the age? Please say an age in years, for example twenty years, or say adult if you are shopping for an adult.'
+        ); break;
 
 
       // =====================================================
@@ -1706,7 +1847,7 @@ console.log(
 
 
         this.reply(
-          'What is your budget? 300, 500, 1000, or 2000?'
+          'What is your budget? Please say the amount in rupees, for example five hundred rupees, nine hundred rupees, or one thousand rupees.'
         );
 
         break;
@@ -1716,41 +1857,72 @@ console.log(
       // BUDGET
       // =====================================================
 
-      case 'budget':
+      case 'budget': {
 
+        console.log(
+          '💰 RAW BUDGET:',
+          message
+        );
+
+        const budget =
+          this.parseBudget(message);
+
+        console.log(
+          '💰 PARSED BUDGET:',
+          budget
+        );
+
+        if (
+          budget === null ||
+          budget <= 0
+        ) {
+
+          this.isProcessingResult =
+            false;
+
+          this.reply(
+            "I couldn't understand the budget. Please say the amount in rupees, for example six hundred rupees, nine hundred rupees, or one thousand rupees."
+          );
+
+          this.refreshUI();
+
+          return;
+        }
+        // =====================================================
+        // MINIMUM BUDGET
+        // =====================================================
+
+        if (budget < 200) {
+
+          this.isProcessingResult = false;
+
+          this.reply(
+            "Please increase your budget to at least 200 rupees."
+          );
+
+          this.refreshUI();
+
+          return;
+        }
         this.conversationData.budget =
-          text;
+          budget;
 
-
-        /*
-         * FINAL STEP
-         *
-         * No more automatic listening.
-         */
+        console.log(
+          '💰 FINAL BUDGET:',
+          this.conversationData.budget
+        );
 
         this.shouldAutoListen =
           false;
 
-
         this.stopListening();
 
-
-        // ===================================================
-        // FINAL AI MESSAGE
-        // ===================================================
-
         this.reply(
-          'Great! Searching products...'
+          `Great! Searching products under ₹${budget}...`
         );
-
 
         const subCategory =
           this.conversationData.product;
-
-
-        /*
-         * Give UI/TTS time before navigation.
-         */
 
         setTimeout(() => {
 
@@ -1771,7 +1943,7 @@ console.log(
                     this.conversationData.age,
 
                   product_price:
-                    this.conversationData.budget,
+                    budget,
 
                   source:
                     'voice-search'
@@ -1792,9 +1964,10 @@ console.log(
 
           });
 
-        }, 2200);
+        }, 1800);
 
         break;
+      }
     }
 
 
@@ -1962,7 +2135,7 @@ console.log(
 
         this.recognition.stop();
 
-      } catch (e) {}
+      } catch (e) { }
     }
 
 
