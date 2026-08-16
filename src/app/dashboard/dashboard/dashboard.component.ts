@@ -212,8 +212,13 @@ startBannerRotation(bannerItems: any[], bannerObj: any) {
   }
 
   openAiAssistant() {
-    this.bottomSheet.open(AiAssistantComponent, {
+    (window as any).Android?.setPullToRefreshEnabled?.(false);
+    const bottomSheetRef = this.bottomSheet.open(AiAssistantComponent, {
       panelClass: 'ai-assistant-bottom-sheet'
+    });
+
+    bottomSheetRef.afterDismissed().subscribe(() => {
+      (window as any).Android?.setPullToRefreshEnabled?.(true);
     });
   }
 

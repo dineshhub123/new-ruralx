@@ -1,13 +1,12 @@
 .assistant-shell {
   display: flex;
   flex-direction: column;
-  min-height: 290px;
+  min-height: 270px;
   gap: 14px;
   padding: 0 18px 18px;
   border-radius: 26px 26px 0 0;
   background: linear-gradient(180deg, #f8f2ed 0%, #f5f7fb 26%, #eff3f7 100%);
   box-shadow: 0 -16px 32px rgba(17, 24, 39, 0.12);
-  border-top: 1px solid rgba(148, 163, 184, 0.2);
 }
 
 .assistant-header {
@@ -79,7 +78,8 @@
   justify-content: center;
   min-height: 128px;
   padding: 20px 18px;
-  background: linear-gradient(180deg, rgba(196, 221, 240, 0.45), rgba(228, 236, 245, 0.7));
+  background: linear-gradient(180deg, #7bbee6 0%, #d3e8f5 100%);
+ // background: linear-gradient(180deg, rgba(196, 221, 240, 0.45), rgba(228, 236, 245, 0.7));
   border-radius: 18px;
   border: 1px solid rgba(148, 163, 184, 0.2);
   color: #334b63;
@@ -89,14 +89,14 @@
 
 .empty-state p {
   margin: 0;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.6;
   font-weight: 500;
 }
 
 .ai-msg,
 .user-msg {
-  padding: 14px 18px;
+  padding: 12px 14px;
   border-radius: 18px;
   max-width: 82%;
   word-break: break-word;
@@ -106,17 +106,23 @@
 }
 
 .ai-msg {
-  background: linear-gradient(180deg, #dfeef7 0%, #d3e8f5 100%);
+  background: linear-gradient(180deg, #7bbee6 0%, #d3e8f5 100%);
   color: #1f2d3d;
   align-self: flex-start;
   border-top-left-radius: 0px;
+  font-style: italic;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .user-msg {
-  background: linear-gradient(180deg, #6f8a9a 0%, #5d7484 100%);
+  background: linear-gradient(180deg, #d4884e 0%, #71401c 100%);
   color: #ffffff;
   align-self: flex-end;
   border-top-right-radius: 0px;
+  font-style: italic;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .assistant-footer {
@@ -131,8 +137,8 @@
   padding: 16px 18px;
   font-size: 1rem;
   font-weight: 700;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #3d5fd8 0%, #2f4fc9 100%) !important;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #0a4984 0%, #0a4984 100%) !important;
   box-shadow: 0 12px 22px rgba(61, 95, 216, 0.25);
   letter-spacing: 0.02em;
 }
