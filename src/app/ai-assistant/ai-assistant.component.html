@@ -27,12 +27,10 @@
     </button>
 
     <div class="status" *ngIf="isListening" aria-live="polite">
-      <span class="listening-bubble" aria-label="Listening">
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-      </span>
       <span>Listening...</span>
+      <span class="listening-bubble" aria-label="Listening">
+        <span class="pulse-ring"></span>
+      </span>
     </div>
   </div>
 </div>
