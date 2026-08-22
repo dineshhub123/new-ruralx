@@ -1964,7 +1964,7 @@ export class AiAssistantComponent
 
           });
 
-        }, 1800);
+        }, 2200);
 
         break;
       }
