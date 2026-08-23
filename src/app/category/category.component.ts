@@ -49,8 +49,17 @@ onSelectCategory(category: string) {
   };
   this.apiService.searchData(categoryPayload).subscribe({
     next: (res: any) => {
-      if (res.status && res.data?.length) {
-        this.products = res.data;
+      const products = Array.isArray(res)
+        ? res
+        : Array.isArray(res?.data)
+          ? res.data
+          : Array.isArray(res?.products)
+            ? res.products
+            : res?.product_id
+              ? [res]
+              : [];
+      if (products.length) {
+        this.products = products;
         this.isLoading = false;
         this.uniqueSubcategories = this.getUniqueSubCategories(this.products);
         // Auto select first chip
@@ -83,9 +92,10 @@ onSelectCategory(category: string) {
   getUniqueSubCategories(products: any[]) {
     const map = new Map();
     products.forEach(product => {
-      if (!map.has(product.category)) {
-        map.set(product.category, {
-          name: product.category,
+      const category = product.category;
+      if (category && !map.has(category)) {
+        map.set(category, {
+          name: category,
           image: product.variants?.[0]?.images?.[0] || ''
         });
       }
@@ -102,7 +112,13 @@ onSelectCategory(category: string) {
     this.isLoading = true;
     this.apiService.getCategoryList().subscribe((response: any) => {
       this.isLoading = false;
-      const products = response;
+        const products = Array.isArray(response)
+          ? response
+          : Array.isArray(response?.data)
+            ? response.data
+            : Array.isArray(response?.products)
+              ? response.products
+              : [];
       console.log('Fetched products:', products);
       const seen = new Set();
       this.uniqueCategories = products.filter((item: any) => {
@@ -143,7 +159,15 @@ onSelectMainCategory(mainCategory: any, category: any) {
 
   this.apiService.searchData(payload).subscribe(
     (res: any) => {
-     const data = res?.data || [];
+      const data = Array.isArray(res)
+        ? res
+        : Array.isArray(res?.data)
+          ? res.data
+          : Array.isArray(res?.products)
+            ? res.products
+            : res?.product_id
+              ? [res]
+              : [];
       // Remove duplicate sub_category
       const uniqueMap = new Map();
       data.forEach((item: any) => {

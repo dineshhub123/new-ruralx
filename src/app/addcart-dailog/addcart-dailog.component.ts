@@ -21,7 +21,10 @@ export class AddcartDailogComponent {
   }
 
   ngOnInit() {
-    this.selectedSize = this.addItam?.sizes[1]
+    this.addItam.sizes = (this.addItam?.sizes || [])
+      .map((item: any) => typeof item === 'string' ? item : item.size)
+      .filter((size: any) => size !== undefined && size !== null);
+    this.selectedSize = this.addItam.sizes[0];
   }
 
   onSizeSelect(size: any) {
@@ -37,17 +40,17 @@ export class AddcartDailogComponent {
 
     if (!item?.sizes || item.sizes.length === 0) return 'Variant';
 
-    const first = item.sizes[0];
+    const first = String(item.sizes[0]);
 
     if (first.includes('GB') || first.includes('TB')) {
       return 'Storage';
     }
 
-    if (!isNaN(first)) {
+    if (!Number.isNaN(Number(first))) {
       return 'Size';
     }
     // Kids Size (5C, 6C, 1Y, 2Y)
-    if (first.match(/^\d+(C|Y)$/)) {
+    if (first.match(/^\d+(C|Y)$/) || first.match(/^\d+-\d+\s+Years?$/i)) {
       return 'Size';
     }
 

@@ -68,6 +68,7 @@ export class ProductZoomComponent implements OnInit {
   public displayItems: any = []
   public counter: number = 1;
   public inStock: any;
+  public selectedStock = 0;
   public colorCodes: any[] = [];
   public sizes: any[] = [];
   public productReview: any[] = [];
@@ -138,7 +139,10 @@ export class ProductZoomComponent implements OnInit {
       product_id: productId
     }
     this.apiService.getProductById(payload).subscribe((res: any) => {
-      this.cartItems = res?.data;
+      const responseData = res?.data ?? res;
+      this.cartItems = Array.isArray(responseData)
+        ? { variants: responseData }
+        : responseData;
       this.showCartItems = false;
       setTimeout(() => {
         this.showCartItems = true;
@@ -146,9 +150,8 @@ export class ProductZoomComponent implements OnInit {
 
       this.getProductReview(this.cartItems?.product_id)
       this.colorCodes = [...new Set(this.cartItems?.variants?.map((v: any) => v.colorCode))];
-      this.sizes = this.sizeService.getSizes(this.cartItems.category, this.cartItems.sub_category);
       this.selectedColor = this.colorCodes[0];
-      this.selectedSize = this.sizes[1]
+      this.updateSizesForSelectedColor();
       this.updateImage();
 
 
@@ -245,6 +248,8 @@ export class ProductZoomComponent implements OnInit {
 
   onColorSelect(code: any) {
     this.selectedColor = code;
+    this.updateSizesForSelectedColor();
+    this.updateImage();
     setTimeout(() => {
       this.mainSwiper?.swiperRef?.update();
       this.thumbsSwiperRef?.swiperRef?.update();
@@ -261,6 +266,7 @@ export class ProductZoomComponent implements OnInit {
 
   onSizeSelect(size: string) {
     this.selectedSize = size;
+    this.updateImage();
     setTimeout(() => {
       this.mainSwiper?.swiperRef.update();
       this.thumbsSwiperRef?.swiperRef.update();
@@ -276,8 +282,25 @@ export class ProductZoomComponent implements OnInit {
   }
 
   updateImage() {
-    const match = this.cartItems?.variants.filter((v: any) => v.colorCode === this.selectedColor);
-    this.selectedImage = match ? match : null;
+    const match = this.cartItems?.variants?.filter((v: any) => v.colorCode === this.selectedColor) || [];
+    this.selectedImage = match;
+    const selectedVariant = match[0];
+    const selectedSize = selectedVariant?.sizes?.find(
+      (item: any) => String(item.size) === String(this.selectedSize)
+    );
+    this.selectedStock = selectedSize?.stock ?? selectedVariant?.stock ?? 0;
+  }
+
+  private updateSizesForSelectedColor() {
+    const selectedVariant = this.cartItems?.variants?.find(
+      (variant: any) => variant.colorCode === this.selectedColor
+    );
+    const apiSizes = selectedVariant?.sizes;
+
+    this.sizes = Array.isArray(apiSizes) && apiSizes.length > 0
+      ? apiSizes.map((item: any) => item.size)
+      : this.sizeService.getSizes(this.cartItems?.category, this.cartItems?.sub_category);
+    this.selectedSize = this.sizes[0] || null;
   }
   flyToCart(productImg: HTMLElement) {
     const cartIcon = document.getElementById('cartIconTarget');
@@ -336,17 +359,17 @@ export class ProductZoomComponent implements OnInit {
 
     if (!item || item.length === 0) return 'Variant';
 
-    const first = item[0];
+    const first = String(item[0]);
 
     if (first.includes('GB') || first.includes('TB')) {
       return 'Storage';
     }
 
-    if (!isNaN(first)) {
+    if (!Number.isNaN(Number(first))) {
       return 'Size';
     }
     // Kids Size (5C, 6C, 1Y, 2Y)
-    if (first.match(/^\d+(C|Y)$/)) {
+    if (first.match(/^\d+(C|Y)$/) || first.match(/^\d+-\d+\s+Years?$/i)) {
       return 'Size';
     }
 

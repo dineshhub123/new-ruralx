@@ -23,9 +23,11 @@
           </div>
           <div class="variants-container" *ngIf="sizes.length > 0">
             <div class="selcte-size-color-text">{{ getVariantLabel(sizes) }} : </div>
-            <div *ngFor="let item of sizes" class="variant-inline-size" (click)="onSizeSelect(item)"
-              [ngClass]="{ 'selected': item === selectedSize }">
-              <div>{{item}}</div>
+            <div class="size-options">
+              <div *ngFor="let item of sizes" class="variant-inline-size" (click)="onSizeSelect(item)"
+                [ngClass]="{ 'selected': item === selectedSize }">
+                <div>{{item}}</div>
+              </div>
             </div>
           </div>
           <label class="recommend" *ngIf="sizes.length > 0 && showCartItems">
@@ -54,8 +56,8 @@
         <div style="font-size: 13px; font-weight: 500;" [innerHTML]="cartItems.product_description"></div>
         <div class="mrp-content" *ngIf="showCartItems">In Stocks :
           <span
-            [ngClass]="{'in-stock': selectedImage[0]?.stock >=5,'limited-stock': selectedImage[0]?.stock > 0 && selectedImage[0]?.stock < 5,'out-stock': selectedImage[0]?.stock === 0}">
-            {{selectedImage[0]?.stock >=5? 'In Stock': selectedImage[0]?.stock > 0 && selectedImage[0]?.stock <
+            [ngClass]="{'in-stock': selectedStock >=5,'limited-stock': selectedStock > 0 && selectedStock < 5,'out-stock': selectedStock === 0}">
+            {{selectedStock >=5? 'In Stock': selectedStock > 0 && selectedStock <
               5? 'Limited Stock' : 'Out of Stock' }} </span>
         </div>
         <div class="pt-2 quantity-btn-align">
@@ -78,11 +80,11 @@
             <span class="delivery_title">Select Delivery Location</span>
           </strong> -->
           <div class="pt-1">
-            <button class="btn btn-warning btn-md mb-2 mr-2 btn-align-buy" [disabled]="selectedImage[0]?.stock === 0"
+            <button class="btn btn-warning btn-md mb-2 mr-2 btn-align-buy" [disabled]="selectedStock === 0"
               (click)="$event.stopPropagation(); flyActiveSwiperImageToCart();addCart(cartItems)"> ADD TO CART
             </button>
             <button class="btn btn-danger btn-md btn-align-buy" (click)="buyNow(cartItems)"
-              [disabled]="selectedImage[0]?.stock === 0">
+              [disabled]="selectedStock === 0">
                BUY NOW 
               </button>
           </div>

@@ -93,6 +93,7 @@ export class DisplaySearchItemComponent implements OnInit {
       this.searchItem = (res?.data || []).map((item: any) => {
         const firstVariant = item.variants?.[0];
         item.selectedColor = firstVariant?.colorCode || '';
+        item.sizes = firstVariant?.sizes || [];
         item.selectedSize = item.size || '';
         const cartData = this.convertToCartDBFormat(item, user.userId);
         return {
@@ -143,6 +144,7 @@ export class DisplaySearchItemComponent implements OnInit {
       this.searchItem = (res?.data || []).map((item: any) => {
         const firstVariant = item.variants?.[0];
         item.selectedColor = firstVariant?.colorCode || '';
+        item.sizes = firstVariant?.sizes || [];
         item.selectedSize = item.size || '';
         const cartData = this.convertToCartDBFormat(item, user.userId);
         return {
@@ -320,7 +322,9 @@ export class DisplaySearchItemComponent implements OnInit {
         data: {
           cartData: addItam,
           user: findUser,
-          sizes: this.sizes
+            sizes: addItam?.variants?.find(
+              (variant: any) => variant.colorCode === addItam.selectedColor
+            )?.sizes || addItam?.sizes || []
         }
       });
       dialogRef.afterClosed().subscribe(result => {
@@ -550,6 +554,8 @@ export class DisplaySearchItemComponent implements OnInit {
       this.searchItem = (res || []).map((item: any) => {
         const firstVariant = item.variants?.[0];
         item.selectedColor = firstVariant?.colorCode || '';
+        item.sizes = firstVariant?.sizes || [];
+        item.sizes = firstVariant?.sizes || [];
         item.selectedSize = item.size || '';
         const cartData = this.convertToCartDBFormat(item, user.userId);
         return {
