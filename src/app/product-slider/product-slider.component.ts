@@ -13,18 +13,18 @@ export class ProductSliderComponent {
 constructor(public router:Router){}
 getCategoryColor(category: string): string {
   const colors: any = {
-    boys: '#FFF3E0',         // Light Orange
-    girls: '#FCE7F3',        // Light Pink
-    mens: '#EFF6FF',         // Light Blue
-    womens: '#F3E8FF',       // Light Purple
-    kids: '#ECFDF5',      // Light Green
-    electricals: '#FEE2E2',  // Light Red
-    electronics: '#E0F2FE',  // Sky Blue
-    technology: '#F0FDFA',   // Light Teal
-    beauty_personal_care: '#FEF2F2',       // Rose
-    home_kitchen: '#FFF7ED',       // Mint Green
-    footwear: '#F5F3FF',     // Lavender
-    fashion: '#FFF7ED'       // Cream Orange
+    boys: '#F5E1C4',
+    girls: '#F2D6E3',
+    mens: '#DCEBFA',
+    womens: '#E6D9F5',
+    kids: '#D8F0E4',
+    electricals: '#F4D5D5',
+    electronics: '#D5ECF7',
+    technology: '#D8F0EC',
+    beauty_personal_care: '#F4DCDC',
+    home_kitchen: '#F5E3D0',
+    footwear: '#E5DFF4',
+    fashion: '#F5E3D0'
   };
 
   return colors[category] || '#F9FAFB';
@@ -32,20 +32,20 @@ getCategoryColor(category: string): string {
 
 getCategoryTitleColor(category: string): string {
   const colors: any = {
-    boys: '#D97706',
-    girls: '#DB2777',
-    mens: '#2563EB',
-    womens: '#7C3AED',
-    kids: '#10B981',
-    electricals: '#DC2626',
-    electronics: '#0284C7',
-    technology: '#0F766E',
-    beauty: '#E11D48',
-    sports: '#16A34A',
-    footwear: '#6D28D9',
-    fashion: '#C2410C',
-    beauty_personal_care: '#9F1239', // Rose Pink
-    home_kitchen:  '#9A3412'
+    boys: '#5B3A14',
+    girls: '#64213D',
+    mens: '#183B5C',
+    womens: '#49346B',
+    kids: '#185C43',
+    electricals: '#6B2020',
+    electronics: '#164E63',
+    technology: '#14534D',
+    beauty: '#701A32',
+    sports: '#14532D',
+    footwear: '#44316B',
+    fashion: '#6B3415',
+    beauty_personal_care: '#701A32',
+    home_kitchen: '#6B3415'
   };
 
   return colors[category] || '#374151';
