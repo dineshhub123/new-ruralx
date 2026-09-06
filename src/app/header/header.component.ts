@@ -163,7 +163,8 @@ export class HeaderComponent implements OnInit {
     if (searchValue) {
     this.router.navigate(['/display-item'], {
       queryParams: {
-        category: searchValue
+        category: searchValue,
+        source:'category'
       }
     });
      this.input.nativeElement.value = '';

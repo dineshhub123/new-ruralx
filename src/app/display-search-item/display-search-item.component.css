@@ -281,7 +281,7 @@ h6 {
   min-width: 57px;
     min-height: 57px;
     border-radius: 4px;
-    border: 1px solid #e5e7eb !important;
+    border: 1px solid #d1d1d1 !important;
     background: #ffffff !important;
     color: #1f2937 !important;
     padding: 3px;
@@ -295,7 +295,7 @@ h6 {
 
 .subcategory-scroll mat-chip-option {
   min-width: 40px;
-    height: 20px;
+    height: 25px;
     padding: 0 8px;
     flex-direction: row;
     border-radius: 15px;
@@ -305,11 +305,13 @@ h6 {
 }
 
 .category-scroll img {
- width: 44px;
-    height: 30px;
-    object-fit: contain;
-    margin-bottom: 6px;
-    aspect-ratio: 3 / 4;
+  width: 44px;
+  height: 30px;
+  object-fit: contain;
+  display: block;
+  align-self: center;
+  margin: 0 auto 6px;
+  aspect-ratio: 3 / 4;
 }
 
 .chip-name {
@@ -361,6 +363,7 @@ h6 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 :host ::ng-deep .mat-mdc-chip .mdc-evolution-chip__text-label {
