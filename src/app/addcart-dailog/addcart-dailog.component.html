@@ -1,6 +1,6 @@
 <div class="bottom-sheet product-card" id="sheet">
     <span class="cursor-pointer">
-        <mat-icon class="float-right " mat-dialog-close>close</mat-icon>
+        <mat-icon class="float-right " (click)="close()">close</mat-icon>
     </span>
     <div class="product-row ">
         <img [src]="imageBaseUrl + addItam?.cartData?.image" class="product-img">
@@ -43,7 +43,7 @@
 
     <div class="text-center">
     <button class="btn btn-warning btn-md mb-2 mr-2 btn-align-buy btn-design"
-        [disabled]="isSelectedSizeOutOfStock" (click)="addCart($event,addItam)" mat-dialog-close><i class="fa fa-shopping-cart"> </i>
+        [disabled]="isSelectedSizeOutOfStock" (click)="addCart($event,addItam)"><i class="fa fa-shopping-cart"> </i>
         ADD TO CART
     </button>
 </div>

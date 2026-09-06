@@ -137,6 +137,10 @@ padding: 0px !important;
   animation: location-slow-slide-up 1200ms cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
+.addcart-bottom-sheet {
+  animation: location-slow-slide-up 900ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
 /* flying animation cart */
 .fly-img {
   position: fixed;

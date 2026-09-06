@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { Inject } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 import { AddcartService } from '../services/addcart.service';
-import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-addcart-dailog',
@@ -15,7 +14,7 @@ export class AddcartDailogComponent {
   public selectedSize: any;
   showItemSize: boolean = true;
   imageBaseUrl = environment.imageBaseUrl;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public addCartService: AddcartService, private dialogRef: MatDialogRef<AddcartDailogComponent>) {
+  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: any, public router: Router, public addCartService: AddcartService, private bottomSheetRef: MatBottomSheetRef<AddcartDailogComponent>) {
     this.addItam = data;
     console.log("addItam", this.addItam)
   }
@@ -78,7 +77,11 @@ export class AddcartDailogComponent {
       }
     });
 
-    this.dialogRef.close();
+    this.bottomSheetRef.dismiss();
+  }
+
+  close() {
+    this.bottomSheetRef.dismiss();
   }
 
   flyToCart(productImg: HTMLElement) {
@@ -171,7 +174,7 @@ export class AddcartDailogComponent {
     };
     this.addCartService.addToCart(addCartPayload).subscribe((res: any) => {
       this.addCartService.loadCartFromAPI();
-      this.dialogRef.close(res);
+      this.bottomSheetRef.dismiss(res);
     });
     this.flyToCartFromEvent(event);
 

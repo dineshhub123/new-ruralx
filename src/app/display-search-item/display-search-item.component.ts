@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment.prod';
 import { SizeService } from '../services/size.service';
 import { AddcartDailogComponent } from '../addcart-dailog/addcart-dailog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ApiService } from '../services/api.service';
 @Component({
   selector: 'app-display-search-item',
@@ -33,7 +34,7 @@ export class DisplaySearchItemComponent implements OnInit {
   lastScrollTop = 0;
   MAX_QTY = 4;
   flyCartIncreament: any
-  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public addCartService: AddcartService, private sizeService: SizeService, public dialog: MatDialog,
+  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public addCartService: AddcartService, private sizeService: SizeService, public dialog: MatDialog, private bottomSheet: MatBottomSheet,
   ) {
 
   }
@@ -320,17 +321,15 @@ export class DisplaySearchItemComponent implements OnInit {
     const itemSizes = selectedVariant?.sizes || addItam?.sizes || [];
 
     if (itemSizes.length > 0) {
-      const dialogRef = this.dialog.open(AddcartDailogComponent, {
-        width: '350px',
-        maxWidth: '95vw',   // responsive
-        height: 'auto',
+      const bottomSheetRef = this.bottomSheet.open(AddcartDailogComponent, {
+        panelClass: 'addcart-bottom-sheet',
         data: {
           cartData: addItam,
           user: findUser,
           sizes: itemSizes
         }
       });
-      dialogRef.afterClosed().subscribe(result => {
+      bottomSheetRef.afterDismissed().subscribe(result => {
       });
     }
     else {
