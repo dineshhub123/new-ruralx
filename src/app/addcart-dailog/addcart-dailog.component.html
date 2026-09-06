@@ -14,9 +14,11 @@
     <hr>
     <div class="variants-container" *ngIf="addItam?.sizes.length > 0">
         <div class="selcte-size-color-text">{{ getVariantLabel(addItam) }} : </div>
-        <div *ngFor="let size of addItam?.sizes" class="variant-inline-size" (click)="onSizeSelect(size)"
-            [ngClass]="{ 'selected': size === selectedSize }">
-            <div>{{size}}</div>
+        <div class="size-options">
+            <div *ngFor="let size of addItam?.sizes" class="variant-inline-size" (click)="onSizeSelect(size)"
+                [ngClass]="{ 'selected': size.size === selectedSize }">
+                <div>{{size.size}}</div>
+            </div>
         </div>
     </div>
 
@@ -34,14 +36,14 @@
     </div>
         <div class="mrp-content mb-2">In Stocks :
           <span
-            [ngClass]="{'in-stock': addItam?.cartData?.stock >=5,'limited-stock': addItam?.cartData?.stock > 0 && addItam?.cartData?.stock < 5,'out-stock': addItam?.cartData?.stock === 0}">
-            {{addItam?.cartData?.stock >=5? 'In Stock': addItam?.cartData?.stock > 0 && addItam?.cartData?.stock <
-              5? 'Limited Stock' : 'Out of Stock' }} </span>
+                        [ngClass]="{'in-stock': selectedSizeStock !== null && selectedSizeStock >= 5,'limited-stock': selectedSizeStock !== null && selectedSizeStock > 0 && selectedSizeStock < 5,'out-stock': selectedSizeStock === 0}">
+                        {{selectedSizeStock !== null && selectedSizeStock >= 5 ? 'In Stock': selectedSizeStock !== null && selectedSizeStock > 0 && selectedSizeStock <
+                            5 ? 'Limited Stock' : 'Out of Stock' }} </span>
         </div>
 
     <div class="text-center">
     <button class="btn btn-warning btn-md mb-2 mr-2 btn-align-buy btn-design"
-        [disabled]="addItam?.cartData?.stock === 0" (click)="addCart($event,addItam)" mat-dialog-close><i class="fa fa-shopping-cart"> </i>
+        [disabled]="isSelectedSizeOutOfStock" (click)="addCart($event,addItam)" mat-dialog-close><i class="fa fa-shopping-cart"> </i>
         ADD TO CART
     </button>
 </div>

@@ -550,7 +550,6 @@ width: 521px;
 }
 .variants-container {
   display: flex;
-  align-items: center;
   gap: 8px;
   width: 100%;
   justify-content: flex-start;
@@ -559,9 +558,18 @@ width: 521px;
 .size-options {
   display: flex;
   flex: 1 1 200px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 10px 8px;
   min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.size-options::-webkit-scrollbar {
+  display: none;
 }
 .variants-container-image {
   display: flex;

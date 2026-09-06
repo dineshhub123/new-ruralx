@@ -314,7 +314,12 @@ export class DisplaySearchItemComponent implements OnInit {
     let user: any;
     user = localStorage.getItem("login_user");
     let findUser = JSON.parse(user)
-    if (this.sizes?.length > 0) {
+    const selectedVariant = addItam?.variants?.find(
+      (variant: any) => variant.colorCode === addItam.selectedColor
+    ) || addItam?.variants?.[0];
+    const itemSizes = selectedVariant?.sizes || addItam?.sizes || [];
+
+    if (itemSizes.length > 0) {
       const dialogRef = this.dialog.open(AddcartDailogComponent, {
         width: '350px',
         maxWidth: '95vw',   // responsive
@@ -322,9 +327,7 @@ export class DisplaySearchItemComponent implements OnInit {
         data: {
           cartData: addItam,
           user: findUser,
-            sizes: addItam?.variants?.find(
-              (variant: any) => variant.colorCode === addItam.selectedColor
-            )?.sizes || addItam?.sizes || []
+          sizes: itemSizes
         }
       });
       dialogRef.afterClosed().subscribe(result => {

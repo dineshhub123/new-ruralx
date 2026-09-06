@@ -144,7 +144,7 @@ export class AppComponent {
         setTimeout(() => {
           splash?.classList.add('hide');
           setTimeout(() => splash?.remove(), 500);
-        }, 1500);
+        }, 700);
         return;
       }
       // Android App
@@ -156,7 +156,7 @@ export class AppComponent {
       setTimeout(() => {
         splash?.classList.add('hide');
         setTimeout(() => splash?.remove(), 500);
-      }, 1500);
+      }, 700);
     });
 
 

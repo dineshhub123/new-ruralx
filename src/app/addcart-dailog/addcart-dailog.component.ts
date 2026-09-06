@@ -22,13 +22,13 @@ export class AddcartDailogComponent {
 
   ngOnInit() {
     this.addItam.sizes = (this.addItam?.sizes || [])
-      .map((item: any) => typeof item === 'string' ? item : item.size)
-      .filter((size: any) => size !== undefined && size !== null);
-    this.selectedSize = this.addItam.sizes[0];
+      .map((item: any) => typeof item === 'string' ? { size: item } : item)
+      .filter((item: any) => item?.size !== undefined && item?.size !== null);
+    this.selectedSize = this.addItam.sizes[0]?.size;
   }
 
   onSizeSelect(size: any) {
-    this.selectedSize = size;
+    this.selectedSize = typeof size === 'string' ? size : size?.size;
     this.showItemSize = false;
     setTimeout(() => {
       this.showItemSize = true;
@@ -40,7 +40,7 @@ export class AddcartDailogComponent {
 
     if (!item?.sizes || item.sizes.length === 0) return 'Variant';
 
-    const first = String(item.sizes[0]);
+    const first = String(item.sizes[0]?.size ?? item.sizes[0]);
 
     if (first.includes('GB') || first.includes('TB')) {
       return 'Storage';
@@ -140,7 +140,23 @@ export class AddcartDailogComponent {
     return item?.quantity || 0;
   }
 
+  get selectedSizeStock(): number | null {
+    const selected = this.addItam?.sizes?.find(
+      (item: any) => String(item?.size ?? item) === String(this.selectedSize)
+    );
+    return selected?.stock === undefined || selected?.stock === null
+      ? null
+      : Number(selected.stock);
+  }
+
+  get isSelectedSizeOutOfStock(): boolean {
+    return this.selectedSizeStock === 0;
+  }
+
   addCart(event: any, addItam: any) {
+    if (this.isSelectedSizeOutOfStock) {
+      return;
+    }
     const addCartPayload = {
       id: addItam.cartData.id,
       product_id: addItam.cartData.product_id,
