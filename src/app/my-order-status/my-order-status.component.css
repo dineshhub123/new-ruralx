@@ -1,3 +1,232 @@
+.taxable-bill-wrapper {
+  margin-top: 12px;
+  padding: 0;
+}
+
+.taxable-bill-card {
+  position: relative;
+  max-width: 1120px;
+  margin: 0 auto;
+  background: #f4f4f4;
+  border: 1px solid #d5d5d5;
+  border-radius: 18px;
+  box-shadow: none;
+  padding: 28px 26px 18px;
+  font-family: Arial, sans-serif;
+  color: #2d2d2d;
+}
+
+.invoice-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: transparent;
+  font-size: 28px;
+  color: #666;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.taxable-bill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid #d8d8d8;
+  padding-bottom: 18px;
+}
+
+.bill-title {
+  font-size: 54px;
+  line-height: 1.05;
+  font-weight: 800;
+  color: #0b7a74;
+  letter-spacing: -1px;
+}
+
+.brand-name {
+  margin-top: 8px;
+  font-size: 28px;
+  font-weight: 800;
+  color: #0b7a74;
+}
+
+.bill-meta {
+  margin-top: 18px;
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: right;
+  font-style: italic;
+  color: #2d2d2d;
+}
+
+.invoice-customer-block {
+  margin-top: 24px;
+  margin-bottom: 18px;
+}
+
+.bill-to {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.customer-name,
+.customer-address,
+.customer-mobile {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #2a2a2a;
+}
+
+.invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #d5d5d5;
+  background: #f3f3f3;
+  table-layout: fixed;
+}
+
+.invoice-table th,
+.invoice-table td {
+  border: 1px solid #d5d5d5;
+  padding: 12px 10px;
+  vertical-align: middle;
+  font-size: 16px;
+  color: #2e2e2e;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.invoice-table th:first-child,
+.invoice-table td:first-child {
+  width: 24%;
+}
+
+.invoice-table th:nth-child(2),
+.invoice-table td:nth-child(2) {
+  width: 8%;
+}
+
+.invoice-table th:nth-child(3),
+.invoice-table td:nth-child(3) {
+  width: 12%;
+}
+
+.invoice-table th:nth-child(4),
+.invoice-table td:nth-child(4) {
+  width: 14%;
+}
+
+.invoice-table th:nth-child(5),
+.invoice-table td:nth-child(5) {
+  width: 12%;
+}
+
+.invoice-table th:nth-child(6),
+.invoice-table td:nth-child(6) {
+  width: 12%;
+}
+
+.invoice-table th:nth-child(7),
+.invoice-table td:nth-child(7) {
+  width: 12%;
+}
+
+.invoice-table thead th {
+  background: #dfe0e0;
+  font-weight: 700;
+  color: #2c2c2c;
+}
+
+.invoice-table th:nth-child(2),
+.invoice-table td:nth-child(2),
+.invoice-table th:nth-child(3),
+.invoice-table td:nth-child(3),
+.invoice-table th:nth-child(4),
+.invoice-table td:nth-child(4),
+.invoice-table th:nth-child(5),
+.invoice-table td:nth-child(5),
+.invoice-table th:nth-child(6),
+.invoice-table td:nth-child(6),
+.invoice-table th:nth-child(7),
+.invoice-table td:nth-child(7) {
+  text-align: right;
+}
+
+.invoice-table td:first-child {
+  text-align: left;
+}
+
+.invoice-summary {
+  width: 360px;
+  margin-left: auto;
+  margin-top: 18px;
+  font-size: 18px;
+  background: #efefef;
+  border: 1px solid #d5d5d5;
+  padding: 10px 12px 6px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #d5d5d5;
+  color: #2b2b2b;
+  background: transparent;
+}
+
+.summary-row.grand-total {
+  font-size: 22px;
+  font-weight: 800;
+  border-bottom: none;
+  margin-top: 4px;
+  background: #e3e3e3;
+  padding: 10px 0 8px;
+}
+
+.invoice-footer {
+  margin-top: 28px;
+  padding-top: 12px;
+  border-top: 1px solid #dadada;
+  color: #666;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.invoice-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.invoice-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid #dbe7ff;
+  border-radius: 10px;
+  background: #f5f9ff;
+  color: #0b57d0;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.invoice-btn.download {
+  background: #0f766e;
+  border-color: #0f766e;
+  color: #fff;
+}
+
 /* PAGE */
 .orders-container{
   max-width: 1100px;

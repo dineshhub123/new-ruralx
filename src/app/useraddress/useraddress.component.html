@@ -210,13 +210,19 @@
         </div>
 
       </div>
+      <div class="tot-sub-content">
+        GST
+        <div class="total-amount">
+          {{ totalGst | number:'1.2-2' }}
+        </div>
+      </div>
       <div>
         <hr>
       </div>
       <div class="total-amount-content">
         Grand Total
         <div class="total-amount">
-          Rs: {{totalAmount | number:'1.2-2' }}
+          Rs: {{ grandTotal | number:'1.2-2' }}
         </div>
       </div>
       <!-- payment options -->

@@ -204,9 +204,16 @@
 
                     <div class="support-links">
                         <a href="javascript:void(0)">Contact Support : info@ruralx.in</a>
-                        <div> <a>Download Invoice (PDF)</a> <mat-icon color="primary"
-                                class="float-right">visibility</mat-icon></div>
-
+                        <div class="invoice-actions">
+                            <button type="button" class="invoice-btn" (click)="showInvoice()" aria-label="View invoice">
+                                <span>View Bill</span>
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                            <button type="button" class="invoice-btn download" (click)="downloadInvoice()" aria-label="Download invoice">
+                                <span>Download</span>
+                                <mat-icon>download</mat-icon>
+                            </button>
+                        </div>
                     </div>
                 </div>
 

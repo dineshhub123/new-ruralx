@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { ReturnDailogComponent } from '../return-dailog/return-dailog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { jsPDF } from 'jspdf';
 
 @Component({
   selector: 'app-my-order-status',
@@ -267,6 +268,1032 @@ prepareSteps() {
       }
     });
   }
+// ==========================================
+// RURALX INVOICE - COMPLETE ANGULAR CODE
+// ==========================================
+
+// ------------------------------------------
+// SHOW INVOICE
+// ------------------------------------------
+
+showInvoice(): void {
+
+  if (!this.orderStatusData) {
+    return;
+  }
+
+  const pdf = this.generateInvoicePdf();
+
+  const fileName =
+    `taxable-bill-${this.orderStatusData?.order_id || 'invoice'}.pdf`;
+
+  if ((window as any).Android) {
+
+    const android = (window as any).Android;
+
+    if (typeof android.openPdf === 'function') {
+
+      const pdfBlob = pdf.output('blob');
+      const fileUrl = URL.createObjectURL(pdfBlob);
+
+      android.openPdf(fileUrl, fileName);
+
+      return;
+    }
+
+    if (typeof android.showInvoice === 'function') {
+
+      android.showInvoice(
+        pdf.output('datauristring')
+      );
+
+      return;
+    }
+  }
+
+  const pdfBlob = pdf.output('blob');
+  const url = URL.createObjectURL(pdfBlob);
+
+  window.open(url, '_blank');
+}
+
+
+// ------------------------------------------
+// DOWNLOAD INVOICE
+// ------------------------------------------
+
+downloadInvoice(): void {
+
+  if (!this.orderStatusData) {
+    return;
+  }
+
+  const pdf = this.generateInvoicePdf();
+
+  const fileName =
+    `taxable-bill-${this.orderStatusData?.order_id || 'invoice'}.pdf`;
+
+  if ((window as any).Android) {
+
+    const android = (window as any).Android;
+
+    if (typeof android.downloadPdf === 'function') {
+
+      const pdfBlob = pdf.output('blob');
+      const fileUrl = URL.createObjectURL(pdfBlob);
+
+      android.downloadPdf(fileUrl, fileName);
+
+      return;
+    }
+
+    if (typeof android.saveInvoice === 'function') {
+
+      android.saveInvoice(
+        pdf.output('datauristring'),
+        fileName
+      );
+
+      return;
+    }
+  }
+
+  pdf.save(fileName);
+}
+
+
+// ------------------------------------------
+// INVOICE ITEMS
+// ------------------------------------------
+
+getInvoiceRows(): any[] {
+
+  const items = this.orderStatusData?.items || [];
+
+  return items.map((item: any) => {
+
+    const qty = Number(item.quantity || 1);
+
+    const price = Number(
+      item.price ?? item.product_price ?? 0
+    );
+
+    const gstRate = Number(
+      item.gst_rate ?? item.gst ?? 0
+    );
+
+    // Taxable value before GST
+    const taxableValue = price * qty;
+
+    // GST amount
+    const gstValue =
+      taxableValue * (gstRate / 100);
+
+    // Final product value including GST
+    const total = taxableValue + gstValue;
+
+    return {
+  name: this.toCamelCase(
+    item.product_name ||
+    item.name ||
+    'Product'
+  ),
+
+  qty,
+  price,
+  gstRate,
+  taxableValue,
+  gstValue,
+  total
+};
+  });
+}
+
+
+// ------------------------------------------
+// NUMBER TO WORDS - INDIAN SYSTEM
+// ------------------------------------------
+
+convertNumberToWordsIndian(amount: number): string {
+
+  // Round to the nearest paise first
+  const totalPaise = Math.round(
+    Math.max(0, Number(amount) || 0) * 100
+  );
+
+  const rupees = Math.floor(
+    totalPaise / 100
+  );
+
+  const paise = totalPaise % 100;
+
+  const ones = [
+    'zero',
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine'
+  ];
+
+  const teens = [
+    'ten',
+    'eleven',
+    'twelve',
+    'thirteen',
+    'fourteen',
+    'fifteen',
+    'sixteen',
+    'seventeen',
+    'eighteen',
+    'nineteen'
+  ];
+
+  const tens = [
+    '',
+    '',
+    'twenty',
+    'thirty',
+    'forty',
+    'fifty',
+    'sixty',
+    'seventy',
+    'eighty',
+    'ninety'
+  ];
+
+  // Convert 1 to 99
+  const twoDigitWords = (num: number): string => {
+
+    if (num < 10) {
+      return ones[num];
+    }
+
+    if (num < 20) {
+      return teens[num - 10];
+    }
+
+    const ten = Math.floor(num / 10);
+    const unit = num % 10;
+
+    return unit > 0
+      ? `${tens[ten]} ${ones[unit]}`
+      : tens[ten];
+  };
+
+  // Convert 1 to 999
+  const threeDigitWords = (num: number): string => {
+
+    const hundred = Math.floor(num / 100);
+    const remainder = num % 100;
+
+    let result = '';
+
+    if (hundred > 0) {
+
+      result =
+        `${ones[hundred]} hundred`;
+    }
+
+    if (remainder > 0) {
+
+      result += result ? ' ' : '';
+
+      result += twoDigitWords(remainder);
+    }
+
+    return result;
+  };
+
+  // Indian numbering: Crore, Lakh, Thousand, Hundred
+  const toIndianWords = (num: number): string => {
+
+    if (num === 0) {
+      return 'zero';
+    }
+
+    const parts: string[] = [];
+
+    const crore = Math.floor(
+      num / 10000000
+    );
+
+    num %= 10000000;
+
+    const lakh = Math.floor(
+      num / 100000
+    );
+
+    num %= 100000;
+
+    const thousand = Math.floor(
+      num / 1000
+    );
+
+    num %= 1000;
+
+    if (crore > 0) {
+
+      parts.push(
+        `${threeDigitWords(crore)} crore`
+      );
+    }
+
+    if (lakh > 0) {
+
+      parts.push(
+        `${threeDigitWords(lakh)} lakh`
+      );
+    }
+
+    if (thousand > 0) {
+
+      parts.push(
+        `${threeDigitWords(thousand)} thousand`
+      );
+    }
+
+    if (num > 0) {
+
+      parts.push(
+        threeDigitWords(num)
+      );
+    }
+
+    return parts.join(' ');
+  };
+
+  // Rupees in words
+  const rupeeWords = toIndianWords(rupees);
+
+  const capitalizedRupees =
+    rupeeWords.charAt(0).toUpperCase() +
+    rupeeWords.slice(1);
+
+  // Paise in words
+  let paiseText = '';
+
+  if (paise > 0) {
+
+    const paiseWords =
+      twoDigitWords(paise);
+
+    const paiseLabel =
+      paise === 1 ? 'paisa' : 'paise';
+
+    paiseText =
+      ` and ${paiseWords} ${paiseLabel}`;
+  }
+
+  return `${capitalizedRupees} rupees${paiseText} only`;
+}
+
+
+// ------------------------------------------
+// INVOICE SUMMARY
+// ------------------------------------------
+
+getInvoiceSummary() {
+
+  const rows = this.getInvoiceRows();
+
+  const subtotal = rows.reduce(
+    (sum, row) => sum + row.taxableValue,
+    0
+  );
+
+  const gstTotal = rows.reduce(
+    (sum, row) => sum + row.gstValue,
+    0
+  );
+
+  const calculatedTotal = rows.reduce(
+    (sum, row) => sum + row.total,
+    0
+  );
+
+  const total =
+    calculatedTotal ||
+    Number(this.orderStatusData?.total_amount || 0);
+
+  return {
+
+    subtotal,
+
+    gstTotal,
+
+    total,
+
+    totalInWords:
+      this.convertNumberToWordsIndian(total),
+
+    // Replace with RuralX's actual GSTIN
+    gstin: '23AAPCR4320N1Z4',
+
+    invoiceNumber:
+      this.orderStatusData?.order_id ||
+      'INV-0001',
+
+    date: this.orderStatusData?.created_at
+      ? new Date(
+          this.orderStatusData.created_at
+        ).toLocaleDateString('en-IN')
+      : new Date().toLocaleDateString('en-IN'),
+
+    customerName:
+      this.orderStatusData?.delivery_address?.name ||
+      'Customer',
+
+    address:
+      this.orderStatusData?.delivery_address?.address ||
+      'N/A',
+
+    mobile:
+      this.orderStatusData?.delivery_address?.mobile ||
+      'N/A'
+  };
+}
+
+
+// ------------------------------------------
+// GENERATE INVOICE PDF
+// ------------------------------------------
+
+generateInvoicePdf(): jsPDF {
+
+  const summary = this.getInvoiceSummary();
+
+  const rows = this.getInvoiceRows();
+
+  const pdf = new jsPDF({
+    unit: 'pt',
+    format: 'a4',
+    orientation: 'portrait'
+  });
+
+  const pageWidth =
+    pdf.internal.pageSize.getWidth();
+
+  const pageHeight =
+    pdf.internal.pageSize.getHeight();
+
+  const margin = 40;
+
+  const tableWidth =
+    pageWidth - margin * 2;
+
+  const teal = [15, 118, 110];
+
+  const white = [255, 255, 255];
+
+  const black = [0, 0, 0];
+
+  const borderColor = [200, 200, 200];
+
+  const lightGray = [235, 235, 235];
+
+  const footerY = pageHeight - 35;
+
+  const headerHeight = 26;
+
+  const bottomLimit = pageHeight - 90;
+
+  // ----------------------------------------
+  // TABLE COLUMN CONFIGURATION
+  // ----------------------------------------
+
+  // Total width = 515 points on A4 portrait
+
+  const colWidths = [
+    120,  // Product
+    35,   // Qty
+    65,   // Price
+    80,   // Taxable Value
+    45,   // GST %
+    80,   // GST Amount
+    90    // Total
+  ];
+
+  const headers = [
+    'Product',
+    'Qty',
+    'Price',
+    'Taxable Value',
+    'GST %',
+    'GST Amount',
+    'Total'
+  ];
+
+  const colX: number[] = [margin];
+
+  for (let i = 0; i < colWidths.length; i++) {
+
+    colX.push(
+      colX[i] + colWidths[i]
+    );
+  }
+
+  const tableRight =
+    margin + tableWidth;
+
+  const rowPadding = 6;
+
+  // ----------------------------------------
+  // HEADER
+  // ----------------------------------------
+
+  const drawInvoiceHeader = () => {
+
+    const headerTop = 40;
+
+    // Title
+    pdf.setTextColor(
+      teal[0],
+      teal[1],
+      teal[2]
+    );
+
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(26);
+
+    pdf.text(
+      'Taxable Bill',
+      margin,
+      headerTop
+    );
+
+    // Company name
+    pdf.setTextColor(
+      black[0],
+      black[1],
+      black[2]
+    );
+
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(12);
+
+    pdf.text(
+      'Ruralx',
+      margin,
+      headerTop + 32
+    );
+
+    // GSTIN directly under company name
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(10);
+
+    pdf.text(
+      `GSTIN: ${summary.gstin}`,
+      margin,
+      headerTop + 49
+    );
+
+    // Invoice details
+    const invoiceMetaX =
+      pageWidth - margin;
+
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(10);
+
+    pdf.text(
+      `Invoice No: ${summary.invoiceNumber}`,
+      invoiceMetaX,
+      headerTop + 10,
+      { align: 'right' }
+    );
+
+    pdf.text(
+      `Date: ${summary.date}`,
+      invoiceMetaX,
+      headerTop + 25,
+      { align: 'right' }
+    );
+
+    // Divider below GSTIN
+    pdf.setDrawColor(
+      borderColor[0],
+      borderColor[1],
+      borderColor[2]
+    );
+
+    pdf.setLineWidth(0.5);
+
+    pdf.line(
+      margin,
+      headerTop + 62,
+      pageWidth - margin,
+      headerTop + 62
+    );
+  };
+
+  drawInvoiceHeader();
+
+  // ----------------------------------------
+  // CUSTOMER DETAILS
+  // ----------------------------------------
+
+  let customerY = 125;
+
+  pdf.setTextColor(
+    black[0],
+    black[1],
+    black[2]
+  );
+
+  pdf.setFont('helvetica', 'bold');
+  pdf.setFontSize(12);
+
+  pdf.text(
+    'Bill To:',
+    margin,
+    customerY
+  );
+
+  pdf.setFont('helvetica', 'normal');
+  pdf.setFontSize(11);
+
+  pdf.text(
+    summary.customerName,
+    margin,
+    customerY + 18
+  );
+
+  // Wrap customer address
+  const compactAddress =
+    String(summary.address || 'N/A')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+  const addressLines =
+    pdf.splitTextToSize(
+      compactAddress,
+      tableWidth
+    );
+
+  const addressY = customerY + 35;
+
+  pdf.text(
+    addressLines,
+    margin,
+    addressY
+  );
+
+  const addressHeight =
+    addressLines.length * 13;
+
+  const mobileY =
+    addressY + addressHeight + 4;
+
+  pdf.text(
+    `Mobile: ${summary.mobile}`,
+    margin,
+    mobileY
+  );
+
+  // GSTIN is intentionally NOT repeated here.
+
+  // ----------------------------------------
+  // TABLE HEADER
+  // ----------------------------------------
+
+  const tableStartY =
+    mobileY + 22;
+
+  let rowY = tableStartY;
+
+  const drawTableHeader = (startY: number) => {
+
+    // Full-width background includes Total column
+    pdf.setFillColor(
+      teal[0],
+      teal[1],
+      teal[2]
+    );
+
+    pdf.rect(
+      margin,
+      startY,
+      tableWidth,
+      headerHeight,
+      'F'
+    );
+
+    pdf.setDrawColor(
+      teal[0],
+      teal[1],
+      teal[2]
+    );
+
+    pdf.rect(
+      margin,
+      startY,
+      tableWidth,
+      headerHeight,
+      'S'
+    );
+
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(7.5);
+
+    pdf.setTextColor(
+      white[0],
+      white[1],
+      white[2]
+    );
+
+    headers.forEach(
+      (header: string, index: number) => {
+
+        if (index === 0) {
+
+          pdf.text(
+            header,
+            colX[index] + 5,
+            startY + 17
+          );
+
+        } else {
+
+          pdf.text(
+            header,
+            colX[index + 1] - 4,
+            startY + 17,
+            { align: 'right' }
+          );
+        }
+      }
+    );
+
+    pdf.setTextColor(
+      black[0],
+      black[1],
+      black[2]
+    );
+  };
+
+  // ----------------------------------------
+  // TABLE ROW
+  // ----------------------------------------
+
+  const drawTableRow = (
+    row: any,
+    startY: number
+  ): number => {
+
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(8);
+
+    const productName =
+      String(row.name || 'Product');
+
+    const productLines =
+      pdf.splitTextToSize(
+        productName,
+        colWidths[0] - 10
+      );
+
+    // Dynamic row height based on product name
+    const displayLines =
+      productLines.slice(0, 3);
+
+    const lineHeight = 10;
+
+    const rowHeight = Math.max(
+      24,
+      displayLines.length * lineHeight + 10
+    );
+
+    // Draw row border
+    pdf.setDrawColor(
+      borderColor[0],
+      borderColor[1],
+      borderColor[2]
+    );
+
+    pdf.setLineWidth(0.5);
+
+    pdf.rect(
+      margin,
+      startY,
+      tableWidth,
+      rowHeight,
+      'S'
+    );
+
+    const textY =
+      startY + Math.min(
+        15,
+        rowHeight / 2 + 3
+      );
+
+    // Product name
+    pdf.text(
+      displayLines,
+      colX[0] + 5,
+      startY + 12
+    );
+
+    // Quantity
+    pdf.text(
+      String(row.qty),
+      colX[2] - 4,
+      textY,
+      { align: 'right' }
+    );
+
+    // Price
+    pdf.text(
+      Number(row.price).toFixed(2),
+      colX[3] - 4,
+      textY,
+      { align: 'right' }
+    );
+
+    // Taxable value
+    pdf.text(
+      Number(row.taxableValue).toFixed(2),
+      colX[4] - 4,
+      textY,
+      { align: 'right' }
+    );
+
+    // GST rate
+    pdf.text(
+      `${Number(row.gstRate).toFixed(2)}%`,
+      colX[5] - 4,
+      textY,
+      { align: 'right' }
+    );
+
+    // GST amount
+    pdf.text(
+      Number(row.gstValue).toFixed(2),
+      colX[6] - 4,
+      textY,
+      { align: 'right' }
+    );
+
+    // Total column
+    pdf.setFont('helvetica', 'bold');
+
+    pdf.text(
+      Number(row.total).toFixed(2),
+      colX[7] - 4,
+      textY,
+      { align: 'right' }
+    );
+
+    pdf.setFont('helvetica', 'normal');
+
+    return rowHeight;
+  };
+
+  // ----------------------------------------
+  // DRAW TABLE ROWS WITH PAGE BREAKS
+  // ----------------------------------------
+
+  drawTableHeader(rowY);
+
+  rowY += headerHeight;
+
+  rows.forEach((row: any) => {
+
+    // Calculate required row height
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(8);
+
+    const productLines =
+      pdf.splitTextToSize(
+        String(row.name || 'Product'),
+        colWidths[0] - 10
+      );
+
+    const estimatedHeight = Math.max(
+      24,
+      Math.min(productLines.length, 3) * 10 + 10
+    );
+
+    // Add new page if row will exceed printable area
+    if (rowY + estimatedHeight > bottomLimit) {
+
+      pdf.addPage();
+
+      rowY = 40;
+
+      drawTableHeader(rowY);
+
+      rowY += headerHeight;
+    }
+
+    const actualHeight =
+      drawTableRow(row, rowY);
+
+    rowY += actualHeight;
+  });
+
+  // ----------------------------------------
+  // TOTALS SECTION
+  // ----------------------------------------
+
+  const totalsHeight = 125;
+
+  if (rowY + totalsHeight > bottomLimit) {
+
+    pdf.addPage();
+
+    rowY = 40;
+  }
+
+  const totalsY = rowY + 18;
+
+  const totalsBoxWidth = 220;
+
+  const totalsBoxX =
+    pageWidth - margin - totalsBoxWidth;
+
+  const totalsValueX =
+    pageWidth - margin - 8;
+
+  const totalsLabelX =
+    totalsBoxX + 8;
+
+  // Divider only, no background fill
+  pdf.setDrawColor(
+    borderColor[0],
+    borderColor[1],
+    borderColor[2]
+  );
+
+  pdf.line(
+    totalsBoxX,
+    totalsY,
+    pageWidth - margin,
+    totalsY
+  );
+
+  // Subtotal
+  pdf.setTextColor(
+    black[0],
+    black[1],
+    black[2]
+  );
+
+  pdf.setFont('helvetica', 'normal');
+  pdf.setFontSize(10);
+
+  pdf.text(
+    'Subtotal',
+    totalsLabelX,
+    totalsY + 20
+  );
+
+  pdf.text(
+    `Rs. ${Number(summary.subtotal).toFixed(2)}`,
+    totalsValueX,
+    totalsY + 20,
+    { align: 'right' }
+  );
+
+  // GST
+  pdf.text(
+    'GST',
+    totalsLabelX,
+    totalsY + 38
+  );
+
+  pdf.text(
+    `Rs. ${Number(summary.gstTotal).toFixed(2)}`,
+    totalsValueX,
+    totalsY + 38,
+    { align: 'right' }
+  );
+
+  // Grand Total
+  pdf.setFont('helvetica', 'bold');
+  pdf.setFontSize(11);
+
+  pdf.text(
+    'Grand Total',
+    totalsLabelX,
+    totalsY + 60
+  );
+
+  pdf.text(
+    `Rs. ${Number(summary.total).toFixed(2)}`,
+    totalsValueX,
+    totalsY + 60,
+    { align: 'right' }
+  );
+
+  // ----------------------------------------
+  // AMOUNT IN WORDS
+  // ----------------------------------------
+
+  pdf.setFont('helvetica', 'normal');
+  pdf.setFontSize(9);
+
+  pdf.setTextColor(
+    60,
+    60,
+    60
+  );
+
+  const amountInWords =
+    `Amount in Words: ${summary.totalInWords}`;
+
+  const amountWordsLines =
+    pdf.splitTextToSize(
+      amountInWords,
+      tableWidth
+    );
+
+  pdf.text(
+    amountWordsLines,
+    margin,
+    totalsY + 85
+  );
+
+  // ----------------------------------------
+  // FOOTER
+  // ----------------------------------------
+
+  pdf.setFont('helvetica', 'italic');
+  pdf.setFontSize(9);
+
+  pdf.setTextColor(
+    80,
+    80,
+    80
+  );
+
+  pdf.text(
+    'Thank you for shopping with Ruralx.',
+    margin,
+    footerY
+  );
+
+  pdf.setFontSize(8);
+
+  pdf.text(
+    'This is a computer-generated invoice.',
+    margin,
+    footerY + 15
+  );
+
+  return pdf;
+}
+toCamelCase(value: string): string {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-zA-Z0-9]+(.)/g, (_, char) =>
+      char.toUpperCase()
+    );
+}
 getStatusMessage(status: string): string {
   switch ((status || '').toLowerCase()) {
 

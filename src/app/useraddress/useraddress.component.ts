@@ -43,6 +43,8 @@ export class UseraddressComponent implements OnInit {
   public totalMrp: any;
   public totalAmount: any;
   public totalDiscount: any;
+  public totalGst: any;
+  public grandTotal: any;
   public selectedPaymentMethod: string = 'ONLINE'; // default
   constructor(private razorpay: RazorpayService,
     private paymentApi: PaymentApiService, private ngZone: NgZone,
@@ -164,6 +166,7 @@ export class UseraddressComponent implements OnInit {
       // ✅ CART FLOW
       this.addCartService.cart$.subscribe(cart => {
         this.userCheckOutData = cart;
+        console.log('Cart data loaded:', this.userCheckOutData);
       });
     }
 
@@ -171,6 +174,8 @@ export class UseraddressComponent implements OnInit {
     this.totalMrp = totals.totalMrp;
     this.totalAmount = totals.totalPrice;
     this.totalDiscount = totals.totalDiscount;
+    this.totalGst = totals.totalGst;
+    this.grandTotal = totals.grandTotal;
 
   }
 
@@ -202,14 +207,22 @@ export class UseraddressComponent implements OnInit {
         const qty = Number(item.quantity || 1);
         const mrp = Number(item.mrp || 0);
         const price = Number(item.price || 0);
-        acc.totalMrp += mrp * qty;
-        acc.totalPrice += price * qty;
+        const gstRate = Number(item.gst_rate || 0);
+
+        const itemMrp = mrp * qty;
+        const itemPrice = price * qty;
+        const itemGst = itemPrice * (gstRate / 100);
+
+        acc.totalMrp += itemMrp;
+        acc.totalPrice += itemPrice;
         acc.totalDiscount += (mrp - price) * qty;
+        acc.totalGst += itemGst;
         return acc;
       },
-      { totalMrp: 0, totalPrice: 0, totalDiscount: 0 }
+      { totalMrp: 0, totalPrice: 0, totalDiscount: 0, totalGst: 0 }
     );
 
+    totals.grandTotal = totals.totalPrice + totals.totalGst;
     return totals;
   }
 
@@ -335,14 +348,23 @@ export class UseraddressComponent implements OnInit {
     if (!this.userCheckOutData || this.userCheckOutData.length === 0) {
       throw new Error('Cart data is empty');
     }
+
+    if (this.grandTotal != null && !isNaN(Number(this.grandTotal))) {
+      return Number(this.grandTotal);
+    }
+
     return this.userCheckOutData.reduce((total: number, item: any, index: number) => {
       const price = Number(item.price);
       const qty = Number(item.quantity);
-      // validation
+      const gstRate = Number(item.gst_rate || 0);
+
       if (isNaN(price) || isNaN(qty)) {
         throw new Error(`Invalid price or quantity at index ${index}`);
       }
-      return total + price * qty;
+
+      const discountedTotal = price * qty;
+      const gstAmount = discountedTotal * (gstRate / 100);
+      return total + discountedTotal + gstAmount;
     }, 0);
   }
   onAddressSelect(user: any) {
