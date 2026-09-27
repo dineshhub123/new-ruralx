@@ -277,13 +277,13 @@ prepareSteps() {
 // SHOW INVOICE
 // ------------------------------------------
 
-showInvoice(): void {
+async showInvoice(): Promise<void> {
 
   if (!this.orderStatusData) {
     return;
   }
 
-  const pdf = this.generateInvoicePdf();
+  const pdf = await this.generateInvoicePdf();
 
   const fileName =
     `taxable-bill-${this.orderStatusData?.order_id || 'invoice'}.pdf`;
@@ -340,13 +340,13 @@ showInvoice(): void {
 // DOWNLOAD INVOICE
 // ------------------------------------------
 
-downloadInvoice(): void {
+async downloadInvoice(): Promise<void> {
 
   if (!this.orderStatusData) {
     return;
   }
 
-  const pdf = this.generateInvoicePdf();
+  const pdf = await this.generateInvoicePdf();
 
   const fileName =
     `taxable-bill-${this.orderStatusData?.order_id || 'invoice'}.pdf`;
@@ -680,9 +680,40 @@ getInvoiceSummary() {
 // GENERATE INVOICE PDF
 // ------------------------------------------
 
-generateInvoicePdf(): jsPDF {
+private async loadLogoDataUrl(): Promise<string | null> {
+  try {
+    const response = await fetch('assets/img/ruralxLogo.png');
+    if (!response.ok) {
+      return null;
+    }
 
-  const summary = this.getInvoiceSummary();
+    const blob = await response.blob();
+
+    return await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(String(reader.result));
+      reader.onerror = () => reject(new Error('Failed to load invoice logo'));
+      reader.readAsDataURL(blob);
+    });
+  } catch (error) {
+    console.error('Invoice logo load failed:', error);
+    return null;
+  }
+}
+
+private async loadImageFromDataUrl(dataUrl: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error('Image load failed'));
+    img.src = dataUrl;
+  });
+}
+
+generateInvoicePdf(): Promise<jsPDF> {
+
+  return (async () => {
+    const summary = this.getInvoiceSummary();
 
   const rows = this.getInvoiceRows();
 
@@ -763,7 +794,7 @@ generateInvoicePdf(): jsPDF {
   // HEADER
   // ----------------------------------------
 
-  const drawInvoiceHeader = () => {
+  const drawInvoiceHeader = async () => {
 
     const headerTop = 40;
 
@@ -783,21 +814,57 @@ generateInvoicePdf(): jsPDF {
       headerTop
     );
 
-    // Company name
-    pdf.setTextColor(
-      black[0],
-      black[1],
-      black[2]
-    );
+    // Company logo
+    const logoDataUrl = await this.loadLogoDataUrl();
 
-    pdf.setFont('helvetica', 'bold');
-    pdf.setFontSize(12);
+    if (logoDataUrl) {
+      try {
+        const logo = await this.loadImageFromDataUrl(logoDataUrl);
+        const logoWidth = 118;
+        const logoHeight = 85;
 
-    pdf.text(
-      'RuralX',
-      margin,
-      headerTop + 32
-    );
+        pdf.addImage(
+          logo,
+          'PNG',
+          margin,
+          headerTop - 15,
+          logoWidth,
+          logoHeight,
+          undefined,
+          'FAST'
+        );
+      } catch (error) {
+        pdf.setTextColor(
+          black[0],
+          black[1],
+          black[2]
+        );
+
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(12);
+
+        pdf.text(
+          'RuralX',
+          margin,
+          headerTop + 32
+        );
+      }
+    } else {
+      pdf.setTextColor(
+        black[0],
+        black[1],
+        black[2]
+      );
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(12);
+
+      pdf.text(
+        'RuralX',
+        margin,
+        headerTop + 32
+      );
+    }
 
     // GSTIN directly under company name
     pdf.setFont('helvetica', 'normal');
@@ -806,7 +873,7 @@ generateInvoicePdf(): jsPDF {
     pdf.text(
       `GSTIN: ${summary.gstin}`,
       margin,
-      headerTop + 49
+      headerTop + 55
     );
 
     // Invoice details
@@ -847,7 +914,7 @@ generateInvoicePdf(): jsPDF {
     );
   };
 
-  drawInvoiceHeader();
+  await drawInvoiceHeader();
 
   // ----------------------------------------
   // CUSTOMER DETAILS
@@ -1301,7 +1368,8 @@ generateInvoicePdf(): jsPDF {
     footerY + 15
   );
 
-  return pdf;
+    return pdf;
+  })();
 }
 toTitleCase(value: string): string {
   return value
