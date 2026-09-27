@@ -273,6 +273,7 @@ prepareSteps() {
 // ==========================================
 
 // ------------------------------------------
+// ------------------------------------------
 // SHOW INVOICE
 // ------------------------------------------
 
@@ -287,34 +288,51 @@ showInvoice(): void {
   const fileName =
     `taxable-bill-${this.orderStatusData?.order_id || 'invoice'}.pdf`;
 
-  if ((window as any).Android) {
+  // Generate PDF as Base64 data URI
+  const dataUri = pdf.output('datauristring');
 
-    const android = (window as any).Android;
+  const android = (window as any).Android;
 
-    if (typeof android.openPdf === 'function') {
+  if (android) {
 
-      const pdfBlob = pdf.output('blob');
-      const fileUrl = URL.createObjectURL(pdfBlob);
+    // Prefer Base64/data URI bridge over blob URL
+    if (typeof android.showInvoice === 'function') {
 
-      android.openPdf(fileUrl, fileName);
+      android.showInvoice(dataUri);
 
       return;
     }
 
-    if (typeof android.showInvoice === 'function') {
+    if (typeof android.openPdf === 'function') {
 
-      android.showInvoice(
-        pdf.output('datauristring')
-      );
+      // Pass data URI instead of blob URL
+      android.openPdf(dataUri, fileName);
 
       return;
     }
   }
 
-  const pdfBlob = pdf.output('blob');
-  const url = URL.createObjectURL(pdfBlob);
+  // Browser fallback
+  const blob = pdf.output('blob');
+  const url = URL.createObjectURL(blob);
 
-  window.open(url, '_blank');
+  const opened = window.open(url, '_blank');
+
+  if (!opened) {
+
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.download = fileName;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  setTimeout(() => {
+    URL.revokeObjectURL(url);
+  }, 60000);
 }
 
 
@@ -333,34 +351,33 @@ downloadInvoice(): void {
   const fileName =
     `taxable-bill-${this.orderStatusData?.order_id || 'invoice'}.pdf`;
 
-  if ((window as any).Android) {
+  // Generate PDF as Base64 data URI
+  const dataUri = pdf.output('datauristring');
 
-    const android = (window as any).Android;
+  const android = (window as any).Android;
 
-    if (typeof android.downloadPdf === 'function') {
+  if (android) {
 
-      const pdfBlob = pdf.output('blob');
-      const fileUrl = URL.createObjectURL(pdfBlob);
+    // Prefer Base64/data URI bridge
+    if (typeof android.saveInvoice === 'function') {
 
-      android.downloadPdf(fileUrl, fileName);
+      android.saveInvoice(dataUri, fileName);
 
       return;
     }
 
-    if (typeof android.saveInvoice === 'function') {
+    if (typeof android.downloadPdf === 'function') {
 
-      android.saveInvoice(
-        pdf.output('datauristring'),
-        fileName
-      );
+      // Pass data URI instead of blob URL
+      android.downloadPdf(dataUri, fileName);
 
       return;
     }
   }
 
+  // Browser fallback
   pdf.save(fileName);
 }
-
 
 // ------------------------------------------
 // INVOICE ITEMS
@@ -393,7 +410,7 @@ getInvoiceRows(): any[] {
     const total = taxableValue + gstValue;
 
     return {
-  name: this.toCamelCase(
+  name: this.toTitleCase(
     item.product_name ||
     item.name ||
     'Product'
@@ -777,7 +794,7 @@ generateInvoicePdf(): jsPDF {
     pdf.setFontSize(12);
 
     pdf.text(
-      'Ruralx',
+      'RuralX',
       margin,
       headerTop + 32
     );
@@ -1271,7 +1288,7 @@ generateInvoicePdf(): jsPDF {
   );
 
   pdf.text(
-    'Thank you for shopping with Ruralx.',
+    'Thank you for shopping with RuralX.',
     margin,
     footerY
   );
@@ -1286,14 +1303,21 @@ generateInvoicePdf(): jsPDF {
 
   return pdf;
 }
-toCamelCase(value: string): string {
+toTitleCase(value: string): string {
   return value
     .trim()
     .toLowerCase()
-    .replace(/[^a-zA-Z0-9]+(.)/g, (_, char) =>
-      char.toUpperCase()
-    );
+    .replace(/\b\w/g, char => char.toUpperCase());
 }
+
+contactEmail() {
+    if ((window as any).Android) {
+      (window as any).Android.openEmail();
+    } else {
+      window.location.href =
+        'mailto:info@ruralx.in?subject=Support Request';
+    }
+  }
 getStatusMessage(status: string): string {
   switch ((status || '').toLowerCase()) {
 
