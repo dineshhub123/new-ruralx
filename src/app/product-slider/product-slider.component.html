@@ -26,7 +26,7 @@
                         Delivery</span></div>
                 <div class="rating-line" *ngIf="product.total_reviews > 0" [attr.aria-label]="product.avg_rating + ' out of 5 from ' + product.total_reviews + ' reviews'">
                     <span class="rating-value">{{product.avg_rating | number:'1.1-1'}}</span>
-                    <span class="rating-count">({{product.total_reviews}})</span>
+                    <!-- <span class="rating-count">({{product.total_reviews}})</span> -->
                     <span class="rating-stars" aria-hidden="true">
                         <mat-icon *ngFor="let star of ratingStars">{{getRatingIcon(product.avg_rating, star)}}</mat-icon>
                     </span>    

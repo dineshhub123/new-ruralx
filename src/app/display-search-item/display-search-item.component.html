@@ -55,7 +55,7 @@
           <div class="search-rating" *ngIf="searchData?.total_reviews > 0"
             [attr.aria-label]="searchData.avg_rating + ' out of 5 from ' + searchData.total_reviews + ' reviews'">
             <span class="search-rating-value">{{ searchData.avg_rating | number:'1.1-1' }}</span>
-            <span class="search-rating-count">({{ searchData.total_reviews }})</span>
+            <!-- <span class="search-rating-count">({{ searchData.total_reviews }})</span> -->
             <span class="search-rating-stars" aria-hidden="true">
               <mat-icon *ngFor="let star of ratingStars">{{ getRatingIcon(searchData.avg_rating, star) }}</mat-icon>
             </span>
