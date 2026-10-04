@@ -95,7 +95,7 @@ async shareProduct(product: any, event: Event): Promise<void> {
 
   const shareData = {
     title: product.product_name,
-    text: `Check out ${product.product_name} for ₹${product.product_price} on Ruralx`,
+    text: `Check out ${product.product_name} for ₹ ${product.product_price} on Ruralx`,
     url: productUrl.toString()
   };
 
