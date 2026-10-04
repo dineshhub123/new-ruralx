@@ -34,6 +34,7 @@ export class DisplaySearchItemComponent implements OnInit {
   lastScrollTop = 0;
   MAX_QTY = 4;
   flyCartIncreament: any
+  ratingStars = [1, 2, 3, 4, 5];
   constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public addCartService: AddcartService, private sizeService: SizeService, public dialog: MatDialog, private bottomSheet: MatBottomSheet,
   ) {
 
@@ -310,6 +311,116 @@ export class DisplaySearchItemComponent implements OnInit {
     });
 
   }
+
+  getRatingIcon(rating: number, star: number): string {
+    if (rating >= star) {
+      return 'star';
+    }
+
+    return rating >= star - 0.5 ? 'star_half' : 'star_border';
+  }
+
+async shareProduct(product: any, event: Event): Promise<void> {
+  event.stopPropagation();
+
+  const productUrl = new URL(
+    'share_product.php',
+    environment.searchApiUrl
+  );
+
+  productUrl.searchParams.set(
+    'product_id',
+    product.product_id
+  );
+
+  const shareData = {
+    title: `${product.product_name} | Ruralx`,
+    text: `Check out ${product.product_name} for ₹${product.product_price} on Ruralx`,
+    url: productUrl.toString()
+  };
+
+  // =====================================================
+  // ANDROID RURALX APP
+  // Native Android Share Sheet
+  // =====================================================
+
+  const android = (window as any).Android;
+  if (android && typeof android.shareProduct === 'function') 
+    {
+    try {
+      android.shareProduct(
+        shareData.title,
+        shareData.text,
+        shareData.url
+      );
+
+      return;
+
+    } catch (error) {
+
+      console.error(
+        'Android native share failed:',
+        error
+      );
+    }
+  }
+
+
+  // =====================================================
+  // NORMAL MOBILE BROWSER
+  // =====================================================
+
+  if (navigator.share) {
+
+    try {
+
+      await navigator.share(
+        shareData
+      );
+
+      return;
+
+    } catch (error) {
+
+      // User closed share sheet
+      if (
+        (error as DOMException).name ===
+        'AbortError'
+      ) {
+        return;
+      }
+
+      console.error(
+        'Browser share failed:',
+        error
+      );
+    }
+  }
+
+
+  // =====================================================
+  // FINAL FALLBACK
+  // =====================================================
+
+  try {
+
+    await navigator.clipboard.writeText(
+      shareData.url
+    );
+
+    window.alert(
+      'Product link copied to clipboard.'
+    );
+
+  } catch {
+
+    window.prompt(
+      'Copy this product link:',
+      shareData.url
+    );
+  }
+}
+
   addCartQuntity(event: any, addItam: any) {
     console.log("addItam", addItam)
     let user: any;

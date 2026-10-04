@@ -42,12 +42,25 @@
       <div *ngFor="let searchData of searchItem" class="product-card">
         <img #productImage class="product-image" [src]="imageBaseUrl + searchData?.image"
           (click)="imgClick(searchData)" />
+        <button type="button" class="search-share-button" [attr.aria-label]="'Share ' + searchData?.product_name"
+          title="Share product" (click)="shareProduct(searchData, $event)">
+          <mat-icon aria-hidden="true">share</mat-icon>
+        </button>
 
         <!-- Product Details -->
         <div class="product-details mb-1" (click)="imgClick(searchData)">
           <div class="product-name">{{ searchData?.product_name }}</div>
           <div class="product-mrp">MRP: ₹{{ searchData?.mrp }}</div>
           <div class="product-price">Price: ₹{{ searchData?.price }}</div>
+          <div class="search-rating" *ngIf="searchData?.total_reviews > 0"
+            [attr.aria-label]="searchData.avg_rating + ' out of 5 from ' + searchData.total_reviews + ' reviews'">
+            <span class="search-rating-value">{{ searchData.avg_rating | number:'1.1-1' }}</span>
+            <span class="search-rating-count">({{ searchData.total_reviews }})</span>
+            <span class="search-rating-stars" aria-hidden="true">
+              <mat-icon *ngFor="let star of ratingStars">{{ getRatingIcon(searchData.avg_rating, star) }}</mat-icon>
+            </span>
+          </div>
+          <div class="search-rating-empty" *ngIf="!searchData?.total_reviews">Be the first to rate</div>
         </div>
 
         <!-- Quantity Buttons -->

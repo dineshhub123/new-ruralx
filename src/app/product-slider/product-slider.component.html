@@ -9,6 +9,9 @@
     <div class="product-list">
         <div class="product-card" *ngFor="let product of products">
             <img class="product-img" [src]="imageBaseUrl + product.variants[0]?.images[0]" alt="" (click)="onClickImage(product.main_category, product.sub_category)">
+            <button type="button" class="share-button" [attr.aria-label]="'Share ' + product.product_name" title="Share product" (click)="shareProduct(product, $event)">
+                <mat-icon aria-hidden="true">share</mat-icon>
+            </button>
             <div class="product-info">
                 <div class="name">
                     {{product.product_name | titlecase}}
@@ -21,6 +24,15 @@
                 <div class="mrp-text">MRP : <del class="mrp">₹{{product.product_mrp_price}}</del></div>
                 <div class="delivery"><mat-icon class="delivery-icon force-outline">local_shipping</mat-icon><span> Free
                         Delivery</span></div>
+                <div class="rating-line" *ngIf="product.total_reviews > 0" [attr.aria-label]="product.avg_rating + ' out of 5 from ' + product.total_reviews + ' reviews'">
+                    <span class="rating-value">{{product.avg_rating | number:'1.1-1'}}</span>
+                    <span class="rating-count">({{product.total_reviews}})</span>
+                    <span class="rating-stars" aria-hidden="true">
+                        <mat-icon *ngFor="let star of ratingStars">{{getRatingIcon(product.avg_rating, star)}}</mat-icon>
+                    </span>    
+                </div>
+                <div class="rating-empty" aria-hidden="true" *ngIf="!product.total_reviews">
+                    <mat-icon>star</mat-icon> Be the first to rate</div>
             </div>
 
         </div>

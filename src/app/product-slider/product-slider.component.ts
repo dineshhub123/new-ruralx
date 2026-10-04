@@ -8,9 +8,19 @@ import { Router } from '@angular/router';
 })
 export class ProductSliderComponent {
     imageBaseUrl = environment.imageBaseUrl;
+  ratingStars = [1, 2, 3, 4, 5];
   @Input() title: string = '';
   @Input() products: any[] = [];
 constructor(public router:Router){}
+
+getRatingIcon(rating: number, star: number): string {
+  if (rating >= star) {
+    return 'star';
+  }
+
+  return rating >= star - 0.5 ? 'star_half' : 'star_border';
+}
+
 getCategoryColor(category: string): string {
   const colors: any = {
     boys: '#F5E1C4',
@@ -72,6 +82,71 @@ getDiscountPercent(mrp: number, discount: number): number {
   }
   return Math.floor((discount / mrp) * 100);
 }
+
+async shareProduct(product: any, event: Event): Promise<void> {
+  event.stopPropagation();
+
+  const productUrl = new URL(
+    'share_product.php',
+    environment.dashboardProductApiUrl
+  );
+
+  productUrl.searchParams.set('product_id', product.product_id);
+
+  const shareData = {
+    title: product.product_name,
+    text: `Check out ${product.product_name} for ₹${product.product_price} on Ruralx`,
+    url: productUrl.toString()
+  };
+
+  // Android WebView → Native Android Share Sheet
+  const android = (window as any).Android;
+  if (android && typeof android.shareProduct === 'function') 
+    {
+    try {
+      android.shareProduct(
+        shareData.title,
+        shareData.text,
+        shareData.url
+      );
+
+      return;
+
+    } catch (error) {
+
+      console.error(
+        'Android native share failed:',
+        error
+      );
+    }
+  }
+
+  // Browser / supported Web Share API
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData);
+      return;
+    } catch (error) {
+      if ((error as DOMException).name === 'AbortError') {
+        return;
+      }
+
+      console.error('Share failed:', error);
+    }
+  }
+
+  // Final fallback
+  try {
+    await navigator.clipboard.writeText(productUrl.toString());
+    window.alert('Product link copied to clipboard.');
+  } catch (error) {
+    window.prompt(
+      'Copy this product link:',
+      productUrl.toString()
+    );
+  }
+}
+
   onClickImage(category: any, subCategory: any) {
     this.router.navigate(['/display-item'], {
       queryParams: {

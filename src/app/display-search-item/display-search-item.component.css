@@ -101,6 +101,7 @@ h6 {
 }
 
 .product-card {
+  position: relative;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -108,6 +109,78 @@ h6 {
   text-align: center;
   transition: transform 0.2s ease;
   cursor: pointer;
+}
+
+.search-share-button {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #f4f4f4;
+  color: teal;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
+  cursor: pointer;
+}
+
+.search-share-button mat-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  line-height: 20px;
+}
+
+.search-share-button:hover,
+.search-share-button:focus-visible {
+  background: #e9e9e9;
+  outline: 2px solid rgba(22, 78, 99, 0.35);
+  outline-offset: 1px;
+}
+
+.search-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 17px;
+  margin-top: 2px;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.search-rating-empty {
+  min-height: 17px;
+  margin-top: 2px;
+  color: #f0a000;
+  font-size: 10px;
+}
+
+.search-rating-value {
+  color: #374151;
+  font-weight: 700;
+}
+
+.search-rating-stars {
+  display: inline-flex;
+  align-items: center;
+  color: #f0a000;
+}
+
+.search-rating-stars mat-icon {
+  width: 12px;
+  height: 12px;
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.search-rating-count {
+  color: #6b7280;
 }
 
 .btn-align-buy {
