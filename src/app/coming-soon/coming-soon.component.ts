@@ -12,7 +12,7 @@ export class ComingSoonComponent {
 ngOnInit() {
   setTimeout(() => {
     this.router.navigate(['/dashboard']);
-  }, 5000);
+  }, 1500);
 }
 }
 

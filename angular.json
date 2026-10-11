@@ -23,22 +23,27 @@
             "assets": [
               "src/favicon.png",
               "src/assets",
-             {
-             "glob": "**/*",
-             "input": "node_modules/@kolkov/angular-editor/assets/icons",
-              "output": "assets/ae-icons/"
-            }
+              {
+                "glob": "**/*",
+                "input": "node_modules/@kolkov/angular-editor/assets/icons",
+                "output": "assets/ae-icons/"
+              }
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css",
-               "node_modules/ngx-toastr/toastr.css"
-
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": {
                 "scripts": true,
                 "styles": true,
@@ -59,8 +64,8 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
+              "buildOptimizer": false,
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
@@ -71,16 +76,16 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "liveReload": true
+          },
           "configurations": {
             "production": {
               "browserTarget": "new-ruralx:build:production"
             },
             "development": {
               "browserTarget": "new-ruralx:build:development"
-            },
-        "options": {
-        "liveReload": true
-          }
+            }
           },
           "defaultConfiguration": "development"
         },
@@ -107,24 +112,26 @@
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"]
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           }
         }
       }
     }
   },
- "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        },
+  "lint": {
+    "builder": "@angular-eslint/builder:lint",
+    "options": {
+      "tsConfig": [
+        "tsconfig.app.json",
+        "tsconfig.spec.json"
+      ],
+      "exclude": [
+        "**/node_modules/**"
+      ]
+    }
+  },
   "cli": {
     "analytics": "b06d23b1-fa53-4b68-997b-16549130e8d0"
   }

@@ -143,8 +143,8 @@ export class AppComponent {
       if (!(window as any).Android) {
         setTimeout(() => {
           splash?.classList.add('hide');
-          setTimeout(() => splash?.remove(), 500);
-        }, 700);
+          setTimeout(() => splash?.remove(), 200);
+        }, 300);
         return;
       }
       // Android App
@@ -155,8 +155,8 @@ export class AppComponent {
       sessionStorage.setItem('splashShown', 'true');
       setTimeout(() => {
         splash?.classList.add('hide');
-        setTimeout(() => splash?.remove(), 500);
-      }, 700);
+        setTimeout(() => splash?.remove(), 200);
+      }, 300);
     });
 
 
