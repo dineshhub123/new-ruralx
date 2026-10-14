@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ApiService } from 'src/app/services/api.service';
 import { ScrollService } from 'src/app/scroll.service';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { AiAssistantComponent } from 'src/app/ai-assistant/ai-assistant.component';
 declare var $: any;
 @Component({

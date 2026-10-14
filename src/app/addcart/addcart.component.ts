@@ -5,7 +5,7 @@ import { ApiService } from '../services/api.service';
 import { ViewportScroller } from '@angular/common';
 import { number } from 'echarts';
 import { ToastrService } from 'ngx-toastr';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-addcart',
   templateUrl: './addcart.component.html',

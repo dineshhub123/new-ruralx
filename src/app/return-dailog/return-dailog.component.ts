@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { ApiService } from '../services/api.service';
 import { MatDialogRef } from '@angular/material/dialog';
 

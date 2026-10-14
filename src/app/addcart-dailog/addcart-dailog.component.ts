@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { Inject } from '@angular/core';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { AddcartService } from '../services/addcart.service';
 import { Router } from '@angular/router';
 @Component({

@@ -12,7 +12,7 @@ import { ApiService } from '../services/api.service';
 import { SwiperComponent } from 'swiper/angular';
 import { SizeService } from '../services/size.service';
 import { ScrollService } from '../scroll.service';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { LoginService } from '../services/login.service';
 import { ToastrService } from 'ngx-toastr';
 

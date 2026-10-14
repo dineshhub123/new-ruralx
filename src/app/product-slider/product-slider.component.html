@@ -8,7 +8,7 @@
     </div>
     <div class="product-list">
         <div class="product-card" *ngFor="let product of products">
-            <img class="product-img" [src]="imageBaseUrl + product.variants[0]?.images[0]" alt="" (click)="onClickImage(product.main_category, product.sub_category)">
+            <img class="product-img" loading="lazy" decoding="async" [src]="imageBaseUrl + product.variants[0]?.images[0]" alt="" (click)="onClickImage(product.main_category, product.sub_category)">
             <button type="button" class="share-button" [attr.aria-label]="'Share ' + product.product_name" title="Share product" (click)="shareProduct(product, $event)">
                 <mat-icon aria-hidden="true">share</mat-icon>
             </button>

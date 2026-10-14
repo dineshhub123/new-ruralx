@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, Renderer2, ViewChild, HostListener, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AddcartService } from '../services/addcart.service';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { SizeService } from '../services/size.service';
 import { AddcartDailogComponent } from '../addcart-dailog/addcart-dailog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';

@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -60,16 +60,14 @@ onSelectCategory(category: string) {
               : [];
       if (products.length) {
         this.products = products;
-        this.isLoading = false;
         this.uniqueSubcategories = this.getUniqueSubCategories(this.products);
-        // Auto select first chip
         if (this.uniqueSubcategories.length > 0) {
           this.selectedSubCategory = this.uniqueSubcategories[0].name;
-          this.onSelectMainCategory(
-            this.selectedCategory,
-            this.selectedSubCategory
+          this.setCategorySortData(
+            this.products.filter(product => product.category === this.selectedSubCategory)
           );
         }
+        this.isLoading = false;
       } else {
         this.products = [];
         this.uniqueSubcategories = [];
@@ -106,6 +104,17 @@ onSelectCategory(category: string) {
   // Get all products for a subcategory
   getProductsBySub(subCategory: string) {
     return this.products.filter(p => p.sub_category === subCategory);
+  }
+
+  private setCategorySortData(data: any[]) {
+    const uniqueMap = new Map();
+    data.forEach((item: any) => {
+      const key = item.sub_category?.trim().toLowerCase();
+      if (!uniqueMap.has(key)) {
+        uniqueMap.set(key, item);
+      }
+    });
+    this.categorySortData = Array.from(uniqueMap.values());
   }
 
   ngOnInit() {
@@ -168,16 +177,7 @@ onSelectMainCategory(mainCategory: any, category: any) {
             : res?.product_id
               ? [res]
               : [];
-      // Remove duplicate sub_category
-      const uniqueMap = new Map();
-      data.forEach((item: any) => {
-        const key = item.sub_category?.trim().toLowerCase();
-        if (!uniqueMap.has(key)) {
-          uniqueMap.set(key, item);
-        }
-      });
-
-      this.categorySortData = Array.from(uniqueMap.values());
+      this.setCategorySortData(data);
       this.isLoading = false;
     },
     (error) => {
