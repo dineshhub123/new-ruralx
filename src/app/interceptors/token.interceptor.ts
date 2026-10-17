@@ -59,8 +59,12 @@ export class TokenInterceptor implements HttpInterceptor {
           const refreshToken = this.authService.getRefreshToken();
 
           if (!refreshToken) {
-            this.loginService.logout();
-            this.router.navigate(['/login']);
+            // A 401 from a public request (or a failed login) is not an
+            // expired session when this installation has never logged in.
+            if (token) {
+              this.loginService.logout();
+              this.router.navigate(['/login']);
+            }
             return throwError(() => error);
           }
 

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { ApiService } from './api.service';
+import { LoginService } from './login.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +20,11 @@ export class AddcartService {
   private buyItemsSource = new BehaviorSubject<any[]>([]);
   buyItems$ = this.buyItemsSource.asObservable();
 
-  constructor(private apiService: ApiService) {
+  constructor(
+    private apiService: ApiService,
+    private loginService: LoginService,
+    private router: Router
+  ) {
     this.loadCartFromAPI(); // ✅ load cart on app start
     this.loadBuyDataFromStorage();
   }
@@ -45,8 +51,23 @@ export class AddcartService {
     return this.cartSubject.value;
   }
 
+  requireLogin(): boolean {
+    if (this.loginService.getUser()?.isGuest === false) {
+      return false;
+    }
+
+    this.router.navigate(['/login'], {
+      queryParams: { returnUrl: this.router.url }
+    });
+    return true;
+  }
+
   /* ADD TO CART (RETURN OBSERVABLE) */
-  addToCart(product: any) {
+  addToCart(product: any): Observable<any> {
+    if (this.requireLogin()) {
+      return EMPTY;
+    }
+
     return this.apiService.addToCartData(product);
   }
 

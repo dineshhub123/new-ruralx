@@ -160,6 +160,11 @@ export class AddcartDailogComponent {
     if (this.isSelectedSizeOutOfStock) {
       return;
     }
+    if (this.addCartService.requireLogin()) {
+      this.bottomSheetRef.dismiss();
+      return;
+    }
+
     const addCartPayload = {
       id: addItam.cartData.id,
       product_id: addItam.cartData.product_id,

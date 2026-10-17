@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { ApiService } from '../services/api.service';
 import { ToastrService } from 'ngx-toastr';
@@ -25,6 +25,7 @@ hidePassword:boolean = true;
 
   public loginErrToast: boolean = false;
   constructor(public router: Router,
+    private route: ActivatedRoute,
     public loginService: LoginService,
     private apiService: ApiService,
     private toastr: ToastrService,
@@ -79,7 +80,11 @@ userLogin(loginData: any): void {
 
       this.loginForm.reset();
 
-      this.router.navigate(['/']);
+      const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+      const destination = returnUrl?.startsWith('/') && !returnUrl.startsWith('//')
+        ? returnUrl
+        : '/';
+      this.router.navigateByUrl(destination);
 
       this.toastr.success(
         'You are login successfully!',
@@ -102,20 +107,22 @@ userLogin(loginData: any): void {
 }
 
   openTermsAndConditionDialog() {
+  (window as any).Android?.setPullToRefreshEnabled?.(false);
     const dialogRef = this.dialog.open(TermsAndConditionComponent, {
       data: {}
     });
     dialogRef.afterClosed().subscribe(result => {
-
+    (window as any).Android?.setPullToRefreshEnabled?.(true);
     });
 
   }
   openPrivacyPolicyDialog() {
+  (window as any).Android?.setPullToRefreshEnabled?.(false);
     const dialogRef = this.dialog.open(PrivacyPolicyComponent, {
       data: {}
     });
     dialogRef.afterClosed().subscribe(result => {
-
+    (window as any).Android?.setPullToRefreshEnabled?.(true);
     });
   }
 

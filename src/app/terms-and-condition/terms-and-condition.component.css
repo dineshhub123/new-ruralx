@@ -1,17 +1,20 @@
 .terms-wrapper {
     width: 100%;
     background: #ffffff;
-    display: flex;
-    justify-content: center;
+    display: block;
     height: 100vh;
     min-height: 100%;
     overflow-y: auto;
+    box-sizing: border-box;
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 .terms-content {
     width: 100%;
     max-width: 1100px;
-    padding: 40px 20px;
+    margin: 0 auto;
+    padding: 40px 20px 48px;
+    box-sizing: border-box;
 }
 
 h3 {
@@ -51,6 +54,6 @@ li {
 }
 @media (max-width: 768px) {
     .terms-content {
-        padding: 25px 15px;
+        padding: 25px 15px 25px;
     }
 }
