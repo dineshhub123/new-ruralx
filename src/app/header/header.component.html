@@ -20,6 +20,12 @@
       </form>  
     </div>
   </nav>
- <div (click)="openBottomSheet()" class="location-content" [class.at-top]="showHeaderAtTop" *ngIf="showUsername"><mat-icon class="locatin-icon-align mr-1 ml-2">location_on</mat-icon> {{deliverText | titlecase}}
-</div>
+  <div class="location-content" [class.at-top]="showHeaderAtTop" *ngIf="showUsername">
+    <mat-icon class="locatin-icon-align">location_on</mat-icon>
+    <span class="location-text">{{deliverText | titlecase}}</span>
+    <button type="button" class="location-change" (click)="openBottomSheet()" aria-label="Change delivery location">
+      <span>Change</span>
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+  </div>
 </div>

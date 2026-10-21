@@ -1,11 +1,11 @@
 <app-loader [isLoading]="isLoading"></app-loader>
 <div *ngIf="!isLoading">
   <div class="orders-container">
+    <h2 class="orders-title">My Orders</h2>
     <!-- ONE CARD PER ORDER ID -->
     <div class="order-card" *ngFor="let order of groupedOrders" (click)="getOrderId(order?.order_id)">
       <!-- 🔥 Items list inside same order card -->
-      <div class="status-box"
-        [ngClass]="{'delivered-card': ['delivered','cancelled'].includes((order?.status || '').toLowerCase())}">
+      <div class="status-box">
         <div class="delivered-status" [ngClass]="{
                  'status-delivered': order?.status === 'delivered',
                  'status-partially': order?.status === 'Partially_Returned',
@@ -41,20 +41,17 @@
       <div class="order-items">
         <div class="order-item-row" *ngFor="let item of order.items">
           <img [src]="imageBaseUrl + item?.image" class="product-img">
-          <div class="order-details"
-            [ngClass]="{'delivered-card': ['delivered','cancelled'].includes((order?.status || '').toLowerCase())}">
+          <div class="order-details">
             <div class="product-title">{{item?.product | titlecase}}</div>
             <div *ngIf="item?.size" class="size">{{ getVariantLabel(item?.size) }}: {{item?.size}}</div>
           </div>
-          <div class="right-info"
-            [ngClass]="{'delivered-card': ['delivered','cancelled'].includes((order?.status || '').toLowerCase())}">
+          <div class="right-info">
             <span class="date">{{order?.order_date | date:'dd MMM yyyy, hh:mm a'}}</span>
             <span class="price"> ₹{{item?.price}} Qty ({{item?.quantity}})</span>
             <span class="order-id">Order # {{order?.order_id}}</span>
           </div>
         </div>
-        <div class="border-top-grand"
-          [ngClass]="{'delivered-card': ['delivered','cancelled'].includes((order?.status || '').toLowerCase())}">
+        <div class="border-top-grand">
           <span class="total-text">Grand Total : </span>
           <span class="total-price"> ₹ {{order?.totalAmount}}</span>
         </div>

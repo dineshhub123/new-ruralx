@@ -4,9 +4,16 @@
     font-family: Arial, sans-serif;
 }
 
+.orders-title {
+    margin: 0 0 16px;
+    color: #087f7b;
+    font-size: 18px;
+    font-weight: 700;
+}
+
 .order-card {
     background: linear-gradient(145deg, #ffffff 0%, #f1fbfa 100%);
-    border: 1px solid #c6e4e1;
+    border: 2px solid #079b96;;
     border-left: 4px solid #079b96;
     border-radius: 18px;
     padding: 12px;
@@ -225,13 +232,6 @@
     font-weight: 600;
     font-size: 10px;
 }
-
-.delivered-card{
-  opacity: 0.4;
-  pointer-events: none; /* optional: disable click */
-}
-
-
 
 .order-items{
   display: flex;

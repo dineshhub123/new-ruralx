@@ -1258,18 +1258,46 @@ hr.new1 {
   font-size: 9px;
   color: #ffffff;
   font-weight: 600;
-  padding: 10px 10px 10px 0px;
-  font-weight: 600;
+  padding: 0 8px;
   display: flex;
   align-items: center;
+  gap: 4px;
   height: 30px;
   background: #0a4984;
 }
 
+.location-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.location-change {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  margin-left: auto;
+  padding: 0px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 18px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.location-change mat-icon {
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+  line-height: 18px;
+}
+
 .locatin-icon-align {
   color: yellow;
-    width: 16px;
-    font-size: 18px;
-    margin-top: 6px;
-
+  width: 16px;
+  font-size: 18px;
 }

@@ -4,7 +4,7 @@
     <div class="ai-card" (click)="openAiAssistant()">
       <div class="ai-left">
         <div class="ai-icon">
-          <mat-icon>smart_toy</mat-icon>
+          <img src="assets/img/ruralx-mitra-icon.webp" alt="Ruralx Mitra">
         </div>
         <div class="ai-content">
           <div class="ai-title">
@@ -31,13 +31,13 @@
     </div>
   </div>
   <div class="container-fluid mb-3">
-    <div class="offer-strip">
+    <!-- <div class="offer-strip">
       <marquee scrollamount="4">
         🚚 FREE Delivery on Orders <span>₹299</span> & Above ✨ &nbsp;&nbsp;|&nbsp;&nbsp; 🚀 Delivery Within 24 Hours / 1
         day*
         &nbsp;&nbsp;|&nbsp;&nbsp; 🛍️ Best Deals Every Day &nbsp;&nbsp;|&nbsp;&nbsp; ⚡ Fast & Reliable Delivery
       </marquee>
-    </div>
+    </div> -->
     <div>
       <div id="homeBannerCarousel" class="carousel slide mb-1" data-ride="carousel" data-interval="3000">
         <div class="carousel-inner">
@@ -80,6 +80,24 @@
         </a>
         <a class="carousel-control-next" href="#homeBannerCarousel" role="button" data-slide="next">
         </a>
+      </div>
+    </div>
+    <div class="service-benefits" aria-label="Shopping benefits">
+      <div class="service-benefit">
+        <mat-icon class="benefit-delivery">local_shipping</mat-icon>
+        <span><strong>FREE Delivery</strong><br>on Orders ₹299+</span>
+      </div>
+      <div class="service-benefit">
+        <mat-icon class="benefit-time">schedule</mat-icon>
+        <span><strong>Delivery Within</strong><br>24 Hours / 1 Day</span>
+      </div>
+      <div class="service-benefit">
+        <mat-icon class="benefit-returns">verified_user</mat-icon>
+        <span><strong>Easy Returns</strong><br>&amp; Refunds</span>
+      </div>
+      <div class="service-benefit">
+        <mat-icon class="benefit-payment">payments</mat-icon>
+        <span><strong>Cash on Delivery</strong><br>&amp; Online Payment</span>
       </div>
     </div>
     <div *ngFor="let category of categoryList">
