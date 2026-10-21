@@ -15,6 +15,7 @@ import { NgZone } from '@angular/core';
 import { CodConfirmDialogComponent } from '../cod-confirm-dialog/cod-confirm-dialog.component';
 import { PincodeService } from '../pincode.service';
 import { firstValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment.prod';
 @Component({
   selector: 'app-useraddress',
   templateUrl: './useraddress.component.html',
@@ -467,7 +468,8 @@ export class UseraddressComponent implements OnInit {
         return;
       }
       const orderPayload = {
-        order_amount: this.calculateOrderAmount(),
+        //order_amount: this.calculateOrderAmount(),
+        order_amount: 1,
         payment_method: 'ONLINE',
         order_source: 'APP',
         delivery_address: {
@@ -496,7 +498,7 @@ export class UseraddressComponent implements OnInit {
 
   openRazorpay(order: any, orderPayload: any, amountInPaise: number) {
     const options: any = {
-      key: 'rzp_test_S8zVFIrjVuV97p',
+      key: environment.razorpayKey,
       amount: amountInPaise,
       currency: 'INR',
       name: 'Ruralx',
@@ -527,22 +529,85 @@ export class UseraddressComponent implements OnInit {
     const rzp = new (window as any).Razorpay(options);
     rzp.open();
   }
+
   verifyPayment(response: any, orderPayload: any) {
-    this.ngZone.run(() => {
-      this.isPaymentLoading = true;
-    });
-    this.apiService.placeAnOrder(orderPayload).subscribe(res => {
+  this.ngZone.run(() => {
+    this.isPaymentLoading = true;
+  });
+
+  const verificationPayload = {
+    razorpay_order_id: response.razorpay_order_id,
+    razorpay_payment_id: response.razorpay_payment_id,
+    razorpay_signature: response.razorpay_signature
+  };
+
+  this.paymentApi.verifyPayment(verificationPayload).subscribe({
+    next: (verification: any) => {
+      if (!verification?.success) {
+        this.ngZone.run(() => {
+          this.isPaymentLoading = false;
+        });
+        alert('Payment verification failed. Please contact support.');
+        return;
+      }
+
+      // Payment verified; now submit the order.
+      this.apiService.placeAnOrder({
+        ...orderPayload,
+        payment_method: 'ONLINE',
+        payment_status: 'PAID',
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_payment_id: response.razorpay_payment_id,
+        razorpay_signature: response.razorpay_signature
+      }).subscribe({
+        next: (res: any) => {
+          this.ngZone.run(() => {
+            this.isPaymentLoading = false;
+          });
+
+          if (res?.success) {
+            this.addCartService.loadCartFromAPI();
+            this.addCartService.clearBuyNowItem();
+            this.loadCheckoutData();
+            this.router.navigate(['/order-confirmed']);
+          } else {
+            alert('Payment verified, but order confirmation failed. Please contact support with your payment ID.');
+          }
+        },
+        error: () => {
+          this.ngZone.run(() => {
+            this.isPaymentLoading = false;
+          });
+          alert('Payment was verified, but order creation failed. Please contact support.');
+        }
+      });
+    },
+    error: () => {
       this.ngZone.run(() => {
         this.isPaymentLoading = false;
-        if (res) {
-          this.addCartService.loadCartFromAPI();
-          this.addCartService.clearBuyNowItem();
-          this.loadCheckoutData();
-          this.router.navigate(['/order-confirmed']);
-        }
-      })
-    });
+      });
+      alert('Could not verify payment. Please contact support before trying to pay again.');
+    }
+  });
+}
+  // verifyPayment(response: any, orderPayload: any) {
+  //   this.ngZone.run(() => {
+  //     this.isPaymentLoading = true;
+  //   });
+  //   this.apiService.placeAnOrder(orderPayload).subscribe(res => {
+  //     this.ngZone.run(() => {
+  //       this.isPaymentLoading = false;
+  //       if (res) {
+  //         this.addCartService.loadCartFromAPI();
+  //         this.addCartService.clearBuyNowItem();
+  //         this.loadCheckoutData();
+  //         this.router.navigate(['/order-confirmed']);
+  //       }
+  //     })
+  //   });
 
-  }
+  // }
 
 }
+
+
