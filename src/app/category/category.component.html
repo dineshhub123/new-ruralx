@@ -1,6 +1,4 @@
-<app-loader [isLoading]="isLoading"></app-loader>
-<div *ngIf="!isLoading">
-  <div class="categories-page pt-3">
+<div class="categories-page pt-3">
     <!-- Sidebar -->
     <div class="sidebar pt-4 mt-1 " (scroll)="onContentScroll($event)">
       <!-- <h3>Categories</h3> -->
@@ -31,16 +29,22 @@
           {{ formatCategory(sub.name) | titlecase }}
         </div>
       </div>
-      <div *ngIf="categorySortData?.length > 0; else noData" class="sub-grid-container">
-      <div class="sub-grid-all">
-        <div class="sub-card-child all-card-grid" *ngFor="let sub of categorySortData"
-          (click)="redirectToDisplayProductList(selectedCategory, sub?.sub_category)">
-          <img [src]="imageBaseUrl + sub?.variants[0]?.images[0]" alt="{{ sub?.name }}" />
-          <span class="main-subcategory-title">{{ formatCategory(sub.sub_category) | titlecase }}</span>
+      <div class="category-loading" *ngIf="isLoading" role="status" aria-live="polite">
+        <div class="category-loader">
+          <div class="category-spinner"></div>
+          <p>Loading...</p>
         </div>
       </div>
+      <div *ngIf="!isLoading && categorySortData?.length > 0;" class="sub-grid-container">
+        <div class="sub-grid-all">
+          <div class="sub-card-child all-card-grid" *ngFor="let sub of categorySortData"
+            (click)="redirectToDisplayProductList(selectedCategory, sub?.sub_category)">
+            <img [src]="imageBaseUrl + sub?.variants[0]?.images[0]" alt="{{ sub?.name }}" />
+            <span class="main-subcategory-title">{{ formatCategory(sub.sub_category) | titlecase }}</span>
+          </div>
+        </div>
       </div>
-      <ng-template #noData>
+      <!-- <ng-template #noData>
         <div class="no-data empty-state">
           <div class="empty-state-icon">
             <mat-icon>grid_view</mat-icon>
@@ -48,7 +52,6 @@
           <h6>No Categories Available</h6>
           <p>Products will appear here once Admin are added. Check back soon.</p>
         </div>
-      </ng-template>
+      </ng-template> -->
     </div>
   </div>
-</div>

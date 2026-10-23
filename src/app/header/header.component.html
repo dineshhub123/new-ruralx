@@ -2,22 +2,37 @@
   <nav class="navbar navbar-menu">
     <div class="input-text-and-btn">
       <form #searchData="ngForm" (ngSubmit)="searchDataFn(myControl.value)">
-        <div class="navbar-input_btn ">
-          <div class="setwidth">
-            <input type="text" placeholder="Type to search products" aria-label="Number" matInput
-              [formControl]="myControl" [matAutocomplete]="auto" #searchValue (keyup)="searchDataFn(myControl.value)">
+          <div class="search-field">
+            <mat-icon class="search-field-icon" aria-hidden="true">search</mat-icon>
+            <input type="text" placeholder="Search for products, brands and more..." aria-label="Search products"
+              matInput [formControl]="myControl" [matAutocomplete]="auto" #searchValue
+              (keyup)="searchDataFn(myControl.value)">
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
               <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                 {{option}}
               </mat-option>
             </mat-autocomplete>
-          <button type="submit" mat-flat-button class="" style="border-radius:0px ;">
+            <input #imageInput class="image-picker-input" type="file" accept="image/*"
+              aria-label="Choose an image to preview" (change)="onImageSelected($event)">
+            <button type="button" class="search-camera-button" aria-label="Choose an image to preview"
+              title="Choose an image to preview" (click)="imageInput.click()">
+              <mat-icon>photo_camera</mat-icon>
+            </button>
+            <button type="submit" class="search-submit-button" aria-label="Search">
               <mat-icon>search</mat-icon>
-              </button>
+            </button>
           </div>
-        
-        </div>
-      </form>  
+          <div class="selected-image-preview" *ngIf="selectedImageUrl" role="status">
+            <img [src]="selectedImageUrl" alt="Selected image preview">
+            <span>{{ selectedImageFile?.name }} - image search is not available yet</span>
+            <button type="button" aria-label="Remove selected image" (click)="clearSelectedImage()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <p class="image-selection-error" *ngIf="imageSelectionError" role="alert">
+            {{ imageSelectionError }}
+          </p>
+      </form>
     </div>
   </nav>
   <div class="location-content" [class.at-top]="showHeaderAtTop" *ngIf="showUsername">

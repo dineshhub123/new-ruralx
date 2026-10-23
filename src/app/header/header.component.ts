@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild, Inject, ChangeDetectorRef, NgZone, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef, ViewChild, Inject, ChangeDetectorRef, NgZone, HostListener } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -25,7 +25,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('searchValue') input: any;
   myControl = new FormControl();
   options: string[] = [];
@@ -39,6 +39,9 @@ export class HeaderComponent implements OnInit {
   public hideHeader: boolean = false;
   lastScrollTop = 0;
   public isLoading: boolean = false;
+  public selectedImageFile: File | null = null;
+  public selectedImageUrl: string | null = null;
+  public imageSelectionError: string | null = null;
   showHeaderAtTop = false;
   public deliverText: string = "Choose your location";
   @HostListener('window:scroll', [])
@@ -121,6 +124,38 @@ export class HeaderComponent implements OnInit {
 
       this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     });
+  }
+
+  ngOnDestroy() {
+    this.clearSelectedImage();
+  }
+
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = '';
+
+    if (!file) {
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      this.imageSelectionError = 'Please select an image file.';
+      return;
+    }
+
+    this.clearSelectedImage();
+    this.selectedImageFile = file;
+    this.selectedImageUrl = URL.createObjectURL(file);
+  }
+
+  clearSelectedImage(): void {
+    if (this.selectedImageUrl) {
+      URL.revokeObjectURL(this.selectedImageUrl);
+    }
+    this.selectedImageUrl = null;
+    this.selectedImageFile = null;
+    this.imageSelectionError = null;
   }
 
 
