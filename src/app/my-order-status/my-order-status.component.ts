@@ -682,7 +682,7 @@ getInvoiceSummary() {
 
 private async loadLogoDataUrl(): Promise<string | null> {
   try {
-    const response = await fetch('assets/img/ruralxLogo.png');
+    const response = await fetch('assets/img/ruralx-logo-transparent.png');
     if (!response.ok) {
       return null;
     }
@@ -797,6 +797,8 @@ generateInvoicePdf(): Promise<jsPDF> {
   const drawInvoiceHeader = async () => {
 
     const headerTop = 40;
+    const logoWidth = 118;
+    const logoHeight = 61;
 
     // Title
     pdf.setTextColor(
@@ -810,8 +812,8 @@ generateInvoicePdf(): Promise<jsPDF> {
 
     pdf.text(
       'Taxable Bill',
-      margin,
-      headerTop
+      margin + logoWidth + 12,
+      headerTop + 14
     );
 
     // Company logo
@@ -820,14 +822,12 @@ generateInvoicePdf(): Promise<jsPDF> {
     if (logoDataUrl) {
       try {
         const logo = await this.loadImageFromDataUrl(logoDataUrl);
-        const logoWidth = 118;
-        const logoHeight = 85;
 
         pdf.addImage(
           logo,
           'PNG',
           margin,
-          headerTop - 15,
+          headerTop - 8,
           logoWidth,
           logoHeight,
           undefined,
@@ -873,7 +873,7 @@ generateInvoicePdf(): Promise<jsPDF> {
     pdf.text(
       `GSTIN: ${summary.gstin}`,
       margin,
-      headerTop + 55
+      headerTop + 68
     );
 
     // Invoice details
@@ -908,9 +908,9 @@ generateInvoicePdf(): Promise<jsPDF> {
 
     pdf.line(
       margin,
-      headerTop + 62,
+      headerTop + 78,
       pageWidth - margin,
-      headerTop + 62
+      headerTop + 78
     );
   };
 
@@ -920,7 +920,7 @@ generateInvoicePdf(): Promise<jsPDF> {
   // CUSTOMER DETAILS
   // ----------------------------------------
 
-  let customerY = 125;
+  let customerY = 141;
 
   pdf.setTextColor(
     black[0],
