@@ -1,68 +1,135 @@
-/* Dialog container padding improvement */
 :host {
   display: block;
-  padding: 8px 4px;
-  font-family: 'Segoe UI', sans-serif;
+  padding: 8px 4px 4px;
+  color: #17324d;
 }
 
-/* Title styling */
-h2[mat-dialog-title] {
-  font-size: 18px;
-  font-weight: 600;
-  color: #0d3b66; /* Dark blue */
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-/* Content styling */
-[mat-dialog-content] {
-  font-size: 14px;
-  color: #444;
-  line-height: 1.6;
-  text-align: center;
-}
-
-[mat-dialog-content] p {
-  margin: 8px 0;
-}
-
-/* Highlight amount */
-[mat-dialog-content] strong {
-  color: #0f766e; /* Teal */
-  font-size: 16px;
-}
-
-/* Action buttons container */
-[mat-dialog-actions] {
-  margin-top: 16px;
+.dialog-heading {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-/* Cancel button */
-button[mat-button] {
-  flex: 1;
-  border-radius: 8px;
-  font-weight: 500;
-  border: 1px solid #ccc;
-  background-color:#f6f2f2  !important; /* Teal */
-  color: #000 !important;
+.payment-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 12px;
+  border-radius: 16px;
+  background: #e7f5f2;
+  color: #0f766e;
 }
 
-/* Confirm button */
-button[mat-raised-button] {
-  flex: 1;
-  border-radius: 8px;
+.payment-icon mat-icon {
+  width: 28px;
+  height: 28px;
+  font-size: 28px;
+  line-height: 28px;
+}
+
+.dialog-eyebrow {
+  color: #0f766e;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+}
+
+h2[mat-dialog-title] {
+  padding: 0;
+  margin: 5px 0 0;
+  color: #123b5d;
+  font-size: 21px;
+  font-weight: 700;
+  text-align: center;
+}
+
+[mat-dialog-content] {
+  max-height: none;
+  padding: 4px 8px 0;
+  color: #526170;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.dialog-description {
+  margin: 8px 0 18px;
+}
+
+.amount-card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid #d9eeea;
+  border-radius: 14px;
+  background: #f2faf8;
+}
+
+.amount-label {
+  color: #5e716f;
+  font-size: 12px;
   font-weight: 500;
-  background-color: #0f766e !important; /* Teal */
+}
+
+.amount-value {
+  color: #0f766e;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.confirmation-question {
+  margin: 18px 0 2px;
+  color: #374151;
+  font-weight: 500;
+}
+
+[mat-dialog-actions] {
+  display: flex;
+  gap: 12px;
+  padding: 20px 8px 4px;
+}
+
+[mat-dialog-actions] button {
+  flex: 1 1 0;
+  min-height: 44px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cancel-button {
+  border: 1px solid #d9e0e6;
+  background: #fff;
+  color: #526170;
+}
+
+.confirm-button {
+  background: #0f766e !important;
   color: #fff !important;
   box-shadow: 0 4px 10px rgba(15, 118, 110, 0.2);
-  transition: 0.3s ease;
-  font-size: 12px;
+  transition: background-color 160ms ease, box-shadow 160ms ease;
 }
 
-/* Hover effect */
-button[mat-raised-button]:hover {
-  background-color: #0d5f5a !important;
+.confirm-button:hover {
+  background: #0d5f5a !important;
+  box-shadow: 0 6px 14px rgba(15, 118, 110, 0.24);
+}
+
+@media (max-width: 400px) {
+  h2[mat-dialog-title] {
+    font-size: 19px;
+  }
+
+  [mat-dialog-actions] {
+    gap: 8px;
+  }
+
+  [mat-dialog-actions] button {
+    font-size: 13px;
+  }
 }

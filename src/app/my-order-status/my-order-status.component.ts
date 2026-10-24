@@ -5,6 +5,36 @@ import { ReturnDailogComponent } from '../return-dailog/return-dailog.component'
 import { MatDialog } from '@angular/material/dialog';
 import { jsPDF } from 'jspdf';
 
+interface BillingAddress {
+  full_name?: string;
+  user_first_name?: string;
+  user_last_name?: string;
+  user_phone?: string;
+  user_email?: string;
+  u_firstname?: string;
+  u_lastname?: string;
+  u_phone?: string;
+  u_email?: string;
+  house_no?: string;
+  street_area?: string;
+  landmark?: string;
+  post_office?: string;
+  tehsil?: string;
+  district?: string;
+  state?: string;
+  country?: string;
+  user_pincode?: string;
+  u_house_no?: string;
+  u_street_area?: string;
+  u_landmark?: string;
+  u_post_office?: string;
+  u_tehsil?: string;
+  u_district?: string;
+  u_state?: string;
+  u_country?: string;
+  u_pincode?: string;
+}
+
 @Component({
   selector: 'app-my-order-status',
   templateUrl: './my-order-status.component.html',
@@ -18,6 +48,7 @@ export class MyOrderStatusComponent {
 
   // ✅ API response is object (not array)
   public orderStatusData: any = null;
+  public billingAddress: BillingAddress | null = null;
 
   // ✅ stepper steps
   steps = [
@@ -80,6 +111,7 @@ prepareSteps() {
   ) { }
 
   ngOnInit() {
+    this.loadBillingAddress();
     this.checkMobile();
     window.addEventListener('resize', () => this.checkMobile());
     this.activatedRoute.params.subscribe(params => {
@@ -90,6 +122,56 @@ prepareSteps() {
         this.checkOrderStatus(order_id);
       }
     });
+  }
+
+  private loadBillingAddress(): void {
+    const storedAddress = localStorage.getItem('login_user');
+    if (!storedAddress) return;
+
+    try {
+      const address: unknown = JSON.parse(storedAddress);
+      if (address && typeof address === 'object' && !Array.isArray(address)) {
+        this.billingAddress = address as BillingAddress;
+      }
+    } catch (error) {
+      console.error('Unable to read billing address from login_user:', error);
+    }
+  }
+
+  get billingName(): string {
+    const address = this.billingAddress;
+    return address?.full_name ||
+      [address?.user_first_name || address?.u_firstname, address?.user_last_name || address?.u_lastname]
+        .filter(Boolean)
+        .join(' ');
+  }
+
+  get billingAddressText(): string {
+    const address = this.billingAddress;
+    if (!address) return '';
+
+    return [
+      address.house_no || address.u_house_no,
+      address.street_area || address.u_street_area,
+      address.landmark || address.u_landmark,
+      address.post_office || address.u_post_office,
+      address.tehsil || address.u_tehsil,
+      address.district || address.u_district,
+      address.state || address.u_state,
+      address.country || address.u_country,
+      address.user_pincode || address.u_pincode
+    ]
+      .map(value => String(value ?? '').trim())
+      .filter(Boolean)
+      .join(', ');
+  }
+
+  get billingPhone(): string {
+    return this.billingAddress?.user_phone || this.billingAddress?.u_phone || '';
+  }
+
+  get billingEmail(): string {
+    return this.billingAddress?.user_email || this.billingAddress?.u_email || '';
   }
   getExpectedDeliveryMessage(createdAt: string): string {
     if (!createdAt) return '';
@@ -661,16 +743,28 @@ getInvoiceSummary() {
         ).toLocaleDateString('en-IN')
       : new Date().toLocaleDateString('en-IN'),
 
-    customerName:
+    shippingName:
       this.orderStatusData?.delivery_address?.name ||
       'Customer',
 
-    address:
+    shippingAddress:
       this.orderStatusData?.delivery_address?.address ||
       'N/A',
 
-    mobile:
+    shippingMobile:
       this.orderStatusData?.delivery_address?.mobile ||
+      'N/A',
+
+    billingName:
+      this.billingName ||
+      'Customer',
+
+    billingAddress:
+      this.billingAddressText ||
+      'N/A',
+
+    billingMobile:
+      this.billingPhone ||
       'N/A'
   };
 }
@@ -920,62 +1014,48 @@ generateInvoicePdf(): Promise<jsPDF> {
   // CUSTOMER DETAILS
   // ----------------------------------------
 
-  let customerY = 141;
+  const drawAddressBlock = (
+    title: string,
+    name: string,
+    address: string,
+    mobile: string,
+    startY: number
+  ): number => {
+    pdf.setTextColor(black[0], black[1], black[2]);
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(12);
+    pdf.text(title, margin, startY);
 
-  pdf.setTextColor(
-    black[0],
-    black[1],
-    black[2]
-  );
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(11);
+    pdf.text(this.toTitleCase(name), margin, startY + 18);
 
-  pdf.setFont('helvetica', 'bold');
-  pdf.setFontSize(12);
-
-  pdf.text(
-    'Bill To:',
-    margin,
-    customerY
-  );
-
-  pdf.setFont('helvetica', 'normal');
-  pdf.setFontSize(11);
-
-  pdf.text(
-    summary.customerName,
-    margin,
-    customerY + 18
-  );
-
-  // Wrap customer address
-  const compactAddress =
-    String(summary.address || 'N/A')
-      .replace(/\s+/g, ' ')
-      .trim();
-
-  const addressLines =
-    pdf.splitTextToSize(
-      compactAddress,
+    const addressLines = pdf.splitTextToSize(
+      String(address || 'N/A').replace(/\s+/g, ' ').trim(),
       tableWidth
     );
+    const addressY = startY + 35;
+    pdf.text(addressLines, margin, addressY);
 
-  const addressY = customerY + 35;
+    const mobileY = addressY + addressLines.length * 13 + 4;
+    pdf.text(`Mobile: ${mobile}`, margin, mobileY);
+    return mobileY + 18;
+  };
 
-  pdf.text(
-    addressLines,
-    margin,
-    addressY
+  const billingStartY = drawAddressBlock(
+    'Shipping Address:',
+    summary.shippingName,
+    summary.shippingAddress,
+    summary.shippingMobile,
+    141
   );
 
-  const addressHeight =
-    addressLines.length * 13;
-
-  const mobileY =
-    addressY + addressHeight + 4;
-
-  pdf.text(
-    `Mobile: ${summary.mobile}`,
-    margin,
-    mobileY
+  const detailsBottomY = drawAddressBlock(
+    'Billing Address:',
+    summary.billingName,
+    summary.billingAddress,
+    summary.billingMobile,
+    billingStartY
   );
 
   // GSTIN is intentionally NOT repeated here.
@@ -985,7 +1065,7 @@ generateInvoicePdf(): Promise<jsPDF> {
   // ----------------------------------------
 
   const tableStartY =
-    mobileY + 22;
+    detailsBottomY + 4;
 
   let rowY = tableStartY;
 

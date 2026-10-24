@@ -44,7 +44,7 @@ onSelectCategory(category: string) {
   }
   const selectedMenuIndex = this.leftMenu.findIndex(menu => menu.category === category);
   const sidebar = this.categorySidebar?.nativeElement;
-  if (sidebar && selectedMenuIndex >= this.leftMenu.length - 3) {
+  if (sidebar && selectedMenuIndex >= this.leftMenu.length - 4) {
     const selectedMenu = sidebar.querySelectorAll<HTMLElement>('.cat-name')[selectedMenuIndex];
     const sidebarRect = sidebar.getBoundingClientRect();
     const selectedMenuRect = selectedMenu?.getBoundingClientRect();

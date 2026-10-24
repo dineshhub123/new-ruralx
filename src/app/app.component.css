@@ -120,7 +120,7 @@ mat-divider {
   color: white;
 }
 
-::ng-deep .mat-mdc-button {
+:host::ng-deep .mat-mdc-button {
   color: white !important;
 }
 

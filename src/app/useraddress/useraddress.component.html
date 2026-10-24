@@ -138,8 +138,9 @@
 
     <form [formGroup]="radioForm">
       <div *ngIf="loginUserAddress[0] !== null">
-        <div class="address-form saveAddress mb-2" [class.selected-card]="radioForm.value.radioOption?.id == user.id"
+        <div class="address-form saveAddress profile-address-card mb-2" [class.selected-card]="radioForm.value.radioOption?.id == user.id"
           (click)="onAddressSelect(user)" *ngFor="let user of loginUserAddress">
+          <span class="default-address-badge">Default</span>
           <div class="row align-items-center">
             <!-- Radio Button -->
             <div class="col-2 col-md-1 d-flex justify-content-center mb-2 mb-md-0">

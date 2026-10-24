@@ -383,9 +383,9 @@ export class UseraddressComponent implements OnInit {
     }
     else if (this.selectedPaymentMethod === 'COD') {
       const dialogRef = this.dialog.open(CodConfirmDialogComponent, {
-        width: '500px',
-        maxWidth: '85vw',
-        maxHeight: '90vh',
+        width: '440px',
+        maxWidth: 'calc(100vw - 32px)',
+        maxHeight: 'calc(100vh - 32px)',
         data: { amount: this.calculateOrderAmount() }
       });
 
@@ -609,5 +609,4 @@ export class UseraddressComponent implements OnInit {
   // }
 
 }
-
 

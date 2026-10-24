@@ -167,9 +167,9 @@
 
             <div class="delivery-grid">
 
-                <!-- Address -->
+                <!-- Shipping Address -->
                 <div class="delivery-box">
-                    <div class="delivery-title">Deliver To</div>
+                    <div class="delivery-title">Shipping Address</div>
 
                     <div class="delivery-text">
                         {{ orderStatusData?.delivery_address?.name | titlecase }}
@@ -185,6 +185,27 @@
 
                     <div class="delivery-text">
                         {{ orderStatusData?.delivery_address?.email }}
+                    </div>
+                </div>
+
+                <!-- Billing Address from the signed-in user's profile -->
+                <div class="delivery-box">
+                    <div class="delivery-title">Billing Address</div>
+
+                    <div class="delivery-text" *ngIf="billingName">
+                        {{ billingName | titlecase }}
+                    </div>
+
+                    <div class="delivery-text" *ngIf="billingAddressText; else billingAddressUnavailable">
+                        {{ billingAddressText | titlecase }}
+                    </div>
+
+                    <div class="delivery-text" *ngIf="billingPhone">
+                        {{ billingPhone }}
+                    </div>
+
+                    <div class="delivery-text" *ngIf="billingEmail">
+                        {{ billingEmail }}
                     </div>
                 </div>
 
@@ -219,6 +240,9 @@
 
             </div>
         </div>
+        <ng-template #billingAddressUnavailable>
+            <div class="delivery-text">Billing address details are not available in your profile.</div>
+        </ng-template>
 
     </div>
 </div>
