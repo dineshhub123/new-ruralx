@@ -80,11 +80,15 @@ mat-form-field {
   width: 70%;
 }
 .btn-align-color{
-width: 100%;
-background-color: teal;
-color:#ffffff;
-font-size: 16px;
-font-weight: 500;
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  background-color: #0f766e;
+  --mdc-protected-button-container-color: #0f766e;
+  --mdc-protected-button-label-text-color: #ffffff;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
 }
 /* ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
 padding-top: 8px !important;
@@ -302,6 +306,19 @@ hr {
 
 .grand-highlight {
   text-align: right;
+}
+
+.grand-total-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.grand-total-note {
+  display: block;
+  text-align: right;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.2;
 }
 
 .saved-text {

@@ -13,8 +13,8 @@
 
 .order-card {
     background: linear-gradient(145deg, #ffffff 0%, #f1fbfa 100%);
-    border: 2px solid #079b96;;
-    border-left: 4px solid #079b96;
+    border: 1px solid #079b96;;
+    border-left: 8px solid #079b96;
     border-radius: 18px;
     padding: 12px;
     margin-bottom: 16px;
@@ -90,7 +90,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 10px;
+  font-size: 13px;
   border: 1px solid transparent;
 }
 
@@ -285,9 +285,18 @@
     display: flex;
     justify-content: right;
     align-items: center;
-    margin-top: 2px;
+    /* margin-top: 2px;
     padding: 9px 4px 1px;
-    border-top: 1px dashed #b9d9d6;
+    border-top: 1px dashed #b9d9d6; */
+}
+.grand-total-details{
+  text-align: right;
+}
+.grand-total-note{
+  display: block;
+  color: #087f7b;
+  font-size: 10px;
+  line-height: 1.2;
 }
 .nodata-found{
   margin: auto;

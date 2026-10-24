@@ -221,8 +221,11 @@
       </div>
       <div class="total-amount-content">
         Grand Total
-        <div class="total-amount">
-          Rs: {{ grandTotal | number:'1.2-2' }}
+        <div class="grand-total-details">
+          <div class="total-amount">
+            Rs: {{ grandTotal | number:'1.2-2' }}
+          </div>
+          <small class="grand-total-note">(Inclusive of all Taxes)</small>
         </div>
       </div>
       <!-- payment options -->
@@ -237,7 +240,7 @@
           Cash on Delivery
         </label>
       </div>
-      <button mat-raised-button class="float-right btn-align-color" type="submit" (click)="confirmOrder()">
+      <button mat-raised-button class="btn-align-color" type="submit" (click)="confirmOrder()">
         {{ selectedPaymentMethod === 'ONLINE' ? 'Place Order' : 'Place COD Order' }}
       </button>
     </div>

@@ -1,7 +1,7 @@
 <app-loader [isLoading]="isLoading"></app-loader>
 <div *ngIf="!isLoading">
   <div class="orders-container">
-    <h2 class="orders-title">My Orders</h2>
+    <h2 class="orders-title" *ngIf="groupedOrders?.length !== 0">My Orders</h2>
     <!-- ONE CARD PER ORDER ID -->
     <div class="order-card" *ngFor="let order of groupedOrders" (click)="getOrderId(order?.order_id)">
       <!-- 🔥 Items list inside same order card -->
@@ -52,8 +52,13 @@
           </div>
         </div>
         <div class="border-top-grand">
-          <span class="total-text">Grand Total : </span>
-          <span class="total-price"> ₹ {{order?.totalAmount}}</span>
+          <div class="grand-total-details">
+            <div>
+              <span class="total-text">Grand Total : </span>
+              <span class="total-price"> ₹ {{order?.totalAmount}}</span>
+            </div>
+            <small class="grand-total-note">(Inclusive of all Taxes)</small>
+          </div>
         </div>
       </div>
     </div>
