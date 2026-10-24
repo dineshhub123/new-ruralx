@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -8,6 +8,9 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent {
+  @ViewChild('categoryContent') categoryContent?: ElementRef<HTMLElement>;
+  @ViewChild('categorySidebar') categorySidebar?: ElementRef<HTMLElement>;
+
   imageBaseUrl = environment.imageBaseUrl;
   public isLoading: boolean = false;
   leftMenu = [
@@ -36,6 +39,27 @@ export class CategoryComponent {
     return this.leftMenu;
   }
 onSelectCategory(category: string) {
+  if (this.categoryContent) {
+    this.categoryContent.nativeElement.scrollTop = 0;
+  }
+  const selectedMenuIndex = this.leftMenu.findIndex(menu => menu.category === category);
+  const sidebar = this.categorySidebar?.nativeElement;
+  if (sidebar && selectedMenuIndex >= this.leftMenu.length - 3) {
+    const selectedMenu = sidebar.querySelectorAll<HTMLElement>('.cat-name')[selectedMenuIndex];
+    const sidebarRect = sidebar.getBoundingClientRect();
+    const selectedMenuRect = selectedMenu?.getBoundingClientRect();
+    if (selectedMenu && selectedMenuRect) {
+      const targetScrollTop = sidebar.scrollTop
+        + selectedMenuRect.top
+        - sidebarRect.top
+        - (sidebar.clientHeight - selectedMenu.clientHeight) / 2;
+
+      sidebar.scrollTo({
+        top: Math.max(0, Math.min(targetScrollTop, sidebar.scrollHeight - sidebar.clientHeight)),
+        behavior: 'smooth'
+      });
+    }
+  }
   this.selectedCategory = category;
   this.isLoading = true;
   this.selectedCategoryDisplay = this.formatCategoryName(category);

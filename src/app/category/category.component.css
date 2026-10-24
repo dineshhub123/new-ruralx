@@ -37,6 +37,10 @@ label {
   padding: 2px;
 }
 
+.sidebar > ul {
+  padding-bottom: 82px;
+}
+
 .sidebar li {
   margin: 0px 0;
   cursor: pointer;

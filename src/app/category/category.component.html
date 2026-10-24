@@ -1,6 +1,6 @@
 <div class="categories-page pt-3">
     <!-- Sidebar -->
-    <div class="sidebar pt-4 mt-1 " (scroll)="onContentScroll($event)">
+    <div #categorySidebar class="sidebar pt-4 mt-1 " (scroll)="onContentScroll($event)">
       <!-- <h3>Categories</h3> -->
       <ul>
         <li *ngFor="let cat of sidebarCategories" class="cat-name" (click)="onSelectCategory(cat.category)"
@@ -16,7 +16,7 @@
       </ul>
     </div>
     <!-- Main Content -->
-    <div class="content pt-4" (scroll)="onContentScroll($event)">
+    <div #categoryContent class="content pt-4" (scroll)="onContentScroll($event)">
       <div class="category-heading notranslate">{{formatCategoryName(selectedCategory)}}
         <p>{{getCategorySubtitle(selectedCategory)}}</p>
       </div>
